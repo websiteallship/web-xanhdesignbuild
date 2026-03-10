@@ -22,7 +22,6 @@ readme.html
 
 # Agent Skills to exclude
 .agent/skills/skills/
-.agent/skills/CATALOG.md
 
 # WordPress content
 wp-content/themes/twent*/
