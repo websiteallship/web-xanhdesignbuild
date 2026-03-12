@@ -6,11 +6,14 @@
 
 ---
 
-## Bắt Đầu Nhanh
+## 🏗 Hướng Dẫn Bắt Đầu
 
-1. Đọc `CORE_PROJECT.md` — Tổng quan dự án
-2. Đọc `CORE_AI_CONTEXT.md` — Quick reference & rules
-3. Chọn tài liệu theo tác vụ từ bảng bên dưới
+Để hiểu nhanh dự án và bắt đầu phát triển, hãy đọc theo thứ tự:
+
+1. [agent.md](../.agent/agent.md) — **Master Context:** Cho AI Agent và Developer (BẮT BUỘC).
+2. [CORE_PROJECT.md](./CORE_PROJECT.md) — **Dự án:** Brand, sitemap, triết lý 4 Xanh.
+3. [CORE_ARCHITECTURE.md](./CORE_ARCHITECTURE.md) — **Kiến trúc:** Cấu trúc theme, luồng dữ liệu.
+4. [TRACK_BLUEPRINT.md](./TRACK_BLUEPRINT.md) — **Lộ trình:** Sprint 1-5, danh sách Task.
 
 ---
 
