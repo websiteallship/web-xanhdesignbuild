@@ -8,7 +8,7 @@
 
   - **Visual:** Dùng ảnh/video background chất lượng cao (không gian nội thất sang trọng, có chất gu riêng ). Phủ một lớp overlay tối để chữ nổi bật.
 
-  - **Typoraphy:** Tiêu đề lớn dùng font *Founders Grotesk* (thể hiện sự sang trọng, cá tính).
+  - **Typoraphy:** Tiêu đề lớn dùng font *Inter Bold* (thể hiện sự sang trọng, cá tính).
 
   - **Màu sắc:** Sử dụng tông màu Trắng (#FFFFFF) cho Text trên nền ảnh tối để tạo sự hiện đại, rõ ràng.
 
@@ -100,7 +100,7 @@
 
   - **Layout:** Sử dụng background màu Xanh đậm (#14513D) toàn màn hình. Chữ màu trắng và màu Be. Đây là khu vực mang tính \"Tuyên thệ\" của thương hiệu.
 
-  - **Typography:** Font *Founders Grotesk* cho tiêu đề chính để tăng chiều sâu thị giác.
+  - **Typography:** Font *Inter Bold* cho tiêu đề chính để tăng chiều sâu thị giác.
 
 - **Copywriting:**
 

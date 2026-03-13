@@ -127,8 +127,7 @@ Total JS:              ~50KB gzip  ← RẤT NHẸ (React = 45KB, jQuery UI = 80
   variables.css (design tokens)
 
 [Preload]
-  FoundersGrotesk-Medium.otf
-  FoundersGrotesk-Bold.otf
+  Inter-Variable.woff2
 
 [Defer — Footer]
   gsap.min.js              → Tất cả trang

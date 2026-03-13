@@ -129,7 +129,7 @@
 | `page_dev_guide/` | 8 file copywriting & UX specs chi tiết từng trang |
 | `brand_guideline/` | Brand Guideline PDF (12.8MB) |
 | `core/` | 2 DOCX: Brand Story + Ý nghĩa tên thương hiệu |
-| `FONT/` | Font files: Founders Grotesk (OTF) + Inter (TTF Variable) |
+| `FONT/` | Font files: Inter (TTF Variable) — used for all headlines (Bold/SemiBold) and body text |
 | `LOGO_PNG/` | Logo variants: Full Tagline, No Tagline, Icon (PNG) |
 
 ---

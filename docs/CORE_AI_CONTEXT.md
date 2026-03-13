@@ -30,8 +30,8 @@
 ```
 
 ### Fonts
-- **Headline:** Founders Grotesk (`.otf` trong `assets/fonts/`)
-- **Body:** Inter (Variable font `.ttf`)
+- **Headline:** Inter SemiBold/Bold (Variable font `.ttf`)
+- **Body:** Inter Regular (Variable font `.ttf`)
 
 ### Tone of Voice
 - ✅ Chuyên nghiệp, kỹ thuật nhưng dễ hiểu, gần gũi

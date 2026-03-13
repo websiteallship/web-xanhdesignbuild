@@ -47,11 +47,11 @@
 ### Hierarchy — Tạo Contrast Đẳng Cấp
 
 ```
-HERO (Founders Grotesk Bold + clamp 56-72px)
+HERO (Inter Bold + clamp 56-72px)
   ↕  Contrast gap lớn
-H1  (Founders Grotesk Bold + clamp 32-56px)
+H1  (Inter Bold + clamp 32-56px)
   ↕  
-H2  (Founders Grotesk Medium + clamp 24-40px)
+H2  (Inter SemiBold + clamp 24-40px)
   ↕  
 Body (Inter Regular 16-18px, line-height 1.6-1.7)
   ↕  

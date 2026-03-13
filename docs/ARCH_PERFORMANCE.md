@@ -161,20 +161,6 @@ Total CSS:                    ~16-20KB gzip
 ## 6. Font Loading Strategy
 
 ```css
-/* Chỉ load 2 weights Founders Grotesk */
-@font-face {
-  font-family: 'FoundersGrotesk';
-  src: url('../fonts/FoundersGrotesk/FoundersGroteskMedium.otf') format('opentype');
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'FoundersGrotesk';
-  src: url('../fonts/FoundersGrotesk/FoundersGroteskBold.otf') format('opentype');
-  font-weight: 700;
-  font-display: swap;
-}
-
 /* Inter: Variable font — 1 file cho tất cả weights */
 @font-face {
   font-family: 'Inter';
@@ -186,7 +172,6 @@ Total CSS:                    ~16-20KB gzip
 
 ### Preload Critical Fonts
 ```html
-<link rel="preload" href="/fonts/FoundersGroteskMedium.otf" as="font" crossorigin>
 <link rel="preload" href="/fonts/Inter-VariableFont.ttf" as="font" crossorigin>
 ```
 

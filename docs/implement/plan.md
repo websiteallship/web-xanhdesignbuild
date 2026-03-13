@@ -70,7 +70,7 @@ wp-content/themes/xanh-theme/
 │   │   ├── search.js          # Blog search
 │   │   └── vendor/            # gsap, scrolltrigger, lenis, swiper, glightbox
 │   ├── icons/                 # Phosphor SVGs
-│   ├── fonts/                 # FoundersGrotesk + Inter
+│   ├── fonts/                 # Inter
 │   └── images/
 │       └── placeholders/
 │
@@ -91,7 +91,7 @@ wp-content/themes/xanh-theme/
 
 #### [NEW] `assets/css/main.css`
 - Open Props normalize (base reset)
-- Typography styles (Founders Grotesk + Inter, type scale)
+- Typography styles (Inter only, type scale)
 - Base element styles (body, headings, links, lists)
 - Section base class
 - Container classes
@@ -112,7 +112,7 @@ wp-content/themes/xanh-theme/
 ### Phase 3: Font + Vendor Setup (Day 2-3)
 
 #### [NEW] `assets/fonts/`
-- Copy FoundersGrotesk Medium + Bold (from `docs/FONT/`)
+- Copy Inter variable font (from `docs/FONT/`)
 - Copy Inter Variable (from `docs/FONT/`)
 
 #### [NEW] `assets/js/vendor/`

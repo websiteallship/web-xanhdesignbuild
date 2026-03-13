@@ -24,7 +24,7 @@
 
 ### **2.2 Hệ Font chữ (Typography)** {#hệ-font-chữ-typography}
 
-- **Headline:** **Founders Grotesk** (hoặc thay thế bằng Inter SemiBold/Bold). Yêu cầu: Mạnh mẽ, cá tính, kỹ thuật.
+- **Headline:** **Inter SemiBold/Bold**. Yêu cầu: Mạnh mẽ, cá tính, kỹ thuật.
 
 - **Body text:** **Inter**. Yêu cầu: Dễ đọc, hỗ trợ hiển thị tốt trên mọi thiết bị.
 

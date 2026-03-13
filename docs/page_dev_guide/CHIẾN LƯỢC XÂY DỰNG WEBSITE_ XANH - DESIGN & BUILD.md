@@ -78,7 +78,7 @@
 
 - **Màu nhấn:** Dùng màu Cam (#FF8A00) cho các nút hành động (CTA) như \"Nhận báo giá\", \"Tư vấn ngay\".
 
-- **Font chữ:** Sử dụng **Inter** cho nội dung dài để dễ đọc trên mobile, và **Founders Grotesk** cho các tiêu đề lớn để tạo cảm giác sang trọng, cá tính.
+- **Font chữ:** Sử dụng **Inter** cho nội dung dài để dễ đọc trên mobile, và **Inter Bold** cho các tiêu đề lớn để tạo cảm giác sang trọng, cá tính.
 
 ### **3.3 Ngôn ngữ & Tone of Voice** {#ngôn-ngữ-tone-of-voice}
 

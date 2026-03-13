@@ -52,7 +52,7 @@ export default {
         dark: '#1A1A1A',
       },
       fontFamily: {
-        heading: ['FoundersGrotesk', 'Georgia', 'serif'],
+        heading: ['Inter', '-apple-system', 'sans-serif'],
         body: ['Inter', '-apple-system', 'sans-serif'],
       },
       screens: {
@@ -78,7 +78,7 @@ export default {
 --color-dark: #1A1A1A;
 
 /* Typography */
---font-heading: 'FoundersGrotesk', Georgia, serif;
+--font-heading: 'Inter', -apple-system, sans-serif;
 --font-body: 'Inter', -apple-system, sans-serif;
 
 /* Spacing (8px grid) — use Tailwind utilities primarily */

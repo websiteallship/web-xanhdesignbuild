@@ -140,17 +140,17 @@
 ### Font Families
 | Vai trò | Font | Weights loaded | File |
 |---|---|---|---|
-| **Heading** | Founders Grotesk | 500 (Medium), 700 (Bold) | Self-hosted OTF |
+| **Heading** | Inter | 600 (SemiBold), 700 (Bold) | Self-hosted Variable TTF |
 | **Body** | Inter | Variable 100-900 | Self-hosted TTF |
 
 ### Type Scale (Open Props `--font-size-*` + Custom)
 
 | Token | Value | Line Height | Font | Sử dụng |
 |---|---|---|---|---|
-| `--text-hero` | `clamp(2.5rem, 5vw, 4.5rem)` | 1.1 | Founders Bold | Hero headline |
-| `--text-h1` | `var(--font-size-7)` ≈ `clamp(2rem, 4vw, 3.5rem)` | 1.2 | Founders Bold | Section title |
-| `--text-h2` | `var(--font-size-6)` ≈ `clamp(1.5rem, 3vw, 2.5rem)` | 1.25 | Founders Medium | Sub-section |
-| `--text-h3` | `var(--font-size-5)` ≈ `clamp(1.25rem, 2.5vw, 1.75rem)` | 1.3 | Founders Medium | Card title |
+| `--text-hero` | `clamp(2.5rem, 5vw, 4.5rem)` | 1.1 | Inter Bold | Hero headline |
+| `--text-h1` | `var(--font-size-7)` ≈ `clamp(2rem, 4vw, 3.5rem)` | 1.2 | Inter Bold | Section title |
+| `--text-h2` | `var(--font-size-6)` ≈ `clamp(1.5rem, 3vw, 2.5rem)` | 1.25 | Inter SemiBold | Sub-section |
+| `--text-h3` | `var(--font-size-5)` ≈ `clamp(1.25rem, 2.5vw, 1.75rem)` | 1.3 | Inter SemiBold | Card title |
 | `--text-h4` | `var(--font-size-4)` = `1.25rem` | 1.4 | Inter SemiBold | Small heading |
 | `--text-body-lg` | `var(--font-size-3)` = `1.125rem` | 1.7 | Inter Regular | Lead text |
 | `--text-body` | `var(--font-size-2)` = `1rem` | 1.6 | Inter Regular | Body text |
@@ -159,7 +159,7 @@
 
 ```css
 :root {
-  --font-heading: 'FoundersGrotesk', var(--font-sans);
+  --font-heading: 'Inter', var(--font-sans);
   --font-body: 'Inter', var(--font-sans);
 
   --text-hero: clamp(2.5rem, 5vw, 4.5rem);

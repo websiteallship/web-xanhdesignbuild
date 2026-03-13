@@ -24,19 +24,7 @@
 
 ## 3. Fonts
 
-### Founders Grotesk (Headline)
-| Weight | File |
-|---|---|
-| Light (300) | `docs/FONT/FoundersGrotesk/FoundersGroteskLight.otf` |
-| Regular (400) | `docs/FONT/FoundersGrotesk/FoundersGroteskRegular.otf` |
-| Medium (500) | `docs/FONT/FoundersGrotesk/FoundersGroteskMedium.otf` |
-| SemiBold (600) | `docs/FONT/FoundersGrotesk/FoundersGroteskSemiBold.otf` |
-| Bold (700) | `docs/FONT/FoundersGrotesk/FoundersGroteskBold.otf` |
-| + Italic variants | Tương ứng mỗi weight |
-
-> **Sử dụng thực tế:** Chỉ cần load Medium (500) + Bold (700) cho performance.
-
-### Inter (Body)
+### Inter (Headline + Body)
 | File | Ghi chú |
 |---|---|
 | `docs/FONT/INTER/Inter-VariableFont_opsz,wght.ttf` | Variable font, weight 100-900 |

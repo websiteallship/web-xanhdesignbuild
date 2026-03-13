@@ -8,7 +8,7 @@
 
   - **Visual:** Sử dụng hình ảnh không gian văn phòng làm việc gọn gàng, chuyên nghiệp của Xanh, hoặc hình ảnh một buổi họp/tư vấn trực tiếp giữa Kiến trúc sư và khách hàng (Tone màu ấm, tự nhiên).
 
-  - **Typography:** Tiêu đề lớn dùng font *Founders Grotesk*, nội dung nhỏ dùng font *Inter*.
+  - **Typography:** Tiêu đề lớn dùng font *Inter Bold*, nội dung nhỏ dùng font *Inter*.
 
   - **Layout:** Banner chiều cao vừa phải (khoảng 40-50vh) để người dùng có thể nhìn thấy ngay phần Form liên hệ ở bên dưới mà không cần cuộn quá nhiều.
 

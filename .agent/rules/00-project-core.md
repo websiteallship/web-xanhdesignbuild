@@ -20,7 +20,7 @@ globs: **/*
 ## Design Aesthetic
 - **Phong cách:** Warm Luxury — Ít chi tiết, chất lượng cao, khoảng trắng rộng, tông ấm
 - **Photography:** Ánh sáng tự nhiên, editorial, tông ấm, detail shots. KHÔNG stock photos
-- **Typography:** Founders Grotesk (headings) + Inter (body). Letter-spacing: -0.02em headings
+- **Typography:** Inter (headings + body). Letter-spacing: -0.02em headings
 - **Motion:** GSAP + ScrollTrigger — mượt mà, tinh tế. Stagger 100ms cho luxury cascading
 - **Whitespace:** Content/space ratio 40/60. Sections padding: 80px desktop, 48px mobile
 - **Micro-interactions:** Hover translateY(-4px) + shadow. Nav underline slide-in. Image scale(1.03)
@@ -31,7 +31,7 @@ globs: **/*
 - **CSS:** Tailwind CSS (CLI build, utility-first) + CSS Variables (brand tokens)
 - **JS:** Alpine.js (CDN) + Vanilla ES6+ (no jQuery) + GSAP + ScrollTrigger + Lenis + Swiper + GLightbox (all CDN)
 - **Icons:** Lucide Icons (CDN or inline SVG)
-- **Fonts:** Founders Grotesk (500+700, self-hosted) + Inter (variable, self-hosted)
+- **Fonts:** Inter (variable, self-hosted)
 - **Colors:** Primary `#14513D`, Accent `#FF8A00`, Light `#F3F4F6`, Beige `#D8C7A3`
 - **Plugins:** ACF Pro, Fluent Form (SMTP), LiteSpeed Cache, Smush, Classic Editor
 - **JS budget:** ~80KB gzip vendor (CDN) + ~12KB custom per page max

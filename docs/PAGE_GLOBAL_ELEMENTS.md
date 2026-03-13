@@ -156,7 +156,7 @@
 |---|---|
 | Template | `404.php` |
 | Illustration | SVG custom: công nhân/kiến trúc sư đang xây. Tông brand |
-| Headline | Founders Grotesk, `--text-h1` |
+| Headline | Inter Bold, `--text-h1` |
 | Body | Inter, `--text-body` |
 | Search bar | WordPress search form |
 | Quick links | 3 buttons: Home, Portfolio, Contact |

@@ -28,7 +28,7 @@
 | Background | Video/ảnh nền: gia đình bình yên + timelapse thi công |
 | Overlay | `rgba(0,0,0,0.4)` |
 | Height | `100vh` (hero full-screen) |
-| Typography | Headline: Founders Grotesk Bold, `--text-hero` |
+| Typography | Headline: Inter Bold, `--text-hero` |
 | Text color | `--color-white` |
 | CTA Button | Cam `--color-accent`, min-width 200px, border-radius `--radius-sm` |
 | Preloader (#20) | Logo Xanh + xoay lá → fade out vào Hero. Chỉ lần đầu (`sessionStorage`) |
@@ -91,7 +91,7 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | Background | `--color-primary` (#14513D) full-width |
-| Text | `--color-white`, font Founders Grotesk Bold |
+| Text | `--color-white`, font Inter Bold |
 | Number size | `--text-h1` |
 | Label size | `--text-small` |
 | Layout | Grid 4 cột (desktop), 2×2 (mobile) |

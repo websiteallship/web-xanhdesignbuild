@@ -21,7 +21,7 @@
 | **Headline** | *"Xanh - Design & Build: Câu Chuyện Của Sự Liền Mạch & Bền Vững."* |
 | **Sub-headline** | *"Chúng tôi là thương hiệu cung cấp giải pháp nội thất... kiến tạo những công trình đáng để đầu tư."* |
 | Background | Ảnh/video nội thất sang trọng. Overlay tối |
-| Typography | Headline: Founders Grotesk Bold, `--text-hero`. Text: `--color-white` |
+| Typography | Headline: Inter Bold, `--text-hero`. Text: `--color-white` |
 | **Video Popup (#17)** | Overlay nút ▶ → click mở video giới thiệu công ty trong modal. Banner giữ ảnh tĩnh cho performance |
 
 ---
@@ -86,7 +86,7 @@
 | **Headline** | *"Bản Sắc Cốt Lõi — Lời Cam Kết Bền Vững"* |
 | Content | 4 giá trị: Hiệu Quả Thực Tế / Minh Bạch / Bền Vững / Đồng Hành |
 | Background | `--color-primary` toàn màn hình |
-| Typography | Headline: Founders Grotesk, `--color-white` |
+| Typography | Headline: Inter Bold, `--color-white` |
 | **Layout nâng cấp** | **Sticky Scroll**: Cột trái giữ headline + icon lớn (fixed). Cột phải cuộn từng giá trị fade-in. Divider line mỏng |
 | Mobile fallback | Accordion (sticky scroll không phù hợp mobile) |
 
