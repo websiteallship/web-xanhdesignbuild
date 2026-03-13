@@ -58,7 +58,6 @@ Tailwind output.css → variables.css → components.css
 - Video iframes: Load only on click
 
 ## Fonts
-- Founders Grotesk: Only Medium (500) + Bold (700), self-hosted
 - Inter: Variable font (single file), self-hosted
 - `font-display: swap` on all @font-face
 - Preload: `<link rel="preload" as="font" crossorigin>`
