@@ -2,7 +2,7 @@
 
 > **Dự án:** Website XANH - Design & Build
 > **Phiên bản:** 2.0 | **Cập nhật:** 2026-03-12
-> **Stack:** Open Props + GSAP + Lenis + Swiper + GLightbox + LiteSpeed + Smush
+> **Stack:** Tailwind CSS (CLI) + Alpine.js + GSAP + Lenis + Swiper + GLightbox + Lucide + LiteSpeed + Smush
 
 ---
 
@@ -24,15 +24,17 @@
 
 ### Vendor Libraries
 
-| Library | Raw | Gzip | Loading | Pages |
-|---|---|---|---|---|
-| Open Props (CSS) | ~15KB | ~5KB | `<link>` head | All |
-| GSAP core | ~60KB | ~15KB | `defer` footer | All |
-| ScrollTrigger | ~30KB | ~8KB | `defer` footer | All |
-| Lenis | ~15KB | ~4KB | `defer` footer | All |
-| Swiper (modular) | ~55KB | ~15KB | `defer` conditional | Home, Portfolio |
-| GLightbox | ~25KB | ~8KB | `defer` conditional | Portfolio detail |
-| **Total vendor** | **~200KB** | **~55KB** | | |
+| Library | Raw | Gzip | Source | Loading | Pages |
+|---|---|---|---|---|---|
+| Tailwind CSS (compiled) | ~40KB | ~10KB | Local (CLI build) | `<link>` head | All |
+| Alpine.js | ~45KB | ~15KB | CDN (jsDelivr) | `defer` head | All |
+| GSAP core | ~60KB | ~15KB | CDN (jsDelivr) | `defer` footer | All |
+| ScrollTrigger | ~30KB | ~8KB | CDN (jsDelivr) | `defer` footer | All |
+| Lenis | ~15KB | ~4KB | CDN (jsDelivr) | `defer` footer | All |
+| Swiper (modular) | ~55KB | ~15KB | CDN (jsDelivr) | `defer` conditional | Home, Portfolio |
+| GLightbox | ~25KB | ~8KB | CDN (jsDelivr) | `defer` conditional | Portfolio detail |
+| Lucide Icons | 0 | ~0KB | Inline SVG | N/A | As needed |
+| **Total vendor** | **~270KB** | **~75KB** | | | |
 
 ### Custom JS
 
@@ -51,30 +53,27 @@
 
 | Page | Vendor JS (gzip) | Custom JS | Total JS |
 |---|---|---|---|
-| **Homepage** | ~47KB (GSAP+Lenis+Swiper) | ~8KB | **~55KB** |
-| **Portfolio grid** | ~27KB (GSAP+Lenis) | ~7KB | **~34KB** |
-| **Portfolio detail** | ~55KB (all) | ~6KB | **~61KB** |
-| **Blog** | ~27KB (GSAP+Lenis) | ~8KB | **~35KB** |
-| **Contact** | ~27KB (GSAP+Lenis) | ~7KB | **~34KB** |
-| **404 / Thank-you** | ~4KB (Lenis only) | ~1KB | **~5KB** |
+| **Homepage** | ~62KB (Tailwind+Alpine+GSAP+Lenis+Swiper) | ~8KB | **~70KB** |
+| **Portfolio grid** | ~52KB (Tailwind+Alpine+GSAP+Lenis) | ~7KB | **~59KB** |
+| **Portfolio detail** | ~75KB (all) | ~6KB | **~81KB** |
+| **Blog** | ~52KB (Tailwind+Alpine+GSAP+Lenis) | ~8KB | **~60KB** |
+| **Contact** | ~52KB (Tailwind+Alpine+GSAP+Lenis) | ~7KB | **~59KB** |
+| **404 / Thank-you** | ~29KB (Tailwind+Alpine+Lenis) | ~1KB | **~30KB** |
 
-> ✅ Trang nặng nhất (Portfolio detail) ~61KB — vẫn nhẹ hơn React app trung bình (~150KB)
+> ✅ Trang nặng nhất (Portfolio detail) ~81KB — vẫn nhẹ hơn React app trung bình (~150KB)
 
 ---
 
 ## 3. CSS Budget
 
 ```
-Open Props + normalize        ~5KB gzip
+Tailwind output.css (purged)  ~10KB gzip
 variables.css                 ~2KB gzip
-main.css                      ~3KB gzip
 components.css                ~4KB gzip
-utilities.css                 ~1KB gzip
-responsive.css                ~2KB gzip
-swiper.min.css (conditional)  ~3KB gzip
-glightbox.min.css (cond.)     ~1KB gzip
+swiper-bundle.min.css (CDN)   ~3KB gzip (conditional)
+glightbox.min.css (CDN)       ~1KB gzip (conditional)
 ────────────────────────────────────────
-Total CSS:                    ~18-21KB gzip
+Total CSS:                    ~16-20KB gzip
 ```
 
 ---
@@ -198,17 +197,18 @@ Total CSS:                    ~18-21KB gzip
 ### Loading Order
 ```
 [1. Critical — Blocking]
-  Open Props (inline hoặc preload)
   Critical CSS (LiteSpeed auto-generate)
   Preload hero image + fonts
 
 [2. Early — Head]
-  <link> full CSS files (async via LiteSpeed)
+  <link> Tailwind output.css + variables.css + components.css (async via LiteSpeed)
+  <script defer> Alpine.js CDN
 
 [3. Deferred — Footer]
-  GSAP → ScrollTrigger → Lenis → main.js → animations.js
-  Swiper (conditional) → slider.js (conditional)
-  GLightbox (conditional) → gallery.js (conditional)
+  GSAP CDN → ScrollTrigger CDN → Lenis CDN → Lucide CDN
+  → main.js → animations.js
+  Swiper CDN (conditional) → slider.js (conditional)
+  GLightbox CDN (conditional) → gallery.js (conditional)
 
 [4. Lazy — After interaction]
   Zalo widget (DOMContentLoaded + 3s delay)
@@ -301,6 +301,8 @@ Total CSS:                    ~18-21KB gzip
 - [ ] Critical CSS inlined (LiteSpeed UCSS)
 - [ ] Zalo widget lazy-loaded (3s delay)
 - [ ] Open Props loaded via CDN with SRI hash
+- [ ] CDN scripts pinned to specific versions with SRI hash
+- [ ] Tailwind CSS compiled and purged (no unused utilities)
 
 ### Metrics
 - [ ] TTFB < 200ms
@@ -323,7 +325,7 @@ Total CSS:                    ~18-21KB gzip
 
 ## Tài Liệu Liên Quan
 
-- `TRACK_DECISIONS.md` — ADR-007 (JS stack), ADR-008 (Open Props)
+- `TRACK_DECISIONS.md` — ADR-007 (JS stack), ADR-009 (Stack Migration)
 - `ARCH_DESIGN_TOKENS.md` — Font references, CSS tokens
 - `GOV_CODING_STANDARDS.md` — JS patterns, conditional loading
 - `ARCH_LUXURY_VISUAL_DIRECTION.md` — §5 Micro-interactions, §8 Perceived performance

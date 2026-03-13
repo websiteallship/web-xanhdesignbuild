@@ -20,13 +20,13 @@
 
 ## Brand Rules (Bắt Buộc Tuân Thủ)
 
-### Colors
+### Colors (Color Ratio System: 60 – 25 – 10 – 5)
 ```css
---color-primary: #14513D;     /* Xanh đậm — nền, nav, mảng lớn */
---color-accent: #FF8A00;      /* Cam — CTA buttons, điểm nhấn */
---color-light: #F3F4F6;       /* Xám nhạt — nền phụ */
---color-white: #FFFFFF;        /* Trắng — text trên nền tối */
---color-beige: #D8C7A3;       /* Be — nền câu chuyện */
+--color-primary: #14513D;     /* 60% — Xanh đậm chủ đạo: nav, footer, hero, mảng lớn */
+--color-beige: #D8C7A3;       /* 25% — Gam trung tính ấm: sections xen kẽ, warmth */
+--color-white: #FFFFFF;        /* 10% — Bố cục thoáng: breathing room */
+--color-accent: #FF8A00;      /* 5%  — Điểm nhấn: CTA buttons, active states */
+--color-black: #000000;        /* linh hoạt — typography & line system */
 ```
 
 ### Fonts

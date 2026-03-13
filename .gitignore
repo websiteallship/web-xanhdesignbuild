@@ -1,8 +1,14 @@
 # WordPress Core
 wp-admin/
 wp-includes/
-# *.php
-# !wp-config.php
+wp-config.php
+.env
+*.log
+*.sql
+*.zip
+*.tar.gz
+
+# Core files
 index.php
 xmlrpc.php
 wp-activate.php
@@ -27,6 +33,9 @@ readme.html
 wp-content/themes/twent*/
 wp-content/upgrade/
 wp-content/cache/
+wp-content/uploads/
+wp-content/plugins/
+wp-content/languages/
 
 # OS Files
 .DS_Store

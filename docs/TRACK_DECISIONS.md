@@ -146,14 +146,86 @@ Total JS:              ~50KB gzip  ← RẤT NHẸ (React = 45KB, jQuery UI = 80
 | Hạng mục | Chi tiết |
 |---|---|
 | **Ngày** | 2026-03-12 |
-| **Trạng thái** | ✅ Accepted |
+| **Trạng thái** | ⚠️ **Superseded by ADR-009** |
 | **Bối cảnh** | Cần đảm bảo tính đồng bộ thiết kế (consistency) trên 27 components × 7 trang. Custom CSS tokens vẫn cần foundation chuyên nghiệp cho easing curves, shadows, normalize |
-| **Quyết định** | Dùng **Open Props** + normalize.css làm CSS foundation layer |
-| **Size** | ~5KB (chỉ load custom properties cần, treeshake với PostCSS nếu cần) |
-| **Lý do** | Cung cấp proven easing curves (luxury feel), standardized shadows, normalize, type scale. XANH tokens override trên nền Open Props |
-| **Thay thế** | Tailwind CSS (quá utility-heavy, cần build tools), Bootstrap (quá nặng, generic), Pico CSS (opinionated) |
+| **Quyết định** | ~~Dùng **Open Props** + normalize.css làm CSS foundation layer~~ → Thay bằng **Tailwind CSS CLI** |
+| **Lý do supersede** | Chuyển sang Tailwind CSS để có utility-first approach, tốt hơn cho developer experience. Xem ADR-009 |
+
+---
+
+## ADR-009: Library Stack Migration — Tailwind + Alpine.js + Lucide + CDN
+
+| Hạng mục | Chi tiết |
+|---|---|
+| **Ngày** | 2026-03-13 |
+| **Trạng thái** | ✅ Accepted |
+| **Bối cảnh** | Cần cải thiện developer experience, giảm thiểu vendor files self-hosted, modernize CSS architecture. Project đang trong giai đoạn wireframe, chưa có code production → thời điểm tốt để thay đổi stack |
+
+### Quyết Định — Thay Đổi
+
+| Thay đổi | Cũ | Mới | Lý do |
+|---|---|---|---|
+| **CSS Framework** | Open Props (~5KB, CDN) | **Tailwind CSS 4.x** (CLI build, ~10KB purged) | Utility-first, DX tốt hơn, purge unused CSS, customizable via config |
+| **Interactivity** | Vanilla JS only | **Alpine.js 3.15** (~15KB, CDN) + Vanilla JS | Declarative HTML, code ngắn gọn hơn cho menus/accordions/tabs |
+| **Icons** | Phosphor Icons (inline SVG) | **Lucide Icons** (inline SVG / CDN) | 1500+ icons, consistent stroke, popular ecosystem, lighter |
+| **Vendor hosting** | Self-host (vendor/ folder) | **CDN** (jsDelivr/unpkg) | Shared cache, faster delivery, less server storage |
+
+### Stack Chính Thức (sau ADR-009)
+
+| Library | Version | Size (gzip) | Source | Purpose |
+|---|---|---|---|---|
+| **Tailwind CSS** | 4.x | ~8-15KB (purged) | CLI build | Utility-first CSS |
+| **Alpine.js** | 3.15.x | ~15KB | CDN (jsDelivr) | Declarative interactivity |
+| **GSAP** | 3.12.x | ~15KB | CDN (jsDelivr) | Animation engine |
+| **ScrollTrigger** | 3.12.x | ~8KB | CDN (jsDelivr) | Scroll animations |
+| **Lenis** | 1.3.x | ~4KB | CDN (jsDelivr) | Smooth scrolling |
+| **Swiper** | 11.x | ~15KB | CDN (jsDelivr) | Slider/carousel |
+| **GLightbox** | 3.x | ~8KB | CDN (jsDelivr) | Lightbox/gallery |
+| **Lucide Icons** | latest | ~0KB | Inline SVG | Line icons |
+| **Total** | | **~80-95KB** | | |
+
+### CSS Architecture Mới
+
+```
+Trước (ADR-008):
+  Open Props → normalize → variables.css → main.css → components.css → utilities.css → responsive.css
+
+Sau (ADR-009):
+  Tailwind output.css (CLI build, purged) → variables.css (brand tokens) → components.css (custom)
+```
+
+### CDN Strategy
+
+- Tất cả vendor JS qua **jsDelivr** CDN
+- **Pin version** (không dùng `@latest` cho JS, trừ Lucide icons)
+- **SRI hash** cho security (nên thêm)
+- Alpine.js: `defer` in `<head>` (official recommendation)
+- GSAP/Lenis/Swiper/GLightbox: `defer` in footer
+- **Fallback**: Nếu CDN down, LiteSpeed Cache sẽ serve cached version
+
+### Build Step Mới
+
+```bash
+# Cần thêm vào theme workflow
+cd wp-content/themes/xanh-theme/
+npm init -y
+npm install -D @tailwindcss/cli
+npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --minify
+# Hoặc watch mode khi develop:
+npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --watch
+```
+
+### Thay Thế Đã Xem Xét
+
+| Thay thế | Lý do KHÔNG chọn |
+|---|---|
+| **Tailwind Play CDN** | ~300KB raw, FOUC, không purge → KHÔNG dùng cho production |
+| **Open Props** (giữ nguyên) | Ít utility classes, DX không bằng Tailwind |
+| **Phosphor Icons** (giữ nguyên) | Lucide phổ biến hơn, ecosystem lớn hơn, consistent stroke |
+| **htmx** (thay Alpine.js) | Quá server-centric, Alpine.js phù hợp hơn cho client-side |
 
 ---
 
 <!-- Thêm ADR mới ở đây theo format trên -->
+
 

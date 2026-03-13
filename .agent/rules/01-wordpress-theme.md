@@ -73,33 +73,36 @@ function xanh_enqueue_scripts() {
     $ver = XANH_THEME_VERSION;
     $uri = get_template_directory_uri();
 
-    // === CSS: Open Props + Custom ===
-    wp_enqueue_style('open-props', 'https://unpkg.com/open-props', [], null);
-    wp_enqueue_style('open-props-normalize', 'https://unpkg.com/open-props/normalize.min.css', ['open-props'], null);
-    wp_enqueue_style('xanh-variables', "$uri/assets/css/variables.css", ['open-props-normalize'], $ver);
-    wp_enqueue_style('xanh-main', "$uri/assets/css/main.css", ['xanh-variables'], $ver);
-    wp_enqueue_style('xanh-components', "$uri/assets/css/components.css", ['xanh-main'], $ver);
-    wp_enqueue_style('xanh-utilities', "$uri/assets/css/utilities.css", ['xanh-components'], $ver);
-    wp_enqueue_style('xanh-responsive', "$uri/assets/css/responsive.css", ['xanh-utilities'], $ver);
+    // === CSS: Tailwind (compiled) + Custom ===
+    wp_enqueue_style('xanh-tailwind', "$uri/assets/css/output.css", [], $ver);
+    wp_enqueue_style('xanh-variables', "$uri/assets/css/variables.css", ['xanh-tailwind'], $ver);
+    wp_enqueue_style('xanh-components', "$uri/assets/css/components.css", ['xanh-variables'], $ver);
 
-    // === JS: Vendor (global) ===
-    wp_enqueue_script('gsap', "$uri/assets/js/vendor/gsap.min.js", [], null, true);
-    wp_enqueue_script('gsap-st', "$uri/assets/js/vendor/ScrollTrigger.min.js", ['gsap'], null, true);
-    wp_enqueue_script('lenis', "$uri/assets/js/vendor/lenis.min.js", [], null, true);
+    // === JS: Alpine.js (CDN — must load in head with defer) ===
+    wp_enqueue_script('alpinejs', 'https://cdn.jsdelivr.net/npm/alpinejs@3.15.8/dist/cdn.min.js', [], '3.15.8', false);
+    wp_script_add_data('alpinejs', 'strategy', 'defer');
+
+    // === JS: Vendor CDN (global, defer, footer) ===
+    wp_enqueue_script('gsap', 'https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js', [], '3.12.7', true);
+    wp_enqueue_script('gsap-st', 'https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js', ['gsap'], '3.12.7', true);
+    wp_enqueue_script('lenis', 'https://cdn.jsdelivr.net/npm/lenis@1.3.17/dist/lenis.min.js', [], '1.3.17', true);
+
+    // === JS: Lucide Icons (CDN) ===
+    wp_enqueue_script('lucide', 'https://unpkg.com/lucide@latest', [], null, true);
 
     // === JS: Custom (global) ===
     wp_enqueue_script('xanh-main', "$uri/assets/js/main.js", ['gsap', 'gsap-st', 'lenis'], $ver, true);
     wp_enqueue_script('xanh-animations', "$uri/assets/js/animations.js", ['xanh-main'], $ver, true);
 
-    // === JS: Conditional ===
+    // === JS: Conditional (Swiper + GLightbox via CDN) ===
     if (is_front_page() || is_singular('xanh_project')) {
-        wp_enqueue_style('swiper-css', "$uri/assets/css/vendor/swiper.min.css", [], null);
-        wp_enqueue_script('swiper', "$uri/assets/js/vendor/swiper-bundle.min.js", [], null, true);
+        wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], null);
+        wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11', true);
         wp_enqueue_script('xanh-slider', "$uri/assets/js/slider.js", ['swiper'], $ver, true);
     }
     if (is_singular('xanh_project')) {
-        wp_enqueue_style('glightbox-css', "$uri/assets/css/vendor/glightbox.min.css", [], null);
-        wp_enqueue_script('glightbox', "$uri/assets/js/vendor/glightbox.min.js", [], null, true);
+        wp_enqueue_style('glightbox-css', 'https://cdn.jsdelivr.net/npm/glightbox@3/dist/css/glightbox.min.css', [], null);
+        wp_enqueue_script('glightbox', 'https://cdn.jsdelivr.net/npm/glightbox@3/dist/glightbox.min.js', [], '3', true);
         wp_enqueue_script('xanh-gallery', "$uri/assets/js/gallery.js", ['glightbox'], $ver, true);
     }
     if (is_post_type_archive('xanh_project') || is_home()) {

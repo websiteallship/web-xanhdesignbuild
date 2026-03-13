@@ -1,8 +1,9 @@
 # ARCH_LUXURY_VISUAL_DIRECTION — Định Hướng Thiết Kế Cao Cấp
 
 > **Dự án:** Website XANH - Design & Build
-> **Phiên bản:** 1.0 | **Ngày tạo:** 2026-03-12
+> **Phiên bản:** 1.1 | **Ngày tạo:** 2026-03-12 | **Cập nhật:** 2026-03-13
 > **Positioning:** Warm Luxury — Tinh tế, Ấm áp, Đẳng cấp
+> **Color Ratio:** 60% Green / 25% Beige / 10% White / 5% Orange (Brand Guide)
 
 ---
 
@@ -150,6 +151,9 @@ const lenis = new Lenis({
   smoothWheel: true,
   syncTouch: false,        // Native touch on mobile
 });
+
+// Note: Easing curves handled by GSAP (power2.out, power1.inOut)
+// and Tailwind CSS transitions (ease-in, ease-out, ease-in-out)
 ```
 
 ### 5.4 Loading States
@@ -208,31 +212,47 @@ Tông ấm (warm tone):
 
 ---
 
-## 7. Color Application — Luxury Palette Usage
+## 7. Color Application — Luxury Palette Usage (Color Ratio 60-25-10-5)
 
-### Section Background Rotation
+> **Nguồn:** Brand & Visual Style Guide chính thức.
+> Tổng thể phân bổ: **60% Green – 25% Beige – 10% White – 5% Orange**.
+> Black `#000000` dùng linh hoạt cho typography & line system, không tính vào tỷ lệ.
+
+### Section Background Rotation (Theo Tỷ Lệ Brand Guide)
 
 ```
-┌── HERO ──────────────────────────── #14513D (primary dark) + gradient overlay
-├── Section 2 ─────────────────────── #FFFFFF (white) — BREATHE
-├── Section 3 ─────────────────────── #F3F4F6 (light) — SOFT
-├── Section 4 ─────────────────────── #FFFFFF (white) — BREATHE  
-├── Section 5 (Counter/CTA) ───────── #14513D (primary dark) — IMPACT
-├── Section 6 ─────────────────────── #D8C7A3 (beige) — WARM LUXURY ★
-├── Section 7 ─────────────────────── #FFFFFF (white) — BREATHE
-├── Section 8 (CTA Final) ─────────── #14513D (primary dark) — CLOSE
-└── FOOTER ────────────────────────── #0a2e22 (darker green)
+┌── HERO ──────────────────────────── #14513D (primary)      60% ── FULL IMPACT
+├── Empathy / Story ───────────────── #D8C7A3 (beige)        25% ── WARM
+├── Values ────────────────────────── #14513D (primary)      60% ── DEEP
+├── Counter ───────────────────────── #14513D → #0a2e22 (grad) 60% ── IMPACT
+├── Projects ──────────────────────── #FFFFFF (white)        10% ── BREATHE ★
+├── Services ──────────────────────── #D8C7A3 (beige)        25% ── WARM
+├── Process ───────────────────────── #14513D (primary)      60% ── DEEP
+├── Testimonials ──────────────────── #D8C7A3 (beige)        25% ── WARM
+├── Partners ──────────────────────── #FFFFFF (white)        10% ── BREATHE ★
+├── CTA Final ─────────────────────── #14513D → #0a2e22 (grad) 60% ── CLOSE
+└── FOOTER ────────────────────────── #0a2e22 (darker green) 60% ── ANCHOR
 ```
 
-### Beige Usage (★ Luxury Differentiator)
+> **Kết quả tỷ lệ thực tế:**
+> - **GREEN**: Hero + Values + Counter + Process + CTA + Footer = 6/11 sections ≈ **55-60%** ✅
+> - **BEIGE**: Empathy + Services + Testimonials = 3/11 sections ≈ **25-27%** ✅
+> - **WHITE**: Projects + Partners = 2/11 sections ≈ **10-18%** ✅
+> - **ORANGE**: Chỉ CTA buttons & micro-accents ≈ **5%** ✅
 
-`--color-beige: #D8C7A3` là yếu tố tạo sự khác biệt luxury cho XANH:
-- Dùng cho **testimonial section** background
-- Dùng cho **brand story section** (About page)
-- Dùng cho **quote blocks** trong blog
-- KHÔNG dùng cho card background (quá nặng)
+### Beige Usage (★ Luxury Differentiator — 25% diện tích)
 
-### Accent Orange — Điểm nhấn tinh tế
+`--color-beige: #D8C7A3` là yếu tố tạo sự khác biệt luxury cho XANH.
+Theo Brand Guide, Beige chiếm **25%** — gam trung tính ấm tạo chiều sâu không gian:
+
+- **Empathy / Brand Story section** (chuyển tiếp sau Hero)
+- **Services section** (dịch vụ, tạo không khí thân thiện)
+- **Testimonial section** (phản hồi khách hàng, cảm xúc ấm áp)
+- **Quote blocks** trong blog
+- **Card backgrounds** trên nền Green (tạo contrast ấm)
+- KHÔNG dùng cho: nền toàn trang, full-width images
+
+### Accent Orange — Điểm nhấn tinh tế (5% diện tích)
 
 `--color-accent: #FF8A00` chỉ dùng cho:
 - CTA buttons (primary)
@@ -240,6 +260,14 @@ Tông ấm (warm tone):
 - Hover borders
 - Counter numbers
 - **KHÔNG dùng cho:** text blocks, backgrounds, borders tĩnh
+
+### Black — Typography & Line System (linh hoạt)
+
+`#000000` dùng linh hoạt cho:
+- Headlines trên nền sáng (White/Beige)
+- Body text
+- Borders, dividers, line decorations
+- **Không tính vào tỷ lệ màu** brand
 
 ---
 

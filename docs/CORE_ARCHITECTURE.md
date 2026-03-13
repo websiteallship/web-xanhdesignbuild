@@ -105,16 +105,15 @@ wp-content/themes/xanh-theme/
 │   ├── template-tags.php         # ★ Reusable template functions
 │   └── walker-nav.php            # ★ Custom nav walker (nếu cần)
 │
+├── package.json                 # npm deps (Tailwind CLI)
+├── tailwind.config.js           # Tailwind configuration (colors, fonts, screens)
+│
 ├── assets/
 │   ├── css/
-│   │   ├── variables.css         # Design tokens (colors, fonts, spacing)
-│   │   ├── main.css              # Reset, base, typography, layout
-│   │   ├── components.css        # BEM component styles
-│   │   ├── utilities.css         # Helper classes (text, grid, visibility)
-│   │   ├── responsive.css        # Media queries (mobile-first)
-│   │   └── vendor/
-│   │       ├── swiper.min.css    # Swiper styles
-│   │       └── glightbox.min.css # GLightbox styles
+│   │   ├── input.css             # Tailwind directives (@tailwind base/components/utilities)
+│   │   ├── output.css            # ★ CLI-generated (DO NOT EDIT) — purged Tailwind
+│   │   ├── variables.css         # XANH brand tokens (CSS custom properties)
+│   │   └── components.css        # Custom component styles (where Tailwind isn't enough)
 │   ├── js/
 │   │   ├── main.js               # App init, Lenis, GSAP global, scroll reveal
 │   │   ├── animations.js         # GSAP timelines, counters, card-flip
@@ -122,17 +121,12 @@ wp-content/themes/xanh-theme/
 │   │   ├── gallery.js            # GLightbox init: lightbox, video popup
 │   │   ├── filter.js             # AJAX filtering + skeleton loading
 │   │   ├── forms.js              # Form validation, UX, progress indicator
-│   │   ├── search.js             # Autocomplete blog search
-│   │   └── vendor/               # ★ Third-party libraries (minified)
-│   │       ├── gsap.min.js           # ~15KB gzip — Animation engine
-│   │       ├── ScrollTrigger.min.js  # ~8KB gzip  — Scroll-driven animations
-│   │       ├── lenis.min.js          # ~4KB gzip  — Smooth scrolling
-│   │       ├── swiper-bundle.min.js  # ~15KB gzip — Slider/carousel
-│   │       └── glightbox.min.js      # ~8KB gzip  — Lightbox gallery
-│   ├── icons/                    # ★ Phosphor SVG icons (chỉ copy icons cần dùng)
+│   │   └── search.js             # Autocomplete blog search
+│   │   # ★ NO vendor/ folder — all vendor JS via CDN (jsDelivr)
+│   ├── icons/                    # ★ Lucide SVG icons (chỉ copy icons cần dùng)
 │   │   ├── house.svg
 │   │   ├── phone.svg
-│   │   ├── envelope.svg
+│   │   ├── mail.svg
 │   │   ├── leaf.svg              # 4 Xanh icons
 │   │   └── ...
 │   ├── fonts/
@@ -178,39 +172,37 @@ define('WP_DEBUG_LOG', false);
 
 ## 4. Asset Pipeline
 
-### CSS Architecture (3-Layer Token System)
+### CSS Architecture (Tailwind + CSS Variables)
 ```
-@import 'open-props'           → Layer 1: Foundation tokens (easing, shadows, sizes)
-@import 'open-props/normalize' → Layer 1: Modern CSS reset
-    ↓
-variables.css      → Layer 2: XANH brand tokens (override Open Props)
-                   → Layer 3: Component tokens (--card-bg, --btn-primary-bg)
-    ↓
-main.css           → Base typography, layout
-    ↓
-components.css     → BEM component-specific styles
-    ↓
-utilities.css      → Helper classes (.text-center, .grid-*, .sr-only)
-    ↓
-responsive.css     → Media queries (mobile-first overrides)
+input.css          → Tailwind directives (@tailwind base/components/utilities)
+  ↓ [CLI build: npx @tailwindcss/cli -i input.css -o output.css --minify]
+output.css         → Purged utility CSS (production)
+  ↓
+variables.css      → XANH brand tokens (CSS custom properties)
+  ↓
+components.css     → Custom component styles (complex animations, multi-state)
 ```
 
-### JS Loading Strategy (Vendor + Custom)
+### JS Loading Strategy (CDN + Custom)
 
-| Script | Loading | Condition | Size (gzip) |
-|---|---|---|---|
-| `vendor/gsap.min.js` | `defer` | Tất cả trang | ~15KB |
-| `vendor/ScrollTrigger.min.js` | `defer` | Tất cả trang | ~8KB |
-| `vendor/lenis.min.js` | `defer` | Tất cả trang | ~4KB |
-| `main.js` | `defer` | Tất cả trang | ~3KB |
-| `animations.js` | `defer` | Tất cả trang | ~2KB |
-| `vendor/swiper-bundle.min.js` | `defer` | `is_front_page()` / `is_singular('xanh_project')` | ~15KB |
-| `slider.js` | `defer` | = Swiper condition | ~1KB |
-| `vendor/glightbox.min.js` | `defer` | `is_singular('xanh_project')` | ~8KB |
-| `gallery.js` | `defer` | = GLightbox condition | ~1KB |
-| `filter.js` | `defer` | `is_post_type_archive()` / `is_home()` | ~2KB |
-| `forms.js` | `defer` | `is_page('lien-he')` / `is_front_page()` | ~2KB |
-| `search.js` | `defer` | `is_home()` / `is_archive()` | ~1KB |
+| Script | Source | Loading | Condition | Size (gzip) |
+|---|---|---|---|---|
+| Alpine.js | CDN (jsDelivr) | `defer` head | Tất cả trang | ~15KB |
+| GSAP | CDN (jsDelivr) | `defer` footer | Tất cả trang | ~15KB |
+| ScrollTrigger | CDN (jsDelivr) | `defer` footer | Tất cả trang | ~8KB |
+| Lenis | CDN (jsDelivr) | `defer` footer | Tất cả trang | ~4KB |
+| Lucide | CDN (unpkg) | `defer` footer | Tất cả trang | ~0KB* |
+| `main.js` | Local | `defer` footer | Tất cả trang | ~3KB |
+| `animations.js` | Local | `defer` footer | Tất cả trang | ~2KB |
+| Swiper | CDN (jsDelivr) | `defer` footer | Home, Portfolio detail | ~15KB |
+| `slider.js` | Local | `defer` footer | = Swiper condition | ~1KB |
+| GLightbox | CDN (jsDelivr) | `defer` footer | Portfolio detail | ~8KB |
+| `gallery.js` | Local | `defer` footer | = GLightbox condition | ~1KB |
+| `filter.js` | Local | `defer` footer | Portfolio, Blog | ~2KB |
+| `forms.js` | Local | `defer` footer | Contact, Home | ~2KB |
+| `search.js` | Local | `defer` footer | Blog | ~1KB |
+
+> *Lucide: 0KB nếu dùng inline SVG (preferred), hoặc ~8KB nếu dùng CDN createIcons()
 
 ### Font Loading
 ```css

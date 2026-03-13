@@ -71,15 +71,19 @@
 
 ## 5. Màu Sắc (Quick Reference)
 
-| Token | Hex |
-|---|---|
-| Primary Green | `#14513D` |
-| Accent Orange | `#FF8A00` |
-| Light Gray | `#F3F4F6` |
-| White | `#FFFFFF` |
-| Beige | `#D8C7A3` |
+### Color Ratio System: 60 – 25 – 10 – 5
 
-**Chi tiết đầy đủ:** Xem `ARCH_DESIGN_TOKENS.md`
+| Token | Hex | Tỷ lệ | Vai trò |
+|---|---|---|---|
+| Primary Green | `#14513D` | **60%** | Chủ đạo — nav, footer, hero, mảng khối lớn |
+| Beige | `#D8C7A3` | **25%** | Gam trung tính ấm — sections xen kẽ, luxury warmth |
+| White | `#FFFFFF` | **10%** | Bố cục thoáng — breathing room |
+| Accent Orange | `#FF8A00` | **5%** | Điểm nhấn — CTA, active states |
+| Black | `#000000` | _linh hoạt_ | Typography & line system (không tính vào tỷ lệ) |
+
+> **Nguồn:** Brand & Visual Style Guide chính thức.
+
+**Chi tiết đầy đủ:** Xem `ARCH_DESIGN_TOKENS.md` §1 Color Ratio System
 
 ---
 

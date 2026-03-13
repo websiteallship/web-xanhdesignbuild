@@ -14,20 +14,22 @@ globs: wp-content/themes/xanh-theme/**/*
 | INP | < 200ms |
 | TTFB | < 200ms |
 | Total page weight | < 1.5MB |
-| JS bundle (gzip) | < 70KB per page |
+| JS bundle (gzip) | < 100KB per page |
 
-## JS Budget (ADR-007)
-| Library | Gzip | Loading | Pages |
-|---|---|---|---|
-| Open Props (CSS) | ~5KB | `<link>` head | All |
-| GSAP | ~15KB | `defer` footer | All |
-| ScrollTrigger | ~8KB | `defer` footer | All |
-| Lenis | ~4KB | `defer` footer | All |
-| Swiper | ~15KB | `defer` conditional | Home, Portfolio |
-| GLightbox | ~8KB | `defer` conditional | Portfolio detail |
-| Custom JS total | ~12KB | `defer` footer | Per-page |
+## JS Budget (ADR-007 + ADR-009)
+| Library | Gzip | Source | Loading | Pages |
+|---|---|---|---|---|
+| Tailwind CSS (compiled) | ~10KB | Local (CLI build) | `<link>` head | All |
+| Alpine.js | ~15KB | CDN (jsDelivr) | `defer` head | All |
+| GSAP | ~15KB | CDN (jsDelivr) | `defer` footer | All |
+| ScrollTrigger | ~8KB | CDN (jsDelivr) | `defer` footer | All |
+| Lenis | ~4KB | CDN (jsDelivr) | `defer` footer | All |
+| Swiper | ~15KB | CDN (jsDelivr) | `defer` conditional | Home, Portfolio |
+| GLightbox | ~8KB | CDN (jsDelivr) | `defer` conditional | Portfolio detail |
+| Lucide Icons | ~0KB | Inline SVG | N/A | As needed |
+| Custom JS total | ~12KB | Local | `defer` footer | Per-page |
 
-> Heaviest page (Portfolio detail) ≈ 61KB gzip — lighter than React hello world
+> Heaviest page (Portfolio detail) ≈ 77KB gzip — lighter than React hello world
 
 ## Images
 - Format: WebP (Smush auto-converts)
@@ -39,16 +41,18 @@ globs: wp-content/themes/xanh-theme/**/*
 
 ## CSS Loading
 ```
-Open Props → normalize → variables.css → main.css → components.css → utilities.css → responsive.css
-+ Conditional: swiper.min.css, glightbox.min.css
+Tailwind output.css → variables.css → components.css
++ Conditional CDN: swiper-bundle.min.css, glightbox.min.css
 ```
 - Critical CSS: LiteSpeed auto-generates (UCSS)
+- Tailwind purges unused CSS via CLI build → minimal output
 - No unused CSS: Only load what's needed per page
 
 ## JS Loading
-- ALL scripts: `defer`, footer
-- Conditional: Swiper/GLightbox only on pages that need them
-- NO jQuery: Vanilla ES6+ (save 87KB)
+- ALL scripts: `defer`, footer (except Alpine.js → defer, head)
+- Vendor: CDN (jsDelivr) with pinned versions + SRI hash
+- Conditional: Swiper/GLightbox CDN only on pages that need them
+- NO jQuery: Alpine.js + Vanilla ES6+ (save 87KB)
 - Third-party lazy: Zalo widget = DOMContentLoaded + 3s delay
 - Analytics: After cookie consent only
 - Video iframes: Load only on click
