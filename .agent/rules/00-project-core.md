@@ -28,14 +28,14 @@ globs: **/*
 
 ## Tech Stack
 - **CMS:** WordPress (latest) + Custom Theme `xanh-theme`
-- **CSS:** Open Props (foundation) + Vanilla CSS (BEM) → 3-layer token system
-- **JS:** Vanilla ES6+ (no jQuery) + GSAP + ScrollTrigger + Lenis + Swiper + GLightbox
-- **Icons:** Phosphor Icons (SVG, Light weight)
+- **CSS:** Tailwind CSS (CLI build, utility-first) + CSS Variables (brand tokens)
+- **JS:** Alpine.js (CDN) + Vanilla ES6+ (no jQuery) + GSAP + ScrollTrigger + Lenis + Swiper + GLightbox (all CDN)
+- **Icons:** Lucide Icons (CDN or inline SVG)
 - **Fonts:** Founders Grotesk (500+700, self-hosted) + Inter (variable, self-hosted)
 - **Colors:** Primary `#14513D`, Accent `#FF8A00`, Light `#F3F4F6`, Beige `#D8C7A3`
 - **Plugins:** ACF Pro, Fluent Form (SMTP), LiteSpeed Cache, Smush, Classic Editor
-- **JS budget:** ~55KB gzip vendor + ~12KB custom per page max
-- **ADRs:** `docs/TRACK_DECISIONS.md` (ADR-007: JS stack, ADR-008: Open Props)
+- **JS budget:** ~80KB gzip vendor (CDN) + ~12KB custom per page max
+- **ADRs:** `docs/TRACK_DECISIONS.md` (ADR-007: JS stack, ADR-009: Stack Migration)
 
 ## Documentation Hub (40 files)
 - Start: `docs/README.md` → `docs/CORE_PROJECT.md` → `docs/CORE_AI_CONTEXT.md`
