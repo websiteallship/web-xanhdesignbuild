@@ -46,6 +46,19 @@
 
 > **Nguồn:** Brand & Visual Style Guide chính thức của XANH.
 > Hệ thống màu được xây dựng nhằm cân bằng giữa nhận diện thương hiệu và trải nghiệm thị giác.
+> Hệ màu dựa trên sự cân bằng giữa **kỹ thuật, kiến trúc và cảm xúc**.
+
+### Ý Nghĩa Thương Hiệu Từng Màu (Brand & Visual Style Guide)
+
+| Màu | Hex | Ý nghĩa thương hiệu |
+|-----|-----|---------------------|
+| **Green** | `#14513D` | Màu xanh đậm thể hiện **nền tảng kỹ thuật và độ tin cậy** — giữ vai trò chủ đạo |
+| **Orange (Cam)** | `#FF8A00` | Tạo **điểm nhấn năng lượng và hành động** — gợi sự quyết đoán, nhiệt huyết |
+| **Beige (Tông Be)** | `#D8C7A3` | Gợi **chất liệu kiến trúc tự nhiên** — sự ấm áp, sang trọng tinh tế |
+| **White (Trắng)** | `#FFFFFF` | Đảm bảo sự **rõ ràng, hiện đại và tính hệ thống** trong toàn bộ nhận diện |
+| **Black (Đen)** | `#000000` | Dùng linh hoạt cho **typography & line system** — không tính vào tỷ lệ màu thương hiệu |
+
+### Bảng Tỷ Lệ Phân Bổ Màu
 
 | Tỷ lệ | Màu | Hex | Vai trò | Áp dụng cụ thể |
 |-------|------|-----|---------|----------------|

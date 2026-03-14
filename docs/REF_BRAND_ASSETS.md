@@ -61,15 +61,16 @@
 
 ### Color Ratio System: 60 – 25 – 10 – 5
 
-| Token | Hex | Tỷ lệ | Vai trò |
-|---|---|---|---|
-| Primary Green | `#14513D` | **60%** | Chủ đạo — nav, footer, hero, mảng khối lớn |
-| Beige | `#D8C7A3` | **25%** | Gam trung tính ấm — sections xen kẽ, luxury warmth |
-| White | `#FFFFFF` | **10%** | Bố cục thoáng — breathing room |
-| Accent Orange | `#FF8A00` | **5%** | Điểm nhấn — CTA, active states |
-| Black | `#000000` | _linh hoạt_ | Typography & line system (không tính vào tỷ lệ) |
+| Token | Hex | RGB | CMYK | Tỷ lệ | Vai trò |
+|---|---|---|---|---|---|
+| Primary Green | `#14513D` | — | — | **60%** | Chủ đạo — nền tảng kỹ thuật và độ tin cậy |
+| Accent Orange | `#FF8A00` | R255 G138 B0 | C0 M56 Y100 K0 | **5%** | Điểm nhấn — năng lượng và hành động |
+| Beige | `#D8C7A3` | R216 G199 B163 | C16 M18 Y38 K0 | **25%** | Gam trung tính ấm — chất liệu kiến trúc tự nhiên |
+| White | `#FFFFFF` | R255 G255 B255 | C0 M0 Y0 K0 | **10%** | Bố cục thoáng — rõ ràng, hiện đại, hệ thống |
+| Black | `#000000` | R0 G0 B0 | C100 M100 Y100 K100 | _linh hoạt_ | Typography & line system (không tính vào tỷ lệ) |
 
 > **Nguồn:** Brand & Visual Style Guide chính thức.
+> Hệ màu dựa trên sự cân bằng giữa **kỹ thuật, kiến trúc và cảm xúc**.
 
 **Chi tiết đầy đủ:** Xem `ARCH_DESIGN_TOKENS.md` §1 Color Ratio System
 

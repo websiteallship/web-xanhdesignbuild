@@ -10,7 +10,7 @@
 ## Tổng Quan
 
 - **Bố cục:** Storytelling Layout — Dẫn dắt từ cảm xúc → nỗi đau → giải pháp → bằng chứng → hành động
-- **Số sections:** 10 (8 gốc + 2 bổ sung)
+- **Số sections:** 11 (8 gốc + 3 bổ sung bao gồm Lĩnh Vực Thực Hiện)
 - **Global components:** Preloader (#20), Floating CTA Mobile (#15), Back to Top (#18), Cookie Consent (#19)
 
 ---
@@ -100,7 +100,28 @@
 
 ---
 
-## Section 4: Proof of Concept — Before/After
+## ★ Section 4: Lĩnh Vực Thực Hiện (Services)
+
+### Content
+- **Headline:** *"Giải Pháp Khép Kín. Dấu Ấn Độc Bản."*
+- **Sub-headline:** *"Từ ý tưởng kiến trúc sơ khai đến khi trao tay chiếc chìa khóa tổ ấm — Xanh đồng hành cùng bạn trong mọi giai đoạn."*
+- 4 Cards Dịch Vụ chính: Thiết kế Kiến trúc & Nội thất, Thi công Xây dựng Trọn gói, Sản xuất & Thi công Nội thất, Cải tạo & Nâng cấp.
+
+### UX/UI Specs
+| Thuộc tính | Giá trị |
+|---|---|
+| Background | `--color-beige-light` (#F5F0E8) để cân bằng tỷ lệ 25% Beige |
+| Component | Services Grid / Icon Box (#12) |
+| Layout | Grid 3 cột (desktop), 1 cột (mobile) |
+| Card Style | Nền trắng, shadow nhẹ, icon vector outline thanh mảnh |
+| Hover | Scale ảnh nhẹ, nhích lên (translateY), chữ chuyển màu Cam `--color-accent` |
+
+### Animation
+- Cards: Stagger fade-in up khi cuộn đến (100ms delay mỗi card)
+
+---
+
+## Section 5: Proof of Concept — Before/After
 
 ### Content
 - **Headline:** *"Những Câu Chuyện Đã Được Viết Nên Bằng Sự Thật"*
@@ -122,7 +143,7 @@
 
 ---
 
-## Section 5: Công Cụ Dự Toán — Lead Capture
+## Section 6: Công Cụ Dự Toán — Lead Capture
 
 ### Content
 - **Headline:** *"Hãy Để Sự Minh Bạch Bắt Đầu Ngay Lúc Này"*
@@ -143,7 +164,7 @@
 
 ---
 
-## Section 6: Quy Trình 6 Bước — Process Steps (#2)
+## Section 7: Quy Trình 6 Bước — Process Steps (#2)
 
 ### Content
 - **Headline:** *"Chúng Tôi Đồng Hành Cùng Bạn Đến Từng Viên Gạch Cuối Cùng"*
@@ -161,7 +182,7 @@
 
 ---
 
-## Section 7: Testimonials — Social Proof
+## Section 8: Testimonials — Social Proof
 
 ### Content
 - **Headline:** *"Chủ Nhà Nói Gì Về Xanh?"*
@@ -179,7 +200,7 @@
 
 ---
 
-## ★ Section 7.5: Partner Logos Bar (#13)
+## ★ Section 8.5: Partner Logos Bar (#13)
 
 ### UX/UI Specs
 | Thuộc tính | Giá trị |
@@ -194,7 +215,7 @@
 
 ---
 
-## Section 8: CTA Kết Thúc — The Invitation
+## Section 9: CTA Kết Thúc — The Invitation
 
 ### Content
 - **Headline:** *"Cùng Xanh, Viết Tiếp Câu Chuyện Của Riêng Bạn"*
