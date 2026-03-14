@@ -119,6 +119,41 @@ Full reference: `docs/ARCH_DESIGN_TOKENS.md`
 <div class="px-6 md:px-8 lg:px-8">
 ```
 
+## Layout Container System ★ (ARCH_LUXURY_VISUAL_DIRECTION §4)
+> Mỗi section **BẮT BUỘC** phải sử dụng một container class để giới hạn chiều rộng nội dung.
+> **KHÔNG BAO GIỜ** để section content tràn full viewport mà không có max-width.
+
+| Class | `max-width` | Sử dụng |
+|---|---|---|
+| `.site-container` | `1280px` | **Mặc định** — tất cả sections thông thường (Empathy, Services, Testimonials, Process...) |
+| `.site-container--hero` | `1440px` | **Chỉ Hero** — cho phép rộng hơn để tạo ấn tượng thị giác đầu tiên |
+| `.site-container--full` | `1280px` | **Layout full-width** — sections split-screen (Core Values), grid vẫn giới hạn |
+| `.content-text` | `800px` | **Nội dung text thuần** — thu hẹp đoạn văn cho luxury reading experience |
+
+```css
+/* Container mặc định — 1280px căn giữa */
+.site-container {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);  /* 24px mobile */
+}
+@media (min-width: 768px) {
+  .site-container { padding-inline: var(--space-8); } /* 32px tablet+ */
+}
+
+/* Hero: ngoại lệ 1440px */
+.site-container--hero { max-width: 1440px; }
+
+/* Full-width layout capped */
+.site-container--full { max-width: 1280px; margin-inline: auto; }
+```
+
+### Quy tắc áp dụng:
+- ✅ `<div class="site-container">` — Dùng class chung, **KHÔNG** hardcode `max-w-[1280px]`
+- ❌ `<div class="max-w-[1280px] mx-auto px-8">` — KHÔNG dùng Tailwind arbitrary values cho container
+- Khi thêm section mới: luôn wrap content trong `.site-container` hoặc variant phù hợp
+- Full reference: `docs/ARCH_LUXURY_VISUAL_DIRECTION.md` §4
+
 ## JavaScript Rules
 - **NO jQuery** — Alpine.js + Vanilla ES6+
 - All vendor scripts: CDN with `defer`, loaded in footer
@@ -236,12 +271,19 @@ lenis.on('scroll', ScrollTrigger.update);
 - **ALWAYS use CSS variables** for brand-specific values:
   - ✅ `bg-[var(--color-primary)]` or custom Tailwind color `bg-primary`
   - ❌ `bg-[#14513D]` — NEVER hardcode hex in templates
+- **Color Ratio 60-25-10-5 (Brand Guide) — BẮT BUỘC tuân thủ:**
+  - **60% Green** (`#14513D`) — Nav, footer, hero, dark sections, mảng khối lớn
+  - **25% Beige** (`#D8C7A3`) — Section xen kẽ, testimonial, process, card backgrounds
+  - **10% White** (`#FFFFFF`) — Chỉ 1-2 sections nhẹ, breathing room
+  - **5% Orange** (`#FF8A00`) — CHỈ CTA buttons, active states, hover borders
+  - **Black** (`#000000`) — Typography & line system (không tính vào tỷ lệ)
+  - > Khi scroll toàn trang: Xanh đậm chủ đạo, Beige ấm áp, White chỉ khoảng thở nhỏ, Cam chỉ ở CTA/accents
 - **Card hover pattern** (unified across ALL cards):
   ```css
   .card { @apply shadow-md transition-all duration-300; }
   .card:hover { @apply shadow-xl -translate-y-1; }
   ```
-- **Section backgrounds** must alternate: Dark → Light → Alt → Light → Dark
+- **Section backgrounds** phải tuân theo tỷ lệ 60-25-10-5. KHÔNG bao giờ 2 sections cùng nhóm màu liền nhau
 - **Easing:** Use GSAP easing (`power2.out`) for JS animations, Tailwind transitions for CSS
 - **Focus visible:** `@apply outline-2 outline-offset-2 outline-primary`
 - Full system: `docs/ARCH_DESIGN_TOKENS.md` §9

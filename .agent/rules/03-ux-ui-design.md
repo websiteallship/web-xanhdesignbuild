@@ -32,11 +32,14 @@ globs: wp-content/themes/xanh-theme/**/*.{php,css}
 - Section gap (title → content): `var(--section-gap)` (48px)
 - Mobile: 1 column, `var(--space-6)` padding | Tablet: 2 cols | Desktop: 3-4 cols
 
-## Section Background Rotation ★
+## Section Background Rotation ★ (Color Ratio 60-25-10-5)
 ```
-Dark (#14513D) → White → Light (#F3F4F6) → White → Dark → Beige (#D8C7A3) → White → Dark
+GREEN (#14513D)  → BEIGE (#D8C7A3) → GREEN → GREEN(grad) → WHITE (#FFF)
+→ BEIGE → GREEN → BEIGE → WHITE → GREEN(grad) → GREEN footer
 ```
-> **KHÔNG** bao giờ 2 sections cùng màu nền liền nhau
+> **Tỷ lệ:** GREEN ~60% (6/11 sections) / BEIGE ~25% (3/11) / WHITE ~10% (2/11) / ORANGE chỉ CTA/accents ~5%
+> **KHÔNG** bao giờ 2 sections cùng nhóm màu liền nhau
+> **Nguồn:** Brand & Visual Style Guide chính thức — xem `docs/ARCH_DESIGN_TOKENS.md` §1
 
 ## Component Library (27 items)
 Full specs: `docs/ARCH_UI_PATTERNS.md`

@@ -19,6 +19,7 @@ globs: **/*
 
 ## Design Aesthetic
 - **Phong cách:** Warm Luxury — Ít chi tiết, chất lượng cao, khoảng trắng rộng, tông ấm
+- **Color Ratio (Brand Guide):** 60% Green `#14513D` / 25% Beige `#D8C7A3` / 10% White `#FFFFFF` / 5% Orange `#FF8A00`. Black `#000000` linh hoạt cho typography — không tính vào tỷ lệ
 - **Photography:** Ánh sáng tự nhiên, editorial, tông ấm, detail shots. KHÔNG stock photos
 - **Typography:** Inter (headings + body). Letter-spacing: -0.02em headings
 - **Motion:** GSAP + ScrollTrigger — mượt mà, tinh tế. Stagger 100ms cho luxury cascading
