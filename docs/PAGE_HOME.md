@@ -18,11 +18,13 @@
 ## Section 1: Hero — The Hook (100vh)
 
 ### Content
+
 - **Headline:** *"Đừng Chỉ Xây Một Ngôi Nhà. Hãy Xây Dựng Sự Bình Yên."*
 - **Sub-headline:** *"Tại Xanh, chúng tôi tin rằng hành trình kiến tạo tổ ấm không nên bắt đầu bằng sự lo âu..."*
 - **CTA:** `[Lắng Nghe Câu Chuyện Của Xanh]` — Cam #FF8A00
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Background | Video/ảnh nền: gia đình bình yên + timelapse thi công |
@@ -34,6 +36,7 @@
 | Preloader (#20) | Logo Xanh + xoay lá → fade out vào Hero. Chỉ lần đầu (`sessionStorage`) |
 
 ### Animation
+
 - Headline: Fade-in từ dưới, delay 0.5s (sau preloader)
 - Sub-headline: Fade-in, delay 0.8s
 - CTA: Fade-in + subtle pulse, delay 1.2s
@@ -43,11 +46,13 @@
 ## Section 2: Nỗi Trăn Trở — Empathy
 
 ### Content
+
 - **Headline:** *"Chúng Tôi Từng Thấy Những Ngôi Nhà Đánh Cắp Nụ Cười Của Gia Chủ..."*
 - **Body:** Đoạn text cảm xúc về góc khuất ngành xây dựng (bảng dự toán "chào mồi", vật liệu kém, bảo hành im lặng...)
 - **Câu chốt:** *"Đó không phải là cách một tổ ấm được sinh ra. Và đó là lúc, **Xanh** chọn đi một con đường khác."*
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Background | **Parallax (#14)**: Ảnh công trường bừa bộn cố định, text cuộn phía trên |
@@ -57,6 +62,7 @@
 | Padding | `--space-24` vertical |
 
 ### Animation
+
 - Text blocks: Fade-in tuần tự từng đoạn khi scroll
 
 ---
@@ -64,10 +70,12 @@
 ## Section 3: Triết Lý "4 Xanh" — Core Values
 
 ### Content
+
 - **Headline:** *"Con Đường Của Xanh: Xây Bằng Sự Tử Tế & Tầm Nhìn Thế Hệ"*
 - 4 Cards: Chi phí / Vật liệu / Vận hành / Giá trị (với icon + mô tả)
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Layout | Grid 4 cột (desktop), 2 cột (tablet), 1 cột (mobile) |
@@ -77,6 +85,7 @@
 | Icons | SVG custom 4 chiếc (Đồng xu, Lá cây, Nắng, Bắt tay) |
 
 ### Animation
+
 - Cards: Stagger fade-in (100ms delay mỗi card)
 - Card flip: CSS `transform: rotateY(180deg)` trên hover
 
@@ -85,9 +94,11 @@
 ## ★ Section 3.5: Animated Counter (#10)
 
 ### Content
+
 4 con số: **"100% Không Phát Sinh"** / **"X+ Công Trình"** / **"24/7 Bảo Hành"** / **"X Năm Kinh Nghiệm"**
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Background | `--color-primary` (#14513D) full-width |
@@ -103,11 +114,13 @@
 ## ★ Section 4: Lĩnh Vực Thực Hiện (Services)
 
 ### Content
+
 - **Headline:** *"Giải Pháp Khép Kín. Dấu Ấn Độc Bản."*
 - **Sub-headline:** *"Từ ý tưởng kiến trúc sơ khai đến khi trao tay chiếc chìa khóa tổ ấm — Xanh đồng hành cùng bạn trong mọi giai đoạn."*
 - 4 Cards Dịch Vụ chính: Thiết kế Kiến trúc & Nội thất, Thi công Xây dựng Trọn gói, Sản xuất & Thi công Nội thất, Cải tạo & Nâng cấp.
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Background | `--color-beige-light` (#F5F0E8) để cân bằng tỷ lệ 25% Beige |
@@ -117,6 +130,7 @@
 | Hover | Scale ảnh nhẹ, nhích lên (translateY), chữ chuyển màu Cam `--color-accent` |
 
 ### Animation
+
 - Cards: Stagger fade-in up khi cuộn đến (100ms delay mỗi card)
 
 ---
@@ -124,12 +138,14 @@
 ## Section 5: Proof of Concept — Before/After
 
 ### Content
+
 - **Headline:** *"Những Câu Chuyện Đã Được Viết Nên Bằng Sự Thật"*
-- Before/After Slider cho 1-2 dự án tiêu biểu
+- Before/After Slider cho 3 - 4 dự án tiêu biểu
 - Quote nhỏ kể bài toán gia chủ
 - **CTA:** `[Khám Phá Các Tác Phẩm Khác]`
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Component | Before/After Image Slider (#1) |
@@ -139,6 +155,7 @@
 | Data source | ACF Relationship: `featured_projects` |
 
 ### Animation
+
 - Subtle zoom on scroll cho thumbnail bên cạnh slider
 
 ---
@@ -146,11 +163,13 @@
 ## Section 6: Công Cụ Dự Toán — Lead Capture
 
 ### Content
+
 - **Headline:** *"Hãy Để Sự Minh Bạch Bắt Đầu Ngay Lúc Này"*
 - Form dự toán ngắn gọn (Fluent Form)
 - **CTA:** `[Nhận Bản Dự Toán Tham Khảo Ngay]` — Cam
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Form plugin | Fluent Form |
@@ -167,10 +186,12 @@
 ## Section 7: Quy Trình 6 Bước — Process Steps (#2)
 
 ### Content
+
 - **Headline:** *"Chúng Tôi Đồng Hành Cùng Bạn Đến Từng Viên Gạch Cuối Cùng"*
 - 6 bước: Tư vấn → Thiết kế → Ký kết → Thi công → Bàn giao → Bảo trì
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Desktop | **Horizontal stepper** — 6 dots nối bằng line |
@@ -185,11 +206,13 @@
 ## Section 8: Testimonials — Social Proof
 
 ### Content
+
 - **Headline:** *"Chủ Nhà Nói Gì Về Xanh?"*
 - 3-4 trích dẫn ngắn + ảnh chủ nhà tại ngôi nhà
 - **Video Popup (#17):** Nút ▶ xem video phỏng vấn (nếu có)
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Layout | Carousel hoặc Grid quotes |
@@ -203,6 +226,7 @@
 ## ★ Section 8.5: Partner Logos Bar (#13)
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Library | Swiper hoặc Splide |
@@ -218,11 +242,13 @@
 ## Section 9: CTA Kết Thúc — The Invitation
 
 ### Content
+
 - **Headline:** *"Cùng Xanh, Viết Tiếp Câu Chuyện Của Riêng Bạn"*
 - **CTA 1:** `[Gặp Gỡ Đội Ngũ Của Xanh — Mức Phí 0 Đồng]`
 - **CTA 2:** `[Tải Cẩm Nang: "Xây Nhà Không Phát Sinh Chi Phí"]`
 
 ### UX/UI Specs
+
 | Thuộc tính | Giá trị |
 |---|---|
 | Background | **Parallax (#14)**: Ảnh panorama công trình đẹp nhất |

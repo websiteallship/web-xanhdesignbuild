@@ -362,3 +362,422 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+/* ============================================= */
+/* SECTION CTA — Scroll entrance animation        */
+/* ============================================= */
+(function () {
+  'use strict';
+
+  const ctaSection = document.getElementById('cta');
+  if (!ctaSection) return;
+
+  const ctaEls = ctaSection.querySelectorAll('.cta-el');
+  const ctaImgPanel = ctaSection.querySelector('.cta-panel--image');
+  const counterEls = ctaSection.querySelectorAll('.cta-badge__num[data-count]');
+
+  /* ── Counter animation ── */
+  function animateCounters() {
+    counterEls.forEach((el) => {
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800; // ms
+      const start = performance.now();
+
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // easeOutQuart for a snappy feel
+        const ease = 1 - Math.pow(1 - progress, 4);
+        const current = Math.round(ease * target);
+        el.textContent = current + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+
+      requestAnimationFrame(update);
+    });
+  }
+
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // Set initial states
+    gsap.set(ctaEls, { opacity: 0, y: 36 });
+    if (ctaImgPanel) gsap.set(ctaImgPanel, { opacity: 0, x: 40 });
+
+    ScrollTrigger.create({
+      trigger: ctaSection,
+      start: 'top 78%',
+      once: true,
+      onEnter: () => {
+        // Stagger in the text elements
+        gsap.to(ctaEls, {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          ease: 'power3.out',
+          stagger: 0.12,
+        });
+        // Slide in the image panel
+        if (ctaImgPanel) {
+          gsap.to(ctaImgPanel, {
+            opacity: 1,
+            x: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            delay: 0.1,
+          });
+        }
+        // Start counter animation after badges become visible
+        setTimeout(animateCounters, 500);
+      },
+    });
+  } else {
+    // Fallback: IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ctaEls.forEach((el, i) => {
+              setTimeout(() => el.classList.add('is-visible'), i * 120);
+            });
+            if (ctaImgPanel) ctaImgPanel.classList.add('is-visible');
+            setTimeout(animateCounters, 500);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(ctaSection);
+  }
+})();
+
+/* ============================================= */
+/* SECTION 5 — Before / After Slider + Thumbnails */
+/* ============================================= */
+(function () {
+  'use strict';
+
+  /* ── Project data ── */
+  function buildMetaHTML(area, duration, year) {
+    return `
+      <span class="meta-item"><i data-lucide="maximize"></i> ${area}</span>
+      <span class="meta-sep"></span>
+      <span class="meta-item"><i data-lucide="clock"></i> ${duration}</span>
+      <span class="meta-sep"></span>
+      <span class="meta-item"><i data-lucide="calendar"></i> ${year}</span>
+    `;
+  }
+
+  const PROJECTS = [
+    {
+      beforeImg: 'img/project-before-1.png',
+      afterImg:  'img/project-after-1.png',
+      tag:       'Cải tạo toàn diện',
+      title:     'Nhà Phố Quận 7',
+      meta:      buildMetaHTML('120 m²', '6 tháng', '2025'),
+      quote:     '"Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành hiện thực — đúng tiến độ, đúng chi phí."',
+      author:    '— Anh Minh & Chị Hương, Q7, TP.HCM',
+    },
+    {
+      beforeImg: '../img/project-3.png',
+      afterImg:  '../img/project-2.png',
+      tag:       'Xây mới trọn gói',
+      title:     'Biệt Thự Thảo Điền',
+      meta:      buildMetaHTML('280 m²', '14 tháng', '2024'),
+      quote:     '"Từ mảnh đất trống đến ngôi nhà mơ ước — XANH tận tâm từ bản vẽ đầu tiên đến ngày bàn giao chìa khoá."',
+      author:    '— Gia đình anh Tuấn, Thảo Điền, Q2',
+    },
+    {
+      beforeImg: '../img/project-4.png',
+      afterImg:  '../img/project-3.png',
+      tag:       'Thiết kế nội thất',
+      title:     'Penthouse Quận 2',
+      meta:      buildMetaHTML('95 m²', '3 tháng', '2024'),
+      quote:     '"Không gian sống thay đổi hoàn toàn — sang trọng, tinh tế nhưng vẫn ấm cúng cho gia đình nhỏ."',
+      author:    '— Chị Linh, Thủ Thiêm, Q2',
+    },
+    {
+      beforeImg: '../img/project-1.png',
+      afterImg:  '../img/project-4.png',
+      tag:       'Xây mới & nội thất',
+      title:     'Villa Bình Dương',
+      meta:      buildMetaHTML('350 m²', '18 tháng', '2023'),
+      quote:     '"XANH đã giúp chúng tôi xây dựng không chỉ một ngôi nhà, mà cả một phong cách sống mới — hòa mình với thiên nhiên."',
+      author:    '— Anh Phúc & Chị Ngọc, Bình Dương',
+    },
+  ];
+
+  let currentIndex = 0;
+  let isDragging = false;
+
+  /* ── DOM refs ── */
+  const slider      = document.getElementById('ba-slider');
+  const beforeClip  = document.getElementById('ba-before-clip');
+  const beforeImg   = document.getElementById('ba-before-img');
+  const afterImg    = document.getElementById('ba-after-img');
+  const handle      = document.getElementById('ba-handle');
+  const tagEl       = document.getElementById('ba-tag');
+  const titleEl     = document.getElementById('ba-title');
+  const metaEl      = document.getElementById('ba-meta');
+  const quoteEl     = document.getElementById('ba-quote');
+  const authorEl    = document.getElementById('ba-author');
+  const thumbs      = document.querySelectorAll('.project-thumb');
+
+  if (!slider) return; // Section not in DOM
+
+  /* ── Before/After drag logic ── */
+  function setSliderPosition(pct) {
+    pct = Math.max(0, Math.min(100, pct));
+    // clip-path: inset(0 <right>% 0 0) — right is 100-pct
+    beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+    handle.style.left = pct + '%';
+  }
+
+  function getPercentFromEvent(e) {
+    const rect = slider.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    return (x / rect.width) * 100;
+  }
+
+  slider.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    slider.setPointerCapture(e.pointerId);
+    setSliderPosition(getPercentFromEvent(e));
+  });
+
+  slider.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    setSliderPosition(getPercentFromEvent(e));
+  });
+
+  slider.addEventListener('pointerup', () => { isDragging = false; });
+  slider.addEventListener('pointercancel', () => { isDragging = false; });
+
+  // Initial position
+  window.addEventListener('load', () => {
+    setSliderPosition(50);
+  });
+  setSliderPosition(50);
+
+  /* ── Thumbnail click → switch project ── */
+  function switchProject(index) {
+    if (index === currentIndex) return;
+    currentIndex = index;
+    const proj = PROJECTS[index];
+
+    // Update active thumbnail
+    thumbs.forEach((t) => t.classList.remove('is-active'));
+    thumbs[index]?.classList.add('is-active');
+
+    // Cross-fade images + info text using GSAP if available
+    if (typeof gsap !== 'undefined') {
+      const tl = gsap.timeline();
+      tl.to([afterImg, beforeClip], { opacity: 0, duration: 0.3, ease: 'power2.in' })
+        .to('#ba-info', { opacity: 0, y: 12, duration: 0.25, ease: 'power2.in' }, '<')
+        .call(() => {
+          afterImg.src   = proj.afterImg;
+          beforeImg.src  = proj.beforeImg;
+          tagEl.textContent    = proj.tag;
+          titleEl.textContent  = proj.title;
+          metaEl.innerHTML     = proj.meta;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          quoteEl.textContent  = proj.quote;
+          authorEl.textContent = proj.author;
+          setSliderPosition(50);
+        })
+        .to([afterImg, beforeClip], { opacity: 1, duration: 0.35, ease: 'power2.out' })
+        .to('#ba-info', { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '<0.1');
+    } else {
+      // Fallback: instant swap
+      afterImg.src   = proj.afterImg;
+      beforeImg.src  = proj.beforeImg;
+      tagEl.textContent    = proj.tag;
+      titleEl.textContent  = proj.title;
+      metaEl.innerHTML     = proj.meta;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      quoteEl.textContent  = proj.quote;
+      authorEl.textContent = proj.author;
+      setSliderPosition(50);
+    }
+  }
+
+  thumbs.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.index, 10);
+      switchProject(idx);
+    });
+  });
+
+  /* ── GSAP scroll entrance animations ── */
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const projectsSection = document.getElementById('projects');
+    if (projectsSection) {
+      // Header elements
+      const headerEls = projectsSection.querySelectorAll('.projects-el');
+      // Slider + Info panel children
+      const sliderWrap = projectsSection.querySelector('.ba-slider-wrap');
+      const infoPanel = projectsSection.querySelector('.ba-info');
+      const infoChildren = infoPanel
+        ? infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
+        : [];
+      // Thumbnails
+      const thumbCards = projectsSection.querySelectorAll('.project-thumb');
+      // Handle for wiggle hint
+      const handleKnob = projectsSection.querySelector('.ba-slider__handle-knob');
+
+      // Set initial states
+      gsap.set(headerEls, { opacity: 0, y: 40 });
+      if (sliderWrap) gsap.set(sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
+      if (infoChildren.length) gsap.set(infoChildren, { opacity: 0, x: 30 });
+      if (thumbCards.length) gsap.set(thumbCards, { opacity: 0, y: 30, scale: 0.95 });
+
+      ScrollTrigger.create({
+        trigger: projectsSection,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          const tl = gsap.timeline();
+
+          // 1) Header stagger in
+          tl.to(headerEls, {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            stagger: 0.12,
+          });
+
+          // 2) Slider slides in from left
+          if (sliderWrap) {
+            tl.to(sliderWrap, {
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              duration: 0.8,
+              ease: 'power3.out',
+            }, '-=0.3');
+          }
+
+          // 3) Info panel children stagger in from right
+          if (infoChildren.length) {
+            tl.to(infoChildren, {
+              opacity: 1,
+              x: 0,
+              duration: 0.6,
+              ease: 'power3.out',
+              stagger: 0.08,
+            }, '-=0.5');
+          }
+
+          // 4) Thumbnails cascade from bottom
+          if (thumbCards.length) {
+            tl.to(thumbCards, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.6,
+              ease: 'back.out(1.4)',
+              stagger: 0.1,
+            }, '-=0.3');
+          }
+
+          // 5) Slider handle wiggle hint (after entrance is done)
+          if (handleKnob) {
+            tl.call(() => setSliderPosition(35), null, '+=0.4')
+            .to(handle, {
+              left: '35%',
+              duration: 0.5,
+              ease: 'power2.inOut',
+              onUpdate: () => {
+                const pct = parseFloat(handle.style.left);
+                setSliderPosition(pct);
+              },
+            }, '<')
+            .to(handle, {
+              left: '65%',
+              duration: 0.7,
+              ease: 'power2.inOut',
+              onUpdate: () => {
+                const pct = parseFloat(handle.style.left);
+                setSliderPosition(pct);
+              },
+            })
+            .to(handle, {
+              left: '50%',
+              duration: 0.5,
+              ease: 'power2.inOut',
+              onUpdate: () => {
+                const pct = parseFloat(handle.style.left);
+                setSliderPosition(pct);
+              },
+            });
+          }
+        },
+      });
+    }
+  }
+})();
+
+/* ============================================= */
+/* SECTION 7 — Process Steps Accordion           */
+/* ============================================= */
+(function () {
+  'use strict';
+
+  const section = document.getElementById('process');
+  if (!section) return;
+
+  const panels = section.querySelectorAll('.process-panel');
+
+  /* ── Click handler: toggle active panel ── */
+  panels.forEach((panel) => {
+    panel.addEventListener('click', () => {
+      if (panel.classList.contains('is-active')) return;
+      // Remove active from all
+      panels.forEach((p) => p.classList.remove('is-active'));
+      // Set clicked as active
+      panel.classList.add('is-active');
+    });
+  });
+
+  /* ── GSAP Scroll entrance animation ── */
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const headerEls = section.querySelectorAll('.process-el');
+    const accordion = section.querySelector('.process-accordion');
+
+    gsap.set(headerEls, { opacity: 0, y: 40 });
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline();
+
+        // Header stagger in
+        tl.to(headerEls, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.12,
+        });
+      },
+    });
+  } else {
+    // Fallback: IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            section.querySelectorAll('.process-el').forEach((el, i) => {
+              setTimeout(() => el.classList.add('is-visible'), i * 120);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+  }
+})();
