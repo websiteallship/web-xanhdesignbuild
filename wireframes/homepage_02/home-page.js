@@ -504,6 +504,33 @@ document.addEventListener('DOMContentLoaded', () => {
       quote:     '"XANH đã giúp chúng tôi xây dựng không chỉ một ngôi nhà, mà cả một phong cách sống mới — hòa mình với thiên nhiên."',
       author:    '— Anh Phúc & Chị Ngọc, Bình Dương',
     },
+    {
+      beforeImg: '../img/project-2.png',
+      afterImg:  '../img/project-1.png',
+      tag:       'Cải tạo & mở rộng',
+      title:     'Nhà Vườn Gò Vấp',
+      meta:      buildMetaHTML('180 m²', '9 tháng', '2024'),
+      quote:     '"Ngôi nhà cũ kỹ nay trở thành không gian sống hiện đại, thoáng đãng. XANH đã lắng nghe và hiểu chúng tôi từng chi tiết nhỏ."',
+      author:    '— Chị Mai & Anh Bảo, Gò Vấp, TP.HCM',
+    },
+    {
+      beforeImg: '../img/project-4.png',
+      afterImg:  '../img/project-2.png',
+      tag:       'Thiết kế & thi công',
+      title:     'Shophouse Phú Mỹ Hưng',
+      meta:      buildMetaHTML('240 m²', '11 tháng', '2023'),
+      quote:     '"Từ không gian thương mại đến nhà ở — XANH tích hợp khéo léo, vừa chuyên nghiệp vừa ấm áp như một ngôi nhà thật thụ."',
+      author:    '— Anh Khoa, Phú Mỹ Hưng, Q7',
+    },
+    {
+      beforeImg: '../img/project-3.png',
+      afterImg:  '../img/project-3.png',
+      tag:       'Xây mới trọn gói',
+      title:     'Biệt Thự Nhà Bè',
+      meta:      buildMetaHTML('420 m²', '22 tháng', '2022'),
+      quote:     '"Chúng tôi tin tưởng giao toàn bộ dự án cho XANH — và kết quả vượt xa mong đợi. Một ngôi nhà đẹp, bền, đúng tiến độ."',
+      author:    '— Gia đình anh Hùng, Nhà Bè, TP.HCM',
+    },
   ];
 
   let currentIndex = 0;
@@ -523,6 +550,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const thumbs      = document.querySelectorAll('.project-thumb');
 
   if (!slider) return; // Section not in DOM
+
+  /* ── Thumbs Swiper (desktop) ── */
+  let thumbsSwiper = null;
+  if (typeof Swiper !== 'undefined') {
+    thumbsSwiper = new Swiper('.projects-thumbs-swiper', {
+      slidesPerView: 2,
+      spaceBetween: 12,
+      loop: true,
+      watchOverflow: true,
+      navigation: {
+        prevEl: '.projects-thumbs-prev',
+        nextEl: '.projects-thumbs-next',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 3,
+          spaceBetween: 16,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+      },
+    });
+
+    /* ── Mobile Projects Swiper (≤1023px) ── */
+    new Swiper('.projects-mobile-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      pagination: {
+        el: '.projects-mobile-pagination',
+        clickable: true,
+      },
+      navigation: {
+        prevEl: '.projects-mobile-prev',
+        nextEl: '.projects-mobile-next',
+      },
+    });
+  }
 
   /* ── Before/After drag logic ── */
   function setSliderPosition(pct) {
@@ -567,6 +634,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update active thumbnail
     thumbs.forEach((t) => t.classList.remove('is-active'));
     thumbs[index]?.classList.add('is-active');
+
+    // Slide clicked thumb to first position (works correctly with loop:true)
+    if (thumbsSwiper) {
+      thumbsSwiper.slideToLoop(index);
+    }
 
     // Cross-fade images + info text using GSAP if available
     if (typeof gsap !== 'undefined') {
@@ -619,8 +691,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const infoChildren = infoPanel
         ? infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
         : [];
-      // Thumbnails
-      const thumbCards = projectsSection.querySelectorAll('.project-thumb');
+      // Thumbnail slides (Swiper slides)
+      const thumbSlides = projectsSection.querySelectorAll('.projects-thumbs-swiper .swiper-slide');
       // Handle for wiggle hint
       const handleKnob = projectsSection.querySelector('.ba-slider__handle-knob');
 
@@ -628,7 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.set(headerEls, { opacity: 0, y: 40 });
       if (sliderWrap) gsap.set(sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
       if (infoChildren.length) gsap.set(infoChildren, { opacity: 0, x: 30 });
-      if (thumbCards.length) gsap.set(thumbCards, { opacity: 0, y: 30, scale: 0.95 });
+      if (thumbSlides.length) gsap.set(thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
 
       ScrollTrigger.create({
         trigger: projectsSection,
@@ -668,9 +740,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, '-=0.5');
           }
 
-          // 4) Thumbnails cascade from bottom
-          if (thumbCards.length) {
-            tl.to(thumbCards, {
+          // 4) Thumbnail slides cascade from bottom
+          if (thumbSlides.length) {
+            tl.to(thumbSlides, {
               opacity: 1,
               y: 0,
               scale: 1,
@@ -779,5 +851,89 @@ document.addEventListener('DOMContentLoaded', () => {
       { threshold: 0.15 }
     );
     observer.observe(section);
+  }
+})();
+
+/* ============================================= */
+/* SECTION 8.5 — Partner Logos Bar (Swiper)      */
+/* ============================================= */
+(function () {
+  'use strict';
+
+  const partnersSection = document.getElementById('partners');
+  if (!partnersSection) return;
+
+  /* ── Swiper: Continuous Ribbon ── */
+  if (typeof Swiper !== 'undefined') {
+    new Swiper('.partners-swiper', {
+      loop: true,
+      speed: 3000,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      slidesPerView: 2,
+      spaceBetween: 24,
+      freeMode: true,
+      freeModeMomentum: false,
+      allowTouchMove: true,
+      breakpoints: {
+        640: {
+          slidesPerView: 3,
+          spaceBetween: 32,
+        },
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 5,
+          spaceBetween: 48,
+        },
+      },
+    });
+  }
+
+  /* ── GSAP Scroll entrance animation ── */
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const partnerEls = partnersSection.querySelectorAll('.partners-el');
+
+    gsap.set(partnerEls, { opacity: 0, y: 24 });
+
+    ScrollTrigger.create({
+      trigger: partnersSection,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to(partnerEls, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.15,
+        });
+      },
+    });
+  } else {
+    // Fallback: IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            partnersSection.querySelectorAll('.partners-el').forEach((el, i) => {
+              setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+              }, i * 150);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(partnersSection);
   }
 })();
