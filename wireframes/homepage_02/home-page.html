@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>XANH - Design & Build | Kiến Tạo Tổ Ấm Bình Yên</title>
-  <meta name="description" content="XANH - Design & Build: Thiết kế và xây dựng nhà ở bền vững, minh bạch, kiến tạo tổ ấm bình yên cho gia đình Việt." />
+  <meta name="description"
+    content="XANH - Design & Build: Thiết kế và xây dựng nhà ở bền vững, minh bạch, kiến tạo tổ ấm bình yên cho gia đình Việt." />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,6 +51,7 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" href="home-page.css" />
 </head>
+
 <body class="font-body bg-[#1e1e1e] text-dark antialiased overflow-x-hidden">
 
   <!-- ============================================= -->
@@ -58,24 +61,40 @@
     <nav class="relative flex items-center justify-between px-5 md:px-8 lg:px-12 xl:px-16 py-4 lg:py-5">
 
       <!-- Logo: Desktop left | Mobile centered -->
-      <a href="#" class="relative flex items-center lg:static absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto group" id="logo-link">
+      <a href="#"
+        class="relative flex items-center lg:static absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto group"
+        id="logo-link">
         <!-- White Logo (Default/transparent header) -->
-        <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto logo-white transition-opacity duration-300" />
+        <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build"
+          class="h-8 lg:h-9 w-auto logo-white transition-opacity duration-300" />
         <!-- Normal/Dark Logo (Scrolled header) -->
-        <img src="../SVG/LOGO FULL TAGLINE/LOGO-01.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto absolute top-1/2 -translate-y-1/2 left-0 opacity-0 logo-dark transition-opacity duration-300" />
+        <img src="../SVG/LOGO FULL TAGLINE/LOGO-01.svg" alt="XANH Design & Build"
+          class="h-8 lg:h-9 w-auto absolute top-1/2 -translate-y-1/2 left-0 opacity-0 logo-dark transition-opacity duration-300" />
       </a>
 
       <!-- Desktop Menu -->
       <ul class="hidden lg:flex items-center gap-10" id="desktop-menu">
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Trang Chủ</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Giới Thiệu</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Dự Án</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Dịch Vụ</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Blog</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Trang
+            Chủ</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Giới
+            Thiệu</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Dự
+            Án</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Dịch
+            Vụ</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative">Blog</a>
+        </li>
       </ul>
 
       <!-- Desktop CTA -->
-      <a href="#" class="hidden lg:inline-flex items-center px-6 py-2.5 border border-white/80 text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-dark transition-all duration-300" id="header-cta">
+      <a href="#"
+        class="hidden lg:inline-flex items-center px-6 py-2.5 border border-white/80 text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-dark transition-all duration-300"
+        id="header-cta">
         Liên Hệ
       </a>
 
@@ -83,11 +102,8 @@
   </header>
 
   <!-- Mobile Menu Toggle — Fixed above drawer for close functionality -->
-  <button
-    class="lg:hidden fixed top-4 right-5 z-[1010] w-10 h-10 flex flex-col justify-center items-center gap-[6px]"
-    id="mobile-menu-btn"
-    aria-label="Toggle Menu"
-  >
+  <button class="lg:hidden fixed top-4 right-5 z-[1010] w-10 h-10 flex flex-col justify-center items-center gap-[6px]"
+    id="mobile-menu-btn" aria-label="Toggle Menu">
     <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
     <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
     <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
@@ -97,10 +113,13 @@
   <!-- MOBILE DRAWER MENU                            -->
   <!-- ============================================= -->
   <!-- Overlay backdrop -->
-  <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-[998] opacity-0 pointer-events-none transition-opacity duration-400"></div>
+  <div id="mobile-overlay"
+    class="fixed inset-0 bg-black/60 z-[998] opacity-0 pointer-events-none transition-opacity duration-400"></div>
 
   <!-- Drawer panel -->
-  <aside id="mobile-drawer" class="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] bg-primary z-[999] flex flex-col translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" aria-label="Mobile navigation">
+  <aside id="mobile-drawer"
+    class="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] bg-primary z-[999] flex flex-col translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+    aria-label="Mobile navigation">
 
     <!-- Drawer Header -->
     <div class="flex items-center justify-start px-6 py-5 border-b-[0.5px] border-white/30">
@@ -114,31 +133,36 @@
     <nav class="flex-1 overflow-y-auto py-4">
       <ul class="flex flex-col">
         <li>
-          <a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
             Trang Chủ
             <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
           </a>
         </li>
         <li>
-          <a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
             Giới Thiệu
             <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
           </a>
         </li>
         <li>
-          <a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
             Dự Án
             <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
           </a>
         </li>
         <li>
-          <a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
             Dịch Vụ
             <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
           </a>
         </li>
         <li>
-          <a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
             Blog
             <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
           </a>
@@ -147,7 +171,8 @@
 
       <!-- CTA inside drawer -->
       <div class="px-6 mt-6">
-        <a href="#" class="flex items-center justify-center w-full py-3 bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent/90 transition-colors duration-300">
+        <a href="#"
+          class="flex items-center justify-center w-full py-3 bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent/90 transition-colors duration-300">
           Liên Hệ Ngay
         </a>
       </div>
@@ -157,13 +182,22 @@
     <div class="px-6 py-5 border-t-[0.5px] border-white/20">
       <div class="flex items-center gap-5">
         <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" aria-label="Facebook">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+          </svg>
         </a>
         <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" aria-label="Instagram">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+          </svg>
         </a>
         <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" aria-label="YouTube">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
         </a>
       </div>
       <p class="text-white/30 text-xs mt-3 tracking-wide">© 2026 XANH Design & Build</p>
@@ -179,10 +213,12 @@
     <div class="swiper hero-swiper absolute inset-0 w-full h-full">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img src="../img/hero-house.png" alt="Biệt thự hiện đại giữa thiên nhiên — XANH" class="w-full h-full object-cover" />
+          <img src="../img/hero-house.png" alt="Biệt thự hiện đại giữa thiên nhiên — XANH"
+            class="w-full h-full object-cover" />
         </div>
         <div class="swiper-slide">
-          <img src="../img/hero-bg.png" alt="Gia đình hạnh phúc trong tổ ấm — XANH" class="w-full h-full object-cover" />
+          <img src="../img/hero-bg.png" alt="Gia đình hạnh phúc trong tổ ấm — XANH"
+            class="w-full h-full object-cover" />
         </div>
         <div class="swiper-slide">
           <img src="../img/project-1.png" alt="Nhà phố nhiệt đới hiện đại — XANH" class="w-full h-full object-cover" />
@@ -197,16 +233,19 @@
     <div class="hero-content relative z-20 flex flex-col justify-center h-full site-container site-container--hero">
       <div class="max-w-2xl lg:max-w-3xl">
         <!-- Headline -->
-        <h1 id="hero-headline" class="hero-headline text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.2rem] font-bold !leading-[1.5] tracking-[-0.02em] mb-7 md:mb-9">
-          Đừng Chỉ Xây Một Ngôi Nhà.<br/>
+        <h1 id="hero-headline"
+          class="hero-headline text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.2rem] font-bold !leading-[1.5] tracking-[-0.02em] mb-7 md:mb-9">
+          Đừng Chỉ Xây Một Ngôi Nhà.<br />
           <span class="font-light">Hãy Xây Dựng Sự Bình Yên.</span>
         </h1>
         <!-- Sub-headline -->
-        <p id="hero-subheadline" class="hero-subheadline text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-9 md:mb-11">
+        <p id="hero-subheadline"
+          class="hero-subheadline text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-9 md:mb-11">
           Tại Xanh, chúng tôi tin rằng hành trình kiến tạo tổ ấm không nên bắt đầu bằng sự lo âu...
         </p>
         <!-- CTA Button -->
-        <a href="#empathy" id="hero-cta" class="hero-cta inline-flex items-center gap-3 px-8 py-3.5 bg-accent text-white text-sm md:text-base font-semibold tracking-wide hover:bg-[#e67a00] transition-all duration-300 shadow-lg shadow-accent/20 hover:shadow-accent/30 hover:shadow-xl group">
+        <a href="#empathy" id="hero-cta"
+          class="hero-cta inline-flex items-center gap-3 px-8 py-3.5 bg-accent text-white text-sm md:text-base font-semibold tracking-wide hover:bg-[#e67a00] transition-all duration-300 shadow-lg shadow-accent/20 hover:shadow-accent/30 hover:shadow-xl group">
           <span>Lắng Nghe Câu Chuyện Của Xanh</span>
           <i data-lucide="arrow-down" class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"></i>
         </a>
@@ -214,7 +253,9 @@
     </div>
 
     <!-- Pagination Dots -->
-    <div class="swiper-pagination hero-pagination" style="position:absolute; bottom:28px; left:50% !important; right:auto !important; transform:translateX(-50%) !important; width:auto;"></div>
+    <div class="swiper-pagination hero-pagination"
+      style="position:absolute; bottom:28px; left:50% !important; right:auto !important; transform:translateX(-50%) !important; width:auto;">
+    </div>
   </section>
 
   <!-- ============================================= -->
@@ -249,18 +290,19 @@
           </span>
 
           <!-- Headline -->
-          <h2 class="empathy-el text-2xl md:text-3xl lg:text-[2.5rem] font-bold text-dark !leading-[1.3] tracking-[-0.02em] mb-8 md:mb-10">
+          <h2
+            class="empathy-el text-2xl md:text-3xl lg:text-[2.5rem] font-bold text-dark !leading-[1.3] tracking-[-0.02em] mb-8 md:mb-10">
             Chúng Tôi Từng Thấy Những Ngôi Nhà Đánh Cắp Nụ Cười Của Gia Chủ...
           </h2>
 
           <!-- Body Paragraphs -->
           <div class="space-y-6 mb-10 md:mb-14">
             <p class="empathy-el text-sm md:text-base text-gray-500 font-light !leading-[2] tracking-wide max-w-[52ch]">
-              Những bảng dự toán "chào mồi" thấp bất thường, rồi phát sinh liên tục. 
+              Những bảng dự toán "chào mồi" thấp bất thường, rồi phát sinh liên tục.
               Vật liệu kém chất lượng được lén thay thế. Bảo hành "im lặng" sau bàn giao.
             </p>
             <p class="empathy-el text-sm md:text-base text-gray-500 font-light !leading-[2] tracking-wide max-w-[52ch]">
-              Những gia chủ bắt đầu hành trình xây tổ ấm bằng sự háo hức, 
+              Những gia chủ bắt đầu hành trình xây tổ ấm bằng sự háo hức,
               rồi kết thúc bằng sự kiệt sức và thất vọng.
             </p>
           </div>
@@ -268,7 +310,7 @@
           <!-- Highlighted Quote Box -->
           <blockquote class="empathy-el empathy-quote">
             <p>
-              "Đó không phải là cách một tổ ấm được sinh ra. Và đó là lúc, 
+              "Đó không phải là cách một tổ ấm được sinh ra. Và đó là lúc,
               <strong>Xanh</strong> chọn đi một con đường khác."
             </p>
           </blockquote>
@@ -276,9 +318,8 @@
 
         <!-- RIGHT: Single Portrait Photo -->
         <div class="empathy-photo empathy-el">
-          <img src="../img/empathy-moody.png"
-               alt="Góc khuất ngành xây dựng — XANH Design & Build"
-               class="w-full h-full object-cover" loading="lazy" />
+          <img src="../img/empathy-moody.png" alt="Góc khuất ngành xây dựng — XANH Design & Build"
+            class="w-full h-full object-cover" loading="lazy" />
         </div>
 
       </div>
@@ -299,10 +340,12 @@
           <p class="values-el text-xs font-semibold tracking-[0.2em] uppercase text-beige/60 mb-6">
             Triết Lý Cốt Lõi
           </p>
-          <h2 class="values-el text-[2.5rem] md:text-[3rem] lg:text-[4rem] font-bold text-white !leading-[1.1] tracking-[-0.02em] mb-8">
+          <h2
+            class="values-el text-[2.5rem] md:text-[3rem] lg:text-[4rem] font-bold text-white !leading-[1.1] tracking-[-0.02em] mb-8">
             CON<br class="hidden md:block"> ĐƯỜNG<br class="hidden md:block"> CỦA<br class="hidden md:block"> XANH
           </h2>
-          <p class="values-el text-base text-beige font-medium italic !leading-[1.6] tracking-wide border-l-2 border-accent pl-4 max-w-[280px]">
+          <p
+            class="values-el text-base text-beige font-medium italic !leading-[1.6] tracking-wide border-l-2 border-accent pl-4 max-w-[280px]">
             Xây Bằng Sự Tử Tế & Tầm Nhìn Thế Hệ.
           </p>
         </div>
@@ -315,15 +358,17 @@
             <div class="core-value-item__header">
               <span class="core-value-item__number">01</span>
               <!-- Lucide: circle-dollar-sign -->
-              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
-                <path d="M12 18V6"/>
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                <path d="M12 18V6" />
               </svg>
             </div>
             <h3 class="core-value-item__title">Chi Phí<br>Xanh</h3>
             <p class="core-value-item__desc">
-              Dự toán minh bạch từ viên gạch đầu tiên. Cam kết không phát sinh ngoài hợp đồng — để gia chủ luôn an tâm về tài chính.
+              Dự toán minh bạch từ viên gạch đầu tiên. Cam kết không phát sinh ngoài hợp đồng — để gia chủ luôn an tâm
+              về tài chính.
             </p>
           </div>
 
@@ -332,14 +377,16 @@
             <div class="core-value-item__header">
               <span class="core-value-item__number">02</span>
               <!-- Lucide: leaf -->
-              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
               </svg>
             </div>
             <h3 class="core-value-item__title">Vật Liệu<br>Xanh</h3>
             <p class="core-value-item__desc">
-              Chọn lọc vật liệu chính hãng, thân thiện môi trường — tạo ra những giải pháp kiến trúc bền vững, tiên phong.
+              Chọn lọc vật liệu chính hãng, thân thiện môi trường — tạo ra những giải pháp kiến trúc bền vững, tiên
+              phong.
             </p>
           </div>
 
@@ -348,17 +395,23 @@
             <div class="core-value-item__header">
               <span class="core-value-item__number">03</span>
               <!-- Lucide: sun -->
-              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"/>
-                <path d="M12 2v2"/><path d="M12 20v2"/>
-                <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
-                <path d="M2 12h2"/><path d="M20 12h2"/>
-                <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
               </svg>
             </div>
             <h3 class="core-value-item__title">Vận Hành<br>Xanh</h3>
             <p class="core-value-item__desc">
-              Quy trình chuẩn ISO. Giám sát chất lượng 3 lớp, cập nhật tiến độ hàng tuần qua ứng dụng — minh bạch tuyệt đối.
+              Quy trình chuẩn ISO. Giám sát chất lượng 3 lớp, cập nhật tiến độ hàng tuần qua ứng dụng — minh bạch tuyệt
+              đối.
             </p>
           </div>
 
@@ -367,17 +420,20 @@
             <div class="core-value-item__header">
               <span class="core-value-item__number">04</span>
               <!-- Lucide: handshake -->
-              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m11 17 2 2a1 1 0 1 0 3-3"/>
-                <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/>
-                <path d="m21 3 1 11h-2"/>
-                <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/>
-                <path d="M3 4h8"/>
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+                <path
+                  d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+                <path d="m21 3 1 11h-2" />
+                <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+                <path d="M3 4h8" />
               </svg>
             </div>
             <h3 class="core-value-item__title">Giá Trị<br>Xanh</h3>
             <p class="core-value-item__desc">
-              Đồng hành tận tâm từ tư vấn đến bảo hành trọn đời — mỗi ngôi nhà XANH gia tăng giá trị cho thế hệ tiếp theo.
+              Đồng hành tận tâm từ tư vấn đến bảo hành trọn đời — mỗi ngôi nhà XANH gia tăng giá trị cho thế hệ tiếp
+              theo.
             </p>
           </div>
 
@@ -397,11 +453,13 @@
         <p class="services-el text-xs font-semibold tracking-[0.2em] uppercase text-primary/50 mb-4">
           Lĩnh Vực Hoạt Động
         </p>
-        <h2 class="services-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-primary !leading-[1.15] tracking-[-0.02em] mb-5">
+        <h2
+          class="services-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-primary !leading-[1.15] tracking-[-0.02em] mb-5">
           Giải Pháp Khép Kín.<br>Dấu Ấn Độc Bản.
         </h2>
         <p class="services-el text-base md:text-lg text-dark/70 max-w-[600px] mx-auto !leading-[1.7]">
-          Từ ý tưởng kiến trúc sơ khai đến khi trao tay chiếc chìa khóa tổ ấm — Xanh đồng hành cùng bạn trong mọi giai đoạn.
+          Từ ý tưởng kiến trúc sơ khai đến khi trao tay chiếc chìa khóa tổ ấm — Xanh đồng hành cùng bạn trong mọi giai
+          đoạn.
         </p>
       </div>
 
@@ -412,27 +470,20 @@
         <div class="service-card">
           <div class="service-card__img-wrap">
             <img src="img/service-architecture.png" alt="Thiết kế kiến trúc biệt thự hiện đại — XANH Design & Build"
-                 class="service-card__img" width="400" height="520" loading="lazy" />
+              class="service-card__img" width="400" height="520" loading="lazy" />
           </div>
           <div class="service-card__body">
-            <div class="service-card__icon">
-              <!-- Lucide: drafting-compass -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="5" r="2"/>
-                <path d="m3 21 8.02-14.26"/>
-                <path d="m12.99 6.74 1.93 3.44"/>
-                <path d="M19 12c-3.87 4-10.13 4-14 0"/>
-                <path d="m21 21-2.16-3.84"/>
-              </svg>
-            </div>
             <h3 class="service-card__title">Thiết Kế<br>Kiến Trúc & Nội Thất</h3>
             <p class="service-card__desc">
-              Kiến tạo không gian sống cá nhân hoá, chú trọng thẩm mỹ, công năng và phong thuỷ — nơi mọi đường nét đều kể câu chuyện của gia chủ.
+              Kiến tạo không gian sống cá nhân hoá, chú trọng thẩm mỹ, công năng và phong thuỷ — nơi mọi đường nét đều
+              kể câu chuyện của gia chủ.
             </p>
             <a href="#" class="service-card__link">
               Tìm Hiểu Thêm
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
             </a>
           </div>
@@ -442,25 +493,20 @@
         <div class="service-card">
           <div class="service-card__img-wrap">
             <img src="img/service-construction.png" alt="Thi công xây dựng nhà trọn gói — XANH Design & Build"
-                 class="service-card__img" width="400" height="520" loading="lazy" />
+              class="service-card__img" width="400" height="520" loading="lazy" />
           </div>
           <div class="service-card__body">
-            <div class="service-card__icon">
-              <!-- Lucide: hard-hat -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/>
-                <path d="M10 15V6.5a3.5 3.5 0 0 1 7 0V15"/>
-                <path d="M4 15v-5a6 6 0 0 1 6-6h0"/>
-              </svg>
-            </div>
             <h3 class="service-card__title">Thi Công<br>Xây Dựng Trọn Gói</h3>
             <p class="service-card__desc">
-              Giám sát kỹ thuật 3 lớp, đúng tiến độ cam kết, 100% không phát sinh — mang đến sự an tâm tuyệt đối cho gia chủ suốt hành trình.
+              Giám sát kỹ thuật 3 lớp, đúng tiến độ cam kết, 100% không phát sinh — mang đến sự an tâm tuyệt đối cho gia
+              chủ suốt hành trình.
             </p>
             <a href="#" class="service-card__link">
               Tìm Hiểu Thêm
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
             </a>
           </div>
@@ -470,26 +516,20 @@
         <div class="service-card">
           <div class="service-card__img-wrap">
             <img src="img/service-interior.png" alt="Sản xuất thi công nội thất cao cấp — XANH Design & Build"
-                 class="service-card__img" width="400" height="520" loading="lazy" />
+              class="service-card__img" width="400" height="520" loading="lazy" />
           </div>
           <div class="service-card__body">
-            <div class="service-card__icon">
-              <!-- Lucide: sofa -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/>
-                <path d="M2 11v5a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H6v-2a2 2 0 0 0-4 0Z"/>
-                <path d="M4 18v2"/><path d="M20 18v2"/>
-                <path d="M12 4v9"/>
-              </svg>
-            </div>
             <h3 class="service-card__title">Sản Xuất &<br>Thi Công Nội Thất</h3>
             <p class="service-card__desc">
-              Xưởng mộc trực tiếp, vật liệu chuẩn An Cường — hoàn thiện tinh xảo từng chi tiết, nâng tầm không gian sống theo phong cách riêng.
+              Xưởng mộc trực tiếp, vật liệu chuẩn An Cường — hoàn thiện tinh xảo từng chi tiết, nâng tầm không gian sống
+              theo phong cách riêng.
             </p>
             <a href="#" class="service-card__link">
               Tìm Hiểu Thêm
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
             </a>
           </div>
@@ -499,31 +539,449 @@
         <div class="service-card">
           <div class="service-card__img-wrap">
             <img src="img/service-renovation.png" alt="Cải tạo nâng cấp nhà ở — XANH Design & Build"
-                 class="service-card__img" width="400" height="520" loading="lazy" />
+              class="service-card__img" width="400" height="520" loading="lazy" />
           </div>
           <div class="service-card__body">
-            <div class="service-card__icon">
-              <!-- Lucide: paintbrush -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3Z"/>
-                <path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/>
-                <path d="M14.5 17.5 4.5 15"/>
-              </svg>
-            </div>
             <h3 class="service-card__title">Cải Tạo &<br>Nâng Cấp</h3>
             <p class="service-card__desc">
-              Thổi hồn mới vào không gian cũ — từ cải tạo cục bộ đến tái thiết toàn diện, bảo tồn ký ức và kiến tạo giá trị mới cho ngôi nhà.
+              Thổi hồn mới vào không gian cũ — từ cải tạo cục bộ đến tái thiết toàn diện, bảo tồn ký ức và kiến tạo giá
+              trị mới cho ngôi nhà.
             </p>
             <a href="#" class="service-card__link">
               Tìm Hiểu Thêm
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
             </a>
           </div>
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION CTA: Liên Hệ Tư Vấn                  -->
+  <!-- ============================================= -->
+  <section id="cta" class="cta-section" aria-label="Liên hệ tư vấn">
+    <div class="site-container py-20 md:py-28 lg:py-32">
+      <div class="cta-card">
+        <!-- LEFT: Text panel -->
+        <div class="cta-panel cta-panel--text">
+          <div class="cta-content">
+            <p class="cta-el cta-eyebrow">Bắt Đầu Hành Trình Của Bạn</p>
+            <h2 class="cta-el cta-heading">
+              Không Gian Lý Tưởng<br />Bắt Đầu Từ<br />Một Cuộc Trò Chuyện.
+            </h2>
+            <p class="cta-el cta-body">
+              Đội ngũ XANH Design &amp; Build sẵn sàng lắng nghe và tư vấn miễn phí — từ ý tưởng đầu tiên đến ngày hoàn
+              công.
+            </p>
+            <div class="cta-el cta-actions">
+              <a href="#contact" class="cta-btn cta-btn--primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.52-.93a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z" />
+                </svg>
+                Tư Vấn Miễn Phí
+              </a>
+              <a href="#projects" class="cta-btn cta-btn--ghost">
+                Xem Dự Án Thực Tế
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+            <!-- Trust badges row -->
+            <div class="cta-el cta-badges">
+              <div class="cta-badge">
+                <span class="cta-badge__num" data-count="10" data-suffix="+">0</span>
+                <span class="cta-badge__label">Năm kinh nghiệm</span>
+              </div>
+              <div class="cta-badge-sep"></div>
+              <div class="cta-badge">
+                <span class="cta-badge__num" data-count="200" data-suffix="+">0</span>
+                <span class="cta-badge__label">Dự án hoàn thành</span>
+              </div>
+              <div class="cta-badge-sep"></div>
+              <div class="cta-badge">
+                <span class="cta-badge__num" data-count="98" data-suffix="%">0</span>
+                <span class="cta-badge__label">Khách hàng hài lòng</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT: Image panel -->
+        <div class="cta-panel cta-panel--image" aria-hidden="true">
+          <img src="../img/interior-living.png" alt="Không gian nội thất XANH Design & Build" class="cta-img"
+            loading="lazy" />
+          <!-- Decorative overlay quote -->
+          <div class="cta-img-quote">
+            <svg class="cta-img-quote__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+              <path
+                d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+            </svg>
+            <p>"Thiết kế không chỉ là vẻ đẹp bên ngoài — đó là cách không gian khiến bạn cảm thấy."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 5: DỰ ÁN TIÊU BIỂU — Before / After  -->
+  <!-- ============================================= -->
+  <section id="projects" class="relative bg-white">
+    <div class="site-container py-20 md:py-28 lg:py-32">
+
+      <!-- Section Header -->
+      <div class="text-center mb-14 md:mb-20">
+        <p class="projects-el text-xs font-semibold tracking-[0.2em] uppercase text-primary/50 mb-4">
+          Dự Án Tiêu Biểu
+        </p>
+        <h2
+          class="projects-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-primary !leading-[1.15] tracking-[-0.02em] mb-5">
+          Hành Trình<br>Chuyển Hoá Không Gian.
+        </h2>
+        <p class="projects-el text-base md:text-lg text-dark/60 max-w-[560px] mx-auto !leading-[1.7]">
+          Mỗi dự án là một câu chuyện — từ những không gian cũ kỹ đến tổ ấm hoàn hảo mà gia chủ luôn mong ước.
+        </p>
+      </div>
+
+      <!-- ── Featured Slider Area ── -->
+      <div class="projects-el projects-featured">
+
+        <!-- LEFT: Before/After Comparison Slider -->
+        <div class="ba-slider-wrap">
+          <div class="ba-slider" id="ba-slider">
+            <!-- After image (background layer) -->
+            <img src="img/project-after-1.png" alt="Sau cải tạo — Biệt thự hiện đại" class="ba-slider__after"
+              id="ba-after-img" draggable="false" />
+            <!-- Before image (clipped foreground layer) -->
+            <div class="ba-slider__before" id="ba-before-clip">
+              <img src="img/project-before-1.png" alt="Trước cải tạo — Không gian cũ" id="ba-before-img"
+                draggable="false" />
+            </div>
+            <!-- Drag handle -->
+            <div class="ba-slider__handle" id="ba-handle">
+              <div class="ba-slider__handle-line"></div>
+              <div class="ba-slider__handle-knob">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="m9 18-6-6 6-6" />
+                  <path d="m15 6 6 6-6 6" />
+                </svg>
+              </div>
+              <div class="ba-slider__handle-line"></div>
+            </div>
+            <!-- Labels -->
+            <span class="ba-slider__label ba-slider__label--before">Trước</span>
+            <span class="ba-slider__label ba-slider__label--after">Sau</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: Customer Quote / Project Info -->
+        <div class="ba-info" id="ba-info">
+          <span class="ba-info__tag" id="ba-tag">Cải tạo toàn diện</span>
+          <h3 class="ba-info__title" id="ba-title">Nhà Phố Quận 7</h3>
+          <div class="ba-info__meta" id="ba-meta">
+            <span class="meta-item"><i data-lucide="maximize"></i> 120 m²</span>
+            <span class="meta-sep"></span>
+            <span class="meta-item"><i data-lucide="clock"></i> 6 tháng</span>
+            <span class="meta-sep"></span>
+            <span class="meta-item"><i data-lucide="calendar"></i> 2025</span>
+          </div>
+          <blockquote class="ba-info__quote" id="ba-quote">
+            "Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành hiện thực
+            — đúng tiến độ, đúng chi phí."
+          </blockquote>
+          <p class="ba-info__author" id="ba-author">
+            — Anh Minh &amp; Chị Hương, Q7, TP.HCM
+          </p>
+          <a href="#" class="ba-info__cta group">
+            Xem Chi Tiết Dự Án
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Thumbnail Selector Row ── -->
+      <div class="projects-thumbs" id="projects-thumbs">
+        <button class="project-thumb is-active" data-index="0">
+          <div class="project-thumb__img-wrap">
+            <img src="../img/project-1.png" alt="Nhà Phố Quận 7" loading="lazy" />
+          </div>
+          <div class="project-thumb__info">
+            <span class="project-thumb__name">Nhà Phố Quận 7</span>
+            <span class="project-thumb__type">Cải tạo toàn diện</span>
+          </div>
+          <div class="project-thumb__bar"></div>
+        </button>
+        <button class="project-thumb" data-index="1">
+          <div class="project-thumb__img-wrap">
+            <img src="../img/project-2.png" alt="Biệt Thự Thảo Điền" loading="lazy" />
+          </div>
+          <div class="project-thumb__info">
+            <span class="project-thumb__name">Biệt Thự Thảo Điền</span>
+            <span class="project-thumb__type">Xây mới trọn gói</span>
+          </div>
+          <div class="project-thumb__bar"></div>
+        </button>
+        <button class="project-thumb" data-index="2">
+          <div class="project-thumb__img-wrap">
+            <img src="../img/project-3.png" alt="Penthouse Q2" loading="lazy" />
+          </div>
+          <div class="project-thumb__info">
+            <span class="project-thumb__name">Penthouse Quận 2</span>
+            <span class="project-thumb__type">Thiết kế nội thất</span>
+          </div>
+          <div class="project-thumb__bar"></div>
+        </button>
+        <button class="project-thumb" data-index="3">
+          <div class="project-thumb__img-wrap">
+            <img src="../img/project-4.png" alt="Villa Bình Dương" loading="lazy" />
+          </div>
+          <div class="project-thumb__info">
+            <span class="project-thumb__name">Villa Bình Dương</span>
+            <span class="project-thumb__type">Xây mới & nội thất</span>
+          </div>
+          <div class="project-thumb__bar"></div>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 7 — Quy Trình 6 Bước (Process Steps) -->
+  <!-- ============================================= -->
+  <section id="process" class="process-section">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="text-center mb-14 md:mb-20">
+        <p class="process-el text-xs font-semibold tracking-[0.2em] uppercase text-primary/50 mb-4">
+          Quy Trình
+        </p>
+        <h2
+          class="process-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-primary !leading-[1.15] tracking-[-0.02em] mb-5">
+          Chúng Tôi Đồng Hành Cùng Bạn<br>Đến Từng Viên Gạch Cuối Cùng
+        </h2>
+        <p class="process-el text-base md:text-lg text-gray-600 max-w-[580px] mx-auto !leading-[1.7]">
+          Hành trình kiến tạo tổ ấm bắt đầu từ một cuộc trò chuyện — mỗi bước đi đều được đồng hành tận tâm.
+        </p>
+      </div>
+
+      <!-- Horizontal Accordion -->
+      <div class="process-accordion process-el">
+
+        <!-- Panel 1: Tư Vấn -->
+        <div class="process-panel is-active" data-step="0">
+          <div class="process-panel__expanded">
+            <img src="img/process-01.png" alt="Bước 1 — Tư vấn thiết kế" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">01</span>
+              <h3 class="process-panel__title">Tư Vấn</h3>
+              <p class="process-panel__desc">
+                Gặp gỡ và lắng nghe — để hiểu mong ước, phong cách sống và ngân sách của bạn. Mỗi tổ ấm bắt đầu từ một
+                cuộc trò chuyện.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Xem Chi Tiết
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">01</span>
+            <span class="process-panel__collapsed-title">Tư Vấn</span>
+          </div>
+        </div>
+
+        <!-- Panel 2: Thiết Kế -->
+        <div class="process-panel" data-step="1">
+          <div class="process-panel__expanded">
+            <img src="img/process-02.png" alt="Bước 2 — Thiết kế kiến trúc" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">02</span>
+              <h3 class="process-panel__title">Thiết Kế</h3>
+              <p class="process-panel__desc">
+                Biến ý tưởng thành bản vẽ — kiến trúc sư tận tâm phác hoạ không gian sống phù hợp với bản sắc riêng của
+                gia đình bạn.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Xem Chi Tiết
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">02</span>
+            <span class="process-panel__collapsed-title">Thiết Kế</span>
+          </div>
+        </div>
+
+        <!-- Panel 3: Ký Kết -->
+        <div class="process-panel" data-step="2">
+          <div class="process-panel__expanded">
+            <img src="img/process-03.png" alt="Bước 3 — Ký kết hợp đồng" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">03</span>
+              <h3 class="process-panel__title">Ký Kết</h3>
+              <p class="process-panel__desc">
+                Minh bạch từng hạng mục — hợp đồng rõ ràng, chi phí cố định, không phát sinh ngoài cam kết.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Xem Chi Tiết
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">03</span>
+            <span class="process-panel__collapsed-title">Ký Kết</span>
+          </div>
+        </div>
+
+        <!-- Panel 4: Thi Công -->
+        <div class="process-panel" data-step="3">
+          <div class="process-panel__expanded">
+            <img src="img/process-04.png" alt="Bước 4 — Thi công xây dựng" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">04</span>
+              <h3 class="process-panel__title">Thi Công</h3>
+              <p class="process-panel__desc">
+                Giám sát kỹ thuật 3 lớp, đúng tiến độ cam kết — để bạn an tâm tận hưởng hành trình kiến tạo tổ ấm.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Xem Chi Tiết
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">04</span>
+            <span class="process-panel__collapsed-title">Thi Công</span>
+          </div>
+        </div>
+
+        <!-- Panel 5: Bàn Giao -->
+        <div class="process-panel" data-step="4">
+          <div class="process-panel__expanded">
+            <img src="img/process-05.png" alt="Bước 5 — Bàn giao công trình" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">05</span>
+              <h3 class="process-panel__title">Bàn Giao</h3>
+              <p class="process-panel__desc">
+                Nghiệm thu tỉ mỉ từng chi tiết — chìa khoá trao tay khi mọi thứ hoàn hảo đúng như bản vẽ 3D.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Xem Chi Tiết
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">05</span>
+            <span class="process-panel__collapsed-title">Bàn Giao</span>
+          </div>
+        </div>
+
+        <!-- Panel 6: Bảo Trì -->
+        <div class="process-panel" data-step="5">
+          <div class="process-panel__expanded">
+            <img src="img/process-06.png" alt="Bước 6 — Bảo trì định kỳ" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">06</span>
+              <h3 class="process-panel__title">Bảo Trì</h3>
+              <p class="process-panel__desc">
+                Đồng hành sau bàn giao — bảo trì định kỳ, hỗ trợ trọn đời, để ngôi nhà luôn vẹn nguyên giá trị.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Xem Chi Tiết
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">06</span>
+            <span class="process-panel__collapsed-title">Bảo Trì</span>
+          </div>
+        </div>
+
+      </div><!-- .process-accordion -->
+
     </div>
   </section>
 
@@ -545,4 +1003,5 @@
   <script src="home-page.js" defer></script>
 
 </body>
+
 </html>
