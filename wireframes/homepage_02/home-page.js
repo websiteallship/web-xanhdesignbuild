@@ -398,35 +398,100 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const isDesktop = window.innerWidth >= 1024;
+
     // Set initial states
     gsap.set(ctaEls, { opacity: 0, y: 36 });
     if (ctaImgPanel) gsap.set(ctaImgPanel, { opacity: 0, x: 40 });
+
+    // PC-only: individual badge & card animations
+    const ctaCard     = ctaSection.querySelector('.cta-card');
+    const ctaTextPanel = ctaSection.querySelector('.cta-panel--text');
+    const ctaBadges   = ctaSection.querySelectorAll('.cta-badge');
+    const ctaBadgeSeps = ctaSection.querySelectorAll('.cta-badge-sep');
+    if (isDesktop && ctaCard) {
+      gsap.set(ctaCard, { clipPath: 'inset(0 100% 0 0)' });
+    }
+    if (isDesktop && ctaBadges.length) {
+      gsap.set(ctaBadges, { opacity: 0, y: 20 });
+      gsap.set(ctaBadgeSeps, { opacity: 0, scaleY: 0 });
+    }
 
     ScrollTrigger.create({
       trigger: ctaSection,
       start: 'top 78%',
       once: true,
       onEnter: () => {
-        // Stagger in the text elements
-        gsap.to(ctaEls, {
-          opacity: 1,
-          y: 0,
-          duration: 0.75,
-          ease: 'power3.out',
-          stagger: 0.12,
-        });
-        // Slide in the image panel
-        if (ctaImgPanel) {
-          gsap.to(ctaImgPanel, {
+        if (isDesktop) {
+          // ── Desktop: multi-stage cinematic reveal ──
+          const tl = gsap.timeline({ onComplete: () => setTimeout(animateCounters, 200) });
+
+          // 1. Card slides open from left (clip-path wipe)
+          if (ctaCard) {
+            tl.to(ctaCard, {
+              clipPath: 'inset(0 0% 0 0)',
+              duration: 0.9,
+              ease: 'power3.out',
+            });
+          }
+
+          // 2. Text panel elements stagger up
+          tl.to(ctaEls, {
             opacity: 1,
-            x: 0,
-            duration: 0.9,
+            y: 0,
+            duration: 0.7,
             ease: 'power3.out',
-            delay: 0.1,
+            stagger: 0.1,
+          }, '-=0.55');
+
+          // 3. Image panel slides in from right
+          if (ctaImgPanel) {
+            tl.to(ctaImgPanel, {
+              opacity: 1,
+              x: 0,
+              duration: 0.8,
+              ease: 'power3.out',
+            }, '-=0.6');
+          }
+
+          // 4. Badges sweep up one by one
+          if (ctaBadges.length) {
+            tl.to(ctaBadges, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'back.out(1.4)',
+              stagger: 0.12,
+            }, '-=0.3');
+            tl.to(ctaBadgeSeps, {
+              opacity: 1,
+              scaleY: 1,
+              duration: 0.4,
+              transformOrigin: 'center center',
+              ease: 'power2.out',
+              stagger: 0.08,
+            }, '<+0.1');
+          }
+        } else {
+          // ── Mobile: simple stagger fade-up ──
+          gsap.to(ctaEls, {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            ease: 'power3.out',
+            stagger: 0.12,
           });
+          if (ctaImgPanel) {
+            gsap.to(ctaImgPanel, {
+              opacity: 1,
+              x: 0,
+              duration: 0.9,
+              ease: 'power3.out',
+              delay: 0.1,
+            });
+          }
+          setTimeout(animateCounters, 500);
         }
-        // Start counter animation after badges become visible
-        setTimeout(animateCounters, 500);
       },
     });
   } else {
@@ -449,6 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(ctaSection);
   }
 })();
+
 
 /* ============================================= */
 /* SECTION 5 — Before / After Slider + Thumbnails */
@@ -575,20 +641,45 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     });
 
-    /* ── Mobile Projects Swiper (≤1023px) ── */
-    new Swiper('.projects-mobile-swiper', {
+    /* Mobile bottom nav for thumbs */
+    const thumbsMobPrev = document.querySelector('.thumbs-mobile-prev');
+    const thumbsMobNext = document.querySelector('.thumbs-mobile-next');
+    if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => thumbsSwiper.slidePrev());
+    if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => thumbsSwiper.slideNext());
+
+    /* ── Pagination bullets entrance animation (desktop only) ── */
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && window.innerWidth >= 640) {
+      const thumbsPagination = document.querySelector('.thumbs-pagination');
+      if (thumbsPagination) {
+        ScrollTrigger.create({
+          trigger: thumbsPagination,
+          start: 'top 90%',
+          once: true,
+          onEnter: () => {
+            const bullets = thumbsPagination.querySelectorAll('.swiper-pagination-bullet');
+            gsap.fromTo(bullets,
+              { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+              { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 }
+            );
+          },
+        });
+      }
+    }
+
+    /* ── Mobile Projects Swiper (≤1023px) — owns the pagination dots ── */
+    const mobileSwiper = new Swiper('.projects-mobile-swiper', {
       slidesPerView: 1,
       spaceBetween: 16,
       loop: true,
       pagination: {
-        el: '.projects-mobile-pagination',
+        el: '.thumbs-pagination',
         clickable: true,
       },
-      navigation: {
-        prevEl: '.projects-mobile-prev',
-        nextEl: '.projects-mobile-next',
-      },
     });
+
+    /* Wire mobile buttons to also control the card swiper on mobile */
+    if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
+    if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
   }
 
   /* ── Before/After drag logic ── */
@@ -691,8 +782,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const infoChildren = infoPanel
         ? infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
         : [];
-      // Thumbnail slides (Swiper slides)
+      // Thumbnail slides + thumbs-nav initial states
       const thumbSlides = projectsSection.querySelectorAll('.projects-thumbs-swiper .swiper-slide');
+      const thumbsNav = projectsSection.querySelector('.thumbs-nav');
       // Handle for wiggle hint
       const handleKnob = projectsSection.querySelector('.ba-slider__handle-knob');
 
@@ -701,6 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (sliderWrap) gsap.set(sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
       if (infoChildren.length) gsap.set(infoChildren, { opacity: 0, x: 30 });
       if (thumbSlides.length) gsap.set(thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
+      if (thumbsNav) gsap.set(thumbsNav, { opacity: 0, y: 20 });
 
       ScrollTrigger.create({
         trigger: projectsSection,
@@ -752,7 +845,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }, '-=0.3');
           }
 
-          // 5) Slider handle wiggle hint (after entrance is done)
+          // 5) Thumbs nav bar fade up
+          if (thumbsNav) {
+            tl.to(thumbsNav, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power3.out',
+            }, '-=0.2');
+
+            // Stagger bullets inside pagination
+            const bullets = thumbsNav.querySelectorAll('.swiper-pagination-bullet');
+            if (bullets.length) {
+              tl.fromTo(bullets,
+                { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+                { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 },
+                '-=0.1'
+              );
+            }
+          }
+
+          // 6) Slider handle wiggle hint (after entrance is done)
           if (handleKnob) {
             tl.call(() => setSliderPosition(35), null, '+=0.4')
             .to(handle, {
@@ -818,6 +931,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gsap.set(headerEls, { opacity: 0, y: 40 });
 
+    // PC only: stagger in each accordion panel
+    const isDesktop = window.innerWidth >= 1024;
+    if (isDesktop && panels.length) {
+      gsap.set(panels, { opacity: 0, y: 50, scale: 0.97 });
+    }
+
     ScrollTrigger.create({
       trigger: section,
       start: 'top 80%',
@@ -833,6 +952,18 @@ document.addEventListener('DOMContentLoaded', () => {
           ease: 'power3.out',
           stagger: 0.12,
         });
+
+        // PC only: accordion panels cascade in from bottom, left-to-right
+        if (isDesktop && panels.length) {
+          tl.to(panels, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            ease: 'power3.out',
+            stagger: 0.1,
+          }, '-=0.3');
+        }
       },
     });
   } else {
@@ -843,6 +974,77 @@ document.addEventListener('DOMContentLoaded', () => {
           if (entry.isIntersecting) {
             section.querySelectorAll('.process-el').forEach((el, i) => {
               setTimeout(() => el.classList.add('is-visible'), i * 120);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+  }
+})();
+
+/* ============================================= */
+/* SECTION 8 — CTA Contact Scroll Animation      */
+/* ============================================= */
+(function () {
+  'use strict';
+
+  const section = document.getElementById('cta-contact');
+  if (!section) return;
+
+  const els = section.querySelectorAll('.cta-contact-el');
+  const bgImg = section.querySelector('.cta-contact__bg');
+
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // Set initial GSAP states
+    gsap.set(els, { opacity: 0, y: 40 });
+
+    // Subtle BG parallax zoom
+    if (bgImg) {
+      gsap.fromTo(bgImg,
+        { scale: 1.1 },
+        {
+          scale: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    }
+
+    // Entrance animation
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        gsap.to(els, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.12,
+        });
+      },
+    });
+  } else {
+    // Fallback: IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            els.forEach((el, i) => {
+              setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+              }, i * 120);
             });
             observer.unobserve(entry.target);
           }
@@ -936,4 +1138,234 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     observer.observe(partnersSection);
   }
+})();
+
+/* ============================================= */
+/* SECTION 9 — Blog Swiper + Scroll Animation    */
+/* ============================================= */
+(function () {
+  'use strict';
+
+  const section = document.getElementById('blog');
+  if (!section) return;
+
+  /* ── Swiper: 3-card slider ── */
+  if (typeof Swiper !== 'undefined') {
+    const blogSwiper = new Swiper('#blog-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      loop: true,
+      pagination: {
+        el: '.blog-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 24,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 28,
+        },
+      },
+    });
+
+    /* Manual prev/next handlers (buttons now inside .blog-slider-wrap) */
+    const sliderWrap = section.querySelector('.blog-slider-wrap');
+    const prevBtn = sliderWrap ? sliderWrap.querySelector('.blog-nav__prev') : null;
+    const nextBtn = sliderWrap ? sliderWrap.querySelector('.blog-nav__next') : null;
+    if (prevBtn) prevBtn.addEventListener('click', () => blogSwiper.slidePrev());
+    if (nextBtn) nextBtn.addEventListener('click', () => blogSwiper.slideNext());
+
+    /* Mobile bottom nav buttons (inside .blog-nav) */
+    const mobilePrev = section.querySelector('.blog-nav .blog-nav__prev');
+    const mobileNext = section.querySelector('.blog-nav .blog-nav__next');
+    if (mobilePrev) mobilePrev.addEventListener('click', () => blogSwiper.slidePrev());
+    if (mobileNext) mobileNext.addEventListener('click', () => blogSwiper.slideNext());
+
+    /* ── Dynamic vertical centering of side arrows at image midpoint ── */
+    function updateBlogImgCenter() {
+      if (!sliderWrap) return;
+      const firstImg = sliderWrap.querySelector('.blog-card__img');
+      if (firstImg && firstImg.offsetHeight > 0) {
+        sliderWrap.style.setProperty('--blog-img-center', (firstImg.offsetHeight / 2) + 'px');
+      }
+    }
+    // Run after images load and on resize
+    window.addEventListener('load', updateBlogImgCenter);
+    window.addEventListener('resize', updateBlogImgCenter);
+    // Also run immediately in case images are already cached
+    updateBlogImgCenter();
+  }
+
+  /* ── GSAP Scroll entrance animation ── */
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const blogEls = section.querySelectorAll('.blog-el');
+    const isDesktop = window.innerWidth >= 1024;
+
+    gsap.set(blogEls, { opacity: 0, y: 40 });
+
+    // Desktop: also set initial states for the first 3 visible cards
+    const visibleSlides = section.querySelectorAll('.blog-swiper .swiper-slide:not(.swiper-slide-duplicate)');
+    const visibleCards  = Array.from(visibleSlides).slice(0, 3);
+    if (isDesktop && visibleCards.length) {
+      visibleCards.forEach((slide) => {
+        const imgLink = slide.querySelector('.blog-card__img-link');
+        const img     = slide.querySelector('.blog-card__img');
+        const body    = slide.querySelector('.blog-card__body');
+        if (imgLink) gsap.set(imgLink, { clipPath: 'inset(100% 0 0 0)' });
+        if (img)     gsap.set(img,     { scale: 1.1 });
+        if (body)    gsap.set(body,    { opacity: 0, y: 20 });
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline();
+
+        // 1) Section header elements stagger up
+        tl.to(blogEls, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.15,
+        });
+
+        // 2) Desktop: per-card image reveal cascade
+        if (isDesktop && visibleCards.length) {
+          visibleCards.forEach((slide, i) => {
+            const imgLink = slide.querySelector('.blog-card__img-link');
+            const img     = slide.querySelector('.blog-card__img');
+            const body    = slide.querySelector('.blog-card__body');
+            const offset  = i === 0 ? '-=0.4' : `<+0.12`;
+
+            if (imgLink) {
+              tl.to(imgLink,
+                { clipPath: 'inset(0% 0 0 0)', duration: 0.75, ease: 'power3.out' },
+                offset
+              );
+            }
+            if (img) {
+              tl.to(img,
+                { scale: 1, duration: 0.75, ease: 'power2.out' },
+                '<'
+              );
+            }
+            if (body) {
+              tl.to(body,
+                { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
+                '<+0.25'
+              );
+            }
+          });
+        }
+
+        /* Stagger-in the pagination bullets after main reveal (desktop only) */
+        if (window.innerWidth >= 640) {
+          const blogPagination = section.querySelector('.blog-pagination');
+          if (blogPagination) {
+            const bullets = blogPagination.querySelectorAll('.swiper-pagination-bullet');
+            gsap.fromTo(bullets,
+              { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+              { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06, delay: 0.5 }
+            );
+          }
+        }
+      },
+    });
+  } else {
+    // Fallback: IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            section.querySelectorAll('.blog-el').forEach((el, i) => {
+              setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+              }, i * 150);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+  }
+})();
+
+/* ============================================= */
+/* SIDE ARROWS — Hover with delay (PC only)      */
+/* ============================================= */
+(function () {
+  'use strict';
+
+  // Only on devices with a mouse
+  if (!window.matchMedia('(hover: hover)').matches) return;
+
+  /**
+   * Sets up hover-reveal with a delay timer so buttons
+   * don't vanish while the cursor travels across the gap.
+   */
+  function setupHoverReveal(wrapperSelector, btnSelector) {
+    const wrapper = document.querySelector(wrapperSelector);
+    if (!wrapper) return;
+
+    const buttons = wrapper.querySelectorAll(btnSelector);
+    if (!buttons.length) return;
+
+    let hideTimer = null;
+    const DELAY = 400; // ms grace period
+
+    function showButtons() {
+      clearTimeout(hideTimer);
+      buttons.forEach(function (btn) { btn.classList.add('is-visible'); });
+    }
+
+    function scheduleHide() {
+      hideTimer = setTimeout(function () {
+        buttons.forEach(function (btn) { btn.classList.remove('is-visible'); });
+      }, DELAY);
+    }
+
+    // Wrapper enter/leave
+    wrapper.addEventListener('mouseenter', showButtons);
+    wrapper.addEventListener('mouseleave', scheduleHide);
+
+    // Buttons themselves: cancel hide when cursor reaches them
+    buttons.forEach(function (btn) {
+      btn.addEventListener('mouseenter', showButtons);
+      btn.addEventListener('mouseleave', scheduleHide);
+    });
+  }
+
+  // Blog section
+  setupHoverReveal('.blog-slider-wrap', '.blog-slider-wrap>.blog-nav__btn');
+
+  // Projects thumbs section
+  setupHoverReveal('.projects-thumbs-wrapper', '.projects-thumbs-wrapper>.thumbs-nav__btn');
+
+  /* ── Dynamic vertical center for thumbs side arrows (image area only) ── */
+  (function () {
+    const thumbsWrap = document.querySelector('.projects-thumbs-wrapper');
+    if (!thumbsWrap) return;
+
+    function updateThumbsImgCenter() {
+      const imgWrap = thumbsWrap.querySelector('.project-thumb__img-wrap');
+      if (imgWrap && imgWrap.offsetHeight > 0) {
+        thumbsWrap.style.setProperty('--thumbs-img-center', (imgWrap.offsetHeight / 2) + 'px');
+      }
+    }
+
+    window.addEventListener('load', updateThumbsImgCenter);
+    window.addEventListener('resize', updateThumbsImgCenter);
+    updateThumbsImgCenter();
+  })();
 })();
