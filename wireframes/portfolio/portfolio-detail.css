@@ -1,0 +1,749 @@
+/**
+ * XANH — Design & Build
+ * Portfolio Detail Page — Section D1 (Breadcrumb) + Section D2 (Hero Image)
+ * =============================================
+ * File:  wireframes/portfolio/portfolio-detail.css
+ * Scope: single-xanh_project.php wireframe
+ */
+
+/* ==============================================
+   1. DESIGN TOKENS
+   ============================================== */
+:root {
+  --color-primary: #14513D;
+  --color-accent: #FF8A00;
+  --color-light: #F3F4F6;
+  --color-dark: #1A1A1A;
+  --color-white: #FFFFFF;
+  --color-beige: #D8C7A3;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+/* ==============================================
+   2. BASE RESET
+   ============================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--color-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==============================================
+   3. SITE CONTAINER
+   ============================================== */
+.site-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+.site-container--hero {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .site-container { padding-inline: var(--space-8); }
+  .site-container--hero { padding-inline: var(--space-8); }
+}
+
+/* ==============================================
+   4. SHARED UI — Cross-Section Consistency
+   ============================================== */
+.section-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ==============================================
+   5. HEADER (Reused from portfolio.css)
+   ============================================== */
+#site-header { background: transparent; }
+#site-header.is-scrolled {
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+#site-header.is-scrolled .nav-link { color: var(--color-dark); }
+#site-header.is-scrolled .nav-link:hover { color: var(--color-primary); }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-base);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+#site-header.is-scrolled .logo-white { opacity: 0; }
+#site-header.is-scrolled .logo-dark { opacity: 1; }
+
+/* ── Hamburger ── */
+#mobile-menu-btn.is-active .hamburger-line:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+#mobile-menu-btn.is-active .hamburger-line:nth-child(2) { opacity: 0; }
+#mobile-menu-btn.is-active .hamburger-line:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* ==============================================
+   6. SECTION D1 + D2 — HERO IMAGE WITH BREADCRUMB
+   ============================================== */
+.detail-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Match portfolio.html hero: 70vh desktop */
+  height: 70vh;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile: Match portfolio.html hero */
+@media (max-width: 767px) {
+  .detail-hero {
+    height: 85svh;
+    min-height: 480px;
+  }
+}
+
+/* ── Background image container ── */
+.detail-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.detail-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* Progressive reveal: start blurred */
+  filter: blur(20px) saturate(1.1);
+  transform: scale(1.06);
+  transition:
+    filter 1.2s var(--ease-smooth),
+    transform 1.2s var(--ease-smooth);
+  will-change: transform, filter;
+}
+.detail-hero__bg.is-loaded img {
+  filter: blur(0) saturate(1);
+  transform: scale(1);
+}
+
+/* ── Gradient overlay ── */
+.detail-hero__overlay {
+  position: absolute;
+  inset: 0;
+  /* Darker top (cho breadcrumb dễ đọc) + gradient bottom (cho title) */
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.10) 30%,
+      transparent 50%,
+      rgba(20, 81, 61, 0.20) 70%,
+      rgba(20, 81, 61, 0.65) 88%,
+      rgba(20, 81, 61, 0.85) 100%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Inner: flex-end — all content pushed to bottom ── */
+.detail-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 70vh;
+  min-height: 500px;
+}
+
+@media (max-width: 767px) {
+  .detail-hero__inner {
+    height: 85svh;
+    min-height: 480px;
+  }
+}
+
+/* ── BOTTOM: content cluster area ── */
+.detail-hero__bottom {
+  padding-block: var(--space-8) var(--space-10);
+}
+
+@media (min-width: 768px) {
+  .detail-hero__bottom {
+    padding-block: var(--space-12) var(--space-12);
+  }
+}
+
+/* ==============================================
+   7. BREADCRUMB — hero variant (white on dark)
+   ============================================== */
+.breadcrumb--hero .breadcrumb__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.breadcrumb--hero .breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.breadcrumb--hero .breadcrumb__link {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.04em;
+  transition: color var(--transition-fast);
+}
+.breadcrumb--hero .breadcrumb__link:hover {
+  color: rgba(255,255,255,0.90);
+}
+
+.breadcrumb--hero .breadcrumb__current {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.90);
+  letter-spacing: 0.04em;
+}
+
+.breadcrumb--hero .breadcrumb__separator {
+  display: inline-flex;
+  align-items: center;
+  color: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+/* Breadcrumb entrance animation — fade-up */
+.breadcrumb--hero {
+  display: block;
+  margin-bottom: 0.875rem;  /* breathing room trước title */
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s var(--ease-smooth),
+    transform 0.6s var(--ease-smooth);
+  transition-delay: 0.2s;
+}
+.breadcrumb--hero.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==============================================
+   8. HERO CONTENT ELEMENTS
+   ============================================== */
+
+/* Eyebrow: loại hình dự án — xuống dưới title */
+.detail-hero__eyebrow {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.45);
+  margin-top: 0.625rem;   /* khoảng cách rõ sau title */
+
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.7s var(--ease-smooth),
+    transform 0.7s var(--ease-smooth);
+  transition-delay: 0.6s;
+}
+.detail-hero__eyebrow.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Title: tên dự án */
+.detail-hero__title {
+  font-family: var(--font-heading);
+  /* Tăng cỡ chữ — tương đương portfolio hero h1 */
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--color-white);
+
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s var(--ease-smooth),
+    transform 0.8s var(--ease-smooth);
+  transition-delay: 0.38s;
+}
+.detail-hero__title.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tagline: số liệu minh bạch */
+.detail-hero__tagline {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  margin-top: 0.5rem;  /* tách rã khỏi eyebrow */
+
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s var(--ease-smooth),
+    transform 0.7s var(--ease-smooth);
+  transition-delay: 0.72s;
+}
+.detail-hero__tagline.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ==============================================
+   9. SECTION D3 — STATS BAR
+   ============================================== */
+.stats-bar {
+  background: var(--color-primary);
+  padding-block: var(--space-8);
+}
+
+/* Grid: 5 items + 4 dividers = 9 columns trên desktop */
+.stats-bar__grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+/* Stat item */
+.stats-bar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* Icon circle */
+.stats-bar__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.70);
+  flex-shrink: 0;
+}
+
+/* Info stack */
+.stats-bar__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.stats-bar__value {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.stats-bar__label {
+  font-size: 0.688rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.4;
+}
+
+/* Dividers */
+.stats-bar__divider {
+  width: 1px;
+  height: 2rem;
+  background: rgba(255,255,255,0.12);
+  flex-shrink: 0;
+}
+
+/* 0% Highlight badge */
+.stats-bar__highlight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  width: fit-content;
+  margin-inline: auto;
+  font-size: 0.813rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.60);
+}
+.stats-bar__highlight i,
+.stats-bar__highlight svg {
+  color: #22C55E;
+  flex-shrink: 0;
+}
+.stats-bar__highlight-value {
+  color: #22C55E;
+  font-weight: 700;
+}
+
+/* Entrance animations */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s var(--ease-smooth),
+    transform 0.6s var(--ease-smooth);
+}
+.anim-fade-up.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ==============================================
+   10. SECTION D4 — CÂU CHUYỆN DỰ ÁN
+       Editorial Split-Screen Layout
+   ============================================== */
+.project-story {
+  background: var(--color-white);
+  padding-top: var(--space-20);
+  padding-bottom: 0;
+}
+
+/* Section Header — centered, above the split */
+.project-story__header {
+  text-align: center;
+  max-width: 680px;
+  margin-inline: auto;
+  margin-bottom: var(--space-12);
+}
+
+.project-story__eyebrow {
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+.project-story__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-dark);
+  letter-spacing: -0.02em;
+}
+
+/* ── Split Block — contained two panels ── */
+.project-story__block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1280px;
+  margin-inline: auto;
+  min-height: 560px;
+}
+
+/* ── LEFT — Challenge Panel (Beige) ── */
+.project-story__challenge {
+  background: #F5F0EB;
+  padding: var(--space-16) clamp(var(--space-8), 5vw, var(--space-16));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── RIGHT — Solution Panel (White) ── */
+.project-story__solution {
+  background: var(--color-white);
+  padding: var(--space-12) clamp(var(--space-8), 5vw, var(--space-16));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Column Labels — uppercase thin */
+.project-story__col-label {
+  display: block;
+  font-size: 0.688rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(26,26,26,0.35);
+  margin-bottom: var(--space-6);
+}
+
+/* ── Challenge Side Styles ── */
+.project-story__challenge-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-dark);
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-6);
+}
+
+.project-story__challenge-body {
+  font-size: 0.938rem;
+  line-height: 1.85;
+  color: rgba(26,26,26,0.60);
+  margin-bottom: var(--space-8);
+}
+
+/* Context sub-section */
+.project-story__context {
+  margin-bottom: var(--space-8);
+}
+
+.project-story__context-heading {
+  font-family: var(--font-heading);
+  font-size: 0.813rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(26,26,26,0.50);
+  margin-bottom: var(--space-2);
+}
+
+.project-story__context-body {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: rgba(26,26,26,0.55);
+}
+
+/* Blockquote — editorial with left accent */
+.project-story__quote {
+  position: relative;
+  padding-left: var(--space-5);
+  border-left: 2px solid var(--color-primary);
+  margin-top: auto;
+}
+
+.project-story__quote p {
+  font-size: 0.938rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: rgba(26,26,26,0.65);
+  margin-bottom: var(--space-3);
+}
+
+.project-story__quote cite {
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  letter-spacing: 0.03em;
+}
+
+/* ── Solution Side Styles ── */
+.project-story__solution-heading {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(26,26,26,0.40);
+  margin-bottom: var(--space-8);
+}
+
+/* Solution Items — icon + content */
+.project-story__solution-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.project-story__solution-item:last-child {
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Icon container — outlined square */
+.project-story__sol-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(26,26,26,0.10);
+  border-radius: 0.375rem;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.project-story__sol-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.project-story__sol-title {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-dark);
+  margin-bottom: var(--space-1);
+  line-height: 1.4;
+}
+
+.project-story__sol-desc {
+  font-size: 0.813rem;
+  line-height: 1.7;
+  color: rgba(26,26,26,0.55);
+}
+
+/* ==============================================
+   11. RESPONSIVE — Mobile adjustments
+   ============================================== */
+@media (max-width: 639px) {
+
+  /* Tạo khoảng trống dưới cùng trên mobile để text không bị sát mép màn hình */
+  .detail-hero__bottom {
+    padding-bottom: var(--space-20);
+  }
+
+  /* Font sizes nhỏ hơn trên mobile */
+  .breadcrumb--hero .breadcrumb__link,
+  .breadcrumb--hero .breadcrumb__current {
+    font-size: 0.75rem;
+  }
+
+  .detail-hero__eyebrow {
+    font-size: 0.688rem;
+  }
+
+  .detail-hero__tagline {
+    font-size: 0.75rem;
+  }
+
+  /* Title cũng giảm nhẹ trên mobile */
+  .detail-hero__title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+
+  /* Stats Bar mobile */
+  .stats-bar__grid {
+    gap: var(--space-4) var(--space-6);
+    justify-content: flex-start;
+  }
+  .stats-bar__divider {
+    display: none;
+  }
+  .stats-bar__value {
+    font-size: 1rem;
+  }
+  .stats-bar__icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  .stats-bar__icon svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  .stats-bar__highlight {
+    font-size: 0.75rem;
+  }
+
+  /* D4: Editorial split stacks vertically */
+  .project-story {
+    padding-top: var(--space-12);
+  }
+  .project-story__header {
+    margin-bottom: var(--space-8);
+  }
+  .project-story__block {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .project-story__challenge {
+    padding: var(--space-8) var(--space-6);
+  }
+  .project-story__solution {
+    padding: var(--space-8) var(--space-6);
+    border-left: none;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .project-story__challenge-title {
+    font-size: clamp(1.25rem, 6vw, 1.5rem);
+  }
+  .project-story__challenge-body {
+    font-size: 0.875rem;
+  }
+  .project-story__sol-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

@@ -83,6 +83,24 @@ body {
 }
 
 /* ============================================= */
+/* UTILITY: Scroll Lock & Drawer Link Animation  */
+/* ============================================= */
+.is-scroll-locked {
+  overflow: hidden;
+}
+
+.drawer-link--hidden {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.drawer-link--visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* ============================================= */
 /* SHARED: Section Spacing Token (§6)            */
 /* ============================================= */
 .section {
@@ -172,7 +190,7 @@ body {
   border-radius: 0;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: all 300ms ease;
+  transition: background 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
   min-width: 200px;
   justify-content: center;
 }
@@ -211,9 +229,11 @@ body {
   background: rgba(255,255,255,0.1);
 }
 
-/* Mobile full-width */
-@media (max-width: 639px) {
-  .btn { width: 100%; min-height: 48px; }
+/* Mobile-first: full-width buttons, auto at sm+ */
+.btn { width: 100%; min-height: 48px; }
+
+@media (min-width: 640px) {
+  .btn { width: auto; min-height: auto; }
 }
 
 /* ============================================= */
@@ -335,7 +355,7 @@ body {
 }
 
 #site-header.is-scrolled .nav-link {
-  color: var(--color-dark) !important;
+  color: var(--color-dark);
 }
 
 #site-header.is-scrolled .logo-white {
@@ -347,7 +367,7 @@ body {
 }
 
 #site-header.is-scrolled .nav-link:hover {
-  color: var(--color-primary) !important;
+  color: var(--color-primary);
 }
 
 #site-header.is-scrolled #header-cta {
@@ -356,7 +376,7 @@ body {
 }
 
 #site-header.is-scrolled #header-cta svg {
-  color: var(--color-white) !important;
+  color: var(--color-white);
 }
 
 #site-header.is-scrolled #header-cta:hover {
@@ -365,11 +385,11 @@ body {
 }
 
 #site-header.is-scrolled svg {
-  color: var(--color-primary) !important;
+  color: var(--color-primary);
 }
 
 #site-header.is-scrolled .hamburger-line {
-  background: var(--color-dark) !important;
+  background: var(--color-dark);
 }
 
 #site-header.is-scrolled #mobile-menu-btn {
@@ -782,14 +802,6 @@ body {
 /* SERVICES — 4-Card Editorial Grid              */
 /* ============================================= */
 
-/* 4 columns on desktop */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  align-items: start;
-}
-
 /* Each Card */
 .service-card {
   background: transparent;
@@ -801,13 +813,6 @@ body {
 
 .service-card:hover {
   transform: translateY(-4px);
-}
-
-/* Image wrapper — tall portrait */
-.service-card__img-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3 / 4;
 }
 
 .service-card__img {
@@ -935,7 +940,7 @@ body {
   text-decoration: none;
   border: 1px solid var(--color-primary);
   padding: 0.5rem 1rem;
-  transition: all var(--transition-base), opacity 300ms ease, transform 300ms ease;
+  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base), opacity 300ms ease, transform 300ms ease;
   align-self: flex-start;
   opacity: 0;
   transform: translateY(8px);
@@ -968,32 +973,37 @@ body {
   will-change: opacity, transform;
 }
 
-/* Service card header elements — initial (set by GSAP fromTo) */
-.service-card__icon,
-.service-card__title,
-.service-card__desc,
-.service-card__link {
-  will-change: opacity, transform;
+/* Service card header elements — GSAP handles will-change automatically */
+
+/* Mobile-first grid: 1 column → 2 → 4 at breakpoints */
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: start;
 }
 
-/* ============================================= */
-/* RESPONSIVE: Services section                  */
-/* ============================================= */
+/* Image wrapper — landscape on mobile, portrait on sm+ */
+.service-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
 
-@media (max-width: 1023px) {
+@media (min-width: 640px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 639px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 2rem;
   }
 
   .service-card__img-wrap {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 3 / 4;
+  }
+}
+
+@media (min-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -1002,9 +1012,10 @@ body {
 /* PROJECTS THUMBS — Navigation Buttons          */
 /* ============================================= */
 
-/* Wrapper is position context for side arrows */
+/* Wrapper is position context for side arrows + thumbnail row */
 .projects-thumbs-wrapper {
   position: relative;
+  margin-top: 2rem;
   /* Set by JS = imgWrapHeight / 2. Fallback for typical thumb sizes. */
   --thumbs-img-center: 68px;
 }
@@ -1080,7 +1091,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 0.75rem; /* Reduced for mobile */
   position: relative;
   width: 100%;
 }
@@ -1094,6 +1105,7 @@ body {
   /* Center pagination on desktop when no buttons */
   .thumbs-nav {
     justify-content: center;
+    margin-top: 3rem; /* User requested 3rem for PC */
   }
 }
 
@@ -1884,12 +1896,6 @@ body {
   color: var(--color-accent);
 }
 
-/* ── Thumbnail Selector Row — Swiper Slider ── */
-.projects-thumbs-wrapper {
-  position: relative;
-  margin-top: 2rem;
-}
-
 .projects-thumbs-swiper {
   overflow: hidden;
 }
@@ -2025,48 +2031,7 @@ body {
   pointer-events: none;
 }
 
-/* ── Bottom Nav Bar (pagination + mobile prev/next) ── */
-.thumbs-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.thumbs-nav__mobile-btn {
-  display: none;
-}
-@media (max-width: 1023px) {
-  .thumbs-nav__mobile-btn {
-    display: flex;
-    position: static;
-    transform: none;
-  }
-}
-
-/* ── Pagination bullets (dash style) ── */
-.thumbs-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.thumbs-pagination .swiper-pagination-bullet {
-  width: 20px;
-  height: 4px;
-  border-radius: 0;
-  background: #d1d5db; /* Tailwind gray-300 */
-  opacity: 1;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.thumbs-pagination .swiper-pagination-bullet-active {
-  width: 36px;
-  background: var(--color-primary);
-}
+/* Removed duplicate .thumbs-nav block that was causing conflicts */
 
 /* Projects elements — initial state for GSAP */
 .projects-el {

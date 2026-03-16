@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Villa Thảo Điền — XANH Design & Build | Hành Trình Dự Án</title>
+  <meta name="description" content="Khám phá hành trình kiến tạo Villa Thảo Điền — hoàn thiện sát 3D 98%, 0% phát sinh. Biệt thự 320m² phong cách Modern Tropical tại Quận 2, TP.HCM." />
+
+  <!-- BreadcrumbList JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Trang Chủ",
+        "item": "https://xanhdesignbuild.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Dự Án",
+        "item": "https://xanhdesignbuild.com/du-an/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Villa Thảo Điền"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (wireframe only) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#14513D', accent: '#FF8A00', light: '#F3F4F6', beige: '#D8C7A3', dark: '#1A1A1A' },
+          fontFamily: { heading: ['Inter', '-apple-system', 'sans-serif'], body: ['Inter', '-apple-system', 'sans-serif'] },
+        },
+      },
+    }
+  </script>
+
+  <!-- Vendor Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Page Styles -->
+  <link rel="stylesheet" href="portfolio-detail.css" />
+</head>
+
+<body class="font-body bg-white text-dark antialiased overflow-x-hidden">
+
+  <!-- ============================================= -->
+  <!-- HEADER                                        -->
+  <!-- ============================================= -->
+  <header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <nav class="relative flex items-center justify-between px-5 md:px-8 lg:px-12 xl:px-16 py-4 lg:py-5">
+      <a href="#" class="relative flex items-center lg:static absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto" id="logo-link">
+        <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto logo-white transition-opacity duration-300" />
+        <img src="../SVG/LOGO FULL TAGLINE/LOGO-01.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto absolute top-1/2 -translate-y-1/2 left-0 opacity-0 logo-dark transition-opacity duration-300" />
+      </a>
+      <ul class="hidden lg:flex items-center gap-10">
+        <li><a href="../homepage_02/home-page.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Trang Chủ</a></li>
+        <li><a href="../about/about.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Giới Thiệu</a></li>
+        <li><a href="portfolio.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative active">Dự Án</a></li>
+        <li><a href="#" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Dịch Vụ</a></li>
+        <li><a href="#" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Blog</a></li>
+      </ul>
+      <a href="#" class="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 bg-accent text-white text-sm font-semibold uppercase tracking-[0.1em] hover:bg-accent/90 transition-all duration-300">
+        <i data-lucide="phone" class="w-4 h-4"></i> Đặt Lịch Tư Vấn
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu Toggle -->
+  <button class="lg:hidden fixed top-4 right-5 z-[1010] w-10 h-10 flex flex-col justify-center items-center gap-[6px]" id="mobile-menu-btn" aria-label="Toggle Menu">
+    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
+    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
+    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
+  </button>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-[998] opacity-0 pointer-events-none transition-opacity duration-400"></div>
+  <aside id="mobile-drawer" class="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] bg-primary z-[999] flex flex-col translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" aria-label="Mobile navigation">
+    <div class="flex items-center justify-start px-6 py-5 border-b-[0.5px] border-white/30">
+      <a href="#" class="block"><img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH" class="h-7 w-auto" /></a>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-4">
+      <ul class="flex flex-col">
+        <li><a href="../homepage_02/home-page.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Trang Chủ <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
+        <li><a href="../about/about.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Giới Thiệu <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
+        <li><a href="portfolio.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 bg-white/10">Dự Án <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
+        <li><a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Dịch Vụ <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
+        <li><a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Blog <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
+      </ul>
+      <div class="px-6 mt-6"><a href="#" class="flex items-center justify-center gap-2 w-full py-3 bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent/90 transition-colors"><i data-lucide="phone" class="w-4 h-4"></i> Đặt Lịch Tư Vấn</a></div>
+    </nav>
+    <div class="px-6 py-5 border-t-[0.5px] border-white/20">
+      <div class="flex items-center gap-5">
+        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="Facebook"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="Instagram"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="YouTube"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      </div>
+      <p class="text-white/30 text-xs mt-3 tracking-wide">© 2026 XANH Design & Build</p>
+    </div>
+  </aside>
+
+  <!-- ============================================= -->
+  <!-- SECTION D1 + D2: HERO IMAGE + BREADCRUMB       -->
+  <!-- Breadcrumb nằm trong hero, phía trên góc trái  -->
+  <!-- ============================================= -->
+  <section id="detail-hero" class="detail-hero">
+
+    <!-- Background image -->
+    <div class="detail-hero__bg">
+      <img
+        src="../homepage_02/img/project-after-1.png"
+        alt="Villa Thảo Điền — Biệt thự phong cách Modern Tropical tại Quận 2, TP.HCM — XANH Design & Build"
+        width="1920"
+        height="1080"
+      />
+      <div class="detail-hero__overlay"></div>
+    </div>
+
+    <!-- Nội dung overlay: tất cả nằm ở bottom -->
+    <div class="detail-hero__inner">
+
+      <!-- D1 + D2: Project info cluster — bottom of hero -->
+      <div class="detail-hero__bottom">
+        <div class="site-container--hero">
+
+          <!-- D1: Breadcrumb — ngay trên title -->
+          <nav class="breadcrumb breadcrumb--hero" aria-label="Breadcrumb">
+            <ol class="breadcrumb__list">
+              <li class="breadcrumb__item">
+                <a href="../homepage_02/home-page.html" class="breadcrumb__link">Trang Chủ</a>
+                <span class="breadcrumb__separator" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </span>
+              </li>
+              <li class="breadcrumb__item">
+                <a href="portfolio.html" class="breadcrumb__link">Dự Án</a>
+                <span class="breadcrumb__separator" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </span>
+              </li>
+              <li class="breadcrumb__item">
+                <span class="breadcrumb__current" aria-current="page">Villa Thảo Điền</span>
+              </li>
+            </ol>
+          </nav>
+
+          <!-- D2: Tên dự án — title lớn -->
+          <h1 class="detail-hero__title">Villa Thảo Điền</h1>
+
+          <!-- Eyebrow: loại hình dự án — dưới title -->
+          <span class="detail-hero__eyebrow">Biệt Thự — Modern Tropical</span>
+
+          <!-- Tagline: số liệu minh bạch -->
+          <p class="detail-hero__tagline">Hoàn thiện sát 3D 98% &nbsp;|&nbsp; 0% Phát sinh chi phí &nbsp;|&nbsp; Quận 2, TP.HCM</p>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION D3: STATS BAR — Thông Số Minh Bạch    -->
+  <!-- ============================================= -->
+  <section id="stats-bar" class="stats-bar">
+    <div class="site-container">
+      <div class="stats-bar__grid">
+
+        <!-- 📍 Vị trí -->
+        <div class="stats-bar__item anim-fade-up">
+          <div class="stats-bar__icon">
+            <i data-lucide="map-pin" class="w-5 h-5"></i>
+          </div>
+          <div class="stats-bar__info">
+            <span class="stats-bar__value">Nha Trang</span>
+            <span class="stats-bar__label">Vị Trí</span>
+          </div>
+        </div>
+
+        <div class="stats-bar__divider" aria-hidden="true"></div>
+
+        <!-- 📐 Diện tích -->
+        <div class="stats-bar__item anim-fade-up">
+          <div class="stats-bar__icon">
+            <i data-lucide="maximize-2" class="w-5 h-5"></i>
+          </div>
+          <div class="stats-bar__info">
+            <span class="stats-bar__value"><span class="stats-bar__counter" data-target="120">0</span>m²</span>
+            <span class="stats-bar__label">Diện Tích</span>
+          </div>
+        </div>
+
+        <div class="stats-bar__divider" aria-hidden="true"></div>
+
+        <!-- 🏗 Số tầng -->
+        <div class="stats-bar__item anim-fade-up">
+          <div class="stats-bar__icon">
+            <i data-lucide="building-2" class="w-5 h-5"></i>
+          </div>
+          <div class="stats-bar__info">
+            <span class="stats-bar__value"><span class="stats-bar__counter" data-target="2">0</span> Tầng</span>
+            <span class="stats-bar__label">Quy Mô</span>
+          </div>
+        </div>
+
+        <div class="stats-bar__divider" aria-hidden="true"></div>
+
+        <!-- ⏱ Thời gian -->
+        <div class="stats-bar__item anim-fade-up">
+          <div class="stats-bar__icon">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+          </div>
+          <div class="stats-bar__info">
+            <span class="stats-bar__value"><span class="stats-bar__counter" data-target="120">0</span> Ngày</span>
+            <span class="stats-bar__label">Thi Công</span>
+          </div>
+        </div>
+
+        <div class="stats-bar__divider" aria-hidden="true"></div>
+
+        <!-- 💰 Ngân sách -->
+        <div class="stats-bar__item anim-fade-up">
+          <div class="stats-bar__icon">
+            <i data-lucide="banknote" class="w-5 h-5"></i>
+          </div>
+          <div class="stats-bar__info">
+            <span class="stats-bar__value"><span class="stats-bar__counter" data-target="2.5" data-decimals="1">0</span> Tỷ VNĐ</span>
+            <span class="stats-bar__label">Ngân Sách</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 0% Phát sinh highlight -->
+      <div class="stats-bar__highlight anim-fade-up">
+        <i data-lucide="shield-check" class="w-4 h-4"></i>
+        <span><strong class="stats-bar__highlight-value">0%</strong> Phát sinh chi phí</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION D4: CÂU CHUYỆN DỰ ÁN                  -->
+  <!-- Layout: Editorial Split-Screen (Luxury)        -->
+  <!-- ACF: project_story group → repeatable per post -->
+  <!-- ============================================= -->
+  <section id="project-story" class="project-story">
+
+    <!-- Section Header -->
+    <div class="site-container">
+      <div class="project-story__header anim-fade-up">
+        <span class="section-eyebrow project-story__eyebrow">Câu Chuyện Dự Án</span>
+        <h2 class="project-story__title">Mỗi Không Gian Đều Bắt Đầu<br class="hidden md:block" /> Từ Một Bài Toán Thực Tế</h2>
+      </div>
+    </div>
+
+    <!-- ─── Story Block ───
+         ACF mapping:
+         - project_challenge_title   → .project-story__challenge-title
+         - project_challenge_body    → .project-story__challenge-body
+         - project_challenge_context → .project-story__context (sub-heading + body)
+         - project_client_quote      → blockquote
+         - project_client_name       → cite
+         - project_solution_heading  → .project-story__solution-heading
+         - project_solution_sub      → .project-story__solution-sub
+         - project_solutions (repeater):
+             - solution_icon         → data-lucide icon name
+             - solution_title        → .project-story__sol-title
+             - solution_description  → .project-story__sol-desc
+    -->
+    <div class="project-story__block anim-fade-up">
+
+      <!-- ▌ LEFT — BÀI TOÁN (Beige Panel) -->
+      <div class="project-story__challenge">
+
+        <span class="project-story__col-label">Bài Toán</span>
+
+        <h3 class="project-story__challenge-title">
+          Khu Đất Hướng Tây<br />Nắng Nóng Gay Gắt
+        </h3>
+
+        <p class="project-story__challenge-body">
+          Anh Hoàng tìm đến XANH với khu đất hướng Tây tại trung tâm Nha Trang — nơi nhiệt độ chiều có thể lên đến 38°C vào mùa hè. Ngân sách giới hạn ở mức 2.5 tỷ, trong khi mong muốn là một không gian sống thoáng mát, gần gũi thiên nhiên, đủ cho gia đình 4 người.
+        </p>
+
+        <div class="project-story__context">
+          <h4 class="project-story__context-heading">Bối Cảnh & Giới Hạn</h4>
+          <p class="project-story__context-body">
+            Mặt tiền 6m hướng chính Tây, diện tích 120m². Gia chủ mong muốn phòng khách rộng rãi đón bạn bè — nhưng hướng Tây khiến khu vực này trở thành "lò nướng" mỗi chiều hè. Mọi đơn vị tư vấn trước đó đều bỏ qua yếu tố này.
+          </p>
+        </div>
+
+        <blockquote class="project-story__quote">
+          <p>"Tôi đã đi xem 5–6 đơn vị, ai cũng nói 'hướng Tây không vấn đề gì.' Chỉ XANH hỏi tôi: chiều nào anh về nhà sớm nhất?"</p>
+          <cite>— Anh Hoàng, Gia chủ</cite>
+        </blockquote>
+
+      </div>
+
+      <!-- ▌ RIGHT — LỜI GIẢI (White Panel) -->
+      <div class="project-story__solution">
+
+        <span class="project-story__col-label">Lời Giải</span>
+        <h3 class="project-story__solution-heading">Thiết Kế & Giải Pháp Kỹ Thuật</h3>
+
+        <!-- Solution Item 1 — ACF repeater row -->
+        <div class="project-story__solution-item">
+          <div class="project-story__sol-icon">
+            <i data-lucide="grid-3x3" class="w-6 h-6"></i>
+          </div>
+          <div class="project-story__sol-content">
+            <h4 class="project-story__sol-title">Gạch Bông Gió Mặt Tiền</h4>
+            <p class="project-story__sol-desc">Hệ gạch bông gió mặt tiền phía Tây vừa tạo thẩm mỹ vừa giảm nhiệt bức xạ trực tiếp — giảm 6°C nhiệt độ phòng khách so với đo đạc trước thi công.</p>
+          </div>
+        </div>
+
+        <!-- Solution Item 2 -->
+        <div class="project-story__solution-item">
+          <div class="project-story__sol-icon">
+            <i data-lucide="venetian-mask" class="w-6 h-6"></i>
+          </div>
+          <div class="project-story__sol-content">
+            <h4 class="project-story__sol-title">Hệ Lam Chắn Nắng 45°</h4>
+            <p class="project-story__sol-desc">Hệ lam nhôm chắn nắng xoay 45° theo hướng chiếu, kết hợp mái hiên sâu — tiết kiệm 35% điện năng điều hòa hàng tháng.</p>
+          </div>
+        </div>
+
+        <!-- Solution Item 3 -->
+        <div class="project-story__solution-item">
+          <div class="project-story__sol-icon">
+            <i data-lucide="wind" class="w-6 h-6"></i>
+          </div>
+          <div class="project-story__sol-content">
+            <h4 class="project-story__sol-title">Xoay Trục Đón Gió</h4>
+            <p class="project-story__sol-desc">Mặt bằng được xoay trục sinh hoạt về hướng Đông-Nam, nơi đón gió biển tự nhiên quanh năm — tạo sự thoáng mát không cần điều hòa.</p>
+          </div>
+        </div>
+
+        <!-- Solution Item 4 -->
+        <div class="project-story__solution-item">
+          <div class="project-story__sol-icon">
+            <i data-lucide="piggy-bank" class="w-6 h-6"></i>
+          </div>
+          <div class="project-story__sol-content">
+            <h4 class="project-story__sol-title">Minh Bạch Chi Phí</h4>
+            <p class="project-story__sol-desc">Ngân sách thực tế 2.48 Tỷ — dưới dự toán ban đầu, 0% phát sinh chi phí. Mỗi đồng đầu tư đều được tôn trọng.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Placeholder: Các sections D5-D10 sẽ được thêm sau -->
+  <section class="py-20 md:py-32 lg:py-40 bg-light">
+    <div class="site-container text-center">
+      <p class="text-dark/30 text-sm uppercase tracking-[0.15em] font-medium">Sections D5 — D10 sẽ được triển khai tiếp theo</p>
+    </div>
+  </section>
+
+  <!-- Page Script -->
+  <script src="portfolio-detail.js"></script>
+</body>
+</html>
