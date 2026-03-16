@@ -9,7 +9,7 @@ globs: wp-content/themes/xanh-theme/**/*.{php,css}
 - **Restraint** — Ít chi tiết, chất lượng cao. Mỗi element phải có lý do
 - **Breathing Room** — Content/whitespace ratio 40/60. Khoảng trắng = sang trọng
 - **Subtlety** — Hiệu ứng tinh tế, hover nhẹ, transitions mượt. KHÔNG bounce/shake
-- **Consistency** — Component tokens bắt buộc (§9 `ARCH_DESIGN_TOKENS.md`)
+- **Consistency** — Component tokens bắt buộc (§9 `ARCH_DESIGN_TOKENS.md`). Cross-section element sync: `.agent/rules/08-cross-section-consistency.md`
 - **Warmth** — Tông beige ấm, ảnh có con người, copy mời gọi (không lạnh lẽo)
 - **Storytelling:** Aspiration → Empathy → Solution → Proof → Invitation (bắt đầu từ ước mơ, KHÔNG nỗi đau)
 - **Full direction:** `docs/ARCH_LUXURY_VISUAL_DIRECTION.md`

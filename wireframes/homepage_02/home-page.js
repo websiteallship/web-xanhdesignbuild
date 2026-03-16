@@ -1,50 +1,80 @@
 /**
- * XANH - Design & Build
+ * XANH — Design & Build
  * Homepage 02 Wireframe: Minnaro-inspired
  * =========================================
+ * Architecture: Object Module Pattern (Rule 10)
  * Libraries: Swiper, GSAP, ScrollTrigger, Lenis, Lucide
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // ── Initialize Lucide Icons ──
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
-
-  // ── Mobile Drawer Menu ──
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileDrawer = document.getElementById('mobile-drawer');
-  const mobileOverlay = document.getElementById('mobile-overlay');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-  let isDrawerOpen = false;
-
-  function toggleDrawer() {
-    if (isDrawerOpen) {
-      closeDrawer();
-    } else {
-      openDrawer();
+/* ─────────────────────────────────────────────── */
+/* Module 1 — Lucide Icons                         */
+/* ─────────────────────────────────────────────── */
+const XanhIcons = {
+  init() {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
     }
-  }
+  },
+};
 
-  function openDrawer() {
-    isDrawerOpen = true;
-    mobileMenuBtn.classList.add('is-active');
+/* ─────────────────────────────────────────────── */
+/* Module 2 — Mobile Drawer Menu                   */
+/* ─────────────────────────────────────────────── */
+const XanhMobileMenu = {
+  isOpen: false,
+  menuBtn: null,
+  drawer: null,
+  overlay: null,
+  navLinks: null,
 
-    mobileDrawer.classList.remove('translate-x-full');
-    mobileDrawer.classList.add('translate-x-0');
-    mobileOverlay.classList.remove('opacity-0', 'pointer-events-none');
-    mobileOverlay.classList.add('opacity-100', 'pointer-events-auto');
+  /** @private */
+  _refs: { keydownHandler: null },
+
+  init() {
+    this.menuBtn = document.getElementById('mobile-menu-btn');
+    this.drawer = document.getElementById('mobile-drawer');
+    this.overlay = document.getElementById('mobile-overlay');
+    this.navLinks = document.querySelectorAll('.mobile-nav-link');
+
+    if (!this.menuBtn || !this.drawer) return;
+
+    this.menuBtn.addEventListener('click', () => this.toggle());
+    if (this.overlay) this.overlay.addEventListener('click', () => this.close());
+
+    this._refs.keydownHandler = (e) => {
+      if (e.key === 'Escape' && !this.drawer.classList.contains('translate-x-full')) {
+        this.close();
+      }
+    };
+    document.addEventListener('keydown', this._refs.keydownHandler);
+
+    this.navLinks.forEach((link) => {
+      link.addEventListener('click', () => this.close());
+    });
+  },
+
+  toggle() {
+    this.isOpen ? this.close() : this.open();
+  },
+
+  open() {
+    this.isOpen = true;
+    this.menuBtn.classList.add('is-active');
+
+    this.drawer.classList.remove('translate-x-full');
+    this.drawer.classList.add('translate-x-0');
+    this.overlay.classList.remove('opacity-0', 'pointer-events-none');
+    this.overlay.classList.add('opacity-100', 'pointer-events-auto');
     document.body.style.overflow = 'hidden';
 
-    // Force hamburger icon white when drawer is open (dark green background)
-    mobileMenuBtn.querySelectorAll('.hamburger-line').forEach(l => {
+    // Force hamburger icon white when drawer is open (dark green bg)
+    this.menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
       l.classList.remove('bg-dark');
       l.classList.add('bg-white');
     });
 
     // Staggered link reveal
-    mobileNavLinks.forEach((link, i) => {
+    this.navLinks.forEach((link, i) => {
       link.style.opacity = '0';
       link.style.transform = 'translateX(20px)';
       setTimeout(() => {
@@ -53,21 +83,21 @@ document.addEventListener('DOMContentLoaded', () => {
         link.style.transform = 'translateX(0)';
       }, 80 + i * 60);
     });
-  }
+  },
 
-  function closeDrawer() {
-    isDrawerOpen = false;
-    mobileMenuBtn.classList.remove('is-active');
+  close() {
+    this.isOpen = false;
+    this.menuBtn.classList.remove('is-active');
 
-    mobileDrawer.classList.remove('translate-x-0');
-    mobileDrawer.classList.add('translate-x-full');
-    mobileOverlay.classList.remove('opacity-100', 'pointer-events-auto');
-    mobileOverlay.classList.add('opacity-0', 'pointer-events-none');
+    this.drawer.classList.remove('translate-x-0');
+    this.drawer.classList.add('translate-x-full');
+    this.overlay.classList.remove('opacity-100', 'pointer-events-auto');
+    this.overlay.classList.add('opacity-0', 'pointer-events-none');
     document.body.style.overflow = '';
 
     // Restore hamburger color based on current scroll position
     const scrollY = window.scrollY || window.pageYOffset;
-    mobileMenuBtn.querySelectorAll('.hamburger-line').forEach(l => {
+    this.menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
       if (scrollY > 80) {
         l.classList.remove('bg-white');
         l.classList.add('bg-dark');
@@ -76,249 +106,166 @@ document.addEventListener('DOMContentLoaded', () => {
         l.classList.add('bg-white');
       }
     });
-  }
+  },
 
-  if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleDrawer);
-  if (mobileOverlay) mobileOverlay.addEventListener('click', closeDrawer);
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !mobileDrawer.classList.contains('translate-x-full')) {
-      closeDrawer();
+  destroy() {
+    if (this._refs.keydownHandler) {
+      document.removeEventListener('keydown', this._refs.keydownHandler);
     }
-  });
+  },
+};
 
-  // Close drawer when clicking a nav link
-  mobileNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      closeDrawer();
-    });
-  });
+/* ─────────────────────────────────────────────── */
+/* Module 3 — Lenis Smooth Scroll                  */
+/* ─────────────────────────────────────────────── */
+const XanhSmoothScroll = {
+  lenis: null,
 
-  // ── Lenis Smooth Scroll ──
-  let lenis;
-  if (typeof Lenis !== 'undefined') {
-    lenis = new Lenis({
+  init() {
+    if (typeof Lenis === 'undefined') return;
+
+    this.lenis = new Lenis({
       lerp: 0.1,
       smoothWheel: true,
       wheelMultiplier: 0.8,
     });
 
-    function raf(time) {
-      lenis.raf(time);
+    const raf = (time) => {
+      this.lenis.raf(time);
       requestAnimationFrame(raf);
-    }
+    };
     requestAnimationFrame(raf);
 
     // Sync Lenis with GSAP ScrollTrigger
     if (typeof ScrollTrigger !== 'undefined') {
-      lenis.on('scroll', ScrollTrigger.update);
+      this.lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
+        this.lenis.raf(time * 1000);
       });
       gsap.ticker.lagSmoothing(0);
     }
-  }
+  },
+};
 
-  // ── Hero Fixed Content Reveal ──
-  function revealHeroContent() {
-    const els = document.querySelectorAll('.hero-headline, .hero-subheadline, .hero-cta');
-    els.forEach(el => {
-      el.classList.add('is-visible');
-    });
-  }
+/* ─────────────────────────────────────────────── */
+/* Module 4 — Header Scroll Behavior               */
+/* ─────────────────────────────────────────────── */
+const XanhHeader = {
+  header: null,
+  _ticking: false,
 
-  // Reveal hero content after a short delay (after page load)
-  setTimeout(revealHeroContent, 400);
+  init() {
+    this.header = document.getElementById('site-header');
+    if (!this.header) return;
 
-  // ── Hero Swiper Slider (Background only) ──
-  if (typeof Swiper !== 'undefined') {
-    new Swiper('.hero-swiper', {
-      loop: true,
-      speed: 1500,
-      effect: 'fade',
-      fadeEffect: {
-        crossFade: true,
-      },
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-      },
-      pagination: {
-        el: '.hero-pagination',
-        clickable: true,
-      },
-    });
-  }
+    window.addEventListener('scroll', () => {
+      if (!this._ticking) {
+        requestAnimationFrame(() => {
+          this._handleScroll();
+          this._ticking = false;
+        });
+        this._ticking = true;
+      }
+    }, { passive: true });
+  },
 
-  // ── Header Scroll Behavior ──
-  const header = document.getElementById('site-header');
-  let lastScrollY = 0;
-
-  function handleHeaderScroll() {
+  /** @private */
+  _handleScroll() {
     const scrollY = window.scrollY || window.pageYOffset;
     const menuBtn = document.getElementById('mobile-menu-btn');
 
     if (scrollY > 80) {
-      header.classList.add('is-scrolled');
-      // Toggle hamburger lines to dark
+      this.header.classList.add('is-scrolled');
       if (menuBtn) {
-        menuBtn.querySelectorAll('.hamburger-line').forEach(l => {
+        menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
           l.classList.remove('bg-white');
           l.classList.add('bg-dark');
         });
       }
     } else {
-      header.classList.remove('is-scrolled');
-      // Toggle hamburger lines to white
+      this.header.classList.remove('is-scrolled');
       if (menuBtn) {
-        menuBtn.querySelectorAll('.hamburger-line').forEach(l => {
+        menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
           l.classList.remove('bg-dark');
           l.classList.add('bg-white');
         });
       }
     }
+  },
+};
 
-    lastScrollY = scrollY;
-  }
-
-  // Use requestAnimationFrame for performance
-  let headerTicking = false;
-  window.addEventListener('scroll', () => {
-    if (!headerTicking) {
-      requestAnimationFrame(() => {
-        handleHeaderScroll();
-        headerTicking = false;
+/* ─────────────────────────────────────────────── */
+/* Module 5 — Hero Slider                          */
+/* ─────────────────────────────────────────────── */
+const XanhHero = {
+  init() {
+    // Hero content reveal
+    setTimeout(() => {
+      document.querySelectorAll('.hero-headline, .hero-subheadline, .hero-cta').forEach((el) => {
+        el.classList.add('is-visible');
       });
-      headerTicking = true;
-    }
-  }, { passive: true });
+    }, 400);
 
-  // ── GSAP ScrollTrigger Animations ──
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // Hero Swiper (background images)
+    if (typeof Swiper !== 'undefined') {
+      new Swiper('.hero-swiper', {
+        loop: true,
+        speed: 1500,
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        pagination: {
+          el: '.hero-pagination',
+          clickable: true,
+        },
+      });
+    }
+  },
+};
+
+/* ─────────────────────────────────────────────── */
+/* Module 6 — GSAP Scroll Animations               */
+/* ─────────────────────────────────────────────── */
+const XanhScrollAnimations = {
+  init() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      this._initFallback();
+      return;
+    }
+
     gsap.registerPlugin(ScrollTrigger);
+    this._initEmpathyParallax();
+    this._initHeroParallax();
+    this._initUnifiedFadeUp();
+    this._initServicesReveal();
+  },
 
-    // Empathy section — gentle scale-only parallax (no yPercent to prevent gap)
+  /** @private — Empathy section parallax */
+  _initEmpathyParallax() {
     const empathyBg = document.querySelector('.empathy-bg img');
-    if (empathyBg) {
-      gsap.fromTo(empathyBg,
-        { scale: 1.08 },
-        {
-          scale: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#empathy',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        }
-      );
-    }
+    if (!empathyBg) return;
 
-    // Empathy section — sequential text reveal (fromTo for clean translateY)
-    const empathyEls = gsap.utils.toArray('.empathy-el');
-    if (empathyEls.length > 0) {
-      gsap.fromTo(empathyEls, 
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: '#empathy',
-            start: 'top 75%',
-            once: true
-          }
-        }
-      );
-    }
-
-    // Core Values section — stagger fade-up entrance
-    const valuesEls = gsap.utils.toArray('.values-el');
-    if (valuesEls.length > 0) {
-      gsap.fromTo(valuesEls, 
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: '#core-values',
-            start: 'top 75%',
-            once: true
-          }
-        }
-      );
-    }
-
-    // Services section — multi-stage premium reveal
-    const servicesTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#services',
-        start: 'top 70%',
-        once: true
+    gsap.fromTo(empathyBg,
+      { scale: 1.08 },
+      {
+        scale: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#empathy',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+        },
       }
-    });
+    );
+  },
 
-    // 1. Section header text fades in first
-    const servicesHeader = document.querySelectorAll('#services .services-el:not(.service-card)');
-    if (servicesHeader.length > 0) {
-      servicesTl.fromTo(servicesHeader,
-        { y: 32, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.75, stagger: 0.12, ease: 'power2.out' }
-      );
-    }
-
-    // 2. Each card's image clips up from bottom (staggered cascade)
-    const serviceCards = document.querySelectorAll('.service-card');
-    if (serviceCards.length > 0) {
-      // Image clip-path reveal — each card one after another
-      serviceCards.forEach((card, i) => {
-        const imgWrap = card.querySelector('.service-card__img-wrap');
-        const img = card.querySelector('.service-card__img');
-        if (imgWrap && img) {
-          servicesTl.fromTo(imgWrap,
-            { clipPath: 'inset(100% 0 0 0)' },
-            { clipPath: 'inset(0% 0 0 0)', duration: 0.85, ease: 'power3.out' },
-            i === 0 ? '-=0.3' : `-=0.6`  // stagger by overlapping
-          );
-          // Image scale down simultaneously with reveal
-          servicesTl.fromTo(img,
-            { scale: 1.12 },
-            { scale: 1, duration: 0.85, ease: 'power2.out' },
-            '<'  // start at same time as imgWrap
-          );
-        }
-      });
-
-      // 3. Card body content (icon → title → desc → link) fade-up in sequence
-      servicesTl.fromTo(
-        document.querySelectorAll('.service-card__icon'),
-        { y: 16, opacity: 0 },
-        { y: 0, opacity: 0.7, duration: 0.6, stagger: 0.08, ease: 'power2.out' },
-        '-=1.0'
-      );
-      servicesTl.fromTo(
-        document.querySelectorAll('.service-card__title'),
-        { y: 16, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power2.out' },
-        '<+0.1'
-      );
-      servicesTl.fromTo(
-        document.querySelectorAll('.service-card__desc'),
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, stagger: 0.08, ease: 'power2.out' },
-        '<+0.08'
-      );
-    }
-
-    // Hero images — subtle scale-only parallax (no yPercent to prevent gap)
+  /** @private — Hero images parallax */
+  _initHeroParallax() {
     gsap.utils.toArray('.hero-swiper .swiper-slide img').forEach((img) => {
       gsap.fromTo(img,
         { scale: 1.05 },
@@ -334,80 +281,125 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       );
     });
-  }
+  },
 
-  // ── Intersection Observer fallback for Empathy section ──
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    const empathyObserver = new IntersectionObserver(
+  /** @private — Unified .anim-fade-up entrance (§9) */
+  _initUnifiedFadeUp() {
+    gsap.utils.toArray('.anim-fade-up').forEach((el) => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 40 },
+        {
+          scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+          opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        }
+      );
+    });
+  },
+
+  /** @private — Services section multi-stage reveal */
+  _initServicesReveal() {
+    const servicesSection = document.getElementById('services');
+    if (!servicesSection) return;
+
+    const serviceCards = document.querySelectorAll('.service-card');
+    if (!serviceCards.length) return;
+
+    const servicesTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#services',
+        start: 'top 70%',
+        once: true,
+      },
+    });
+
+    // Image clip-path reveal
+    serviceCards.forEach((card, i) => {
+      const imgWrap = card.querySelector('.service-card__img-wrap');
+      const img = card.querySelector('.service-card__img');
+      if (imgWrap && img) {
+        servicesTl.fromTo(imgWrap,
+          { clipPath: 'inset(100% 0 0 0)' },
+          { clipPath: 'inset(0% 0 0 0)', duration: 0.85, ease: 'power3.out' },
+          i === 0 ? '-=0.3' : '-=0.6'
+        );
+        servicesTl.fromTo(img,
+          { scale: 1.12 },
+          { scale: 1, duration: 0.85, ease: 'power2.out' },
+          '<'
+        );
+      }
+    });
+
+    // Card body content stagger
+    servicesTl.fromTo(
+      document.querySelectorAll('.service-card__icon'),
+      { y: 16, opacity: 0 },
+      { y: 0, opacity: 0.7, duration: 0.6, stagger: 0.08, ease: 'power2.out' },
+      '-=1.0'
+    );
+    servicesTl.fromTo(
+      document.querySelectorAll('.service-card__title'),
+      { y: 16, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power2.out' },
+      '<+0.1'
+    );
+    servicesTl.fromTo(
+      document.querySelectorAll('.service-card__desc'),
+      { y: 12, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.55, stagger: 0.08, ease: 'power2.out' },
+      '<+0.08'
+    );
+  },
+
+  /** @private — Fallback when GSAP is not loaded */
+  _initFallback() {
+    const fallbackObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const elements = entry.target.querySelectorAll('.empathy-el');
-            elements.forEach((el, index) => {
+            entry.target.querySelectorAll('.anim-fade-up').forEach((el, index) => {
               setTimeout(() => {
-                el.classList.add('is-visible');
-              }, index * 200);
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+              }, index * 150);
             });
-            empathyObserver.unobserve(entry.target);
+            fallbackObserver.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.15 }
     );
 
-    const empathySection = document.getElementById('empathy');
-    if (empathySection) {
-      empathyObserver.observe(empathySection);
+    document.querySelectorAll('section').forEach((sec) => fallbackObserver.observe(sec));
+  },
+};
+
+/* ─────────────────────────────────────────────── */
+/* Module 7 — CTA Section                          */
+/* ─────────────────────────────────────────────── */
+const XanhCTA = {
+  init() {
+    const ctaSection = document.getElementById('cta');
+    if (!ctaSection) return;
+
+    const ctaEls = ctaSection.querySelectorAll('.cta-el');
+    const ctaImgPanel = ctaSection.querySelector('.cta-panel--image');
+    const counterEls = ctaSection.querySelectorAll('.cta-badge__num[data-count]');
+
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      this._initFallback(ctaSection, ctaEls, ctaImgPanel, counterEls);
+      return;
     }
-  }
-});
 
-/* ============================================= */
-/* SECTION CTA — Scroll entrance animation        */
-/* ============================================= */
-(function () {
-  'use strict';
-
-  const ctaSection = document.getElementById('cta');
-  if (!ctaSection) return;
-
-  const ctaEls = ctaSection.querySelectorAll('.cta-el');
-  const ctaImgPanel = ctaSection.querySelector('.cta-panel--image');
-  const counterEls = ctaSection.querySelectorAll('.cta-badge__num[data-count]');
-
-  /* ── Counter animation ── */
-  function animateCounters() {
-    counterEls.forEach((el) => {
-      const target = parseInt(el.dataset.count, 10);
-      const suffix = el.dataset.suffix || '';
-      const duration = 1800; // ms
-      const start = performance.now();
-
-      function update(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        // easeOutQuart for a snappy feel
-        const ease = 1 - Math.pow(1 - progress, 4);
-        const current = Math.round(ease * target);
-        el.textContent = current + suffix;
-        if (progress < 1) requestAnimationFrame(update);
-      }
-
-      requestAnimationFrame(update);
-    });
-  }
-
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     const isDesktop = window.innerWidth >= 1024;
 
-    // Set initial states
     gsap.set(ctaEls, { opacity: 0, y: 36 });
     if (ctaImgPanel) gsap.set(ctaImgPanel, { opacity: 0, x: 40 });
 
     // PC-only: individual badge & card animations
-    const ctaCard     = ctaSection.querySelector('.cta-card');
-    const ctaTextPanel = ctaSection.querySelector('.cta-panel--text');
-    const ctaBadges   = ctaSection.querySelectorAll('.cta-badge');
+    const ctaCard = ctaSection.querySelector('.cta-card');
+    const ctaBadges = ctaSection.querySelectorAll('.cta-badge');
     const ctaBadgeSeps = ctaSection.querySelectorAll('.cta-badge-sep');
     if (isDesktop && ctaCard) {
       gsap.set(ctaCard, { clipPath: 'inset(0 100% 0 0)' });
@@ -423,79 +415,65 @@ document.addEventListener('DOMContentLoaded', () => {
       once: true,
       onEnter: () => {
         if (isDesktop) {
-          // ── Desktop: multi-stage cinematic reveal ──
-          const tl = gsap.timeline({ onComplete: () => setTimeout(animateCounters, 200) });
-
-          // 1. Card slides open from left (clip-path wipe)
-          if (ctaCard) {
-            tl.to(ctaCard, {
-              clipPath: 'inset(0 0% 0 0)',
-              duration: 0.9,
-              ease: 'power3.out',
-            });
-          }
-
-          // 2. Text panel elements stagger up
-          tl.to(ctaEls, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-            stagger: 0.1,
-          }, '-=0.55');
-
-          // 3. Image panel slides in from right
-          if (ctaImgPanel) {
-            tl.to(ctaImgPanel, {
-              opacity: 1,
-              x: 0,
-              duration: 0.8,
-              ease: 'power3.out',
-            }, '-=0.6');
-          }
-
-          // 4. Badges sweep up one by one
-          if (ctaBadges.length) {
-            tl.to(ctaBadges, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: 'back.out(1.4)',
-              stagger: 0.12,
-            }, '-=0.3');
-            tl.to(ctaBadgeSeps, {
-              opacity: 1,
-              scaleY: 1,
-              duration: 0.4,
-              transformOrigin: 'center center',
-              ease: 'power2.out',
-              stagger: 0.08,
-            }, '<+0.1');
-          }
+          this._animateDesktop(ctaCard, ctaEls, ctaImgPanel, ctaBadges, ctaBadgeSeps, counterEls);
         } else {
-          // ── Mobile: simple stagger fade-up ──
-          gsap.to(ctaEls, {
-            opacity: 1,
-            y: 0,
-            duration: 0.75,
-            ease: 'power3.out',
-            stagger: 0.12,
-          });
-          if (ctaImgPanel) {
-            gsap.to(ctaImgPanel, {
-              opacity: 1,
-              x: 0,
-              duration: 0.9,
-              ease: 'power3.out',
-              delay: 0.1,
-            });
-          }
-          setTimeout(animateCounters, 500);
+          this._animateMobile(ctaEls, ctaImgPanel, counterEls);
         }
       },
     });
-  } else {
-    // Fallback: IntersectionObserver
+  },
+
+  /** @private — Counter animation */
+  _animateCounters(counterEls) {
+    counterEls.forEach((el) => {
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800;
+      const start = performance.now();
+
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 4);
+        el.textContent = Math.round(ease * target) + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+
+      requestAnimationFrame(update);
+    });
+  },
+
+  /** @private — Desktop cinematic reveal */
+  _animateDesktop(ctaCard, ctaEls, ctaImgPanel, ctaBadges, ctaBadgeSeps, counterEls) {
+    const tl = gsap.timeline({ onComplete: () => setTimeout(() => this._animateCounters(counterEls), 200) });
+
+    if (ctaCard) {
+      tl.to(ctaCard, { clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: 'power3.out' });
+    }
+
+    tl.to(ctaEls, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1 }, '-=0.55');
+
+    if (ctaImgPanel) {
+      tl.to(ctaImgPanel, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6');
+    }
+
+    if (ctaBadges.length) {
+      tl.to(ctaBadges, { opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.4)', stagger: 0.12 }, '-=0.3');
+      tl.to(ctaBadgeSeps, { opacity: 1, scaleY: 1, duration: 0.4, transformOrigin: 'center center', ease: 'power2.out', stagger: 0.08 }, '<+0.1');
+    }
+  },
+
+  /** @private — Mobile stagger fade-up */
+  _animateMobile(ctaEls, ctaImgPanel, counterEls) {
+    gsap.to(ctaEls, { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.12 });
+    if (ctaImgPanel) {
+      gsap.to(ctaImgPanel, { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out', delay: 0.1 });
+    }
+    setTimeout(() => this._animateCounters(counterEls), 500);
+  },
+
+  /** @private — Fallback for no GSAP */
+  _initFallback(ctaSection, ctaEls, ctaImgPanel, counterEls) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -504,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
               setTimeout(() => el.classList.add('is-visible'), i * 120);
             });
             if (ctaImgPanel) ctaImgPanel.classList.add('is-visible');
-            setTimeout(animateCounters, 500);
+            setTimeout(() => this._animateCounters(counterEls), 500);
             observer.unobserve(entry.target);
           }
         });
@@ -512,142 +490,100 @@ document.addEventListener('DOMContentLoaded', () => {
       { threshold: 0.15 }
     );
     observer.observe(ctaSection);
-  }
-})();
+  },
+};
 
+/* ─────────────────────────────────────────────── */
+/* Module 8 — Before / After Slider + Thumbnails   */
+/* ─────────────────────────────────────────────── */
+const XanhProjects = {
+  currentIndex: 0,
+  isDragging: false,
+  thumbsSwiper: null,
 
-/* ============================================= */
-/* SECTION 5 — Before / After Slider + Thumbnails */
-/* ============================================= */
-(function () {
-  'use strict';
+  /** @private — Read project data from HTML data-* attributes */
+  _readProjectsFromDOM() {
+    const thumbs = document.querySelectorAll('.project-thumb');
+    return Array.from(thumbs).map((btn) => ({
+      beforeImg: btn.dataset.beforeImg,
+      afterImg: btn.dataset.afterImg,
+      tag: btn.dataset.tag,
+      title: btn.dataset.title,
+      meta: `
+        <span class="meta-item"><i data-lucide="maximize"></i> ${btn.dataset.area}</span>
+        <span class="meta-sep"></span>
+        <span class="meta-item"><i data-lucide="clock"></i> ${btn.dataset.duration}</span>
+        <span class="meta-sep"></span>
+        <span class="meta-item"><i data-lucide="calendar"></i> ${btn.dataset.year}</span>
+      `,
+      quote: btn.dataset.quote,
+      author: btn.dataset.author,
+    }));
+  },
 
-  /* ── Project data ── */
-  function buildMetaHTML(area, duration, year) {
-    return `
-      <span class="meta-item"><i data-lucide="maximize"></i> ${area}</span>
-      <span class="meta-sep"></span>
-      <span class="meta-item"><i data-lucide="clock"></i> ${duration}</span>
-      <span class="meta-sep"></span>
-      <span class="meta-item"><i data-lucide="calendar"></i> ${year}</span>
-    `;
-  }
+  init() {
+    const slider = document.getElementById('ba-slider');
+    if (!slider) return;
 
-  const PROJECTS = [
-    {
-      beforeImg: 'img/project-before-1.png',
-      afterImg:  'img/project-after-1.png',
-      tag:       'Cải tạo toàn diện',
-      title:     'Nhà Phố Quận 7',
-      meta:      buildMetaHTML('120 m²', '6 tháng', '2025'),
-      quote:     '"Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành hiện thực — đúng tiến độ, đúng chi phí."',
-      author:    '— Anh Minh & Chị Hương, Q7, TP.HCM',
-    },
-    {
-      beforeImg: '../img/project-3.png',
-      afterImg:  '../img/project-2.png',
-      tag:       'Xây mới trọn gói',
-      title:     'Biệt Thự Thảo Điền',
-      meta:      buildMetaHTML('280 m²', '14 tháng', '2024'),
-      quote:     '"Từ mảnh đất trống đến ngôi nhà mơ ước — XANH tận tâm từ bản vẽ đầu tiên đến ngày bàn giao chìa khoá."',
-      author:    '— Gia đình anh Tuấn, Thảo Điền, Q2',
-    },
-    {
-      beforeImg: '../img/project-4.png',
-      afterImg:  '../img/project-3.png',
-      tag:       'Thiết kế nội thất',
-      title:     'Penthouse Quận 2',
-      meta:      buildMetaHTML('95 m²', '3 tháng', '2024'),
-      quote:     '"Không gian sống thay đổi hoàn toàn — sang trọng, tinh tế nhưng vẫn ấm cúng cho gia đình nhỏ."',
-      author:    '— Chị Linh, Thủ Thiêm, Q2',
-    },
-    {
-      beforeImg: '../img/project-1.png',
-      afterImg:  '../img/project-4.png',
-      tag:       'Xây mới & nội thất',
-      title:     'Villa Bình Dương',
-      meta:      buildMetaHTML('350 m²', '18 tháng', '2023'),
-      quote:     '"XANH đã giúp chúng tôi xây dựng không chỉ một ngôi nhà, mà cả một phong cách sống mới — hòa mình với thiên nhiên."',
-      author:    '— Anh Phúc & Chị Ngọc, Bình Dương',
-    },
-    {
-      beforeImg: '../img/project-2.png',
-      afterImg:  '../img/project-1.png',
-      tag:       'Cải tạo & mở rộng',
-      title:     'Nhà Vườn Gò Vấp',
-      meta:      buildMetaHTML('180 m²', '9 tháng', '2024'),
-      quote:     '"Ngôi nhà cũ kỹ nay trở thành không gian sống hiện đại, thoáng đãng. XANH đã lắng nghe và hiểu chúng tôi từng chi tiết nhỏ."',
-      author:    '— Chị Mai & Anh Bảo, Gò Vấp, TP.HCM',
-    },
-    {
-      beforeImg: '../img/project-4.png',
-      afterImg:  '../img/project-2.png',
-      tag:       'Thiết kế & thi công',
-      title:     'Shophouse Phú Mỹ Hưng',
-      meta:      buildMetaHTML('240 m²', '11 tháng', '2023'),
-      quote:     '"Từ không gian thương mại đến nhà ở — XANH tích hợp khéo léo, vừa chuyên nghiệp vừa ấm áp như một ngôi nhà thật thụ."',
-      author:    '— Anh Khoa, Phú Mỹ Hưng, Q7',
-    },
-    {
-      beforeImg: '../img/project-3.png',
-      afterImg:  '../img/project-3.png',
-      tag:       'Xây mới trọn gói',
-      title:     'Biệt Thự Nhà Bè',
-      meta:      buildMetaHTML('420 m²', '22 tháng', '2022'),
-      quote:     '"Chúng tôi tin tưởng giao toàn bộ dự án cho XANH — và kết quả vượt xa mong đợi. Một ngôi nhà đẹp, bền, đúng tiến độ."',
-      author:    '— Gia đình anh Hùng, Nhà Bè, TP.HCM',
-    },
-  ];
+    // Build projects array from DOM data-* attributes
+    this.PROJECTS = this._readProjectsFromDOM();
 
-  let currentIndex = 0;
-  let isDragging = false;
+    // Cache DOM refs
+    this._els = {
+      slider,
+      beforeClip: document.getElementById('ba-before-clip'),
+      beforeImg: document.getElementById('ba-before-img'),
+      afterImg: document.getElementById('ba-after-img'),
+      handle: document.getElementById('ba-handle'),
+      tagEl: document.getElementById('ba-tag'),
+      titleEl: document.getElementById('ba-title'),
+      metaEl: document.getElementById('ba-meta'),
+      quoteEl: document.getElementById('ba-quote'),
+      authorEl: document.getElementById('ba-author'),
+      thumbs: document.querySelectorAll('.project-thumb'),
+    };
 
-  /* ── DOM refs ── */
-  const slider      = document.getElementById('ba-slider');
-  const beforeClip  = document.getElementById('ba-before-clip');
-  const beforeImg   = document.getElementById('ba-before-img');
-  const afterImg    = document.getElementById('ba-after-img');
-  const handle      = document.getElementById('ba-handle');
-  const tagEl       = document.getElementById('ba-tag');
-  const titleEl     = document.getElementById('ba-title');
-  const metaEl      = document.getElementById('ba-meta');
-  const quoteEl     = document.getElementById('ba-quote');
-  const authorEl    = document.getElementById('ba-author');
-  const thumbs      = document.querySelectorAll('.project-thumb');
+    this._initThumbsSwiper();
+    this._initDragLogic();
+    this._initThumbnailClicks();
+    this._initScrollAnimations();
+  },
 
-  if (!slider) return; // Section not in DOM
+  /** @private — Thumbs Swiper (desktop) */
+  _initThumbsSwiper() {
+    if (typeof Swiper === 'undefined') return;
 
-  /* ── Thumbs Swiper (desktop) ── */
-  let thumbsSwiper = null;
-  if (typeof Swiper !== 'undefined') {
-    thumbsSwiper = new Swiper('.projects-thumbs-swiper', {
+    const slides = document.querySelectorAll('.projects-thumbs-swiper .swiper-slide');
+    const slideCount = slides.length;
+
+    this.thumbsSwiper = new Swiper('.projects-thumbs-swiper', {
       slidesPerView: 2,
       spaceBetween: 12,
       loop: true,
+      loopedSlides: slideCount,
       watchOverflow: true,
       navigation: {
         prevEl: '.projects-thumbs-prev',
         nextEl: '.projects-thumbs-next',
       },
+      pagination: {
+        el: '.thumbs-pagination',
+        clickable: true,
+        dynamicBullets: false,
+      },
       breakpoints: {
-        640: {
-          slidesPerView: 3,
-          spaceBetween: 16,
-        },
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 20,
-        },
+        640: { slidesPerView: 3, spaceBetween: 16 },
+        1024: { slidesPerView: 3, spaceBetween: 20 },
       },
     });
 
-    /* Mobile bottom nav for thumbs */
+    // Mobile bottom nav
     const thumbsMobPrev = document.querySelector('.thumbs-mobile-prev');
     const thumbsMobNext = document.querySelector('.thumbs-mobile-next');
-    if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => thumbsSwiper.slidePrev());
-    if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => thumbsSwiper.slideNext());
+    if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => this.thumbsSwiper.slidePrev());
+    if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => this.thumbsSwiper.slideNext());
 
-    /* ── Pagination bullets entrance animation (desktop only) ── */
+    // Pagination bullets entrance animation (desktop only)
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && window.innerWidth >= 640) {
       const thumbsPagination = document.querySelector('.thumbs-pagination');
       if (thumbsPagination) {
@@ -666,464 +602,337 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    /* ── Mobile Projects Swiper (≤1023px) — owns the pagination dots ── */
-    const mobileSwiper = new Swiper('.projects-mobile-swiper', {
-      slidesPerView: 1,
-      spaceBetween: 16,
-      loop: true,
-      pagination: {
-        el: '.thumbs-pagination',
-        clickable: true,
-      },
+    // Mobile Projects Swiper (≤1023px only)
+    if (window.innerWidth < 1024) {
+      const mobileSwiper = new Swiper('.projects-mobile-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        loop: true,
+        pagination: {
+          el: '.thumbs-pagination',
+          clickable: true,
+        },
+      });
+
+      if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
+      if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
+    }
+  },
+
+  /** @private — Before/After drag logic */
+  _initDragLogic() {
+    const { slider, handle } = this._els;
+
+    slider.addEventListener('pointerdown', (e) => {
+      this.isDragging = true;
+      slider.setPointerCapture(e.pointerId);
+      this._setPosition(this._getPercentFromEvent(e));
     });
 
-    /* Wire mobile buttons to also control the card swiper on mobile */
-    if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
-    if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
-  }
+    slider.addEventListener('pointermove', (e) => {
+      if (!this.isDragging) return;
+      this._setPosition(this._getPercentFromEvent(e));
+    });
 
-  /* ── Before/After drag logic ── */
-  function setSliderPosition(pct) {
+    slider.addEventListener('pointerup', () => { this.isDragging = false; });
+    slider.addEventListener('pointercancel', () => { this.isDragging = false; });
+
+    // Initial position
+    window.addEventListener('load', () => this._setPosition(50));
+    this._setPosition(50);
+  },
+
+  /** @private */
+  _setPosition(pct) {
     pct = Math.max(0, Math.min(100, pct));
-    // clip-path: inset(0 <right>% 0 0) — right is 100-pct
-    beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-    handle.style.left = pct + '%';
-  }
+    this._els.beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+    this._els.handle.style.left = pct + '%';
+  },
 
-  function getPercentFromEvent(e) {
-    const rect = slider.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    return (x / rect.width) * 100;
-  }
+  /** @private */
+  _getPercentFromEvent(e) {
+    const rect = this._els.slider.getBoundingClientRect();
+    return ((e.clientX - rect.left) / rect.width) * 100;
+  },
 
-  slider.addEventListener('pointerdown', (e) => {
-    isDragging = true;
-    slider.setPointerCapture(e.pointerId);
-    setSliderPosition(getPercentFromEvent(e));
-  });
+  /** @private — Thumbnail click → switch project */
+  _initThumbnailClicks() {
+    this._els.thumbs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        this._switchProject(idx);
+      });
+    });
+  },
 
-  slider.addEventListener('pointermove', (e) => {
-    if (!isDragging) return;
-    setSliderPosition(getPercentFromEvent(e));
-  });
-
-  slider.addEventListener('pointerup', () => { isDragging = false; });
-  slider.addEventListener('pointercancel', () => { isDragging = false; });
-
-  // Initial position
-  window.addEventListener('load', () => {
-    setSliderPosition(50);
-  });
-  setSliderPosition(50);
-
-  /* ── Thumbnail click → switch project ── */
-  function switchProject(index) {
-    if (index === currentIndex) return;
-    currentIndex = index;
-    const proj = PROJECTS[index];
+  /** @private */
+  _switchProject(index) {
+    if (index === this.currentIndex) return;
+    this.currentIndex = index;
+    const proj = this.PROJECTS[index];
+    const { afterImg, beforeImg, tagEl, titleEl, metaEl, quoteEl, authorEl, thumbs } = this._els;
 
     // Update active thumbnail
     thumbs.forEach((t) => t.classList.remove('is-active'));
-    thumbs[index]?.classList.add('is-active');
+    if (thumbs[index]) thumbs[index].classList.add('is-active');
 
-    // Slide clicked thumb to first position (works correctly with loop:true)
-    if (thumbsSwiper) {
-      thumbsSwiper.slideToLoop(index);
+    // Slide clicked thumb to first position
+    if (this.thumbsSwiper) {
+      this.thumbsSwiper.slideToLoop(index);
     }
 
-    // Cross-fade images + info text using GSAP if available
+    // Cross-fade
     if (typeof gsap !== 'undefined') {
       const tl = gsap.timeline();
-      tl.to([afterImg, beforeClip], { opacity: 0, duration: 0.3, ease: 'power2.in' })
+      tl.to([afterImg, this._els.beforeClip], { opacity: 0, duration: 0.3, ease: 'power2.in' })
         .to('#ba-info', { opacity: 0, y: 12, duration: 0.25, ease: 'power2.in' }, '<')
         .call(() => {
-          afterImg.src   = proj.afterImg;
-          beforeImg.src  = proj.beforeImg;
-          tagEl.textContent    = proj.tag;
-          titleEl.textContent  = proj.title;
-          metaEl.innerHTML     = proj.meta;
+          afterImg.src = proj.afterImg;
+          beforeImg.src = proj.beforeImg;
+          tagEl.textContent = proj.tag;
+          titleEl.textContent = proj.title;
+          metaEl.innerHTML = proj.meta;
           if (typeof lucide !== 'undefined') lucide.createIcons();
-          quoteEl.textContent  = proj.quote;
+          quoteEl.textContent = proj.quote;
           authorEl.textContent = proj.author;
-          setSliderPosition(50);
+          this._setPosition(50);
         })
-        .to([afterImg, beforeClip], { opacity: 1, duration: 0.35, ease: 'power2.out' })
+        .to([afterImg, this._els.beforeClip], { opacity: 1, duration: 0.35, ease: 'power2.out' })
         .to('#ba-info', { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, '<0.1');
     } else {
-      // Fallback: instant swap
-      afterImg.src   = proj.afterImg;
-      beforeImg.src  = proj.beforeImg;
-      tagEl.textContent    = proj.tag;
-      titleEl.textContent  = proj.title;
-      metaEl.innerHTML     = proj.meta;
+      afterImg.src = proj.afterImg;
+      beforeImg.src = proj.beforeImg;
+      tagEl.textContent = proj.tag;
+      titleEl.textContent = proj.title;
+      metaEl.innerHTML = proj.meta;
       if (typeof lucide !== 'undefined') lucide.createIcons();
-      quoteEl.textContent  = proj.quote;
+      quoteEl.textContent = proj.quote;
       authorEl.textContent = proj.author;
-      setSliderPosition(50);
+      this._setPosition(50);
     }
-  }
+  },
 
-  thumbs.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.dataset.index, 10);
-      switchProject(idx);
-    });
-  });
+  /** @private — GSAP scroll entrance animations */
+  _initScrollAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  /* ── GSAP scroll entrance animations ── */
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     const projectsSection = document.getElementById('projects');
-    if (projectsSection) {
-      // Header elements
-      const headerEls = projectsSection.querySelectorAll('.projects-el');
-      // Slider + Info panel children
-      const sliderWrap = projectsSection.querySelector('.ba-slider-wrap');
-      const infoPanel = projectsSection.querySelector('.ba-info');
-      const infoChildren = infoPanel
-        ? infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
-        : [];
-      // Thumbnail slides + thumbs-nav initial states
-      const thumbSlides = projectsSection.querySelectorAll('.projects-thumbs-swiper .swiper-slide');
-      const thumbsNav = projectsSection.querySelector('.thumbs-nav');
-      // Handle for wiggle hint
-      const handleKnob = projectsSection.querySelector('.ba-slider__handle-knob');
+    if (!projectsSection) return;
 
-      // Set initial states
-      gsap.set(headerEls, { opacity: 0, y: 40 });
-      if (sliderWrap) gsap.set(sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
-      if (infoChildren.length) gsap.set(infoChildren, { opacity: 0, x: 30 });
-      if (thumbSlides.length) gsap.set(thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
-      if (thumbsNav) gsap.set(thumbsNav, { opacity: 0, y: 20 });
+    const headerEls = projectsSection.querySelectorAll('.projects-el');
+    const sliderWrap = projectsSection.querySelector('.ba-slider-wrap');
+    const infoPanel = projectsSection.querySelector('.ba-info');
+    const infoChildren = infoPanel
+      ? infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
+      : [];
+    const thumbSlides = projectsSection.querySelectorAll('.projects-thumbs-swiper .swiper-slide');
+    const thumbsNav = projectsSection.querySelector('.thumbs-nav');
+    const handleKnob = projectsSection.querySelector('.ba-slider__handle-knob');
+    const handle = this._els.handle;
 
-      ScrollTrigger.create({
-        trigger: projectsSection,
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          const tl = gsap.timeline();
-
-          // 1) Header stagger in
-          tl.to(headerEls, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-            stagger: 0.12,
-          });
-
-          // 2) Slider slides in from left
-          if (sliderWrap) {
-            tl.to(sliderWrap, {
-              opacity: 1,
-              x: 0,
-              scale: 1,
-              duration: 0.8,
-              ease: 'power3.out',
-            }, '-=0.3');
-          }
-
-          // 3) Info panel children stagger in from right
-          if (infoChildren.length) {
-            tl.to(infoChildren, {
-              opacity: 1,
-              x: 0,
-              duration: 0.6,
-              ease: 'power3.out',
-              stagger: 0.08,
-            }, '-=0.5');
-          }
-
-          // 4) Thumbnail slides cascade from bottom
-          if (thumbSlides.length) {
-            tl.to(thumbSlides, {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.6,
-              ease: 'back.out(1.4)',
-              stagger: 0.1,
-            }, '-=0.3');
-          }
-
-          // 5) Thumbs nav bar fade up
-          if (thumbsNav) {
-            tl.to(thumbsNav, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: 'power3.out',
-            }, '-=0.2');
-
-            // Stagger bullets inside pagination
-            const bullets = thumbsNav.querySelectorAll('.swiper-pagination-bullet');
-            if (bullets.length) {
-              tl.fromTo(bullets,
-                { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
-                { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 },
-                '-=0.1'
-              );
-            }
-          }
-
-          // 6) Slider handle wiggle hint (after entrance is done)
-          if (handleKnob) {
-            tl.call(() => setSliderPosition(35), null, '+=0.4')
-            .to(handle, {
-              left: '35%',
-              duration: 0.5,
-              ease: 'power2.inOut',
-              onUpdate: () => {
-                const pct = parseFloat(handle.style.left);
-                setSliderPosition(pct);
-              },
-            }, '<')
-            .to(handle, {
-              left: '65%',
-              duration: 0.7,
-              ease: 'power2.inOut',
-              onUpdate: () => {
-                const pct = parseFloat(handle.style.left);
-                setSliderPosition(pct);
-              },
-            })
-            .to(handle, {
-              left: '50%',
-              duration: 0.5,
-              ease: 'power2.inOut',
-              onUpdate: () => {
-                const pct = parseFloat(handle.style.left);
-                setSliderPosition(pct);
-              },
-            });
-          }
-        },
-      });
-    }
-  }
-})();
-
-/* ============================================= */
-/* SECTION 7 — Process Steps Accordion           */
-/* ============================================= */
-(function () {
-  'use strict';
-
-  const section = document.getElementById('process');
-  if (!section) return;
-
-  const panels = section.querySelectorAll('.process-panel');
-
-  /* ── Click handler: toggle active panel ── */
-  panels.forEach((panel) => {
-    panel.addEventListener('click', () => {
-      if (panel.classList.contains('is-active')) return;
-      // Remove active from all
-      panels.forEach((p) => p.classList.remove('is-active'));
-      // Set clicked as active
-      panel.classList.add('is-active');
-    });
-  });
-
-  /* ── GSAP Scroll entrance animation ── */
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    const headerEls = section.querySelectorAll('.process-el');
-    const accordion = section.querySelector('.process-accordion');
-
+    // Set initial states
     gsap.set(headerEls, { opacity: 0, y: 40 });
-
-    // PC only: stagger in each accordion panel
-    const isDesktop = window.innerWidth >= 1024;
-    if (isDesktop && panels.length) {
-      gsap.set(panels, { opacity: 0, y: 50, scale: 0.97 });
-    }
+    if (sliderWrap) gsap.set(sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
+    if (infoChildren.length) gsap.set(infoChildren, { opacity: 0, x: 30 });
+    if (thumbSlides.length) gsap.set(thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
+    if (thumbsNav) gsap.set(thumbsNav, { opacity: 0, y: 20 });
 
     ScrollTrigger.create({
-      trigger: section,
+      trigger: projectsSection,
       start: 'top 80%',
       once: true,
       onEnter: () => {
         const tl = gsap.timeline();
 
-        // Header stagger in
-        tl.to(headerEls, {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          stagger: 0.12,
-        });
+        tl.to(headerEls, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12 });
 
-        // PC only: accordion panels cascade in from bottom, left-to-right
-        if (isDesktop && panels.length) {
-          tl.to(panels, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.65,
-            ease: 'power3.out',
-            stagger: 0.1,
-          }, '-=0.3');
+        if (sliderWrap) {
+          tl.to(sliderWrap, { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.3');
+        }
+
+        if (infoChildren.length) {
+          tl.to(infoChildren, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }, '-=0.5');
+        }
+
+        if (thumbSlides.length) {
+          tl.to(thumbSlides, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)', stagger: 0.1 }, '-=0.3');
+        }
+
+        if (thumbsNav) {
+          tl.to(thumbsNav, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
+          const bullets = thumbsNav.querySelectorAll('.swiper-pagination-bullet');
+          if (bullets.length) {
+            tl.fromTo(bullets,
+              { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+              { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 },
+              '-=0.1'
+            );
+          }
+        }
+
+        // Slider handle wiggle hint
+        if (handleKnob && handle) {
+          const self = this;
+          tl.call(() => self._setPosition(35), null, '+=0.4')
+            .to(handle, {
+              left: '35%', duration: 0.5, ease: 'power2.inOut',
+              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+            }, '<')
+            .to(handle, {
+              left: '65%', duration: 0.7, ease: 'power2.inOut',
+              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+            })
+            .to(handle, {
+              left: '50%', duration: 0.5, ease: 'power2.inOut',
+              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+            });
         }
       },
     });
-  } else {
-    // Fallback: IntersectionObserver
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            section.querySelectorAll('.process-el').forEach((el, i) => {
-              setTimeout(() => el.classList.add('is-visible'), i * 120);
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(section);
-  }
-})();
+  },
+};
 
-/* ============================================= */
-/* SECTION 8 — CTA Contact Scroll Animation      */
-/* ============================================= */
-(function () {
-  'use strict';
+/* ─────────────────────────────────────────────── */
+/* Module 9 — Process Steps Accordion              */
+/* ─────────────────────────────────────────────── */
+const XanhProcess = {
+  init() {
+    const section = document.getElementById('process');
+    if (!section) return;
 
-  const section = document.getElementById('cta-contact');
-  if (!section) return;
+    const panels = section.querySelectorAll('.process-panel');
+    if (!panels.length) return;
 
-  const els = section.querySelectorAll('.cta-contact-el');
-  const bgImg = section.querySelector('.cta-contact__bg');
+    // Click handler: toggle active panel
+    panels.forEach((panel) => {
+      panel.addEventListener('click', () => {
+        if (panel.classList.contains('is-active')) return;
+        panels.forEach((p) => p.classList.remove('is-active'));
+        panel.classList.add('is-active');
+      });
+    });
 
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    // Set initial GSAP states
-    gsap.set(els, { opacity: 0, y: 40 });
-
-    // Subtle BG parallax zoom
-    if (bgImg) {
-      gsap.fromTo(bgImg,
-        { scale: 1.1 },
-        {
-          scale: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
+    // GSAP entrance for panels (desktop only)
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      const isDesktop = window.innerWidth >= 1024;
+      if (isDesktop) {
+        gsap.set(panels, { opacity: 0, y: 50, scale: 0.97 });
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            gsap.to(panels, { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power3.out', stagger: 0.1 });
           },
-        }
+        });
+      }
+    } else {
+      // Fallback
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
+                setTimeout(() => el.classList.add('is-visible'), i * 120);
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
       );
+      observer.observe(section);
+    }
+  },
+};
+
+/* ─────────────────────────────────────────────── */
+/* Module 10 — CTA Contact (BG Parallax)           */
+/* ─────────────────────────────────────────────── */
+const XanhCTAContact = {
+  init() {
+    const section = document.getElementById('cta-contact');
+    if (!section) return;
+
+    const bgImg = section.querySelector('.cta-contact__bg');
+
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      if (bgImg) {
+        gsap.fromTo(bgImg,
+          { scale: 1.1 },
+          {
+            scale: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 1,
+            },
+          }
+        );
+      }
+    } else {
+      // Fallback
+      const els = section.querySelectorAll('.anim-fade-up');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              els.forEach((el, i) => {
+                setTimeout(() => {
+                  el.style.opacity = '1';
+                  el.style.transform = 'translateY(0)';
+                  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+                }, i * 120);
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      observer.observe(section);
+    }
+  },
+};
+
+/* ─────────────────────────────────────────────── */
+/* Module 11 — Partner Logos Bar                    */
+/* ─────────────────────────────────────────────── */
+const XanhPartners = {
+  init() {
+    const section = document.getElementById('partners');
+    if (!section) return;
+
+    if (typeof Swiper !== 'undefined') {
+      new Swiper('.partners-swiper', {
+        loop: true,
+        speed: 3000,
+        autoplay: {
+          delay: 0,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        slidesPerView: 2,
+        spaceBetween: 24,
+        freeMode: true,
+        freeModeMomentum: false,
+        allowTouchMove: true,
+        breakpoints: {
+          640: { slidesPerView: 3, spaceBetween: 32 },
+          768: { slidesPerView: 4, spaceBetween: 40 },
+          1024: { slidesPerView: 5, spaceBetween: 48 },
+        },
+      });
     }
 
-    // Entrance animation
-    ScrollTrigger.create({
-      trigger: section,
-      start: 'top 80%',
-      once: true,
-      onEnter: () => {
-        gsap.to(els, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.12,
-        });
-      },
-    });
-  } else {
-    // Fallback: IntersectionObserver
+    // IntersectionObserver for non-GSAP fade-in
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            els.forEach((el, i) => {
-              setTimeout(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-              }, i * 120);
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(section);
-  }
-})();
-
-/* ============================================= */
-/* SECTION 8.5 — Partner Logos Bar (Swiper)      */
-/* ============================================= */
-(function () {
-  'use strict';
-
-  const partnersSection = document.getElementById('partners');
-  if (!partnersSection) return;
-
-  /* ── Swiper: Continuous Ribbon ── */
-  if (typeof Swiper !== 'undefined') {
-    new Swiper('.partners-swiper', {
-      loop: true,
-      speed: 3000,
-      autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-      },
-      slidesPerView: 2,
-      spaceBetween: 24,
-      freeMode: true,
-      freeModeMomentum: false,
-      allowTouchMove: true,
-      breakpoints: {
-        640: {
-          slidesPerView: 3,
-          spaceBetween: 32,
-        },
-        768: {
-          slidesPerView: 4,
-          spaceBetween: 40,
-        },
-        1024: {
-          slidesPerView: 5,
-          spaceBetween: 48,
-        },
-      },
-    });
-  }
-
-  /* ── GSAP Scroll entrance animation ── */
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    const partnerEls = partnersSection.querySelectorAll('.partners-el');
-
-    gsap.set(partnerEls, { opacity: 0, y: 24 });
-
-    ScrollTrigger.create({
-      trigger: partnersSection,
-      start: 'top 85%',
-      once: true,
-      onEnter: () => {
-        gsap.to(partnerEls, {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          stagger: 0.15,
-        });
-      },
-    });
-  } else {
-    // Fallback: IntersectionObserver
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            partnersSection.querySelectorAll('.partners-el').forEach((el, i) => {
+            section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
               setTimeout(() => {
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
@@ -1136,21 +945,26 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       { threshold: 0.15 }
     );
-    observer.observe(partnersSection);
-  }
-})();
+    observer.observe(section);
+  },
+};
 
-/* ============================================= */
-/* SECTION 9 — Blog Swiper + Scroll Animation    */
-/* ============================================= */
-(function () {
-  'use strict';
+/* ─────────────────────────────────────────────── */
+/* Module 12 — Blog Swiper + Scroll Animation      */
+/* ─────────────────────────────────────────────── */
+const XanhBlog = {
+  init() {
+    const section = document.getElementById('blog');
+    if (!section) return;
 
-  const section = document.getElementById('blog');
-  if (!section) return;
+    this._initSwiper(section);
+    this._initScrollAnimation(section);
+  },
 
-  /* ── Swiper: 3-card slider ── */
-  if (typeof Swiper !== 'undefined') {
+  /** @private */
+  _initSwiper(section) {
+    if (typeof Swiper === 'undefined') return;
+
     const blogSwiper = new Swiper('#blog-swiper', {
       slidesPerView: 1,
       spaceBetween: 20,
@@ -1160,63 +974,56 @@ document.addEventListener('DOMContentLoaded', () => {
         clickable: true,
       },
       breakpoints: {
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 24,
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 28,
-        },
+        640: { slidesPerView: 2, spaceBetween: 24 },
+        1024: { slidesPerView: 3, spaceBetween: 28 },
       },
     });
 
-    /* Manual prev/next handlers (buttons now inside .blog-slider-wrap) */
+    // Manual prev/next handlers
     const sliderWrap = section.querySelector('.blog-slider-wrap');
     const prevBtn = sliderWrap ? sliderWrap.querySelector('.blog-nav__prev') : null;
     const nextBtn = sliderWrap ? sliderWrap.querySelector('.blog-nav__next') : null;
     if (prevBtn) prevBtn.addEventListener('click', () => blogSwiper.slidePrev());
     if (nextBtn) nextBtn.addEventListener('click', () => blogSwiper.slideNext());
 
-    /* Mobile bottom nav buttons (inside .blog-nav) */
+    // Mobile bottom nav
     const mobilePrev = section.querySelector('.blog-nav .blog-nav__prev');
     const mobileNext = section.querySelector('.blog-nav .blog-nav__next');
     if (mobilePrev) mobilePrev.addEventListener('click', () => blogSwiper.slidePrev());
     if (mobileNext) mobileNext.addEventListener('click', () => blogSwiper.slideNext());
 
-    /* ── Dynamic vertical centering of side arrows at image midpoint ── */
-    function updateBlogImgCenter() {
+    // Dynamic vertical centering of side arrows
+    this._updateBlogImgCenter = () => {
       if (!sliderWrap) return;
       const firstImg = sliderWrap.querySelector('.blog-card__img');
       if (firstImg && firstImg.offsetHeight > 0) {
         sliderWrap.style.setProperty('--blog-img-center', (firstImg.offsetHeight / 2) + 'px');
       }
+    };
+    window.addEventListener('load', this._updateBlogImgCenter);
+    window.addEventListener('resize', this._updateBlogImgCenter);
+    this._updateBlogImgCenter();
+  },
+
+  /** @private */
+  _initScrollAnimation(section) {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      this._initFallback(section);
+      return;
     }
-    // Run after images load and on resize
-    window.addEventListener('load', updateBlogImgCenter);
-    window.addEventListener('resize', updateBlogImgCenter);
-    // Also run immediately in case images are already cached
-    updateBlogImgCenter();
-  }
 
-  /* ── GSAP Scroll entrance animation ── */
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    const blogEls = section.querySelectorAll('.blog-el');
     const isDesktop = window.innerWidth >= 1024;
-
-    gsap.set(blogEls, { opacity: 0, y: 40 });
-
-    // Desktop: also set initial states for the first 3 visible cards
     const visibleSlides = section.querySelectorAll('.blog-swiper .swiper-slide:not(.swiper-slide-duplicate)');
-    const visibleCards  = Array.from(visibleSlides).slice(0, 3);
+    const visibleCards = Array.from(visibleSlides).slice(0, 3);
+
     if (isDesktop && visibleCards.length) {
       visibleCards.forEach((slide) => {
         const imgLink = slide.querySelector('.blog-card__img-link');
-        const img     = slide.querySelector('.blog-card__img');
-        const body    = slide.querySelector('.blog-card__body');
+        const img = slide.querySelector('.blog-card__img');
+        const body = slide.querySelector('.blog-card__body');
         if (imgLink) gsap.set(imgLink, { clipPath: 'inset(100% 0 0 0)' });
-        if (img)     gsap.set(img,     { scale: 1.1 });
-        if (body)    gsap.set(body,    { opacity: 0, y: 20 });
+        if (img) gsap.set(img, { scale: 1.1 });
+        if (body) gsap.set(body, { opacity: 0, y: 20 });
       });
     }
 
@@ -1227,45 +1034,20 @@ document.addEventListener('DOMContentLoaded', () => {
       onEnter: () => {
         const tl = gsap.timeline();
 
-        // 1) Section header elements stagger up
-        tl.to(blogEls, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.15,
-        });
-
-        // 2) Desktop: per-card image reveal cascade
         if (isDesktop && visibleCards.length) {
           visibleCards.forEach((slide, i) => {
             const imgLink = slide.querySelector('.blog-card__img-link');
-            const img     = slide.querySelector('.blog-card__img');
-            const body    = slide.querySelector('.blog-card__body');
-            const offset  = i === 0 ? '-=0.4' : `<+0.12`;
+            const img = slide.querySelector('.blog-card__img');
+            const body = slide.querySelector('.blog-card__body');
+            const offset = i === 0 ? '-=0.4' : '<+0.12';
 
-            if (imgLink) {
-              tl.to(imgLink,
-                { clipPath: 'inset(0% 0 0 0)', duration: 0.75, ease: 'power3.out' },
-                offset
-              );
-            }
-            if (img) {
-              tl.to(img,
-                { scale: 1, duration: 0.75, ease: 'power2.out' },
-                '<'
-              );
-            }
-            if (body) {
-              tl.to(body,
-                { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
-                '<+0.25'
-              );
-            }
+            if (imgLink) tl.to(imgLink, { clipPath: 'inset(0% 0 0 0)', duration: 0.75, ease: 'power3.out' }, offset);
+            if (img) tl.to(img, { scale: 1, duration: 0.75, ease: 'power2.out' }, '<');
+            if (body) tl.to(body, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, '<+0.25');
           });
         }
 
-        /* Stagger-in the pagination bullets after main reveal (desktop only) */
+        // Stagger-in pagination bullets
         if (window.innerWidth >= 640) {
           const blogPagination = section.querySelector('.blog-pagination');
           if (blogPagination) {
@@ -1278,13 +1060,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       },
     });
-  } else {
-    // Fallback: IntersectionObserver
+  },
+
+  /** @private */
+  _initFallback(section) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            section.querySelectorAll('.blog-el').forEach((el, i) => {
+            section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
               setTimeout(() => {
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
@@ -1298,23 +1082,23 @@ document.addEventListener('DOMContentLoaded', () => {
       { threshold: 0.15 }
     );
     observer.observe(section);
-  }
-})();
+  },
+};
 
-/* ============================================= */
-/* SIDE ARROWS — Hover with delay (PC only)      */
-/* ============================================= */
-(function () {
-  'use strict';
+/* ─────────────────────────────────────────────── */
+/* Module 13 — Side Arrows Hover Reveal (PC only)  */
+/* ─────────────────────────────────────────────── */
+const XanhSideArrows = {
+  init() {
+    if (!window.matchMedia('(hover: hover)').matches) return;
 
-  // Only on devices with a mouse
-  if (!window.matchMedia('(hover: hover)').matches) return;
+    this._setupHoverReveal('.blog-slider-wrap', '.blog-slider-wrap>.blog-nav__btn');
+    this._setupHoverReveal('.projects-thumbs-wrapper', '.projects-thumbs-wrapper>.thumbs-nav__btn');
+    this._initThumbsImgCenter();
+  },
 
-  /**
-   * Sets up hover-reveal with a delay timer so buttons
-   * don't vanish while the cursor travels across the gap.
-   */
-  function setupHoverReveal(wrapperSelector, btnSelector) {
+  /** @private */
+  _setupHoverReveal(wrapperSelector, btnSelector) {
     const wrapper = document.querySelector(wrapperSelector);
     if (!wrapper) return;
 
@@ -1322,50 +1106,60 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!buttons.length) return;
 
     let hideTimer = null;
-    const DELAY = 400; // ms grace period
+    const DELAY = 400;
 
     function showButtons() {
       clearTimeout(hideTimer);
-      buttons.forEach(function (btn) { btn.classList.add('is-visible'); });
+      buttons.forEach((btn) => btn.classList.add('is-visible'));
     }
 
     function scheduleHide() {
-      hideTimer = setTimeout(function () {
-        buttons.forEach(function (btn) { btn.classList.remove('is-visible'); });
+      hideTimer = setTimeout(() => {
+        buttons.forEach((btn) => btn.classList.remove('is-visible'));
       }, DELAY);
     }
 
-    // Wrapper enter/leave
     wrapper.addEventListener('mouseenter', showButtons);
     wrapper.addEventListener('mouseleave', scheduleHide);
-
-    // Buttons themselves: cancel hide when cursor reaches them
-    buttons.forEach(function (btn) {
+    buttons.forEach((btn) => {
       btn.addEventListener('mouseenter', showButtons);
       btn.addEventListener('mouseleave', scheduleHide);
     });
-  }
+  },
 
-  // Blog section
-  setupHoverReveal('.blog-slider-wrap', '.blog-slider-wrap>.blog-nav__btn');
-
-  // Projects thumbs section
-  setupHoverReveal('.projects-thumbs-wrapper', '.projects-thumbs-wrapper>.thumbs-nav__btn');
-
-  /* ── Dynamic vertical center for thumbs side arrows (image area only) ── */
-  (function () {
+  /** @private — Dynamic vertical center for thumbs arrows */
+  _initThumbsImgCenter() {
     const thumbsWrap = document.querySelector('.projects-thumbs-wrapper');
     if (!thumbsWrap) return;
 
-    function updateThumbsImgCenter() {
+    function updateCenter() {
       const imgWrap = thumbsWrap.querySelector('.project-thumb__img-wrap');
       if (imgWrap && imgWrap.offsetHeight > 0) {
         thumbsWrap.style.setProperty('--thumbs-img-center', (imgWrap.offsetHeight / 2) + 'px');
       }
     }
 
-    window.addEventListener('load', updateThumbsImgCenter);
-    window.addEventListener('resize', updateThumbsImgCenter);
-    updateThumbsImgCenter();
-  })();
-})();
+    window.addEventListener('load', updateCenter);
+    window.addEventListener('resize', updateCenter);
+    updateCenter();
+  },
+};
+
+/* ─────────────────────────────────────────────── */
+/* BOOTSTRAP — Initialize all modules              */
+/* ─────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  XanhIcons.init();
+  XanhMobileMenu.init();
+  XanhSmoothScroll.init();
+  XanhHeader.init();
+  XanhHero.init();
+  XanhScrollAnimations.init();
+  XanhCTA.init();
+  XanhProjects.init();
+  XanhProcess.init();
+  XanhCTAContact.init();
+  XanhPartners.init();
+  XanhBlog.init();
+  XanhSideArrows.init();
+});

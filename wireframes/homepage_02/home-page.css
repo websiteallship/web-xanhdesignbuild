@@ -21,6 +21,9 @@
 
   --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+
+  --border-focus: var(--color-primary);
+  --color-accent-hover: #e67a00;
 }
 
 /* ── Base Reset ── */
@@ -77,6 +80,243 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ============================================= */
+/* SHARED: Section Spacing Token (§6)            */
+/* ============================================= */
+.section {
+  padding-top: 3rem;     /* 48px mobile */
+  padding-bottom: 3rem;
+}
+@media (min-width: 768px) {
+  .section { padding-top: 4rem; padding-bottom: 4rem; }   /* 64px tablet */
+}
+@media (min-width: 1024px) {
+  .section { padding-top: 5rem; padding-bottom: 5rem; }   /* 80px desktop */
+}
+
+/* ============================================= */
+/* SHARED: Section Header Pattern (§1)           */
+/* ============================================= */
+.section-header {
+  margin-bottom: 2rem;        /* section-gap mobile 32px */
+}
+@media (min-width: 768px) {
+  .section-header { margin-bottom: 2.5rem; }   /* 40px */
+}
+@media (min-width: 1024px) {
+  .section-header { margin-bottom: 3rem; }     /* 48px */
+}
+.section-header--center { text-align: center; margin-inline: auto; }
+.section-header--left   { text-align: left; }
+
+/* Eyebrow */
+.section-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+/* Light background variant (default) */
+.section-eyebrow             { color: rgb(20 81 61 / 0.5); }
+/* Dark background variant */
+.section-header--dark .section-eyebrow { color: rgba(255,255,255,0.5); }
+
+/* Title */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+.section-title             { color: var(--color-dark); }
+.section-header--dark .section-title { color: var(--color-white); }
+
+/* Subtitle */
+.section-subtitle {
+  font-size: 1rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  max-width: 600px;
+}
+@media (min-width: 768px) {
+  .section-subtitle { font-size: 1.125rem; }
+}
+.section-subtitle                       { color: rgba(26,26,26,0.7); }
+.section-header--center .section-subtitle { margin-inline: auto; }
+.section-header--dark .section-subtitle   { color: rgba(255,255,255,0.7); }
+
+/* Core Values variant — beige eyebrow */
+.section-eyebrow--values { color: rgba(216,199,163,0.6); }
+/* Light title (on dark backgrounds, standalone) */
+.section-title--light { color: var(--color-white); }
+
+/* ============================================= */
+/* SHARED: CTA Buttons (§2)                      */
+/* ============================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;       /* ~py-3.5 px-8 */
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 300ms ease;
+  min-width: 200px;
+  justify-content: center;
+}
+.btn__icon { width: 1rem; height: 1rem; flex-shrink: 0; }
+
+/* Primary (Orange) */
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+}
+.btn--primary:hover {
+  background: var(--color-accent-hover);
+  box-shadow: 0 8px 24px rgba(255,138,0,0.25);
+  transform: translateY(-2px);
+}
+
+/* Outline (on light backgrounds) */
+.btn--outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn--outline:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* Ghost (on dark backgrounds) */
+.btn--ghost {
+  background: transparent;
+  color: var(--color-white);
+  border-color: rgba(255,255,255,0.3);
+}
+.btn--ghost:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Mobile full-width */
+@media (max-width: 639px) {
+  .btn { width: 100%; min-height: 48px; }
+}
+
+/* ============================================= */
+/* SHARED: Card Base (§4)                        */
+/* ============================================= */
+.card {
+  background: var(--color-white);
+  border-radius: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 400ms ease, box-shadow 400ms ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+}
+
+/* ============================================= */
+/* SHARED: Text Block Classes (§5)               */
+/* ============================================= */
+.text-lead {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 65ch;
+  color: rgba(26,26,26,0.7);
+}
+@media (min-width: 768px) {
+  .text-lead { font-size: 1.25rem; }
+}
+.text-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 400;
+  max-width: 65ch;
+  color: rgba(26,26,26,0.7);
+}
+.text-quote {
+  position: relative;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--color-accent);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--color-dark);
+  max-width: 55ch;
+}
+.text-quote strong { font-weight: 700; color: var(--color-primary); }
+
+/* ============================================= */
+/* SHARED: Tag / Badge (§7)                      */
+/* ============================================= */
+.tag {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2px;
+  background: var(--color-white);
+  color: var(--color-primary);
+}
+.tag--light {
+  background: rgba(255,255,255,0.15);
+  color: var(--color-white);
+}
+.badge--accent {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-radius: 2px;
+}
+
+/* =============================================
+/* SHARED: Entrance Animations (§9)              */
+/* ============================================= */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: opacity, transform;
+}
+.anim-fade-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  will-change: opacity, transform;
+}
+.anim-fade-right {
+  opacity: 0;
+  transform: translateX(40px);
+  will-change: opacity, transform;
+}
+.anim-scale-in {
+  opacity: 0;
+  transform: scale(0.95);
+  will-change: opacity, transform;
 }
 
 /* ============================================= */
@@ -156,45 +396,25 @@ body {
 /* HERO SECTION SWIPER REVEAL                    */
 /* ============================================= */
 
+/* Hero Swiper — use Swiper CSS vars for base bullet style */
 .hero-swiper {
-  --swiper-pagination-color: #ffffff;
+  --swiper-pagination-color: var(--color-white);
   --swiper-pagination-bullet-size: 8px;
-  --swiper-pagination-bullet-inactive-color: #ffffff;
+  --swiper-pagination-bullet-inactive-color: var(--color-white);
   --swiper-pagination-bullet-inactive-opacity: 0.65;
 }
 
-.hero-pagination {
-  left: 50% !important;
-  right: auto !important;
-  transform: translateX(-50%) !important;
-  bottom: 28px !important;
-  text-align: center !important;
-  width: auto !important;
-}
-
-/* Swiper adds .swiper-pagination-horizontal which may re-set width/position */
-#hero .swiper-pagination,
-#hero .hero-pagination,
-#hero .swiper-pagination-horizontal {
-  position: absolute !important;
-  bottom: 28px !important;
-  left: 50% !important;
-  right: auto !important;
-  transform: translateX(-50%) !important;
-  width: auto !important;
-  text-align: center !important;
-}
-
-.hero-swiper .swiper-pagination-bullet {
-  background: #ffffff !important;
-  opacity: 0.65 !important;
+/* Override pagination bullet styles via higher-specificity parent #hero */
+#hero .swiper-pagination-bullet {
+  background: var(--color-white);
+  opacity: 0.65;
   transition: all 0.3s ease;
 }
 
-.hero-swiper .swiper-pagination-bullet-active {
+#hero .swiper-pagination-bullet-active {
   width: 24px;
-  background: #ffffff !important;
-  opacity: 1 !important;
+  background: var(--color-white);
+  opacity: 1;
 }
 
 .hero-swiper .swiper-slide img {
@@ -248,16 +468,18 @@ body {
   justify-content: center;
 }
 
-/* Hero Pagination — dash style */
-.hero-pagination {
-  position: absolute !important;
-  bottom: 32px !important;
-  right: 64px !important;
-  left: auto !important;
-  width: auto !important;
+/* Hero Pagination — dash style (final design) */
+#hero .hero-pagination {
+  position: absolute;
+  bottom: 32px;
+  right: 64px;
+  left: auto;
+  width: auto;
   display: flex;
   gap: 6px;
   align-items: center;
+  transform: none;
+  text-align: left;
 }
 
 .hero-pagination .swiper-pagination-bullet {
@@ -388,7 +610,7 @@ body {
   object-fit: cover;
   object-position: center center;
   display: block;
-  transition: transform 0.8s var(--ease-out);
+  transition: transform 600ms var(--ease-out);
 }
 
 .empathy-photo:hover img {
@@ -578,7 +800,7 @@ body {
 }
 
 .service-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px);
 }
 
 /* Image wrapper — tall portrait */
@@ -1705,11 +1927,11 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 600ms ease;
 }
 
 .project-thumb:hover .project-thumb__img-wrap img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .project-thumb__info {
@@ -1801,6 +2023,49 @@ body {
   opacity: 0.3;
   cursor: default;
   pointer-events: none;
+}
+
+/* ── Bottom Nav Bar (pagination + mobile prev/next) ── */
+.thumbs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.thumbs-nav__mobile-btn {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .thumbs-nav__mobile-btn {
+    display: flex;
+    position: static;
+    transform: none;
+  }
+}
+
+/* ── Pagination bullets (dash style) ── */
+.thumbs-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.thumbs-pagination .swiper-pagination-bullet {
+  width: 20px;
+  height: 4px;
+  border-radius: 0;
+  background: #d1d5db; /* Tailwind gray-300 */
+  opacity: 1;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.thumbs-pagination .swiper-pagination-bullet-active {
+  width: 36px;
+  background: var(--color-primary);
 }
 
 /* Projects elements — initial state for GSAP */
@@ -1915,21 +2180,24 @@ body {
 .projects-mobile-pagination {
   text-align: center;
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .projects-mobile-pagination .swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
+  width: 20px;
+  height: 4px;
   border-radius: 0;
-  background: var(--color-primary);
-  opacity: 0.25;
+  background: #d1d5db; /* Tailwind gray-300 */
+  opacity: 1;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .projects-mobile-pagination .swiper-pagination-bullet-active {
-  width: 24px;
-  border-radius: 0;
-  opacity: 1;
+  width: 36px;
   background: var(--color-primary);
 }
 
@@ -2544,7 +2812,7 @@ body {
 }
 
 .blog-card:hover .blog-card__img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 /* Card body */
