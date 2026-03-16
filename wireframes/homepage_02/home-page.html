@@ -93,9 +93,9 @@
 
       <!-- Desktop CTA -->
       <a href="#"
-        class="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 bg-accent text-white text-sm font-semibold uppercase tracking-[0.1em] hover:bg-accent/90 transition-all duration-300"
+        class="hidden lg:inline-flex btn btn--primary !py-2.5 !px-6 !min-w-0 !text-sm !tracking-[0.1em]"
         id="header-cta">
-        <i data-lucide="phone" class="w-4 h-4"></i>
+        <i data-lucide="phone" class="btn__icon"></i>
         Đặt Lịch Tư Vấn
       </a>
 
@@ -173,8 +173,8 @@
       <!-- CTA inside drawer -->
       <div class="px-6 mt-6">
         <a href="#"
-          class="flex items-center justify-center gap-2 w-full py-3 bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent/90 transition-colors duration-300">
-          <i data-lucide="phone" class="w-4 h-4"></i>
+          class="btn btn--primary w-full !min-w-0">
+          <i data-lucide="phone" class="btn__icon"></i>
           Đặt Lịch Tư Vấn Riêng
         </a>
       </div>
@@ -247,17 +247,15 @@
         </p>
         <!-- CTA Button -->
         <a href="#empathy" id="hero-cta"
-          class="hero-cta inline-flex items-center gap-3 px-8 py-3.5 bg-accent text-white text-sm md:text-base font-semibold tracking-wide hover:bg-[#e67a00] transition-all duration-300 shadow-lg shadow-accent/20 hover:shadow-accent/30 hover:shadow-xl group">
+          class="hero-cta btn btn--primary shadow-lg shadow-accent/20 hover:shadow-accent/30 hover:shadow-xl group">
           <span>Lắng Nghe Câu Chuyện Của Xanh</span>
-          <i data-lucide="arrow-down" class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"></i>
+          <i data-lucide="arrow-down" class="btn__icon transition-transform duration-300 group-hover:translate-y-0.5"></i>
         </a>
       </div>
     </div>
 
     <!-- Pagination Dots -->
-    <div class="swiper-pagination hero-pagination"
-      style="position:absolute; bottom:28px; left:50% !important; right:auto !important; transform:translateX(-50%) !important; width:auto;">
-    </div>
+    <div class="swiper-pagination hero-pagination"></div>
   </section>
 
   <!-- ============================================= -->
@@ -280,37 +278,37 @@
   <!-- ============================================= -->
   <!-- SECTION 2: NỖI TRĂN TRỞ — Empathy            -->
   <!-- ============================================= -->
-  <section id="empathy" class="empathy-section bg-white">
-    <div class="site-container py-20 md:py-28 lg:py-32">
+  <section id="empathy" class="empathy-section section bg-white">
+    <div class="site-container">
       <div class="empathy-split">
 
         <!-- LEFT: Text Block -->
         <div class="empathy-text">
           <!-- Sub-label -->
-          <span class="empathy-el text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 block mb-6">
+          <span class="anim-fade-up section-eyebrow block mb-6">
             Chúng Tôi Hiểu
           </span>
 
           <!-- Headline -->
           <h2
-            class="empathy-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-dark !leading-[1.2] tracking-[-0.02em] mb-8 md:mb-10">
+            class="anim-fade-up section-title mb-8 md:mb-10">
             Chúng Tôi Hiểu — Xây Nhà Là Quyết Định Lớn Nhất Đời.
           </h2>
 
           <!-- Body Paragraphs -->
           <div class="space-y-6 mb-10 md:mb-14">
-            <p class="empathy-el text-base md:text-lg text-gray-600 font-light !leading-[1.7] tracking-wide max-w-[52ch]">
+            <p class="anim-fade-up text-lead">
               Những bảng dự toán "chào mồi" thấp bất thường, rồi phát sinh liên tục.
               Vật liệu kém chất lượng được lén thay thế. Bảo hành "im lặng" sau bàn giao.
             </p>
-            <p class="empathy-el text-base md:text-lg text-gray-600 font-light !leading-[1.7] tracking-wide max-w-[52ch]">
+            <p class="anim-fade-up text-lead">
               Những gia chủ bắt đầu hành trình xây tổ ấm bằng sự háo hức,
               rồi kết thúc bằng sự kiệt sức và thất vọng.
             </p>
           </div>
 
           <!-- Highlighted Quote Box -->
-          <blockquote class="empathy-el empathy-quote">
+          <blockquote class="anim-fade-up text-quote empathy-quote">
             <p>
               "Đó không phải là cách một tổ ấm được sinh ra. Và đó là lúc,
               <strong>Xanh</strong> chọn đi một con đường khác."
@@ -319,7 +317,7 @@
         </div>
 
         <!-- RIGHT: Single Portrait Photo -->
-        <div class="empathy-photo empathy-el">
+        <div class="empathy-photo anim-fade-up">
           <img src="../img/empathy-moody.png" alt="Góc khuất ngành xây dựng — XANH Design & Build"
             class="w-full h-full object-cover" loading="lazy" />
         </div>
@@ -331,23 +329,23 @@
   <!-- ============================================= -->
   <!-- SECTION 3: TRIẾT LÝ "4 XANH" — Core Values   -->
   <!-- ============================================= -->
-  <section id="core-values" class="relative bg-primary">
-    <div class="core-values-layout site-container py-20 md:py-28 lg:py-32">
+  <section id="core-values" class="relative section bg-primary">
+    <div class="core-values-layout site-container">
 
       <!-- Split: Left Headline + Right Grid -->
       <div class="core-values-split">
 
         <!-- LEFT: Big Editorial Headline -->
         <div class="core-values-headline">
-          <p class="values-el text-xs font-semibold tracking-[0.2em] uppercase text-beige/60 mb-6">
+          <p class="anim-fade-up section-eyebrow section-eyebrow--values mb-6">
             Triết Lý Cốt Lõi
           </p>
           <h2
-            class="values-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-white !leading-[1.2] tracking-[-0.02em] mb-8">
+            class="anim-fade-up section-title section-title--light mb-8">
             CON<br class="hidden md:block"> ĐƯỜNG<br class="hidden md:block"> CỦA<br class="hidden md:block"> XANH
           </h2>
           <p
-            class="values-el text-base text-beige font-medium italic !leading-[1.6] tracking-wide border-l-2 border-accent pl-4 max-w-[280px]">
+            class="anim-fade-up text-base text-beige font-medium italic !leading-[1.6] tracking-wide border-l-2 border-accent pl-4 max-w-[280px]">
             Xây Bằng Sự Tử Tế & Tầm Nhìn Thế Hệ.
           </p>
         </div>
@@ -356,7 +354,7 @@
         <div class="core-values-grid">
 
           <!-- Item 1: Chi Phí Xanh -->
-          <div class="core-value-item values-el">
+          <div class="core-value-item anim-fade-up">
             <div class="core-value-item__header">
               <span class="core-value-item__number">01</span>
               <!-- Lucide: circle-dollar-sign -->
@@ -375,7 +373,7 @@
           </div>
 
           <!-- Item 2: Vật Liệu Xanh -->
-          <div class="core-value-item values-el">
+          <div class="core-value-item anim-fade-up">
             <div class="core-value-item__header">
               <span class="core-value-item__number">02</span>
               <!-- Lucide: leaf -->
@@ -393,7 +391,7 @@
           </div>
 
           <!-- Item 3: Vận Hành Xanh -->
-          <div class="core-value-item values-el">
+          <div class="core-value-item anim-fade-up">
             <div class="core-value-item__header">
               <span class="core-value-item__number">03</span>
               <!-- Lucide: sun -->
@@ -418,7 +416,7 @@
           </div>
 
           <!-- Item 4: Giá Trị Xanh -->
-          <div class="core-value-item values-el">
+          <div class="core-value-item anim-fade-up">
             <div class="core-value-item__header">
               <span class="core-value-item__number">04</span>
               <!-- Lucide: handshake -->
@@ -438,7 +436,6 @@
               theo.
             </p>
           </div>
-
         </div>
       </div>
     </div>
@@ -447,19 +444,19 @@
   <!-- ============================================= -->
   <!-- SECTION 4: LĨNH VỰC THỰC HIỆN — Services     -->
   <!-- ============================================= -->
-  <section id="services" class="relative bg-white">
-    <div class="site-container py-20 md:py-28 lg:py-32">
+  <section id="services" class="relative section bg-white">
+    <div class="site-container">
 
       <!-- Section Header -->
-      <div class="text-center mb-16 md:mb-20">
-        <p class="services-el text-xs font-semibold tracking-[0.2em] uppercase text-primary/50 mb-4">
+      <div class="section-header section-header--center">
+        <p class="anim-fade-up section-eyebrow">
           Lĩnh Vực Hoạt Động
         </p>
         <h2
-          class="services-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-primary !leading-[1.2] tracking-[-0.02em] mb-5">
+          class="anim-fade-up section-title">
           Giải Pháp Khép Kín.<br>Dấu Ấn Độc Bản.
         </h2>
-        <p class="services-el text-base md:text-lg text-dark/70 max-w-[600px] mx-auto !leading-[1.7]">
+        <p class="anim-fade-up section-subtitle">
           Từ ý tưởng kiến trúc sơ khai đến khi trao tay chiếc chìa khóa tổ ấm — Xanh đồng hành cùng bạn trong mọi giai
           đoạn.
         </p>
@@ -567,8 +564,8 @@
   <!-- ============================================= -->
   <!-- SECTION CTA: Liên Hệ Tư Vấn                  -->
   <!-- ============================================= -->
-  <section id="cta" class="cta-section" aria-label="Liên hệ tư vấn">
-    <div class="site-container py-20 md:py-28 lg:py-32">
+  <section id="cta" class="cta-section section" aria-label="Liên hệ tư vấn">
+    <div class="site-container">
       <div class="cta-card">
         <!-- LEFT: Text panel -->
         <div class="cta-panel cta-panel--text">
@@ -640,25 +637,25 @@
   <!-- ============================================= -->
   <!-- SECTION 5: DỰ ÁN TIÊU BIỂU — Before / After  -->
   <!-- ============================================= -->
-  <section id="projects" class="relative bg-white">
-    <div class="site-container py-20 md:py-28 lg:py-32">
+  <section id="projects" class="relative section bg-white">
+    <div class="site-container">
 
       <!-- Section Header -->
-      <div class="text-center mb-14 md:mb-20">
-        <p class="projects-el text-xs font-semibold tracking-[0.2em] uppercase text-primary/50 mb-4">
+      <div class="section-header section-header--center">
+        <p class="anim-fade-up section-eyebrow">
           Dự Án Tiêu Biểu
         </p>
         <h2
-          class="projects-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-primary !leading-[1.2] tracking-[-0.02em] mb-5">
+          class="anim-fade-up section-title">
           Hành Trình<br>Chuyển Hoá Không Gian.
         </h2>
-        <p class="projects-el text-base md:text-lg text-dark/60 max-w-[560px] mx-auto !leading-[1.7]">
+        <p class="anim-fade-up section-subtitle">
           Mỗi dự án là một câu chuyện — từ những không gian cũ kỹ đến tổ ấm hoàn hảo mà gia chủ luôn mong ước.
         </p>
       </div>
 
       <!-- ── Featured Slider Area ── -->
-      <div class="projects-el projects-featured">
+      <div class="anim-fade-up projects-featured">
 
         <!-- LEFT: Before/After Comparison Slider -->
         <div class="ba-slider-wrap">
@@ -691,7 +688,7 @@
 
         <!-- RIGHT: Customer Quote / Project Info -->
         <div class="ba-info" id="ba-info">
-          <span class="ba-info__tag" id="ba-tag">Cải tạo toàn diện</span>
+          <span class="ba-info__tag tag" id="ba-tag">Cải tạo toàn diện</span>
           <h3 class="ba-info__title" id="ba-title">Nhà Phố Quận 7</h3>
           <div class="ba-info__meta" id="ba-meta">
             <span class="meta-item"><i data-lucide="maximize"></i> 120 m²</span>
@@ -729,7 +726,7 @@
                   <img src="img/project-after-1.png" alt="Nhà Phố Quận 7 — XANH Design & Build" loading="lazy" />
                 </div>
                 <div class="mobile-project-card__body">
-                  <span class="mobile-project-card__tag">Cải tạo toàn diện</span>
+                  <span class="mobile-project-card__tag tag">Cải tạo toàn diện</span>
                   <h3 class="mobile-project-card__title">Nhà Phố Quận 7</h3>
                   <div class="mobile-project-card__meta">
                     <span class="meta-item"><i data-lucide="maximize"></i> 120 m²</span>
@@ -756,7 +753,7 @@
                   <img src="../img/project-2.png" alt="Biệt Thự Thảo Điền — XANH Design & Build" loading="lazy" />
                 </div>
                 <div class="mobile-project-card__body">
-                  <span class="mobile-project-card__tag">Xây mới trọn gói</span>
+                  <span class="mobile-project-card__tag tag">Xây mới trọn gói</span>
                   <h3 class="mobile-project-card__title">Biệt Thự Thảo Điền</h3>
                   <div class="mobile-project-card__meta">
                     <span class="meta-item"><i data-lucide="maximize"></i> 280 m²</span>
@@ -783,7 +780,7 @@
                   <img src="../img/project-3.png" alt="Penthouse Quận 2 — XANH Design & Build" loading="lazy" />
                 </div>
                 <div class="mobile-project-card__body">
-                  <span class="mobile-project-card__tag">Thiết kế nội thất</span>
+                  <span class="mobile-project-card__tag tag">Thiết kế nội thất</span>
                   <h3 class="mobile-project-card__title">Penthouse Quận 2</h3>
                   <div class="mobile-project-card__meta">
                     <span class="meta-item"><i data-lucide="maximize"></i> 95 m²</span>
@@ -810,7 +807,7 @@
                   <img src="../img/project-4.png" alt="Villa Bình Dương — XANH Design & Build" loading="lazy" />
                 </div>
                 <div class="mobile-project-card__body">
-                  <span class="mobile-project-card__tag">Xây mới &amp; nội thất</span>
+                  <span class="mobile-project-card__tag tag">Xây mới &amp; nội thất</span>
                   <h3 class="mobile-project-card__title">Villa Bình Dương</h3>
                   <div class="mobile-project-card__meta">
                     <span class="meta-item"><i data-lucide="maximize"></i> 350 m²</span>
@@ -837,7 +834,7 @@
                   <img src="../img/project-2.png" alt="Nhà Vườn Gò Vấp — XANH Design & Build" loading="lazy" />
                 </div>
                 <div class="mobile-project-card__body">
-                  <span class="mobile-project-card__tag">Cải tạo &amp; mở rộng</span>
+                  <span class="mobile-project-card__tag tag">Cải tạo &amp; mở rộng</span>
                   <h3 class="mobile-project-card__title">Nhà Vườn Gò Vấp</h3>
                   <div class="mobile-project-card__meta">
                     <span class="meta-item"><i data-lucide="maximize"></i> 180 m²</span>
@@ -864,7 +861,7 @@
                   <img src="../img/project-1.png" alt="Shophouse Phú Mỹ Hưng — XANH Design & Build" loading="lazy" />
                 </div>
                 <div class="mobile-project-card__body">
-                  <span class="mobile-project-card__tag">Thiết kế &amp; thi công</span>
+                  <span class="mobile-project-card__tag tag">Thiết kế &amp; thi công</span>
                   <h3 class="mobile-project-card__title">Shophouse Phú Mỹ Hưng</h3>
                   <div class="mobile-project-card__meta">
                     <span class="meta-item"><i data-lucide="maximize"></i> 240 m²</span>
@@ -891,7 +888,7 @@
                   <img src="../img/project-3.png" alt="Biệt Thự Nhà Bè — XANH Design & Build" loading="lazy" />
                 </div>
                 <div class="mobile-project-card__body">
-                  <span class="mobile-project-card__tag">Xây mới trọn gói</span>
+                  <span class="mobile-project-card__tag tag">Xây mới trọn gói</span>
                   <h3 class="mobile-project-card__title">Biệt Thự Nhà Bè</h3>
                   <div class="mobile-project-card__meta">
                     <span class="meta-item"><i data-lucide="maximize"></i> 420 m²</span>
@@ -913,6 +910,7 @@
             </div>
           </div>
         </div>
+        <div class="projects-mobile-pagination"></div>
       </div>
 
       <!-- ── Thumbnail Selector Row (Swiper Slider) ── -->
@@ -920,7 +918,14 @@
         <div class="swiper projects-thumbs-swiper" id="projects-thumbs">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <button class="project-thumb is-active" data-index="0">
+              <button class="project-thumb is-active" data-index="0"
+                data-before-img="img/project-before-1.png"
+                data-after-img="img/project-after-1.png"
+                data-tag="Cải tạo toàn diện"
+                data-title="Nhà Phố Quận 7"
+                data-area="120 m²" data-duration="6 tháng" data-year="2025"
+                data-quote="&quot;Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành hiện thực — đúng tiến độ, đúng chi phí.&quot;"
+                data-author="— Anh Minh &amp; Chị Hương, Q7, TP.HCM">
                 <div class="project-thumb__img-wrap">
                   <img src="../img/project-1.png" alt="Nhà Phố Quận 7" loading="lazy" />
                 </div>
@@ -932,7 +937,14 @@
               </button>
             </div>
             <div class="swiper-slide">
-              <button class="project-thumb" data-index="1">
+              <button class="project-thumb" data-index="1"
+                data-before-img="../img/project-3.png"
+                data-after-img="../img/project-2.png"
+                data-tag="Xây mới trọn gói"
+                data-title="Biệt Thự Thảo Điền"
+                data-area="280 m²" data-duration="14 tháng" data-year="2024"
+                data-quote="&quot;Từ mảnh đất trống đến ngôi nhà mơ ước — XANH tận tâm từ bản vẽ đầu tiên đến ngày bàn giao chìa khoá.&quot;"
+                data-author="— Gia đình anh Tuấn, Thảo Điền, Q2">
                 <div class="project-thumb__img-wrap">
                   <img src="../img/project-2.png" alt="Biệt Thự Thảo Điền" loading="lazy" />
                 </div>
@@ -944,7 +956,14 @@
               </button>
             </div>
             <div class="swiper-slide">
-              <button class="project-thumb" data-index="2">
+              <button class="project-thumb" data-index="2"
+                data-before-img="../img/project-4.png"
+                data-after-img="../img/project-3.png"
+                data-tag="Thiết kế nội thất"
+                data-title="Penthouse Quận 2"
+                data-area="95 m²" data-duration="3 tháng" data-year="2024"
+                data-quote="&quot;Không gian sống thay đổi hoàn toàn — sang trọng, tinh tế nhưng vẫn ấm cúng cho gia đình nhỏ.&quot;"
+                data-author="— Chị Linh, Thủ Thiêm, Q2">
                 <div class="project-thumb__img-wrap">
                   <img src="../img/project-3.png" alt="Penthouse Q2" loading="lazy" />
                 </div>
@@ -956,7 +975,14 @@
               </button>
             </div>
             <div class="swiper-slide">
-              <button class="project-thumb" data-index="3">
+              <button class="project-thumb" data-index="3"
+                data-before-img="../img/project-1.png"
+                data-after-img="../img/project-4.png"
+                data-tag="Xây mới &amp; nội thất"
+                data-title="Villa Bình Dương"
+                data-area="350 m²" data-duration="18 tháng" data-year="2023"
+                data-quote="&quot;XANH đã giúp chúng tôi xây dựng không chỉ một ngôi nhà, mà cả một phong cách sống mới — hòa mình với thiên nhiên.&quot;"
+                data-author="— Anh Phúc &amp; Chị Ngọc, Bình Dương">
                 <div class="project-thumb__img-wrap">
                   <img src="../img/project-4.png" alt="Villa Bình Dương" loading="lazy" />
                 </div>
@@ -968,7 +994,14 @@
               </button>
             </div>
             <div class="swiper-slide">
-              <button class="project-thumb" data-index="4">
+              <button class="project-thumb" data-index="4"
+                data-before-img="../img/project-2.png"
+                data-after-img="../img/project-1.png"
+                data-tag="Cải tạo &amp; mở rộng"
+                data-title="Nhà Vườn Gò Vấp"
+                data-area="180 m²" data-duration="9 tháng" data-year="2024"
+                data-quote="&quot;Ngôi nhà cũ kỹ nay trở thành không gian sống hiện đại, thoáng đãng. XANH đã lắng nghe và hiểu chúng tôi từng chi tiết nhỏ.&quot;"
+                data-author="— Chị Mai &amp; Anh Bảo, Gò Vấp, TP.HCM">
                 <div class="project-thumb__img-wrap">
                   <img src="../img/project-2.png" alt="Nhà Vườn Gò Vấp" loading="lazy" />
                 </div>
@@ -980,7 +1013,14 @@
               </button>
             </div>
             <div class="swiper-slide">
-              <button class="project-thumb" data-index="5">
+              <button class="project-thumb" data-index="5"
+                data-before-img="../img/project-4.png"
+                data-after-img="../img/project-2.png"
+                data-tag="Thiết kế &amp; thi công"
+                data-title="Shophouse Phú Mỹ Hưng"
+                data-area="240 m²" data-duration="11 tháng" data-year="2023"
+                data-quote="&quot;Từ không gian thương mại đến nhà ở — XANH tích hợp khéo léo, vừa chuyên nghiệp vừa ấm áp như một ngôi nhà thật thụ.&quot;"
+                data-author="— Anh Khoa, Phú Mỹ Hưng, Q7">
                 <div class="project-thumb__img-wrap">
                   <img src="../img/project-1.png" alt="Shophouse Phú Mỹ Hưng" loading="lazy" />
                 </div>
@@ -992,7 +1032,14 @@
               </button>
             </div>
             <div class="swiper-slide">
-              <button class="project-thumb" data-index="6">
+              <button class="project-thumb" data-index="6"
+                data-before-img="../img/project-3.png"
+                data-after-img="../img/project-3.png"
+                data-tag="Xây mới trọn gói"
+                data-title="Biệt Thự Nhà Bè"
+                data-area="420 m²" data-duration="22 tháng" data-year="2022"
+                data-quote="&quot;Chúng tôi tin tưởng giao toàn bộ dự án cho XANH — và kết quả vượt xa mong đợi. Một ngôi nhà đẹp, bền, đúng tiến độ.&quot;"
+                data-author="— Gia đình anh Hùng, Nhà Bè, TP.HCM">
                 <div class="project-thumb__img-wrap">
                   <img src="../img/project-3.png" alt="Biệt Thự Nhà Bè" loading="lazy" />
                 </div>
@@ -1031,25 +1078,25 @@
   <!-- ============================================= -->
   <!-- SECTION 7 — Quy Trình 6 Bước (Process Steps) -->
   <!-- ============================================= -->
-  <section id="process" class="process-section">
+  <section id="process" class="process-section bg-white">
     <div class="site-container">
 
       <!-- Section Header -->
-      <div class="text-center mb-14 md:mb-20">
-        <p class="process-el text-xs font-semibold tracking-[0.2em] uppercase text-primary/50 mb-4">
+      <div class="section-header section-header--center">
+        <p class="anim-fade-up section-eyebrow">
           Quy Trình
         </p>
         <h2
-          class="process-el text-3xl md:text-4xl lg:text-[3.25rem] font-bold text-primary !leading-[1.2] tracking-[-0.02em] mb-5">
+          class="anim-fade-up section-title">
           Chúng Tôi Đồng Hành Cùng Bạn<br>Đến Từng Viên Gạch Cuối Cùng
         </h2>
-        <p class="process-el text-base md:text-lg text-gray-600 max-w-[580px] mx-auto !leading-[1.7]">
+        <p class="anim-fade-up section-subtitle">
           Hành trình kiến tạo tổ ấm bắt đầu từ một cuộc trò chuyện — mỗi bước đi đều được đồng hành tận tâm.
         </p>
       </div>
 
       <!-- Horizontal Accordion -->
-      <div class="process-accordion process-el">
+      <div class="process-accordion anim-fade-up">
 
         <!-- Panel 1: Tư Vấn -->
         <div class="process-panel is-active" data-step="0">
@@ -1263,22 +1310,22 @@
     <div class="site-container cta-contact__container">
 
       <!-- Eyebrow -->
-      <p class="cta-contact-el cta-contact__eyebrow">Bắt Đầu Hành Trình</p>
+      <p class="anim-fade-up cta-contact__eyebrow">Bắt Đầu Hành Trình</p>
 
       <!-- Headline -->
-      <h2 class="cta-contact-el cta-contact__heading">
+      <h2 class="anim-fade-up cta-contact__heading">
         Mọi Tổ Ấm Bình Yên<br />Đều Bắt Đầu Từ<br />Một Cuộc Trò Chuyện.
       </h2>
 
       <!-- Body -->
-      <p class="cta-contact-el cta-contact__body">
+      <p class="anim-fade-up cta-contact__body">
         Hãy để XANH lắng nghe câu chuyện của bạn — đồng hành từ những ý tưởng sơ khai nhất đến ngày trao tay chiếc chìa khóa.
       </p>
 
       <!-- CTA Button -->
-      <a href="#contact" class="cta-contact-el cta-contact__btn">
+      <a href="#contact" class="anim-fade-up btn btn--primary cta-contact__btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round" class="w-5 h-5">
+          stroke-linejoin="round" class="btn__icon">
           <path
             d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.52-.93a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z" />
         </svg>
@@ -1293,10 +1340,10 @@
   <section id="partners" class="partners-section" aria-label="Đối tác chiến lược">
     <div class="site-container">
       <!-- Overline heading -->
-      <p class="partners-overline partners-el">Đối Tác Chiến Lược</p>
+      <p class="partners-overline anim-fade-up">Đối Tác Chiến Lược</p>
 
       <!-- Swiper: Continuous Ribbon -->
-      <div class="swiper partners-swiper partners-el" id="partners-swiper">
+      <div class="swiper partners-swiper anim-fade-up" id="partners-swiper">
         <div class="swiper-wrapper">
 
           <!-- Logo 1: Dulux -->
@@ -1367,11 +1414,11 @@
     <div class="site-container">
 
       <!-- Header -->
-      <p class="blog-el blog-eyebrow">Cẩm Nang & Cảm Hứng</p>
-      <h2 class="blog-el blog-heading">Không Gian Sống Xanh<br />Dưới Góc Nhìn Chuyên Gia</h2>
+      <p class="anim-fade-up blog-eyebrow">Cẩm Nang & Cảm Hứng</p>
+      <h2 class="anim-fade-up blog-heading">Không Gian Sống Xanh<br />Dưới Góc Nhìn Chuyên Gia</h2>
 
       <!-- Slider + Side Arrows Wrapper -->
-      <div class="blog-slider-wrap blog-el">
+      <div class="blog-slider-wrap anim-fade-up">
         <!-- Swiper Slider -->
         <div class="swiper blog-swiper" id="blog-swiper">
           <div class="swiper-wrapper">
@@ -1539,7 +1586,7 @@
       </div><!-- .blog-slider-wrap -->
 
       <!-- Dash pagination + mobile nav buttons (bottom row) -->
-      <div class="blog-nav blog-el">
+      <div class="blog-nav anim-fade-up">
         <button class="blog-nav__btn blog-nav__prev blog-nav__mobile-btn" aria-label="Bài trước">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
