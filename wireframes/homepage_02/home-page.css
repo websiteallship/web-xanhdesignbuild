@@ -111,13 +111,16 @@ body {
 }
 
 #site-header.is-scrolled #header-cta {
-  border-color: var(--color-dark);
-  color: var(--color-dark);
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+#site-header.is-scrolled #header-cta svg {
+  color: var(--color-white) !important;
 }
 
 #site-header.is-scrolled #header-cta:hover {
   background: var(--color-primary);
-  border-color: var(--color-primary);
   color: var(--color-white);
 }
 
@@ -643,7 +646,7 @@ body {
 /* Title */
 .service-card__title {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: 0.02em;
@@ -653,6 +656,12 @@ body {
   position: relative;
   padding-bottom: 0.6rem;
   transition: color var(--transition-base);
+}
+
+@media (min-width: 768px) {
+  .service-card__title {
+    font-size: 1.375rem;
+  }
 }
 
 /* Underline swipe on hover */
@@ -679,11 +688,17 @@ body {
 
 /* Description */
 .service-card__desc {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.65;
   color: #6b7280;
   flex-grow: 1;
   margin-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .service-card__desc {
+    font-size: 1rem;
+  }
 }
 
 /* Link — hidden by default, revealed on card hover */
@@ -762,6 +777,174 @@ body {
 
 
 /* ============================================= */
+/* PROJECTS THUMBS — Navigation Buttons          */
+/* ============================================= */
+
+/* Wrapper is position context for side arrows */
+.projects-thumbs-wrapper {
+  position: relative;
+  /* Set by JS = imgWrapHeight / 2. Fallback for typical thumb sizes. */
+  --thumbs-img-center: 68px;
+}
+
+/* ── Shared button style (square, no radius) ── */
+.thumbs-nav__btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-dark);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+}
+
+.thumbs-nav__btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.thumbs-nav__btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── PC: Side arrows absolutely positioned, vertically centered ── */
+.projects-thumbs-wrapper>.thumbs-nav__btn {
+  position: absolute !important;
+  top: var(--thumbs-img-center);
+  transform: translateY(-50%) !important;
+  z-index: 10;
+  margin: 0 !important;
+  /* Hidden by default, revealed on hover */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, background var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+
+.projects-thumbs-wrapper>.thumbs-nav__prev {
+  left: -56px;
+}
+
+.projects-thumbs-wrapper>.thumbs-nav__next {
+  right: -56px;
+}
+
+/* Show/hide handled by JS with delay timer — class .is-visible */
+.projects-thumbs-wrapper>.thumbs-nav__btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Tablet: tuck side arrows closer */
+@media (max-width: 1023px) {
+  .projects-thumbs-wrapper>.thumbs-nav__prev {
+    left: -48px;
+  }
+
+  .projects-thumbs-wrapper>.thumbs-nav__next {
+    right: -48px;
+  }
+}
+
+/* ── Bottom nav: always visible (matching blog-nav) ── */
+.thumbs-nav {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  position: relative;
+  width: 100%;
+}
+
+/* Mobile-only buttons: hidden on desktop */
+@media (min-width: 640px) {
+  .thumbs-nav__mobile-btn {
+    display: none !important;
+  }
+
+  /* Center pagination on desktop when no buttons */
+  .thumbs-nav {
+    justify-content: center;
+  }
+}
+
+/* Prevent Swiper from repositioning nav children */
+.thumbs-nav>* {
+  position: static !important;
+  margin: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  width: auto;
+  height: auto;
+}
+
+/* ── Thumbs pagination (dash style, matching blog) ── */
+.thumbs-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: auto !important;
+}
+
+.thumbs-pagination .swiper-pagination-bullet {
+  width: 20px;
+  height: 3px;
+  border-radius: 0;
+  background: rgba(26, 26, 26, 0.2);
+  opacity: 1;
+  transition: all var(--transition-base);
+}
+
+.thumbs-pagination .swiper-pagination-bullet-active {
+  width: 32px;
+  background: var(--color-primary);
+}
+
+@media (max-width: 639px) {
+
+  /* Hide side arrows on mobile */
+  .projects-thumbs-wrapper>.thumbs-nav__btn {
+    display: none !important;
+  }
+
+  /* Show mobile buttons */
+  .thumbs-nav__mobile-btn {
+    display: flex !important;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  /* Prev: transparent / bordered (matching blog) */
+  .thumbs-nav .thumbs-nav__prev {
+    background: transparent;
+    border-color: rgba(26, 26, 26, 0.25);
+    color: var(--color-dark);
+  }
+
+  /* Next: filled green (matching blog) */
+  .thumbs-nav .thumbs-nav__next {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .thumbs-nav .thumbs-nav__next:hover {
+    background: #0d3d2d;
+    border-color: #0d3d2d;
+  }
+}
+
+/* ============================================= */
 /* SECTION CTA: Liên Hệ Tư Vấn                  */
 /* ============================================= */
 
@@ -799,7 +982,7 @@ body {
 }
 
 .cta-heading {
-  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-size: clamp(2rem, 4vw, 3.25rem);
   font-weight: 800;
   line-height: 1.15;
   color: #fff;
@@ -1010,13 +1193,11 @@ body {
   }
 
   .cta-heading {
-    font-size: clamp(1.5rem, 7vw, 2rem);
     word-break: keep-all;
     overflow-wrap: break-word;
   }
 
   .cta-body {
-    font-size: 0.9rem;
     margin-bottom: 1.75rem;
   }
 
@@ -1075,6 +1256,178 @@ body {
 
   .cta-panel--image {
     min-height: 280px;
+  }
+}
+
+/* ============================================= */
+/* SECTION 8: CTA CONTACT — Full-width BG Image  */
+/* ============================================= */
+
+.cta-contact-section {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 0;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .cta-contact-section {
+    padding: 8rem 0;
+    min-height: 560px;
+  }
+}
+
+/* Background image */
+.cta-contact__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Dark overlay — green-tinted gradient for brand consistency */
+.cta-contact__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg,
+      rgba(20, 81, 61, 0.88) 0%,
+      rgba(20, 81, 61, 0.82) 50%,
+      rgba(20, 81, 61, 0.92) 100%);
+}
+
+/* Content container — centered */
+.cta-contact__container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Decorative accent line */
+.cta-contact__line {
+  width: 48px;
+  height: 2px;
+  background: var(--color-accent);
+  margin-bottom: 2rem;
+}
+
+/* Eyebrow */
+.cta-contact__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(216, 199, 163, 0.7);
+  margin-bottom: 1.5rem;
+}
+
+/* Headline — serif-like luxury feel with Inter Bold */
+.cta-contact__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-beige);
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .cta-contact__heading {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Body copy */
+.cta-contact__body {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .cta-contact__body {
+    font-size: 1.05rem;
+    margin-bottom: 3rem;
+  }
+}
+
+/* CTA Button — Accent Orange, min-width 200px per rules */
+.cta-contact__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2rem;
+  min-width: 200px;
+  justify-content: center;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 2px solid var(--color-accent);
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.cta-contact__btn:hover {
+  background: var(--color-white);
+  color: var(--color-primary);
+  border-color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+.cta-contact__btn svg {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--transition-base);
+}
+
+.cta-contact__btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* GSAP initial state */
+.cta-contact-el {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* ── Responsive: CTA Contact ── */
+@media (max-width: 639px) {
+  .cta-contact-section {
+    padding: 4.5rem 0;
+    min-height: 400px;
+  }
+
+  /* .cta-contact__heading specific mobile styles here if needed */
+
+  .cta-contact__body {
+    margin-bottom: 2rem;
+  }
+
+  .cta-contact__btn {
+    width: 100%;
+    max-width: 280px;
   }
 }
 
@@ -1232,7 +1585,7 @@ body {
 }
 
 .ba-info__title {
-  font-size: 1.65rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: var(--color-primary);
   line-height: 1.2;
@@ -1414,8 +1767,15 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.projects-thumbs-prev, .projects-mobile-prev { left: -20px; }
-.projects-thumbs-next, .projects-mobile-next { right: -20px; }
+.projects-thumbs-prev,
+.projects-mobile-prev {
+  left: -20px;
+}
+
+.projects-thumbs-next,
+.projects-mobile-next {
+  right: -20px;
+}
 
 .projects-thumbs-prev:hover,
 .projects-thumbs-next:hover,
@@ -1424,7 +1784,6 @@ body {
   background: var(--color-primary);
   color: var(--color-white);
   border-color: var(--color-primary);
-  box-shadow: 0 4px 16px rgba(20, 81, 61, 0.25);
 }
 
 .projects-thumbs-prev svg,
@@ -1458,7 +1817,8 @@ body {
 
 .projects-mobile-swiper {
   overflow: hidden;
-  padding-bottom: 2.5rem; /* space for pagination */
+  padding-bottom: 2.5rem;
+  /* space for pagination */
 }
 
 .mobile-project-card {
@@ -1575,6 +1935,7 @@ body {
 
 /* ── Responsive: Projects ── */
 @media (max-width: 1023px) {
+
   /* Hide desktop before/after + thumbs on mobile */
   .projects-featured {
     display: none !important;
@@ -1591,6 +1952,7 @@ body {
 }
 
 @media (min-width: 1024px) {
+
   /* Ensure desktop featured area shows normally */
   .projects-featured {
     display: grid;
@@ -2018,27 +2380,23 @@ body {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(26, 26, 26, 0.35);
+  color: rgb(20 81 61 / 0.5);
   margin-bottom: 2.5rem;
 }
 
 /* Swiper container */
 .partners-swiper {
   overflow: hidden;
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
+  mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%);
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%);
 }
 
 /* Each logo wrapper */
@@ -2082,12 +2440,7 @@ body {
 
 /* ── Thin divider at the top of the section ── */
 .partners-section::before {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 1px;
-  background: rgba(26, 26, 26, 0.12);
-  margin: 0 auto 3rem;
+  content: none;
 }
 
 /* ── Responsive ── */
@@ -2123,8 +2476,339 @@ body {
   }
 
   .partners-section::before {
-    width: 60px;
+    display: none;
+  }
+}
+
+/* ============================================= */
+/* SECTION 9: BLOG & CẢM HỨNG                   */
+/* ============================================= */
+
+.blog-section {
+  background-color: var(--color-light);
+  padding: 5rem 0 6rem;
+}
+
+/* Eyebrow */
+.blog-eyebrow {
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgb(20 81 61 / 0.5);
+  margin-bottom: 1rem;
+}
+
+/* Heading */
+.blog-heading {
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-dark);
+  margin-bottom: 3rem;
+}
+
+/* Swiper container */
+.blog-swiper {
+  overflow: hidden;
+  padding-bottom: 0.5rem;
+}
+
+/* ── Blog Card ── */
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Image link */
+.blog-card__img-link {
+  display: block;
+  overflow: hidden;
+  border-radius: 0;
+  position: relative;
+}
+
+.blog-card__img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform 600ms var(--ease-out);
+}
+
+.blog-card:hover .blog-card__img {
+  transform: scale(1.05);
+}
+
+/* Card body */
+.blog-card__body {
+  padding: 1.25rem 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Date */
+.blog-card__date {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: rgba(26, 26, 26, 0.4);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+/* Title */
+.blog-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--color-dark);
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+@media (min-width: 768px) {
+  .blog-card__title {
+    font-size: 1.375rem;
+  }
+}
+
+.blog-card__title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+.blog-card__title a:hover {
+  color: var(--color-primary);
+}
+
+/* "Khám Phá" link */
+.blog-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+.blog-card__link svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-base);
+}
+
+.blog-card__link:hover {
+  color: var(--color-accent);
+}
+
+.blog-card__link:hover svg {
+  transform: translateX(4px);
+}
+
+/* ── Slider + Side Arrows Wrapper ── */
+.blog-slider-wrap {
+  position: relative;
+  /* --blog-img-center is set by JS = imageHeight / 2.
+     Fallback: 140px works well for most screen sizes. */
+  --blog-img-center: 140px;
+}
+
+/* ── Side arrow buttons — absolutely positioned at image vertical center ── */
+.blog-slider-wrap>.blog-nav__btn {
+  position: absolute !important;
+  top: var(--blog-img-center);
+  transform: translateY(-50%) !important;
+  z-index: 10;
+  margin: 0 !important;
+  /* Hidden by default, revealed on hover */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, background var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+
+/* Show/hide handled by JS with delay timer — class .is-visible */
+.blog-slider-wrap>.blog-nav__btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.blog-slider-wrap>.blog-nav__prev {
+  left: -56px;
+}
+
+.blog-slider-wrap>.blog-nav__next {
+  right: -56px;
+}
+
+/* ── Navigation: bottom row (pagination + mobile buttons) ── */
+.blog-nav {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  position: relative;
+  width: 100%;
+}
+
+/* Mobile-only buttons: hidden on desktop */
+@media (min-width: 640px) {
+  .blog-nav__mobile-btn {
+    display: none !important;
+  }
+
+  /* When no mobile buttons, center the pagination on desktop */
+  .blog-nav {
+    justify-content: center;
+  }
+}
+
+/* Prevent Swiper from repositioning nav children */
+.blog-nav>* {
+  position: static !important;
+  margin: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  width: auto;
+  height: auto;
+}
+
+/* Square nav buttons — no border-radius */
+.blog-nav__btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-primary);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-dark);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+}
+
+.blog-nav__btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.blog-nav__btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Dash pagination */
+.blog-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: auto !important;
+}
+
+.blog-pagination .swiper-pagination-bullet {
+  width: 20px;
+  height: 3px;
+  border-radius: 0;
+  background: rgba(26, 26, 26, 0.2);
+  opacity: 1;
+  transition: all var(--transition-base);
+}
+
+.blog-pagination .swiper-pagination-bullet-active {
+  width: 32px;
+  background: var(--color-primary);
+}
+
+/* GSAP initial state */
+.blog-el {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1023px) {
+  .blog-section {
+    padding: 3.5rem 0 4rem;
+  }
+
+  .blog-heading {
+    margin-bottom: 2.5rem;
+  }
+
+  /* Side arrows: tuck closer on tablet */
+  .blog-slider-wrap>.blog-nav__prev {
+    left: -48px;
+  }
+
+  .blog-slider-wrap>.blog-nav__next {
+    right: -48px;
+  }
+}
+
+@media (max-width: 639px) {
+  .blog-section {
+    padding: 3rem 0 3.5rem;
+  }
+
+  .blog-heading {
+    font-size: clamp(1.5rem, 6.5vw, 2rem);
     margin-bottom: 2rem;
+  }
+
+  .blog-card__title {
+    font-size: 1rem;
+  }
+
+  /* Hide side arrows on mobile */
+  .blog-slider-wrap>.blog-nav__btn {
+    display: none !important;
+  }
+
+  /* Mobile bottom nav: show mobile buttons */
+  .blog-nav__mobile-btn {
+    display: flex !important;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  /* Next button: filled green (matches reference image) */
+  .blog-nav__mobile-btn.blog-nav__next {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .blog-nav__mobile-btn.blog-nav__next:hover {
+    background: #0d3d2d;
+    border-color: #0d3d2d;
+  }
+
+  /* Prev button: white/transparent (matches reference image) */
+  .blog-nav__mobile-btn.blog-nav__prev {
+    background: transparent;
+    border-color: rgba(26, 26, 26, 0.25);
+    color: var(--color-dark);
   }
 }
 
@@ -2186,8 +2870,8 @@ body {
 }
 
 .footer-badge:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  border-color: var(--color-beige);
+  color: var(--color-beige);
 }
 
 /* ── Column Titles ── */
@@ -2210,7 +2894,7 @@ body {
   left: 0;
   width: 24px;
   height: 2px;
-  background: var(--color-accent);
+  background: var(--color-beige);
 }
 
 /* ── Navigation Links ── */
@@ -2242,7 +2926,7 @@ body {
   transform: translateY(-50%);
   width: 0;
   height: 1px;
-  background: var(--color-accent);
+  background: var(--color-beige);
   transition: width var(--transition-base);
 }
 
@@ -2271,7 +2955,7 @@ body {
 .footer-contact li svg {
   width: 18px;
   height: 18px;
-  color: var(--color-accent);
+  color: var(--color-beige);
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -2324,7 +3008,7 @@ body {
 
 .footer-newsletter__input:focus {
   background: rgba(255, 255, 255, 0.12);
-  border-color: var(--color-accent);
+  border-color: var(--color-beige);
 }
 
 .footer-newsletter__btn {
@@ -2415,8 +3099,8 @@ body {
 }
 
 .footer-social__link:hover {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
+  background: var(--color-beige);
+  border-color: var(--color-beige);
   color: var(--color-white);
   transform: translateY(-2px);
 }
