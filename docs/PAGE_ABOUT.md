@@ -117,6 +117,20 @@
 
 ---
 
+## Section 7: Final CTA — Khởi Đầu Hành Trình
+
+| Thuộc tính | Giá trị |
+|---|---|
+| **Headline** | *"Hành trình kiến tạo không gian bắt đầu bằng một cuộc trò chuyện."* |
+| **Body/Subtitle** | *"Chúng tôi hiểu — xây nhà là quyết định lớn nhất đời. Đặt lịch trao đổi riêng để mỗi mong ước của bạn được lắng nghe, và để XANH đồng hành cùng bạn từ bản vẽ đầu tiên."* |
+| Background | Ảnh thực tế không gian ấm cúng có chiều sâu (editorial style) + overlay mờ tự nhiên, hoặc màu nền `--color-beige` / `--color-light` |
+| Typography | Headline: Inter Bold. Body: Inter Regular. Lề thoáng (breathing space). |
+| **Primary CTA** | `[Đặt Lịch Tư Vấn Riêng]` — Style: `--btn-primary-bg` (Tạo cảm giác đặc quyền, không hối thúc) |
+| **Secondary CTA** | `[Khám Phá Các Tác Phẩm]` — Style: Outline button (Dẫn dắt tự nhiên sang Portfolio) |
+| Layout | Căn giữa (Center-aligned), không gian âm (white space) lớn, lời mời nhẹ nhàng (Invitation) thay cho ép buộc. |
+
+---
+
 ## Tài Liệu Liên Quan
 
 - `page_dev_guide/AboutPage.md` — Copywriting gốc chi tiết

@@ -6,6 +6,10 @@
  * Libraries: Swiper, GSAP, ScrollTrigger, Lenis, Lucide
  */
 
+/* Shared matchMedia queries (Rule 10 §5.3) */
+const mqDesktop = window.matchMedia('(min-width: 1024px)');
+const mqTablet = window.matchMedia('(min-width: 640px)');
+
 /* ─────────────────────────────────────────────── */
 /* Module 1 — Lucide Icons                         */
 /* ─────────────────────────────────────────────── */
@@ -65,7 +69,7 @@ const XanhMobileMenu = {
     this.drawer.classList.add('translate-x-0');
     this.overlay.classList.remove('opacity-0', 'pointer-events-none');
     this.overlay.classList.add('opacity-100', 'pointer-events-auto');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('is-scroll-locked');
 
     // Force hamburger icon white when drawer is open (dark green bg)
     this.menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
@@ -73,14 +77,13 @@ const XanhMobileMenu = {
       l.classList.add('bg-white');
     });
 
-    // Staggered link reveal
+    // Staggered link reveal via CSS classes
     this.navLinks.forEach((link, i) => {
-      link.style.opacity = '0';
-      link.style.transform = 'translateX(20px)';
+      link.classList.remove('drawer-link--visible');
+      link.classList.add('drawer-link--hidden');
       setTimeout(() => {
-        link.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-        link.style.opacity = '1';
-        link.style.transform = 'translateX(0)';
+        link.classList.remove('drawer-link--hidden');
+        link.classList.add('drawer-link--visible');
       }, 80 + i * 60);
     });
   },
@@ -93,7 +96,7 @@ const XanhMobileMenu = {
     this.drawer.classList.add('translate-x-full');
     this.overlay.classList.remove('opacity-100', 'pointer-events-auto');
     this.overlay.classList.add('opacity-0', 'pointer-events-none');
-    document.body.style.overflow = '';
+    document.body.classList.remove('is-scroll-locked');
 
     // Restore hamburger color based on current scroll position
     const scrollY = window.scrollY || window.pageYOffset;
@@ -130,19 +133,20 @@ const XanhSmoothScroll = {
       wheelMultiplier: 0.8,
     });
 
-    const raf = (time) => {
-      this.lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
-
-    // Sync Lenis with GSAP ScrollTrigger
-    if (typeof ScrollTrigger !== 'undefined') {
+    // Sync Lenis with GSAP ScrollTrigger (preferred)
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       this.lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => {
         this.lenis.raf(time * 1000);
       });
       gsap.ticker.lagSmoothing(0);
+    } else {
+      // Fallback: standalone rAF loop when GSAP is unavailable
+      const raf = (time) => {
+        this.lenis.raf(time);
+        requestAnimationFrame(raf);
+      };
+      requestAnimationFrame(raf);
     }
   },
 };
@@ -392,7 +396,7 @@ const XanhCTA = {
       return;
     }
 
-    const isDesktop = window.innerWidth >= 1024;
+    const isDesktop = mqDesktop.matches;
 
     gsap.set(ctaEls, { opacity: 0, y: 36 });
     if (ctaImgPanel) gsap.set(ctaImgPanel, { opacity: 0, x: 40 });
@@ -603,7 +607,7 @@ const XanhProjects = {
     }
 
     // Mobile Projects Swiper (≤1023px only)
-    if (window.innerWidth < 1024) {
+    if (!mqDesktop.matches) {
       const mobileSwiper = new Swiper('.projects-mobile-swiper', {
         slidesPerView: 1,
         spaceBetween: 16,
@@ -814,7 +818,7 @@ const XanhProcess = {
 
     // GSAP entrance for panels (desktop only)
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      const isDesktop = window.innerWidth >= 1024;
+      const isDesktop = mqDesktop.matches;
       if (isDesktop) {
         gsap.set(panels, { opacity: 0, y: 50, scale: 0.97 });
         ScrollTrigger.create({
@@ -901,12 +905,14 @@ const XanhCTAContact = {
 /* Module 11 — Partner Logos Bar                    */
 /* ─────────────────────────────────────────────── */
 const XanhPartners = {
+  _swiper: null,
+
   init() {
     const section = document.getElementById('partners');
     if (!section) return;
 
     if (typeof Swiper !== 'undefined') {
-      new Swiper('.partners-swiper', {
+      this._swiper = new Swiper('.partners-swiper', {
         loop: true,
         speed: 3000,
         autoplay: {
@@ -947,6 +953,13 @@ const XanhPartners = {
     );
     observer.observe(section);
   },
+
+  destroy() {
+    if (this._swiper) {
+      this._swiper.destroy(true, true);
+      this._swiper = null;
+    }
+  },
 };
 
 /* ─────────────────────────────────────────────── */
@@ -965,7 +978,7 @@ const XanhBlog = {
   _initSwiper(section) {
     if (typeof Swiper === 'undefined') return;
 
-    const blogSwiper = new Swiper('#blog-swiper', {
+    this._blogSwiper = new Swiper('#blog-swiper', {
       slidesPerView: 1,
       spaceBetween: 20,
       loop: true,
@@ -983,14 +996,14 @@ const XanhBlog = {
     const sliderWrap = section.querySelector('.blog-slider-wrap');
     const prevBtn = sliderWrap ? sliderWrap.querySelector('.blog-nav__prev') : null;
     const nextBtn = sliderWrap ? sliderWrap.querySelector('.blog-nav__next') : null;
-    if (prevBtn) prevBtn.addEventListener('click', () => blogSwiper.slidePrev());
-    if (nextBtn) nextBtn.addEventListener('click', () => blogSwiper.slideNext());
+    if (prevBtn) prevBtn.addEventListener('click', () => this._blogSwiper.slidePrev());
+    if (nextBtn) nextBtn.addEventListener('click', () => this._blogSwiper.slideNext());
 
     // Mobile bottom nav
     const mobilePrev = section.querySelector('.blog-nav .blog-nav__prev');
     const mobileNext = section.querySelector('.blog-nav .blog-nav__next');
-    if (mobilePrev) mobilePrev.addEventListener('click', () => blogSwiper.slidePrev());
-    if (mobileNext) mobileNext.addEventListener('click', () => blogSwiper.slideNext());
+    if (mobilePrev) mobilePrev.addEventListener('click', () => this._blogSwiper.slidePrev());
+    if (mobileNext) mobileNext.addEventListener('click', () => this._blogSwiper.slideNext());
 
     // Dynamic vertical centering of side arrows
     this._updateBlogImgCenter = () => {
@@ -1012,7 +1025,7 @@ const XanhBlog = {
       return;
     }
 
-    const isDesktop = window.innerWidth >= 1024;
+    const isDesktop = mqDesktop.matches;
     const visibleSlides = section.querySelectorAll('.blog-swiper .swiper-slide:not(.swiper-slide-duplicate)');
     const visibleCards = Array.from(visibleSlides).slice(0, 3);
 
@@ -1048,7 +1061,7 @@ const XanhBlog = {
         }
 
         // Stagger-in pagination bullets
-        if (window.innerWidth >= 640) {
+        if (mqTablet.matches) {
           const blogPagination = section.querySelector('.blog-pagination');
           if (blogPagination) {
             const bullets = blogPagination.querySelectorAll('.swiper-pagination-bullet');
@@ -1082,6 +1095,17 @@ const XanhBlog = {
       { threshold: 0.15 }
     );
     observer.observe(section);
+  },
+
+  destroy() {
+    if (this._blogSwiper) {
+      this._blogSwiper.destroy(true, true);
+      this._blogSwiper = null;
+    }
+    if (this._updateBlogImgCenter) {
+      window.removeEventListener('load', this._updateBlogImgCenter);
+      window.removeEventListener('resize', this._updateBlogImgCenter);
+    }
   },
 };
 

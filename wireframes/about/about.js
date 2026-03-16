@@ -1,476 +1,417 @@
 /**
- * XANH - Design & Build
- * About Page Wireframe: Section 1 Hero Banner
+ * XANH — Design & Build
+ * About Page Module
  * =============================================
  * Libraries: GSAP, ScrollTrigger, Lenis, Lucide
+ * Pattern:   XanhAbout module (rule 10 §1)
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // ── Initialize Lucide Icons ──
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
+/* ── Animation Defaults (rule 10 §3.2 / rule 08 §9) ── */
+const ANIM_DEFAULTS = {
+  fadeUp:    { opacity: 0, y: 40, duration: 0.8, ease: 'power2.out' },
+  fadeLeft:  { opacity: 0, x: -40, duration: 0.8, ease: 'power2.out' },
+  fadeRight: { opacity: 0, x: 40, duration: 0.8, ease: 'power2.out' },
+  scaleIn:   { opacity: 0, scale: 0.95, duration: 0.6, ease: 'power2.out' },
+  stagger:   0.1,
+};
 
-  // ── Mobile Drawer Menu ──
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileDrawer = document.getElementById('mobile-drawer');
-  const mobileOverlay = document.getElementById('mobile-overlay');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+const XanhAbout = {
+  // Shared state
+  lenis: null,
+  isDrawerOpen: false,
+  prefersReducedMotion: false,
 
-  let isDrawerOpen = false;
+  /* ── Entry Point ── */
+  init() {
+    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function toggleDrawer() {
-    if (isDrawerOpen) {
-      closeDrawer();
-    } else {
-      openDrawer();
+    this.initLucide();
+    this.initMobileDrawer();
+    this.initLenis();
+    this.initHeaderScroll();
+    this.initHeroReveal();
+    this.initVideoModal();
+
+    // Animations — only if user allows motion
+    if (!this.prefersReducedMotion) {
+      this.initHeroParallax();
+      this.initSectionAnimations();
+      this.initPainAnimations();
+      this.initPromiseAnimations();
+      this.initTurningPointAnimations();
+      this.initNodeHover();
+      this.initTeamAnimations();
+      this.initCoreValuesAnimations();
+      this.initFinalCTAAnimations();
     }
-  }
+  },
 
-  function openDrawer() {
-    isDrawerOpen = true;
-    mobileMenuBtn.classList.add('is-active');
+  /* ── Lucide Icons ── */
+  initLucide() {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  },
 
-    mobileDrawer.classList.remove('translate-x-full');
-    mobileDrawer.classList.add('translate-x-0');
-    mobileOverlay.classList.remove('opacity-0', 'pointer-events-none');
-    mobileOverlay.classList.add('opacity-100', 'pointer-events-auto');
-    document.body.style.overflow = 'hidden';
+  /* ── Mobile Drawer Menu ── */
+  initMobileDrawer() {
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
-    // Force hamburger icon white when drawer is open
-    mobileMenuBtn.querySelectorAll('.hamburger-line').forEach(l => {
-      l.classList.remove('bg-dark');
-      l.classList.add('bg-white');
-    });
+    if (!mobileMenuBtn || !mobileDrawer) return;
 
-    // Staggered link reveal
-    mobileNavLinks.forEach((link, i) => {
-      link.style.opacity = '0';
-      link.style.transform = 'translateX(20px)';
-      setTimeout(() => {
-        link.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-        link.style.opacity = '1';
-        link.style.transform = 'translateX(0)';
-      }, 80 + i * 60);
-    });
-  }
+    const openDrawer = () => {
+      this.isDrawerOpen = true;
+      mobileMenuBtn.classList.add('is-active');
+      mobileDrawer.classList.remove('translate-x-full');
+      mobileDrawer.classList.add('translate-x-0');
+      if (mobileOverlay) {
+        mobileOverlay.classList.remove('opacity-0', 'pointer-events-none');
+        mobileOverlay.classList.add('opacity-100', 'pointer-events-auto');
+      }
+      document.body.classList.add('is-scroll-locked');
 
-  function closeDrawer() {
-    isDrawerOpen = false;
-    mobileMenuBtn.classList.remove('is-active');
-
-    mobileDrawer.classList.remove('translate-x-0');
-    mobileDrawer.classList.add('translate-x-full');
-    mobileOverlay.classList.remove('opacity-100', 'pointer-events-auto');
-    mobileOverlay.classList.add('opacity-0', 'pointer-events-none');
-    document.body.style.overflow = '';
-
-    // Restore hamburger color based on scroll
-    const scrollY = window.scrollY || window.pageYOffset;
-    mobileMenuBtn.querySelectorAll('.hamburger-line').forEach(l => {
-      if (scrollY > 80) {
-        l.classList.remove('bg-white');
-        l.classList.add('bg-dark');
-      } else {
+      mobileMenuBtn.querySelectorAll('.hamburger-line').forEach(l => {
         l.classList.remove('bg-dark');
         l.classList.add('bg-white');
+      });
+
+      mobileNavLinks.forEach((link, i) => {
+        link.classList.remove('drawer-link--visible');
+        link.classList.add('drawer-link--hidden');
+        setTimeout(() => {
+          link.classList.remove('drawer-link--hidden');
+          link.classList.add('drawer-link--visible');
+        }, 80 + i * 60);
+      });
+    };
+
+    const closeDrawer = () => {
+      this.isDrawerOpen = false;
+      mobileMenuBtn.classList.remove('is-active');
+      mobileDrawer.classList.remove('translate-x-0');
+      mobileDrawer.classList.add('translate-x-full');
+      if (mobileOverlay) {
+        mobileOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+        mobileOverlay.classList.add('opacity-0', 'pointer-events-none');
+      }
+      document.body.classList.remove('is-scroll-locked');
+
+      const scrollY = window.scrollY || window.pageYOffset;
+      mobileMenuBtn.querySelectorAll('.hamburger-line').forEach(l => {
+        if (scrollY > 80) {
+          l.classList.remove('bg-white');
+          l.classList.add('bg-dark');
+        } else {
+          l.classList.remove('bg-dark');
+          l.classList.add('bg-white');
+        }
+      });
+    };
+
+    mobileMenuBtn.addEventListener('click', () => {
+      this.isDrawerOpen ? closeDrawer() : openDrawer();
+    });
+
+    if (mobileOverlay) mobileOverlay.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileDrawer.classList.contains('translate-x-full')) {
+        closeDrawer();
       }
     });
-  }
 
-  if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleDrawer);
-  if (mobileOverlay) mobileOverlay.addEventListener('click', closeDrawer);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !mobileDrawer.classList.contains('translate-x-full')) {
-      closeDrawer();
-    }
-  });
-
-  mobileNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      closeDrawer();
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', closeDrawer);
     });
-  });
+  },
 
-  // ── Lenis Smooth Scroll ──
-  let lenis;
-  if (typeof Lenis !== 'undefined') {
-    lenis = new Lenis({
+  /* ── Lenis Smooth Scroll (rule 10 §9 — GSAP ticker only) ── */
+  initLenis() {
+    if (typeof Lenis === 'undefined') return;
+
+    this.lenis = new Lenis({
       lerp: 0.1,
       smoothWheel: true,
       wheelMultiplier: 0.8,
     });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Sync Lenis with GSAP ScrollTrigger
+    // Sync with GSAP ticker — NO separate rAF loop
     if (typeof ScrollTrigger !== 'undefined') {
-      lenis.on('scroll', ScrollTrigger.update);
+      this.lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
+        this.lenis.raf(time * 1000);
       });
       gsap.ticker.lagSmoothing(0);
     }
-  }
+  },
 
-  // ── Header Scroll Behavior ──
-  const header = document.getElementById('site-header');
+  /* ── Header Scroll Behavior ── */
+  initHeaderScroll() {
+    const header = document.getElementById('site-header');
+    if (!header) return;
 
-  function handleHeaderScroll() {
-    const scrollY = window.scrollY || window.pageYOffset;
-    const menuBtn = document.getElementById('mobile-menu-btn');
+    const handleHeaderScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const menuBtn = document.getElementById('mobile-menu-btn');
 
-    if (scrollY > 80) {
-      header.classList.add('is-scrolled');
-      if (menuBtn && !isDrawerOpen) {
-        menuBtn.querySelectorAll('.hamburger-line').forEach(l => {
-          l.classList.remove('bg-white');
-          l.classList.add('bg-dark');
-        });
+      if (scrollY > 80) {
+        header.classList.add('is-scrolled');
+        if (menuBtn && !this.isDrawerOpen) {
+          menuBtn.querySelectorAll('.hamburger-line').forEach(l => {
+            l.classList.remove('bg-white');
+            l.classList.add('bg-dark');
+          });
+        }
+      } else {
+        header.classList.remove('is-scrolled');
+        if (menuBtn && !this.isDrawerOpen) {
+          menuBtn.querySelectorAll('.hamburger-line').forEach(l => {
+            l.classList.remove('bg-dark');
+            l.classList.add('bg-white');
+          });
+        }
       }
-    } else {
-      header.classList.remove('is-scrolled');
-      if (menuBtn && !isDrawerOpen) {
-        menuBtn.querySelectorAll('.hamburger-line').forEach(l => {
-          l.classList.remove('bg-dark');
-          l.classList.add('bg-white');
+    };
+
+    let headerTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!headerTicking) {
+        requestAnimationFrame(() => {
+          handleHeaderScroll();
+          headerTicking = false;
         });
+        headerTicking = true;
       }
-    }
-  }
+    }, { passive: true });
+  },
 
-  let headerTicking = false;
-  window.addEventListener('scroll', () => {
-    if (!headerTicking) {
-      requestAnimationFrame(() => {
-        handleHeaderScroll();
-        headerTicking = false;
-      });
-      headerTicking = true;
-    }
-  }, { passive: true });
-
-  // ── Hero Content Reveal Animation ──
-  function revealHeroContent() {
+  /* ── Hero Content Reveal ── */
+  initHeroReveal() {
     const heroBg = document.querySelector('.about-hero__bg');
     const heroEls = document.querySelectorAll('.about-hero-el');
 
-    // Trigger background zoom
-    if (heroBg) {
-      heroBg.classList.add('is-loaded');
-    }
+    setTimeout(() => {
+      if (heroBg) heroBg.classList.add('is-loaded');
+      heroEls.forEach(el => el.classList.add('is-visible'));
+    }, 300);
+  },
 
-    // Reveal text elements (CSS transition handles stagger)
-    heroEls.forEach(el => {
-      el.classList.add('is-visible');
-    });
-  }
-
-  // Reveal hero after short delay
-  setTimeout(revealHeroContent, 300);
-
-  // ── GSAP Parallax on Hero Background ──
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  /* ── Hero Parallax (GSAP) ── */
+  initHeroParallax() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
 
     const heroBgImg = document.querySelector('.about-hero__bg img');
-    if (heroBgImg) {
-      gsap.fromTo(heroBgImg,
-        { scale: 1.06 },
-        {
-          scale: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#about-hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        }
-      );
-    }
-  }
+    if (!heroBgImg) return;
 
-  // ── Video Modal ──
-  const videoPlayBtn = document.getElementById('video-play-btn');
-  const videoModal = document.getElementById('video-modal');
-  const videoModalBackdrop = document.getElementById('video-modal-backdrop');
-  const videoModalClose = document.getElementById('video-modal-close');
-  const videoIframe = document.getElementById('video-iframe');
+    gsap.fromTo(heroBgImg,
+      { scale: 1.06 },
+      {
+        scale: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: '#about-hero', start: 'top top', end: 'bottom top', scrub: 1 },
+      }
+    );
+  },
 
-  // Placeholder video URL — replace with actual company video
-  const VIDEO_URL = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
+  /* ── Video Modal ── */
+  initVideoModal() {
+    const videoPlayBtn = document.getElementById('video-play-btn');
+    const videoModal = document.getElementById('video-modal');
+    const videoModalBackdrop = document.getElementById('video-modal-backdrop');
+    const videoModalClose = document.getElementById('video-modal-close');
+    const videoIframe = document.getElementById('video-iframe');
 
-  function openVideoModal() {
-    videoIframe.src = VIDEO_URL;
-    videoModal.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
+    if (!videoPlayBtn || !videoModal) return;
 
-    // Pause Lenis while modal is open
-    if (lenis) lenis.stop();
-  }
+    const VIDEO_URL = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
 
-  function closeVideoModal() {
-    videoModal.classList.remove('is-open');
-    document.body.style.overflow = '';
+    const openModal = () => {
+      if (videoIframe) videoIframe.src = VIDEO_URL;
+      videoModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      if (this.lenis) this.lenis.stop();
+    };
 
-    // Stop video by clearing iframe src
-    setTimeout(() => {
-      videoIframe.src = '';
-    }, 400); // Wait for fade-out transition
+    const closeModal = () => {
+      videoModal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      setTimeout(() => { if (videoIframe) videoIframe.src = ''; }, 400);
+      if (this.lenis) this.lenis.start();
+    };
 
-    // Resume Lenis
-    if (lenis) lenis.start();
-  }
+    videoPlayBtn.addEventListener('click', openModal);
+    if (videoModalClose) videoModalClose.addEventListener('click', closeModal);
+    if (videoModalBackdrop) videoModalBackdrop.addEventListener('click', closeModal);
 
-  if (videoPlayBtn) {
-    videoPlayBtn.addEventListener('click', openVideoModal);
-  }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && videoModal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  },
 
-  if (videoModalClose) {
-    videoModalClose.addEventListener('click', closeVideoModal);
-  }
+  /* ── Unified Entrance Animations (.anim-fade-up) ── */
+  initSectionAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  if (videoModalBackdrop) {
-    videoModalBackdrop.addEventListener('click', closeVideoModal);
-  }
-
-  // Close modal on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && videoModal.classList.contains('is-open')) {
-      closeVideoModal();
-    }
-  });
-
-  // ── Unified Entrance Animations ──
-  // Based on rules/08-cross-section-consistency.md
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.utils.toArray('.anim-fade-up').forEach(el => {
-      // Skip sections with dedicated animations below
       if (el.closest('#about-pain') || el.closest('#about-promise')) return;
       gsap.from(el, {
         scrollTrigger: { trigger: el, start: 'top 85%' },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: 'power2.out'
+        ...ANIM_DEFAULTS.fadeUp,
       });
     });
+  },
 
-    // ── Section 2: The Pain — Dedicated Entrance Animations ──
-    const painSection = document.getElementById('about-pain');
-    if (painSection) {
-      // Header: slide in from the left
-      const painHeader = painSection.querySelector('.about-pain-header');
-      if (painHeader) {
-        gsap.from(painHeader, {
-          scrollTrigger: { trigger: painHeader, start: 'top 85%' },
-          opacity: 0,
-          x: -60,
-          duration: 1,
-          ease: 'power3.out'
-        });
-      }
+  /* ── Section 2: Pain — Dedicated Animations ── */
+  initPainAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    const section = document.getElementById('about-pain');
+    if (!section) return;
 
-      // Vertical divider line: grow from top
-      const painDivider = painSection.querySelector('.pain-divider-line');
-      if (painDivider) {
-        gsap.from(painDivider, {
-          scrollTrigger: { trigger: painDivider, start: 'top 80%' },
-          scaleY: 0,
-          transformOrigin: 'top center',
-          duration: 1.2,
-          ease: 'power2.inOut'
-        });
-      }
-
-      // Pain items: staggered entrance
-      const painItems = gsap.utils.toArray('.pain-el');
-      if (painItems.length) {
-        painItems.forEach((item, i) => {
-          const iconCircle = item.querySelector('.icon-circle');
-          const textContent = item.querySelector('div:last-child'); // h3 + p wrapper
-
-          // Card fade-up with stagger
-          gsap.from(item, {
-            scrollTrigger: { trigger: item, start: 'top 88%' },
-            opacity: 0,
-            y: 50,
-            duration: 0.8,
-            delay: i * 0.08,
-            ease: 'power2.out'
-          });
-
-          // Icon circle: scale-bounce entrance
-          if (iconCircle) {
-            gsap.from(iconCircle, {
-              scrollTrigger: { trigger: item, start: 'top 88%' },
-              scale: 0,
-              opacity: 0,
-              duration: 0.6,
-              delay: 0.2 + i * 0.08,
-              ease: 'back.out(1.7)'
-            });
-          }
-
-          // Text content: slight slide from right
-          if (textContent) {
-            gsap.from(textContent, {
-              scrollTrigger: { trigger: item, start: 'top 88%' },
-              opacity: 0,
-              x: 30,
-              duration: 0.7,
-              delay: 0.15 + i * 0.08,
-              ease: 'power2.out'
-            });
-          }
-        });
-      }
+    const painHeader = section.querySelector('.about-pain-header');
+    if (painHeader) {
+      gsap.from(painHeader, {
+        scrollTrigger: { trigger: painHeader, start: 'top 85%' },
+        ...ANIM_DEFAULTS.fadeLeft,
+        duration: 1,
+      });
     }
 
-    // ── Section 4: The Promise — Dedicated Entrance Animations ──
-    const promiseSection = document.getElementById('about-promise');
-    if (promiseSection) {
-      // Left column: eyebrow + title
-      const promiseEyebrow = promiseSection.querySelector('.section-eyebrow');
-      const promiseTitle = promiseSection.querySelector('.section-title');
-
-      if (promiseEyebrow) {
-        gsap.from(promiseEyebrow, {
-          scrollTrigger: { trigger: promiseSection, start: 'top 75%' },
-          opacity: 0,
-          y: 20,
-          duration: 0.7,
-          ease: 'power2.out'
-        });
-      }
-
-      if (promiseTitle) {
-        gsap.from(promiseTitle, {
-          scrollTrigger: { trigger: promiseSection, start: 'top 75%' },
-          opacity: 0,
-          y: 40,
-          duration: 0.9,
-          delay: 0.15,
-          ease: 'power3.out'
-        });
-      }
-
-      // Right column: text block
-      const promiseTextBlock = promiseSection.querySelector('.promise-el.max-w-xl');
-      if (promiseTextBlock) {
-        gsap.from(promiseTextBlock, {
-          scrollTrigger: { trigger: promiseTextBlock, start: 'top 85%' },
-          opacity: 0,
-          y: 40,
-          duration: 0.8,
-          ease: 'power2.out'
-        });
-      }
-
-      // Highlight items: stagger with check-icon bounce
-      const highlightItems = promiseSection.querySelectorAll('.grid > .flex');
-      if (highlightItems.length) {
-        highlightItems.forEach((item, i) => {
-          const icon = item.querySelector('[data-lucide]');
-          const text = item.querySelector('span');
-
-          gsap.from(item, {
-            scrollTrigger: { trigger: item, start: 'top 90%' },
-            opacity: 0,
-            x: -25,
-            duration: 0.6,
-            delay: i * 0.1,
-            ease: 'power2.out'
-          });
-
-          if (icon) {
-            gsap.from(icon, {
-              scrollTrigger: { trigger: item, start: 'top 90%' },
-              scale: 0,
-              opacity: 0,
-              duration: 0.5,
-              delay: 0.15 + i * 0.1,
-              ease: 'back.out(2)'
-            });
-          }
-        });
-      }
-
-      // CTA button: fade up
-      const promiseCTA = promiseSection.querySelector('.promise-el.mt-14');
-      if (promiseCTA) {
-        gsap.from(promiseCTA, {
-          scrollTrigger: { trigger: promiseCTA, start: 'top 90%' },
-          opacity: 0,
-          y: 30,
-          duration: 0.7,
-          ease: 'power2.out'
-        });
-      }
+    const painDivider = section.querySelector('.pain-divider-line');
+    if (painDivider) {
+      gsap.from(painDivider, {
+        scrollTrigger: { trigger: painDivider, start: 'top 80%' },
+        scaleY: 0, transformOrigin: 'top center', duration: 1.2, ease: 'power2.inOut',
+      });
     }
 
-    // ── Section 3: Turning Point Animations (Custom SVG logic) ──
+    const painItems = gsap.utils.toArray('.pain-el');
+    painItems.forEach((item, i) => {
+      const iconCircle = item.querySelector('.icon-circle');
+      const textContent = item.querySelector('div:last-child');
 
-    // SVG circle draw animation (stroke-dashoffset → 0)
+      gsap.from(item, {
+        scrollTrigger: { trigger: item, start: 'top 88%' },
+        ...ANIM_DEFAULTS.fadeUp,
+        y: 50, delay: i * 0.08,
+      });
+
+      if (iconCircle) {
+        gsap.from(iconCircle, {
+          scrollTrigger: { trigger: item, start: 'top 88%' },
+          scale: 0, opacity: 0, duration: 0.6, delay: 0.2 + i * 0.08, ease: 'back.out(1.7)',
+        });
+      }
+
+      if (textContent) {
+        gsap.from(textContent, {
+          scrollTrigger: { trigger: item, start: 'top 88%' },
+          ...ANIM_DEFAULTS.fadeRight,
+          x: 30, duration: 0.7, delay: 0.15 + i * 0.08,
+        });
+      }
+    });
+  },
+
+  /* ── Section 4: Promise — Dedicated Animations ── */
+  initPromiseAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    const section = document.getElementById('about-promise');
+    if (!section) return;
+
+    const promiseEyebrow = section.querySelector('.section-eyebrow');
+    if (promiseEyebrow) {
+      gsap.from(promiseEyebrow, {
+        scrollTrigger: { trigger: section, start: 'top 75%' },
+        ...ANIM_DEFAULTS.fadeUp,
+        y: 20, duration: 0.7,
+      });
+    }
+
+    const promiseTitle = section.querySelector('.section-title');
+    if (promiseTitle) {
+      gsap.from(promiseTitle, {
+        scrollTrigger: { trigger: section, start: 'top 75%' },
+        ...ANIM_DEFAULTS.fadeUp,
+        duration: 0.9, delay: 0.15,
+      });
+    }
+
+    const promiseTextBlock = section.querySelector('.promise-el.max-w-xl');
+    if (promiseTextBlock) {
+      gsap.from(promiseTextBlock, {
+        scrollTrigger: { trigger: promiseTextBlock, start: 'top 85%' },
+        ...ANIM_DEFAULTS.fadeUp,
+      });
+    }
+
+    const highlightItems = section.querySelectorAll('.grid > .flex');
+    highlightItems.forEach((item, i) => {
+      const icon = item.querySelector('[data-lucide]');
+      gsap.from(item, {
+        scrollTrigger: { trigger: item, start: 'top 90%' },
+        ...ANIM_DEFAULTS.fadeLeft,
+        x: -25, duration: 0.6, delay: i * ANIM_DEFAULTS.stagger,
+      });
+      if (icon) {
+        gsap.from(icon, {
+          scrollTrigger: { trigger: item, start: 'top 90%' },
+          scale: 0, opacity: 0, duration: 0.5, delay: 0.15 + i * ANIM_DEFAULTS.stagger, ease: 'back.out(2)',
+        });
+      }
+    });
+
+    const promiseCTA = section.querySelector('.promise-el.mt-14');
+    if (promiseCTA) {
+      gsap.from(promiseCTA, {
+        scrollTrigger: { trigger: promiseCTA, start: 'top 90%' },
+        ...ANIM_DEFAULTS.fadeUp,
+        y: 30, duration: 0.7,
+      });
+    }
+  },
+
+  /* ── Section 3: Turning Point SVG Animations ── */
+  initTurningPointAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
     const progressCircle = document.getElementById('turning-progress-circle');
     if (progressCircle) {
       gsap.to(progressCircle, {
-        scrollTrigger: {
-          trigger: '#about-turning',
-          start: 'top 60%',
-        },
-        strokeDashoffset: 0,
-        duration: 2.5,
-        ease: 'power2.inOut'
+        scrollTrigger: { trigger: '#about-turning', start: 'top 60%' },
+        strokeDashoffset: 0, duration: 2.5, ease: 'power2.inOut',
       });
     }
 
-    // Stagger reveal each SVG node
     gsap.utils.toArray('.turn-node').forEach((node, i) => {
       gsap.from(node, {
-        scrollTrigger: {
-          trigger: '#about-turning',
-          start: 'top 60%',
-        },
-        scale: 0,
-        opacity: 0,
-        transformOrigin: 'center center',
-        duration: 0.6,
-        delay: 0.4 + i * 0.25, // stagger after circle starts drawing
-        ease: 'back.out(1.7)'
+        scrollTrigger: { trigger: '#about-turning', start: 'top 60%' },
+        scale: 0, opacity: 0, transformOrigin: 'center center',
+        duration: 0.6, delay: 0.4 + i * 0.25, ease: 'back.out(1.7)',
       });
     });
 
-    // Stagger reveal each SVG arrow connecting the nodes
     gsap.utils.toArray('.turn-arrow').forEach((arrow, i) => {
       gsap.to(arrow, {
-        scrollTrigger: {
-          trigger: '#about-turning',
-          start: 'top 60%',
-        },
-        opacity: 1,
-        duration: 0.8,
-        delay: 0.8 + i * 0.25, // stagger so arrow appears slightly after preceding node
-        ease: 'power2.out'
+        scrollTrigger: { trigger: '#about-turning', start: 'top 60%' },
+        opacity: 1, duration: 0.8, delay: 0.8 + i * 0.25, ease: 'power2.out',
       });
     });
-  }
+  },
 
-  // ── Section 3: Node Hover → Center Overlay ──
-  const centerOverlay = document.getElementById('turn-center-overlay');
-  const detailTitle = document.getElementById('turn-detail-title');
-  const detailDesc = document.getElementById('turn-detail-desc');
+  /* ── Section 3: Node Hover → Center Overlay ── */
+  initNodeHover() {
+    const centerOverlay = document.getElementById('turn-center-overlay');
+    const detailTitle = document.getElementById('turn-detail-title');
+    const detailDesc = document.getElementById('turn-detail-desc');
+    if (!centerOverlay || !detailTitle || !detailDesc) return;
 
-  // Node title mapping (by data-index)
-  const nodeTitles = ['Thiết Kế', 'Dự Toán', 'Vật Liệu', 'Thi Công', 'Bảo Hành'];
-
-  if (centerOverlay && detailTitle && detailDesc) {
+    const nodeTitles = ['Thiết Kế', 'Dự Toán', 'Vật Liệu', 'Thi Công', 'Bảo Hành'];
     const nodes = document.querySelectorAll('.turn-node');
 
     nodes.forEach(node => {
@@ -478,11 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const desc = node.getAttribute('data-desc');
         const idx = parseInt(node.getAttribute('data-index'), 10);
         if (!desc) return;
-
         detailTitle.textContent = nodeTitles[idx] || '';
         detailDesc.textContent = desc;
-
-        // Activate hover state
         node.classList.add('is-active');
         centerOverlay.classList.add('is-hovering');
       });
@@ -492,96 +430,134 @@ document.addEventListener('DOMContentLoaded', () => {
         centerOverlay.classList.remove('is-hovering');
       });
     });
+  },
 
-    // ── Section 4.5: Team Members — Staggered Card Entrance ──
+  /* ── Section 4.5: Team — Staggered Entrance ── */
+  initTeamAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
     const teamCards = gsap.utils.toArray('.team-card');
-    if (teamCards.length) {
-      gsap.from(teamCards, {
-        scrollTrigger: {
-          trigger: '#about-team',
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power2.out',
-        clearProps: 'transform'
-      });
-    }
+    if (!teamCards.length) return;
 
-    // ── Section 5: Core Values — Staggered Card Entrance ──
+    gsap.from(teamCards, {
+      scrollTrigger: { trigger: '#about-team', start: 'top 80%' },
+      ...ANIM_DEFAULTS.fadeUp,
+      stagger: 0.15,
+      clearProps: 'transform',
+    });
+  },
+
+  /* ── Section 5: Core Values — Staggered Cards ── */
+  initCoreValuesAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
     const cvCards = gsap.utils.toArray('.cv-card');
-    if (cvCards.length) {
-      // Main timeline for entire section
-      const cvTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#about-core-values',
-          start: 'top 70%',
-        }
+    if (!cvCards.length) return;
+
+    const cvTl = gsap.timeline({
+      scrollTrigger: { trigger: '#about-core-values', start: 'top 70%' },
+    });
+
+    cvTl.from(cvCards, {
+      ...ANIM_DEFAULTS.fadeUp,
+      y: 60, scale: 0.92, duration: 0.7,
+      stagger: 0.12, ease: 'power3.out',
+      clearProps: 'transform',
+    });
+
+    cvCards.forEach((card) => {
+      const number = card.querySelector('.cv-card__number');
+      const iconWrap = card.querySelector('.cv-card__icon-wrap');
+      const title = card.querySelector('.cv-card__title');
+      const desc = card.querySelector('.cv-card__desc');
+
+      const innerTl = gsap.timeline({
+        scrollTrigger: { trigger: card, start: 'top 80%' },
       });
 
-      // Cards: stagger reveal with scale + fade
-      cvTl.from(cvCards, {
-        opacity: 0,
-        y: 60,
-        scale: 0.92,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power3.out',
-        clearProps: 'transform'
-      });
+      if (number) {
+        innerTl.from(number, {
+          ...ANIM_DEFAULTS.fadeRight,
+          x: 20, duration: 0.5,
+        }, 0.3);
+      }
+      if (iconWrap) {
+        innerTl.from(iconWrap, {
+          ...ANIM_DEFAULTS.scaleIn,
+          scale: 0.7, duration: 0.5, ease: 'back.out(1.7)',
+        }, 0.35);
+      }
+      if (title) {
+        innerTl.from(title, {
+          ...ANIM_DEFAULTS.fadeUp,
+          y: 16, duration: 0.5,
+        }, 0.45);
+      }
+      if (desc) {
+        innerTl.from(desc, {
+          ...ANIM_DEFAULTS.fadeUp,
+          y: 12, duration: 0.5,
+        }, 0.55);
+      }
+    });
+  },
 
-      // Internal elements: stagger within each card (after card appears)
-      cvCards.forEach((card, i) => {
-        const number = card.querySelector('.cv-card__number');
-        const iconWrap = card.querySelector('.cv-card__icon-wrap');
-        const title = card.querySelector('.cv-card__title');
-        const desc = card.querySelector('.cv-card__desc');
+  /* ── Section 6: Final CTA — Timeline Entrance ── */
+  initFinalCTAAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-        const innerTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 80%',
-          }
-        });
+    const ctaSection = document.getElementById('about-final-cta');
+    if (!ctaSection) return;
 
-        if (number) {
-          innerTl.from(number, {
-            opacity: 0,
-            x: 20,
-            duration: 0.5,
-            ease: 'power2.out'
-          }, 0.3);
-        }
+    const ctaEyebrow  = document.getElementById('cta-eyebrow');
+    const ctaTitle    = document.getElementById('cta-title');
+    const ctaSubtitle = document.getElementById('cta-subtitle');
+    const ctaButtons  = document.getElementById('cta-buttons');
+    const ctaImgCol   = document.getElementById('cta-image-col');
 
-        if (iconWrap) {
-          innerTl.from(iconWrap, {
-            opacity: 0,
-            scale: 0.7,
-            duration: 0.5,
-            ease: 'back.out(1.7)'
-          }, 0.35);
-        }
+    const ctaTl = gsap.timeline({
+      scrollTrigger: { trigger: ctaSection, start: 'top 75%' },
+    });
 
-        if (title) {
-          innerTl.from(title, {
-            opacity: 0,
-            y: 16,
-            duration: 0.5,
-            ease: 'power2.out'
-          }, 0.45);
-        }
-
-        if (desc) {
-          innerTl.from(desc, {
-            opacity: 0,
-            y: 12,
-            duration: 0.5,
-            ease: 'power2.out'
-          }, 0.55);
-        }
-      });
+    if (ctaEyebrow) {
+      ctaTl.from(ctaEyebrow, {
+        ...ANIM_DEFAULTS.fadeLeft,
+        x: -30, duration: 0.7,
+      }, 0);
     }
-  }
+
+    if (ctaTitle) {
+      ctaTl.from(ctaTitle, {
+        ...ANIM_DEFAULTS.fadeUp,
+        y: 44, duration: 0.95, ease: 'power3.out',
+      }, 0.15);
+    }
+
+    if (ctaSubtitle) {
+      ctaTl.from(ctaSubtitle, {
+        ...ANIM_DEFAULTS.fadeUp,
+        y: 28,
+      }, 0.35);
+    }
+
+    if (ctaButtons) {
+      ctaTl.from(ctaButtons, {
+        ...ANIM_DEFAULTS.fadeUp,
+        y: 24, duration: 0.7,
+      }, 0.55);
+    }
+
+    if (ctaImgCol) {
+      ctaTl.from(ctaImgCol, {
+        ...ANIM_DEFAULTS.fadeRight,
+        x: 60, scale: 0.96, duration: 1.1, ease: 'power3.out',
+        clearProps: 'transform',
+      }, 0.1);
+    }
+  },
+};
+
+/* ── Bootstrap ── */
+document.addEventListener('DOMContentLoaded', () => {
+  XanhAbout.init();
 });
