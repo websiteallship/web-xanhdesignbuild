@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liên Hệ — XANH Design & Build | Bắt Đầu Câu Chuyện Của Bạn</title>
+  <meta name="description" content="Mọi công trình bền vững đều bắt đầu từ một cuộc trò chuyện. Đặt lịch tư vấn riêng với kiến trúc sư trưởng XANH — miễn phí, không ràng buộc.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="contact.css">
+
+  <!-- GSAP + ScrollTrigger (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js" defer></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <!-- FAQPage Schema (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Tôi có phải trả phí cho buổi tư vấn ban đầu không?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hoàn toàn không. Buổi tư vấn đầu tiên tại XANH luôn miễn phí và không ràng buộc. Chúng tôi muốn hiểu rõ nhu cầu của bạn trước khi bắt đầu bất kỳ cam kết nào."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "XANH thi công ở khu vực nào?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "XANH hiện phục vụ khu vực Khánh Hòa và các tỉnh lân cận. Với mỗi dự án, chúng tôi đều cử đội ngũ kỹ sư giám sát trực tiếp tại công trình."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Bảng dự toán có phát sinh chi phí không?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "XANH cam kết 100% không phát sinh chi phí so với dự toán ban đầu. Mọi hạng mục đều được liệt kê minh bạch, chi tiết đến từng vật liệu."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "XANH có nhận thi công nếu tôi đã có bản vẽ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Có. Chúng tôi sẽ thẩm định bản vẽ hiện có, đánh giá tính khả thi và đưa ra dự toán chi phí thi công chi tiết cho bạn."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1: HERO (Portfolio pattern)
+       ══════════════════════════════════════════ -->
+  <section class="contact-hero" id="contact-hero">
+    <!-- Background image -->
+    <div class="contact-hero__bg" id="hero-bg">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80"
+           alt="Buổi tư vấn kiến trúc tại XANH Design & Build"
+           width="1920" height="960"
+           loading="eager">
+    </div>
+    <!-- Gradient overlay (portfolio style) -->
+    <div class="contact-hero__overlay"></div>
+
+    <!-- Centered content -->
+    <div class="contact-hero__center">
+      <div class="contact-hero__content-center">
+        <!-- Breadcrumb -->
+        <nav class="contact-hero__breadcrumb contact-hero-el" aria-label="Breadcrumb">
+          <a href="/">Trang Chủ</a>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <span>Liên Hệ</span>
+        </nav>
+        <h1 class="section-title contact-hero__title contact-hero-el">
+          Mọi Công Trình Bền Vững Đều Bắt Đầu<br>Từ Một <em>Cuộc Trò Chuyện.</em>
+        </h1>
+        <p class="contact-hero__subtitle contact-hero-el">
+          Bạn đang ấp ủ một không gian sống mới nhưng còn nhiều trăn trở? Hãy chia sẻ với chúng tôi — kỹ sư trưởng XANH sẽ đồng hành cùng bạn từ những bước đầu tiên.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2: CONTACT BLOCK — 2 Columns
+       ══════════════════════════════════════════ -->
+  <section class="contact-block" id="contact-block">
+    <div class="site-container">
+      <!-- Section header -->
+      <div class="section-header section-header--left" style="margin-bottom:var(--space-12);">
+        <span class="section-eyebrow anim-fade-up" style="color:var(--color-accent);">— Liên Hệ Với Chúng Tôi</span>
+        <h2 class="section-title anim-fade-up" style="margin-top:0.5rem;">Kể Cho Chúng Tôi Nghe<br>Về <em style="font-style:normal;color:var(--color-primary);">Bài Toán Của Bạn</em></h2>
+      </div>
+
+      <div class="contact-block__grid">
+        <!-- ── Left Column: Form ── -->
+        <div class="contact-form-wrap anim-fade-left" id="contact-form-section">
+          <div class="contact-form__header">
+            <h3 class="contact-form__title">Yêu Cầu Tư Vấn Miễn Phí</h3>
+            <p class="contact-form__subtitle">Kỹ sư trưởng sẽ liên hệ lại trong vòng 24 giờ.</p>
+          </div>
+
+          <!-- Mockup Fluent Form -->
+          <form id="contact-form" novalidate>
+            <!-- Họ và tên -->
+            <div class="form-field" data-validate="required">
+              <input type="text" class="form-field__input" id="ff-name" name="name" placeholder=" " required autocomplete="name">
+              <label for="ff-name" class="form-field__label">Họ và tên <span class="form-field__required">*</span></label>
+              <span class="form-field__error">Vui lòng nhập họ và tên</span>
+            </div>
+
+            <!-- Số điện thoại / Zalo -->
+            <div class="form-field" data-validate="phone">
+              <input type="tel" class="form-field__input" id="ff-phone" name="phone" placeholder=" " required autocomplete="tel">
+              <label for="ff-phone" class="form-field__label">Số điện thoại / Zalo <span class="form-field__required">*</span></label>
+              <span class="form-field__error">Vui lòng nhập số điện thoại hợp lệ</span>
+            </div>
+
+            <!-- Loại hình dịch vụ -->
+            <div class="form-field" data-validate="select">
+              <select class="form-field__select" id="ff-service" name="service" data-empty="true">
+                <option value="" disabled selected hidden> </option>
+                <option value="tron-goi">Thiết kế & Thi công trọn gói</option>
+                <option value="thuong-mai">Thương mại</option>
+                <option value="noi-that">Nội thất</option>
+                <option value="khac">Khác</option>
+              </select>
+              <label for="ff-service" class="form-field__label">Bạn quan tâm dịch vụ nào?</label>
+            </div>
+
+            <!-- Textarea -->
+            <div class="form-field">
+              <textarea class="form-field__textarea" id="ff-message" name="message" placeholder=" " rows="4"></textarea>
+              <label for="ff-message" class="form-field__label">Chia sẻ thêm về dự án của bạn</label>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn--primary contact-form__submit" id="form-submit-btn">
+              <span class="btn__text">Đặt Lịch Tư Vấn Riêng</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:2;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+
+            <!-- Privacy -->
+            <div class="contact-form__privacy">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>Xanh cam kết bảo mật 100% thông tin cá nhân</span>
+            </div>
+          </form>
+        </div>
+
+        <!-- ── Right Column: Info ── -->
+        <div class="contact-info anim-fade-right">
+          <!-- Address -->
+          <div class="contact-info__item">
+            <div class="contact-info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div>
+              <span class="contact-info__label">Trụ sở</span>
+              <p class="contact-info__value">123 Nguyễn Tất Thành, Phường Phước Hải,<br>TP. Nha Trang, Khánh Hòa</p>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="contact-info__item">
+            <div class="contact-info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </div>
+            <div>
+              <span class="contact-info__label">Hotline Kỹ Thuật</span>
+              <p class="contact-info__value"><a href="tel:+842583888888">0258 388 8888</a></p>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="contact-info__item">
+            <div class="contact-info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div>
+              <span class="contact-info__label">Email</span>
+              <p class="contact-info__value"><a href="mailto:info@xanhdesign.vn">info@xanhdesign.vn</a></p>
+            </div>
+          </div>
+
+          <!-- Working hours -->
+          <div class="contact-info__item">
+            <div class="contact-info__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div>
+              <span class="contact-info__label">Giờ Làm Việc</span>
+              <p class="contact-info__value">Thứ 2 — Thứ 7: 08:00 – 17:30</p>
+            </div>
+          </div>
+
+          <!-- Google Maps (inline in info column) -->
+          <div class="contact-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3898.7895!2d109.1896!3d12.2388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDE0JzE5LjciTiAxMDnCsDExJzIyLjYiRQ!5e0!3m2!1svi!2s!4v1710000000000"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Bản đồ XANH Design & Build - Nha Trang"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3: FAQ ACCORDION
+       ══════════════════════════════════════════ -->
+  <section class="contact-faq" id="contact-faq">
+    <div class="site-container">
+      <div class="contact-faq__header section-header section-header--center">
+        <span class="section-eyebrow anim-fade-up" style="color:rgba(26,26,26,0.4);">Câu Hỏi Thường Gặp</span>
+        <h2 class="section-title anim-fade-up" style="margin-top:0.5rem;">Những Điều Bạn <em style="font-style:normal;color:var(--color-primary);">Muốn Biết</em></h2>
+      </div>
+
+      <div class="faq-list anim-fade-up" id="faq-list">
+        <!-- FAQ 1 (default open) -->
+        <div class="faq-item is-open">
+          <button class="faq-item__question" aria-expanded="true">
+            <span>Tôi có phải trả phí cho buổi tư vấn ban đầu không?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-item__answer" style="max-height:300px;">
+            <div class="faq-item__answer-inner">
+              Hoàn toàn không. Buổi tư vấn đầu tiên tại XANH luôn miễn phí và không ràng buộc. Chúng tôi muốn hiểu rõ nhu cầu, ngân sách và phong cách sống mong muốn của bạn trước khi bắt đầu bất kỳ cam kết nào. Hãy xem đây là một cuộc trò chuyện thân mật giữa bạn và kiến trúc sư.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            <span>XANH thi công ở khu vực nào?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              XANH hiện phục vụ khu vực Khánh Hòa và các tỉnh lân cận như Phú Yên, Ninh Thuận, Đắk Lắk. Với mỗi dự án, chúng tôi đều cử đội ngũ kỹ sư giám sát trực tiếp tại công trình, đảm bảo chất lượng từng giai đoạn.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            <span>Bảng dự toán có phát sinh chi phí không?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              XANH cam kết 100% không phát sinh chi phí so với dự toán ban đầu. Mọi hạng mục đều được liệt kê minh bạch, chi tiết đến từng vật liệu. Nếu có bất kỳ điều chỉnh nào, chúng tôi sẽ thông báo và được sự đồng ý của bạn trước khi thực hiện.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            <span>XANH có nhận thi công nếu tôi đã có bản vẽ?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Có. Chúng tôi sẽ thẩm định bản vẽ hiện có, đánh giá tính khả thi về kết cấu và vật liệu, sau đó đưa ra dự toán chi phí thi công chi tiết. Nếu cần tối ưu thêm, đội ngũ KTS của XANH sẵn sàng tư vấn và điều chỉnh.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BACK TO TOP
+       ══════════════════════════════════════════ -->
+  <button id="back-to-top" aria-label="Về đầu trang">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
+
+  <!-- JS -->
+  <script src="contact.js" defer></script>
+</body>
+</html>

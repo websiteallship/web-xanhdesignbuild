@@ -115,7 +115,18 @@ Schema: `BreadcrumbList` (JSON-LD)
 | Label | "Concept 3D" ⎮ "Thực tế nghiệm thu" |
 | Help text | "Kéo để so sánh" |
 | Touch/Swipe | ✅ Bắt buộc |
-| Full-width | Container max |
+### Section D5b: Video Thực Tế ⭐
+
+| Thuộc tính | Giá trị |
+|---|---|
+| Mật độ nội dung | Nằm ngay dưới section D5 (Before/After) |
+| Layout | Hero banner full-width |
+| Card content | Ảnh nền cinematic + Text overlay (Tiêu đề, Phụ đề) + Nút Play ở giữa |
+| Play Button | Tái sử dụng style từ trang About (`.video-play-btn`) |
+| Hình ảnh mẫu | Dùng 1 trong 3 hình mock (`portfolio-video-thumb-1.png`) làm background |
+| Tương tác | Nhấn vào Nút Play sẽ bật Lightbox chứa Video (YouTube/Vimeo) |
+| Lớp phủ (Overlay) | Gradient đen từ dưới lên để nổi bật chữ và nút Play |
+| Typography | Tiêu đề H2 màu `--color-white`, Paragragh màu trắng có độ trong suốt |
 
 ### Section D6: Material Board (#7)
 

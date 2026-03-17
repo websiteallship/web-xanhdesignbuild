@@ -6,69 +6,120 @@
  * Scope: single-xanh_project.php wireframe
  */
 
-/* Tokens, Reset, Site Container → base.css */
-
-/* ── Portfolio-detail-specific tokens ── */
+/* ==============================================
+   1. DESIGN TOKENS (wireframe-only — production uses variables.css)
+   ============================================== */
 :root {
+  --color-primary: #14513D;
+  --color-accent: #FF8A00;
+  --color-light: #F3F4F6;
+  --color-dark: #1A1A1A;
+  --color-white: #FFFFFF;
+  --color-beige: #D8C7A3;
   --color-beige-warm: #F8F6F4;
   --color-success: #22C55E;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
   --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
   --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Z-index tokens */
   --z-header: 50;
   --z-drawer: 999;
   --z-overlay: 998;
   --z-modal: 9000;
 }
 
-/* Section header, eyebrow, title, text blocks, icon-circle → base.css */
-
-/* ── .btn--outline — Sweep hover effect (matches blog load-more) ── */
-.btn--outline {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: color 0.4s var(--ease-luxury),
-              border-color 0.4s var(--ease-luxury),
-              box-shadow 0.4s var(--ease-luxury);
+/* ==============================================
+   2. BASE RESET
+   ============================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.btn--outline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==============================================
+   3. SITE CONTAINER
+   ============================================== */
+.site-container {
   width: 100%;
-  height: 100%;
-  background: var(--color-primary);
-  z-index: -1;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--ease-luxury);
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
 }
 
-.btn--outline span,
-.btn--outline svg,
-.btn--outline i {
-  position: relative;
-  z-index: 2;
-  transition: transform 0.4s var(--ease-luxury);
+.site-container--hero {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
 }
 
-.btn--outline:hover {
-  color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(20, 81, 61, 0.2);
+@media (min-width: 768px) {
+  .site-container {
+    padding-inline: var(--space-8);
+  }
+
+  .site-container--hero {
+    padding-inline: var(--space-8);
+  }
 }
 
-.btn--outline:hover::before {
-  transform: scaleX(1);
-}
-
-.btn--outline:hover svg,
-.btn--outline:hover i {
-  transform: translateY(3px);
-}
-
-/* ── Portfolio-detail section header overrides ── */
+/* ==============================================
+   4. SHARED UI — Cross-Section Consistency
+   ============================================== */
 .section-header {
   margin-bottom: var(--space-8);
 }
@@ -79,33 +130,154 @@
   }
 }
 
-/* ── Portfolio-detail eyebrow overrides ── */
+.section-header--center {
+  text-align: center;
+  margin-inline: auto;
+}
+
 .section-eyebrow {
   display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
   color: var(--color-primary);
   opacity: 0.8;
   margin-bottom: var(--space-3);
 }
 
-/* ── Portfolio-detail title override ── */
 .section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--color-dark);
 }
 
-/* ── Portfolio-detail text-lead override ── */
 .text-lead {
+  font-size: 1rem;
+  line-height: 1.8;
   letter-spacing: 0.02em;
 }
 
-/* ── Portfolio-detail icon-circle size ── */
+@media (min-width: 768px) {
+  .text-lead {
+    font-size: 1.125rem;
+  }
+}
+
+.text-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 65ch;
+}
+
+.text-quote {
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(26, 26, 26, 0.75);
+}
+
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  color: rgba(26, 26, 26, 0.7);
+  background: transparent;
+  transition: background var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base);
+}
+
 .icon-circle--sm {
   width: 3rem;
   height: 3rem;
 }
 
-/* Header, Nav underline, Logo states, Hamburger → base.css */
+.group:hover .icon-circle {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
 
+/* ==============================================
+   5. HEADER (Reused from portfolio.css)
+   ============================================== */
+#site-header {
+  background: transparent;
+}
 
+#site-header.is-scrolled {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+#site-header.is-scrolled .nav-link {
+  color: var(--color-dark);
+}
+
+#site-header.is-scrolled .nav-link:hover {
+  color: var(--color-primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-base);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+#site-header.is-scrolled .logo-white {
+  opacity: 0;
+}
+
+#site-header.is-scrolled .logo-dark {
+  opacity: 1;
+}
+
+/* ── Drawer Link Animation ── */
+.drawer-link--hidden {
+  opacity: 0;
+  transform: translateX(-1rem);
+}
+
+.drawer-link--visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Hamburger ── */
+#mobile-menu-btn.is-active .hamburger-line:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+
+#mobile-menu-btn.is-active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+#mobile-menu-btn.is-active .hamburger-line:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
 
 /* ==============================================
    6. SECTION D1 + D2 — HERO IMAGE WITH BREADCRUMB
@@ -194,22 +366,11 @@
 /* ── BOTTOM: content cluster area ── */
 .detail-hero__bottom {
   padding-block: var(--space-8) var(--space-10);
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-  width: 100%;
 }
 
 @media (min-width: 768px) {
   .detail-hero__bottom {
     padding-block: var(--space-12) var(--space-12);
-    padding-inline: var(--space-8);
-  }
-}
-
-@media (min-width: 1024px) {
-  .detail-hero__bottom {
-    padding-inline: var(--space-12);
   }
 }
 
@@ -1518,10 +1679,6 @@
   margin-bottom: 3rem;
 }
 
-.gallery-section .section-subtitle {
-  margin-inline: auto;
-}
-
 @media (min-width: 768px) {
   .gallery-section .section-header {
     margin-bottom: 4rem;
@@ -1535,11 +1692,6 @@
   gap: var(--space-3);
 }
 
-/* Mobile collapse: hide items beyond 4 (single column) */
-.gallery-grid:not(.is-expanded) .gallery-grid__item:nth-child(n+5) {
-  display: none;
-}
-
 @media (min-width: 640px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1547,11 +1699,6 @@
     grid-template-rows: repeat(3, auto);
     max-height: none;
     overflow: hidden;
-  }
-
-  /* Reset mobile collapse — show items 5–6 on tablet */
-  .gallery-grid:not(.is-expanded) .gallery-grid__item:nth-child(n+5) {
-    display: block;
   }
 
   /* Collapse: hide items beyond row 3 (6 items for 2-col) */
@@ -1581,16 +1728,68 @@
 .gallery-load-more-wrap {
   display: flex;
   justify-content: center;
-  padding-top: var(--space-8);
+  padding-top: var(--space-6, 2.5rem);
 }
 
-.gallery-load-more-wrap .btn:disabled {
-  opacity: 0.45;
-  pointer-events: none;
-  border-color: rgba(20, 81, 61, 0.25);
-  color: rgba(20, 81, 61, 0.4);
-  cursor: default;
+.gallery-load-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition-base), color var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
+
+.gallery-load-more::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-smooth, ease);
+  z-index: 0;
+}
+
+.gallery-load-more:hover::before {
+  transform: scaleX(1);
+}
+
+.gallery-load-more__text,
+.gallery-load-more__icon {
+  position: relative;
+  z-index: 1;
+}
+
+.gallery-load-more:hover {
+  color: var(--color-white);
+}
+
+.gallery-load-more__icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.gallery-load-more.is-expanded .gallery-load-more__icon {
+  transform: rotate(180deg);
+}
+
+.gallery-load-more-wrap.is-hidden {
+  display: none;
+}
+
+
 /* ── Grid Item ── */
 .gallery-grid__item {
   display: block;
@@ -2396,7 +2595,7 @@
 
   .testimonial-content {
     gap: var(--space-3, 1rem);
-    padding: var(--space-6, 2.5rem) var(--space-6, 1.5rem);
+    padding: var(--space-6, 2.5rem) var(--space-4, 1.5rem);
   }
 
   .testimonial-quote p {
@@ -2572,12 +2771,10 @@
 
 /* Card Info */
 .project-card__info {
-  padding: 0.875rem 1rem 1.125rem;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-top: none;
+  padding: 0.875rem 0.875rem 1.125rem;
 }
 @media (min-width: 640px) {
-  .project-card__info { padding: 1rem 1.125rem 1.25rem; }
+  .project-card__info { padding: 1rem 0 1.5rem; }
 }
 
 .project-card__meta {
@@ -2787,7 +2984,84 @@
   gap: 1rem;
 }
 
-/* ── CTA Primary → uses .btn .btn--primary from base.css ── */
+/* ── Shared button base ── */
+.d10-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.9375rem 2.25rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease, color 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+}
+
+.d10-cta__btn-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.d10-cta__btn-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── CTA 1: Primary — Accent background with shimmer ── */
+.d10-cta__btn--primary {
+  background: var(--color-accent, #FF8A00);
+  color: var(--color-white, #fff);
+  border: none;
+}
+
+/* Shimmer animation layer (reused from blog lead-magnet__cta) */
+.d10-cta__btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent  0%,
+    transparent 35%,
+    rgba(255,255,255,0.38) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  background-position: 200% 0;
+  animation: d10Shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes d10Shimmer {
+  0%   { background-position: 200% 0; }
+  60%  { background-position: -20% 0; }
+  100% { background-position: -20% 0; }
+}
+
+.d10-cta__btn--primary:hover {
+  box-shadow: 0 12px 32px rgba(255,138,0,0.45);
+  transform: translateY(-2px);
+}
+
+.d10-cta__btn--primary:active {
+  transform: translateY(0);
+}
+
+.d10-cta__btn--primary:hover .d10-cta__btn-icon {
+  transform: translateX(3px);
+}
 
 /* ── CTA 2: Outline — Ghost/border button ── */
 .d10-cta__btn--outline {
