@@ -6,29 +6,152 @@
  * Premium card hover effects, no border-radius, project type filters
  */
 
-/* Tokens, Reset, Container → base.css */
-
-/* ── Portfolio-specific tokens ── */
+/* ==============================================
+   1. DESIGN TOKENS
+   Note: Remove this block when integrating into WP theme variables.css
+   ============================================== */
 :root {
+  --color-primary: #14513D;
+  --color-accent: #FF8A00;
+  --color-light: #F3F4F6;
+  --color-dark: #1A1A1A;
+  --color-white: #FFFFFF;
+  --color-beige: #D8C7A3;
   --color-success: rgb(16, 185, 129);
   --color-warning: rgb(245, 158, 11);
   --color-gray: rgb(107, 114, 128);
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-base: 0.3s;
+  --duration-slow: 0.6s;
+  --duration-hover: 0.55s;
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
 }
 
-/* Section Headers, Buttons → base.css */
+/* ==============================================
+   2. BASE RESET
+   ============================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--color-dark); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
 
-/* ── Portfolio btn overrides ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==============================================
+   3. SITE CONTAINER
+   ============================================== */
+.site-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+@media (min-width: 768px) { .site-container { padding-inline: var(--space-8); } }
+@media (min-width: 1024px) { .site-container { padding-inline: var(--space-12); } }
+
+/* ==============================================
+   4. SHARED UI (cross-section-consistency §1, §2)
+   ============================================== */
+
+/* ── Section header ── */
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+@media (min-width: 640px) {
+  .section-eyebrow { font-size: 0.7rem; }
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  line-height: 1.15;
+  font-weight: 700;
+}
+@media (min-width: 640px) {
+  .section-title { font-size: clamp(1.75rem, 4vw, 3.25rem); }
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  line-height: 1.8;
+  letter-spacing: 0.025em;
+  max-width: 42rem;
+}
+@media (min-width: 768px) {
+  .section-subtitle { font-size: 1.125rem; }
+}
+
+/* ── Buttons — 3 variants only (§2) ── */
 .btn {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   width: 100%;
   min-height: 48px;
+  padding: 0.875rem 2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background var(--duration-base) ease,
+              color var(--duration-base) ease,
+              border-color var(--duration-base) ease,
+              box-shadow var(--duration-base) ease;
+  background: transparent;
 }
 @media (min-width: 640px) { .btn { width: auto; } }
 
-/* btn--primary hover → base.css (no override needed) */
-
-/* ── Portfolio .btn--outline — Sweep effect (override base) ── */
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+}
+.btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%, transparent 100%);
+  background-size: 220% 100%;
+  background-position: 200% 0;
+  animation: ctaShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ctaShimmer {
+  0%   { background-position: 200% 0; }
+  60%  { background-position: -20% 0; }
+  100% { background-position: -20% 0; }
+}
+.btn--primary:hover {
+  background: #e67a00;
+  box-shadow: 0 10px 25px rgba(255, 138, 0, 0.3);
+  transform: translateY(-2px);
+}
 .btn--outline {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -67,13 +190,59 @@
 .btn--outline:hover::before {
   transform: scaleX(1);
 }
-
-.btn--outline:hover svg,
-.btn--outline:hover i {
-  transform: translateY(3px);
+.btn--ghost {
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.3);
 }
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.btn__icon { flex-shrink: 0; }
 
+/* ==============================================
+   5. HEADER
+   ============================================== */
+#site-header { background: transparent; }
+#site-header.is-scrolled {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+#site-header.is-scrolled .nav-link { color: var(--color-dark); }
+#site-header.is-scrolled .nav-link:hover { color: var(--color-primary); }
 
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-base) ease;
+}
+.nav-link:hover::after, .nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+#site-header.is-scrolled .logo-white { opacity: 0; }
+#site-header.is-scrolled .logo-dark { opacity: 1; }
+
+#mobile-menu-btn.is-active .hamburger-line:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+#mobile-menu-btn.is-active .hamburger-line:nth-child(2) { opacity: 0; }
+#mobile-menu-btn.is-active .hamburger-line:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* ── Mobile drawer link animation (10 §5.2 — classList) ── */
+.mobile-nav-link--hidden {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.mobile-nav-link--visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
 
 /* ==============================================
    6. HERO — Mobile-first
@@ -133,29 +302,11 @@
   -webkit-overflow-scrolling: touch;
 }
 .filter-bar__inner::-webkit-scrollbar { display: none; }
-
-/* ── UI/UX Mobile Scroll Hint (Fade out on right edge) ── */
-.filter-bar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 48px;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 100%);
-  z-index: 10;
-  pointer-events: none;
-}
-
 @media (min-width: 768px) {
-  .filter-bar::after { display: none; }
   .filter-bar__inner { justify-content: center; padding: 0.75rem 0; }
 }
 
 .filter-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
   padding: 0.5rem 0.875rem;
   font-size: 0.688rem;
   font-weight: 500;
@@ -187,25 +338,6 @@
 .filter-tab:hover { color: var(--color-dark); }
 .filter-tab.is-active { color: var(--color-dark); font-weight: 600; }
 .filter-tab.is-active::after { transform: translateX(-50%) scaleX(1); }
-
-/* ── Count badge ── */
-.filter-tab__count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.375rem;
-  height: 1.375rem;
-  padding-inline: 0.25rem;
-  font-size: 0.625rem;
-  font-weight: 700;
-  background: rgba(0,0,0,0.08);
-  color: inherit;
-  transition: background var(--duration-base) ease;
-}
-.filter-tab.is-active .filter-tab__count {
-  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-  color: var(--color-primary);
-}
 
 /* ==============================================
    8. PROJECT GRID — Mobile-first 1→2→3 columns
@@ -346,17 +478,18 @@
   opacity: 1;
   animation: lightSweep 0.8s ease-out forwards;
 }
-/* @keyframes lightSweep → base.css */
+@keyframes lightSweep {
+  0%   { background-position: 150% 0; }
+  100% { background-position: -50% 0; }
+}
 
 
 /* ── Card Info ── */
 .project-card__info {
-  padding: 0.875rem 1rem 1.125rem;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-top: none;
+  padding: 0.875rem 0.875rem 1.125rem;
 }
 @media (min-width: 640px) {
-  .project-card__info { padding: 1rem 1.125rem 1.25rem; }
+  .project-card__info { padding: 1rem 0 1.5rem; }
 }
 
 .project-card__meta {

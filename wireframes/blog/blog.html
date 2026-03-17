@@ -27,63 +27,12 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../_shared/base.css" />
   <link rel="stylesheet" href="blog.css" />
 </head>
 
 <body class="font-body bg-white text-dark antialiased overflow-x-hidden">
 
-  <!-- HEADER -->
-  <header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
-    <nav class="relative flex items-center justify-between px-5 md:px-8 lg:px-12 xl:px-16 py-4 lg:py-5">
-      <a href="#" class="relative flex items-center lg:static absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto" id="logo-link">
-        <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto logo-white transition-opacity duration-300" />
-        <img src="../SVG/LOGO FULL TAGLINE/LOGO-01.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto absolute top-1/2 -translate-y-1/2 left-0 opacity-0 logo-dark transition-opacity duration-300" />
-      </a>
-      <ul class="hidden lg:flex items-center gap-10">
-        <li><a href="../homepage_02/home-page.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Trang Chủ</a></li>
-        <li><a href="../about/about.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Giới Thiệu</a></li>
-        <li><a href="../portfolio/portfolio.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Dự Án</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Dịch Vụ</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative active">Blog</a></li>
-      </ul>
-      <a href="#" class="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 bg-accent text-white text-sm font-semibold uppercase tracking-[0.1em] hover:bg-accent/90 transition-all duration-300">
-        <i data-lucide="phone" class="w-4 h-4"></i> Đặt Lịch Tư Vấn
-      </a>
-    </nav>
-  </header>
-
-  <!-- Mobile Menu Toggle -->
-  <button class="lg:hidden fixed top-4 right-5 z-[1010] w-10 h-10 flex flex-col justify-center items-center gap-[6px]" id="mobile-menu-btn" aria-label="Toggle Menu">
-    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
-    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
-    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
-  </button>
-
-  <!-- Mobile Drawer -->
-  <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-[998] opacity-0 pointer-events-none transition-opacity duration-400"></div>
-  <aside id="mobile-drawer" class="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] bg-primary z-[999] flex flex-col translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" aria-label="Mobile navigation">
-    <div class="flex items-center justify-start px-6 py-5 border-b-[0.5px] border-white/30">
-      <a href="#" class="block"><img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH" class="h-7 w-auto" /></a>
-    </div>
-    <nav class="flex-1 overflow-y-auto py-4">
-      <ul class="flex flex-col">
-        <li><a href="../homepage_02/home-page.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Trang Chủ <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="../about/about.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Giới Thiệu <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="../portfolio/portfolio.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Dự Án <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Dịch Vụ <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 bg-white/10">Blog <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-      </ul>
-      <div class="px-6 mt-6"><a href="#" class="flex items-center justify-center gap-2 w-full py-3 bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent/90 transition-colors"><i data-lucide="phone" class="w-4 h-4"></i> Đặt Lịch Tư Vấn</a></div>
-    </nav>
-    <div class="px-6 py-5 border-t-[0.5px] border-white/20">
-      <div class="flex items-center gap-5">
-        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="Facebook"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="Instagram"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="YouTube"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-      </div>
-      <p class="text-white/30 text-xs mt-3 tracking-wide">© 2026 XANH Design & Build</p>
-    </div>
-  </aside>
 
   <!-- ============================================= -->
   <!-- SECTION 1: HERO + SEARCH                      -->
@@ -175,7 +124,7 @@
   <section id="featured-articles" class="featured-articles bg-white py-12 md:py-16 lg:py-20">
     <div class="site-container">
       <!-- Section Header -->
-      <div class="section-header section-header--left mb-8 md:mb-10">
+      <div class="section-header section-header--center mb-8 md:mb-10">
         <span class="section-eyebrow text-primary/50">Nổi Bật</span>
         <h2 class="section-title text-dark mt-2">Bài Viết <em class="text-primary not-italic">Được Chọn Lọc</em></h2>
       </div>
@@ -205,7 +154,7 @@
             <h3 class="featured-card__title">10 Lưu Ý Vàng Khi Xây Nhà Lần Đầu Để Không Phát Sinh Chi Phí</h3>
             <p class="featured-card__excerpt text-body">Từ khâu chọn đất, lập dự toán đến giám sát thi công — đây là những điều gia chủ lần đầu thường bỏ qua khiến ngân sách đội lên 30-50%.</p>
             <span class="featured-card__cta">
-              Đọc ngay <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              Khám Phá <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </span>
           </div>
         </a>
@@ -269,11 +218,11 @@
   <!-- ============================================= -->
   <!-- SECTION 4: ARTICLE GRID (3 columns)           -->
   <!-- ============================================= -->
-  <section id="article-grid" class="article-grid-section bg-light py-12 md:py-16 lg:py-20">
+  <section id="article-grid" class="article-grid-section py-12 md:py-16 lg:py-20">
     <div class="site-container">
 
       <!-- Section Header -->
-      <div class="section-header--left mb-8 md:mb-10 anim-fade-up">
+      <div class="section-header section-header--center mb-8 md:mb-10 anim-fade-up">
         <span class="section-eyebrow text-primary/50">Tất Cả Bài Viết</span>
         <h2 class="section-title text-dark mt-2">Kho <em class="text-primary not-italic">Kiến Thức</em> Xanh</h2>
       </div>
@@ -306,7 +255,7 @@
         <!-- Card 2 -->
         <a href="#" class="article-card card anim-fade-up" data-category="vat-lieu">
           <div class="article-card__image">
-            <img src="../img/project-5.png" alt="Cửa Nhôm Kính Hệ 4550 — Ưu Nhược Điểm" width="600" height="400" loading="lazy" />
+            <img src="../img/project-1.png" alt="Cửa Nhôm Kính Hệ 4550 — Ưu Nhược Điểm" width="600" height="400" loading="lazy" />
             <div class="featured-card__image-overlay"></div>
             <div class="featured-card__light-sweep"></div>
             <span class="tag article-card__tag">Vật Liệu Xanh</span>
@@ -328,7 +277,7 @@
         <!-- Card 3 -->
         <a href="#" class="article-card card anim-fade-up" data-category="xu-huong">
           <div class="article-card__image">
-            <img src="../img/project-6.png" alt="Thiết Kế Nhà Phố 4x15m" width="600" height="400" loading="lazy" />
+            <img src="../img/project-2.png" alt="Thiết Kế Nhà Phố 4x15m" width="600" height="400" loading="lazy" />
             <div class="featured-card__image-overlay"></div>
             <div class="featured-card__light-sweep"></div>
             <span class="tag article-card__tag">Xu Hướng</span>
@@ -350,7 +299,7 @@
         <!-- Card 4 -->
         <a href="#" class="article-card card anim-fade-up" data-category="nhat-ky">
           <div class="article-card__image">
-            <img src="../img/project-7.png" alt="Nhật Ký Công Trình — Tuần 8" width="600" height="400" loading="lazy" />
+            <img src="../img/project-3.png" alt="Nhật Ký Công Trình — Tuần 8" width="600" height="400" loading="lazy" />
             <div class="featured-card__image-overlay"></div>
             <div class="featured-card__light-sweep"></div>
             <span class="tag article-card__tag">Nhật Ký Xanh</span>
@@ -461,7 +410,7 @@
         <!-- Card 9 -->
         <a href="#" class="article-card card anim-fade-up article-card--hidden" data-category="kinh-nghiem" hidden>
           <div class="article-card__image">
-            <img src="../img/project-5.png" alt="Chi Phí Hoàn Thiện Nội Thất 2026" width="600" height="400" loading="lazy" />
+            <img src="../img/project-1.png" alt="Chi Phí Hoàn Thiện Nội Thất 2026" width="600" height="400" loading="lazy" />
             <div class="featured-card__image-overlay"></div>
             <div class="featured-card__light-sweep"></div>
             <span class="tag article-card__tag">Kinh Nghiệm Xây Nhà</span>
@@ -491,6 +440,107 @@
       </div>
 
     </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 5: LEAD MAGNET                        -->
+  <!-- ============================================= -->
+  <section id="lead-magnet" class="lead-magnet" aria-labelledby="lead-magnet-title">
+    <div class="site-container">
+      <div class="lead-magnet__inner">
+
+        <!-- ── Left: Text + Form ── -->
+        <div class="lead-magnet__content anim-fade-up">
+          <span class="section-eyebrow text-white/50 block mb-4">Ebook Miễn Phí</span>
+          <h2 id="lead-magnet-title" class="lead-magnet__headline">
+            Xây Nhà Lần Đầu?<br />
+            <em>Đừng Bỏ Qua Cuốn Cẩm Nang Này.</em>
+          </h2>
+          <p class="lead-magnet__subtext">
+            Ebook: <strong>"Bí Quyết Xây Nhà Không Phát Sinh Chi Phí &amp; Tối Ưu Vận Hành"</strong>
+          </p>
+
+          <!-- Form -->
+          <form class="lead-magnet__form" novalidate aria-label="Nhận ebook miễn phí">
+            <div class="lead-magnet__fields">
+              <!-- Tên -->
+              <div class="lead-magnet__field">
+                <label for="lm-name" class="lead-magnet__label">Họ &amp; Tên</label>
+                <input
+                  type="text"
+                  id="lm-name"
+                  name="name"
+                  class="lead-magnet__input"
+                  placeholder="Nguyễn Văn An"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <!-- SĐT / Zalo -->
+              <div class="lead-magnet__field">
+                <label for="lm-phone" class="lead-magnet__label">SĐT / Zalo</label>
+                <input
+                  type="tel"
+                  id="lm-phone"
+                  name="phone"
+                  class="lead-magnet__input"
+                  placeholder="0901 234 567"
+                  autocomplete="tel"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <button type="submit" class="btn btn--primary lead-magnet__cta group" id="lead-magnet-btn">
+              <span>Gửi Cho Tôi Ngay</span>
+              <i data-lucide="send" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
+            </button>
+          </form>
+
+          <!-- Trust signals -->
+          <p class="lead-magnet__trust">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 inline-block mr-1 opacity-60"></i>
+            Không spam — XANH cam kết bảo mật thông tin của bạn.
+          </p>
+        </div>
+
+        <!-- ── Right: 3D Book Mockup ── -->
+        <div class="lead-magnet__visual anim-fade-up">
+          <div class="lead-magnet__book-wrapper" id="lead-magnet-book-wrapper" aria-hidden="true">
+            <div class="lead-magnet__book" id="lead-magnet-book">
+              <!-- Book Spine -->
+              <div class="lead-magnet__book-spine">
+                <span>XANH</span>
+              </div>
+              <!-- Book Front Cover -->
+              <div class="lead-magnet__book-cover">
+                <!-- Cover decoration -->
+                <div class="lead-magnet__book-cover-top">
+                  <span class="lead-magnet__book-label">Ebook Độc Quyền</span>
+                  <div class="lead-magnet__book-logo">XANH</div>
+                </div>
+                <div class="lead-magnet__book-cover-body">
+                  <h3 class="lead-magnet__book-title">
+                    Bí Quyết Xây Nhà Không Phát Sinh
+                    <strong>Chi Phí</strong>
+                  </h3>
+                  <p class="lead-magnet__book-subtitle">&amp; Tối Ưu Vận Hành</p>
+                </div>
+                <div class="lead-magnet__book-cover-bottom">
+                  <span>Design &amp; Build</span>
+                  <!-- Book pages illusion -->
+                  <div class="lead-magnet__book-pages"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Glow effect under book -->
+            <div class="lead-magnet__book-glow" aria-hidden="true"></div>
+          </div>
+        </div>
+
+      </div><!-- /lead-magnet__inner -->
+    </div><!-- /site-container -->
   </section>
 
   <!-- Back to Top -->

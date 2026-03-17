@@ -5,9 +5,159 @@
  * Hero + Search section — Warm Luxury aesthetic
  */
 
-/* Tokens, Reset, Container, Shared UI → base.css */
+/* ==============================================
+   1. DESIGN TOKENS
+   ============================================== */
+:root {
+  /* Colors */
+  --color-primary: #14513D;
+  --color-accent: #FF8A00;
+  --color-accent-hover: #e67a00;
+  --color-light: #F3F4F6;
+  --color-dark: #1A1A1A;
+  --color-white: #FFFFFF;
+  --color-beige: #D8C7A3;
 
-/* Header, Buttons, Section Headers → base.css */
+  /* Spacing */
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  /* Easing */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Durations */
+  --duration-base: 0.3s;
+  --duration-slow: 0.6s;
+  --duration-hover: 0.55s;
+
+  /* Typography */
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  /* Card tokens (cross-section consistency) */
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  --card-shadow-hover: 0 10px 25px rgba(0,0,0,0.1);
+  --card-transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ==============================================
+   2. BASE RESET
+   ============================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--color-dark); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==============================================
+   3. SITE CONTAINER
+   ============================================== */
+.site-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+@media (min-width: 768px) { .site-container { padding-left: var(--space-8); padding-right: var(--space-8); } }
+@media (min-width: 1024px) { .site-container { padding-left: var(--space-12); padding-right: var(--space-12); } }
+
+/* ==============================================
+   4. SHARED UI — Section Header, Buttons, Tags
+   ============================================== */
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+@media (min-width: 640px) {
+  .section-eyebrow { font-size: 0.7rem; }
+}
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  line-height: 1.15;
+  font-weight: 700;
+}
+@media (min-width: 640px) {
+  .section-title { font-size: clamp(1.75rem, 4vw, 3.25rem); }
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background var(--duration-base) ease, color var(--duration-base) ease, border-color var(--duration-base) ease, box-shadow var(--duration-base) ease;
+  background: transparent;
+}
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+}
+.btn--primary:hover {
+  background: var(--color-accent-hover);
+  box-shadow: 0 10px 25px rgba(255, 138, 0, 0.3);
+}
+.btn--outline {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn--outline:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* ==============================================
+   5. HEADER
+   ============================================== */
+#site-header { background: transparent; }
+#site-header.is-scrolled {
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+#site-header.is-scrolled .nav-link { color: var(--color-dark); }
+#site-header.is-scrolled .nav-link:hover { color: var(--color-primary); }
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-base) ease;
+}
+.nav-link:hover::after, .nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+#site-header.is-scrolled .logo-white { opacity: 0; }
+#site-header.is-scrolled .logo-dark { opacity: 1; }
+
+#mobile-menu-btn.is-active .hamburger-line:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+#mobile-menu-btn.is-active .hamburger-line:nth-child(2) { opacity: 0; }
+#mobile-menu-btn.is-active .hamburger-line:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
 /* ==============================================
    6. BLOG HERO
@@ -99,16 +249,15 @@
 }
 
 /* ==============================================
-   8. CATEGORY TABS — Glassmorphism Sticky (synced w/ portfolio filter-bar)
+   8. CATEGORY TABS — Sticky Pill Buttons
    ============================================== */
 .category-tabs-bar {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--color-white);
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 
 .category-tabs__inner {
@@ -116,66 +265,45 @@
   align-items: center;
   justify-content: flex-start;
   gap: 0.25rem;
-  padding: 0.5rem 0;
+  padding: 0.625rem 0;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 .category-tabs__inner::-webkit-scrollbar { display: none; }
 
-/* ── UI/UX Mobile Scroll Hint (Fade out on right edge) ── */
-.category-tabs-bar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 48px;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 100%);
-  z-index: 10;
-  pointer-events: none;
-}
-
-@media (min-width: 768px) {
-  .category-tabs-bar::after { display: none; }
-}
-
 .category-tab {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.875rem;
+  padding: 0.4rem 0.875rem;
   font-family: var(--font-body);
-  font-size: 0.688rem;
+  font-size: 0.7rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   white-space: nowrap;
-  border: none;
-  border-radius: 0;
+  border: 1.5px solid rgba(0,0,0,0.1);
   background: transparent;
-  color: color-mix(in srgb, var(--color-dark) 50%, transparent);
+  color: rgba(26,26,26,0.55);
   cursor: pointer;
   transition: color var(--duration-base) ease,
-              font-weight var(--duration-base) ease;
+              background var(--duration-base) ease,
+              border-color var(--duration-base) ease,
+              box-shadow var(--duration-base) ease;
   position: relative;
 }
-
-/* ── Underline active indicator ── */
-.category-tab::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 70%; height: 2px;
-  background: var(--color-primary);
-  transition: transform var(--duration-base) ease;
+.category-tab:hover {
+  color: var(--color-dark);
+  border-color: rgba(0,0,0,0.2);
 }
-.category-tab:hover { color: var(--color-dark); }
-.category-tab.is-active { color: var(--color-dark); font-weight: 600; }
-.category-tab.is-active::after { transform: translateX(-50%) scaleX(1); }
+.category-tab.is-active {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(20,81,61,0.25);
+}
 
-/* ── Count badge ── */
+/* ── Active underline slide (alternative visual cue) ── */
 .category-tab__count {
   display: inline-flex;
   align-items: center;
@@ -190,8 +318,7 @@
   transition: background var(--duration-base) ease;
 }
 .category-tab.is-active .category-tab__count {
-  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-  color: var(--color-primary);
+  background: rgba(255,255,255,0.2);
 }
 
 @media (min-width: 768px) {
@@ -201,7 +328,7 @@
     gap: 0.375rem;
   }
   .category-tab {
-    padding: 0.5rem 1.25rem;
+    padding: 0.5rem 1.125rem;
     font-size: 0.75rem;
   }
 }
@@ -258,7 +385,12 @@
   border-radius: 9999px;
 }
 
-/* .text-body → base.css */
+/* Text body */
+.text-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 65ch;
+}
 
 /* ==============================================
    10. FEATURED ARTICLES — Section 3
@@ -279,7 +411,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: none;
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
 .featured-card__image {
@@ -397,7 +529,10 @@
   opacity: 1;
   animation: lightSweep 0.8s ease-out forwards;
 }
-/* @keyframes lightSweep → base.css */
+@keyframes lightSweep {
+  0%   { background-position: 150% 0; }
+  100% { background-position: -50% 0; }
+}
 
 /* Tag positioned on image */
 .featured-card__tag {
@@ -411,7 +546,6 @@
   font-weight: 600;
   /* default fallback */
   background: rgba(20,81,61,0.88);
-  border-radius: 0;
 }
 
 /* ── Màu riêng theo chuyên mục — tham khảo badge portfolio ── */
@@ -528,7 +662,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: none;
+  border: 1px solid rgba(0,0,0,0.06);
   flex: 1;
 }
 
@@ -549,7 +683,16 @@
   transform: scale(1.05);
 }
 
-/* .anim-fade-up base → base.css */
+/* ── Card entrance animation ── */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.anim-fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
 .anim-fade-up.is-visible:nth-child(1) { transition-delay: 0s; }
 .anim-fade-up.is-visible:nth-child(2) { transition-delay: 0.1s; }
 .anim-fade-up.is-visible:nth-child(3) { transition-delay: 0.2s; }
@@ -640,7 +783,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: none;
+  border: 1px solid rgba(0,0,0,0.06);
   background: var(--color-white);
 }
 
@@ -703,7 +846,6 @@
   color: var(--color-white);
   font-weight: 600;
   background: rgba(20,81,61,0.88);
-  border-radius: 0;
 }
 [data-category="kinh-nghiem"] .article-card__tag { background: rgba(16,185,129,0.9); }
 [data-category="vat-lieu"] .article-card__tag   { background: rgba(245,158,11,0.9); }
@@ -1030,6 +1172,7 @@
 .lead-magnet__cta:hover {
   background: var(--color-accent-hover);
   box-shadow: 0 12px 32px rgba(255,138,0,0.45);
+  transform: translateY(-2px);
 }
 .lead-magnet__cta:active { transform: translateY(0); }
 

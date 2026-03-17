@@ -7,6 +7,18 @@
   <title>Villa Thảo Điền — XANH Design & Build | Hành Trình Dự Án</title>
   <meta name="description" content="Khám phá hành trình kiến tạo Villa Thảo Điền — hoàn thiện sát 3D 98%, 0% phát sinh. Biệt thự 320m² phong cách Modern Tropical tại Quận 2, TP.HCM." />
 
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://xanhdesignbuild.com/du-an/villa-thao-dien/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Villa Thảo Điền — XANH Design & Build | Hành Trình Dự Án" />
+  <meta property="og:description" content="Khám phá hành trình kiến tạo Villa Thảo Điền — hoàn thiện sát 3D 98%, 0% phát sinh. Biệt thự 320m² phong cách Modern Tropical tại Quận 2, TP.HCM." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://xanhdesignbuild.com/du-an/villa-thao-dien/" />
+  <meta property="og:image" content="https://xanhdesignbuild.com/wp-content/uploads/villa-thao-dien-og.jpg" />
+  <meta property="og:site_name" content="XANH Design & Build" />
+  <meta property="og:locale" content="vi_VN" />
+
   <!-- BreadcrumbList JSON-LD Schema -->
   <script type="application/ld+json">
   {
@@ -52,11 +64,11 @@
     }
   </script>
 
-  <!-- Vendor Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Vendor Libraries (defer for non-blocking) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.1/dist/lenis.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@0.344.0" defer></script>
 
   <!-- Swiper -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -71,65 +83,13 @@
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js" defer></script>
 
   <!-- Page Styles -->
+  <link rel="stylesheet" href="../_shared/base.css" />
   <link rel="stylesheet" href="portfolio-detail.css" />
 </head>
 
 <body class="font-body bg-white text-dark antialiased overflow-x-hidden">
 
-  <!-- ============================================= -->
-  <!-- HEADER                                        -->
-  <!-- ============================================= -->
-  <header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
-    <nav class="relative flex items-center justify-between px-5 md:px-8 lg:px-12 xl:px-16 py-4 lg:py-5">
-      <a href="#" class="relative flex items-center lg:static absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto" id="logo-link">
-        <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto logo-white transition-opacity duration-300" />
-        <img src="../SVG/LOGO FULL TAGLINE/LOGO-01.svg" alt="XANH Design & Build" class="h-8 lg:h-9 w-auto absolute top-1/2 -translate-y-1/2 left-0 opacity-0 logo-dark transition-opacity duration-300" />
-      </a>
-      <ul class="hidden lg:flex items-center gap-10">
-        <li><a href="../homepage_02/home-page.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Trang Chủ</a></li>
-        <li><a href="../about/about.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Giới Thiệu</a></li>
-        <li><a href="portfolio.html" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative active">Dự Án</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Dịch Vụ</a></li>
-        <li><a href="#" class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Blog</a></li>
-      </ul>
-      <a href="#" class="hidden lg:inline-flex items-center gap-2 px-6 py-2.5 bg-accent text-white text-sm font-semibold uppercase tracking-[0.1em] hover:bg-accent/90 transition-all duration-300">
-        <i data-lucide="phone" class="w-4 h-4"></i> Đặt Lịch Tư Vấn
-      </a>
-    </nav>
-  </header>
 
-  <!-- Mobile Menu Toggle -->
-  <button class="lg:hidden fixed top-4 right-5 z-[1010] w-10 h-10 flex flex-col justify-center items-center gap-[6px]" id="mobile-menu-btn" aria-label="Toggle Menu">
-    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
-    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
-    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
-  </button>
-
-  <!-- Mobile Drawer -->
-  <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-[998] opacity-0 pointer-events-none transition-opacity duration-400"></div>
-  <aside id="mobile-drawer" class="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] bg-primary z-[999] flex flex-col translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" aria-label="Mobile navigation">
-    <div class="flex items-center justify-start px-6 py-5 border-b-[0.5px] border-white/30">
-      <a href="#" class="block"><img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH" class="h-7 w-auto" /></a>
-    </div>
-    <nav class="flex-1 overflow-y-auto py-4">
-      <ul class="flex flex-col">
-        <li><a href="../homepage_02/home-page.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Trang Chủ <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="../about/about.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Giới Thiệu <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="portfolio.html" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 bg-white/10">Dự Án <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Dịch Vụ <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-        <li><a href="#" class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 transition-colors">Blog <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i></a></li>
-      </ul>
-      <div class="px-6 mt-6"><a href="#" class="flex items-center justify-center gap-2 w-full py-3 bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent/90 transition-colors"><i data-lucide="phone" class="w-4 h-4"></i> Đặt Lịch Tư Vấn</a></div>
-    </nav>
-    <div class="px-6 py-5 border-t-[0.5px] border-white/20">
-      <div class="flex items-center gap-5">
-        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="Facebook"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="Instagram"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-        <a href="#" class="text-white/50 hover:text-white transition-colors" aria-label="YouTube"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-      </div>
-      <p class="text-white/30 text-xs mt-3 tracking-wide">© 2026 XANH Design & Build</p>
-    </div>
-  </aside>
 
   <!-- ============================================= -->
   <!-- SECTION D1 + D2: HERO IMAGE + BREADCRUMB       -->
@@ -284,7 +244,7 @@
     <div class="site-container">
       <div class="section-header section-header--center anim-fade-up">
         <span class="section-eyebrow">Câu Chuyện Dự Án</span>
-        <h2 class="section-title">Mỗi Không Gian Đều Bắt Đầu<br class="hidden md:block" /> Từ Một Bài Toán Thực Tế</h2>
+        <h2 class="section-title text-primary">Mỗi Không Gian Đều Bắt Đầu<br class="hidden md:block" /> Từ Một Bài Toán Thực Tế</h2>
       </div>
     </div>
 
@@ -407,7 +367,7 @@
       <!-- Section Header -->
       <div class="section-header section-header--center anim-fade-up">
         <span class="section-eyebrow">Concept 3D vs Thực Tế</span>
-        <h2 class="section-title">Từ Bản Vẽ Đến<br class="hidden md:block" /> Ngôi Nhà Thực</h2>
+        <h2 class="section-title text-primary">Từ Bản Vẽ Đến<br class="hidden md:block" /> Ngôi Nhà Thực</h2>
         <p class="ba-help-text anim-fade-up">Kéo để so sánh</p>
       </div>
 
@@ -732,6 +692,41 @@
   </section>
 
   <!-- ============================================= -->
+  <!-- Section D5b: Video Hero Banner                -->
+  <!-- ============================================= -->
+  <section id="d5b-video" class="video-hero" aria-label="Video Thực Tế Dự Án">
+
+    <!-- Background Image -->
+    <div class="video-hero__bg">
+      <img src="../img/portfolio-video-thumb-1.png"
+           alt="Không gian sống Villa Thảo Điền — XANH Design & Build"
+           class="video-hero__bg-img" width="1920" height="1080" loading="lazy" />
+    </div>
+
+    <!-- Overlay Gradient -->
+    <div class="video-hero__overlay"></div>
+
+    <!-- Content -->
+    <div class="video-hero__content site-container anim-fade-up">
+      <h2 class="video-hero__title">Không Gian Sống Động</h2>
+
+      <!-- Video Play Button -->
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+         class="video-hero__play-btn glightbox-video group"
+         data-glightbox="type: video"
+         aria-label="Xem video thực tế dự án">
+        <span class="video-hero__play-circle">
+          <svg class="video-hero__play-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </a>
+
+      <p class="video-hero__subtext">Thiết Kế Nội Thất Cao Cấp&ensp;|&ensp;Luxury Interior Design</p>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
   <!-- Section D7: Real Gallery + Video              -->
   <!-- ============================================= -->
   <section id="d7-gallery" class="gallery-section">
@@ -740,7 +735,7 @@
       <!-- Section Header -->
       <div class="section-header section-header--center anim-fade-up">
         <span class="section-eyebrow text-primary/50">Thực Tế Thi Công</span>
-        <h2 class="section-title text-dark">Thành Quả <em>Trọn Vẹn</em></h2>
+        <h2 class="section-title text-primary">Thành Quả Trọn Vẹn</h2>
         <p class="section-subtitle text-dark/80">Từng góc không gian được ghi lại sau khi hoàn thiện — chứng minh cho cam kết 98% sát thiết kế gốc.</p>
       </div>
 
@@ -750,9 +745,8 @@
         <!-- Item 1 — Span wide -->
         <a href="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&h=1080&fit=crop"
            class="gallery-grid__item gallery-grid__item--wide anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Phòng khách — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Phòng Khách"
            aria-label="Xem ảnh phòng khách">
           <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&h=600&fit=crop"
                alt="Phòng khách biệt thự Villa Thảo Điền — XANH Design & Build"
@@ -763,9 +757,8 @@
         <!-- Item 2 -->
         <a href="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=1280&fit=crop"
            class="gallery-grid__item anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Phòng bếp — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Phòng Bếp & Ăn"
            aria-label="Xem ảnh phòng bếp">
           <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=700&fit=crop"
                alt="Phòng bếp hiện đại — XANH Design & Build"
@@ -776,9 +769,8 @@
         <!-- Item 3 — Tall -->
         <a href="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1920&h=2560&fit=crop"
            class="gallery-grid__item gallery-grid__item--tall anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Phòng ngủ master — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Phòng Ngủ Master"
            aria-label="Xem ảnh phòng ngủ master">
           <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=900&fit=crop"
                alt="Phòng ngủ master sang trọng — XANH Design & Build"
@@ -789,9 +781,8 @@
         <!-- Item 4 -->
         <a href="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1920&h=1280&fit=crop"
            class="gallery-grid__item anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Sân vườn — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Sân Vườn"
            aria-label="Xem ảnh sân vườn">
           <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop"
                alt="Sân vườn tropical — XANH Design & Build"
@@ -802,9 +793,8 @@
         <!-- Item 5 -->
         <a href="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1920&h=1280&fit=crop"
            class="gallery-grid__item anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Phòng tắm — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Phòng Tắm"
            aria-label="Xem ảnh phòng tắm">
           <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=600&h=700&fit=crop"
                alt="Phòng tắm cao cấp — XANH Design & Build"
@@ -815,9 +805,8 @@
         <!-- Item 6 — Wide -->
         <a href="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&h=1080&fit=crop"
            class="gallery-grid__item gallery-grid__item--wide anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Cầu thang & hành lang — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Cầu Thang & Hành Lang"
            aria-label="Xem ảnh cầu thang">
           <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&h=500&fit=crop"
                alt="Cầu thang gỗ tự nhiên — XANH Design & Build"
@@ -828,9 +817,8 @@
         <!-- Item 7 -->
         <a href="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1920&h=1280&fit=crop"
            class="gallery-grid__item anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Ban công tầng 3 — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Ban Công Tầng 3"
            aria-label="Xem ảnh ban công">
           <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=600&h=700&fit=crop"
                alt="Ban công view thành phố — XANH Design & Build"
@@ -841,9 +829,8 @@
         <!-- Item 8 -->
         <a href="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&h=1280&fit=crop"
            class="gallery-grid__item anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Phòng đọc sách — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Phòng Đọc Sách"
            aria-label="Xem ảnh phòng đọc sách">
           <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop"
                alt="Phòng đọc sách thư viện riêng — XANH Design & Build"
@@ -854,9 +841,8 @@
         <!-- Item 9 — Tall -->
         <a href="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=1920&h=2560&fit=crop"
            class="gallery-grid__item gallery-grid__item--tall anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Cửa sổ mặt tiền — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Mặt Tiền"
            aria-label="Xem ảnh cửa sổ mặt tiền">
           <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=600&h=900&fit=crop"
                alt="Khung cửa sổ mặt tiền tropical — XANH Design & Build"
@@ -867,9 +853,8 @@
         <!-- Item 10 -->
         <a href="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1280&fit=crop"
            class="gallery-grid__item anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Văn phòng tại gia — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Văn Phòng Tại Gia"
            aria-label="Xem ảnh văn phòng">
           <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop"
                alt="Không gian làm việc tại nhà — XANH Design & Build"
@@ -880,9 +865,8 @@
         <!-- Item 11 -->
         <a href="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=1920&h=1280&fit=crop"
            class="gallery-grid__item anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-description="Phòng ngủ trẻ em — Villa Thảo Điền"
+           data-gallery-lb
+           data-gallery-title="Phòng Trẻ Em"
            aria-label="Xem ảnh phòng ngủ trẻ em">
           <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=600&h=700&fit=crop"
                alt="Phòng ngủ trẻ em sáng tạo — XANH Design & Build"
@@ -890,29 +874,232 @@
           <span class="gallery-grid__caption">Phòng Trẻ Em</span>
         </a>
 
-        <!-- Item 12 — Video Card -->
-        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-           class="gallery-grid__item gallery-grid__item--video anim-fade-up"
-           data-glightbox
-           data-gallery="project-gallery"
-           data-type="video"
-           data-description="Video tour Villa Thảo Điền — XANH Design & Build"
-           aria-label="Xem video tour dự án">
-          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=900&h=500&fit=crop"
-               alt="Video tour Villa Thảo Điền — XANH Design & Build"
-               width="900" height="500" loading="lazy" />
-          <div class="gallery-play-btn" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <span class="gallery-grid__caption">Video Tour Dự Án</span>
-        </a>
-
       </div><!-- /.gallery-grid -->
+
+      <!-- Gallery Load More -->
+      <div class="gallery-load-more-wrap anim-fade-up" id="gallery-load-more-wrap">
+        <button id="gallery-load-more" class="btn btn--outline group" type="button">
+          <span>Xem Thêm Ảnh Dự Án</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1"></i>
+        </button>
+      </div>
+
+      <!-- ── Gallery Custom Lightbox (matching BA lightbox layout) ── -->
+      <div class="gallery-lb" id="gallery-lb" role="dialog" aria-modal="true" aria-label="Phòng to ảnh dự án">
+        <div class="gallery-lb__backdrop"></div>
+        <div class="gallery-lb__content">
+          <div class="gallery-lb__header">
+            <span class="gallery-lb__title" id="gallery-lb-title"></span>
+            <span class="gallery-lb__counter" id="gallery-lb-counter"></span>
+            <button class="gallery-lb__close" id="gallery-lb-close" type="button" aria-label="Đóng">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="gallery-lb__body">
+            <!-- Prev/Next Arrows -->
+            <button class="gallery-lb__arrow gallery-lb__arrow--prev" id="gallery-lb-prev" type="button" aria-label="Ảnh trước">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="gallery-lb__image-wrap" id="gallery-lb-image-wrap">
+              <img id="gallery-lb-img" src="" alt="" />
+            </div>
+            <button class="gallery-lb__arrow gallery-lb__arrow--next" id="gallery-lb-next" type="button" aria-label="Ảnh tiếp">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+          <!-- Lightbox Thumb Nav -->
+          <div class="gallery-lb__thumbs" id="gallery-lb-thumbs">
+            <!-- Dynamically populated by JS -->
+          </div>
+        </div>
+      </div>
 
     </div><!-- /.site-container -->
   </section><!-- /#d7-gallery -->
 
+  <!-- ══════════════════════════════════════════════════════════
+       D8: TESTIMONIAL — Cảm Nhận Chủ Nhà
+       ══════════════════════════════════════════════════════════ -->
+  <section id="d8-testimonial" class="d8-testimonial">
+    <div class="site-container">
+      <div class="testimonial-inner anim-fade-up">
+
+        <!-- Left: Family photo -->
+        <div class="testimonial-media">
+          <div class="testimonial-media__wrap">
+            <img
+              src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=720&h=900&fit=crop&crop=center"
+              alt="Gia đình anh Hoàng & chị Lan trong ngôi nhà mới — XANH Design & Build"
+              width="720" height="900"
+              loading="lazy"
+              class="testimonial-media__img"
+            />
+          </div>
+        </div>
+
+        <!-- Right: Quote content -->
+        <div class="testimonial-content">
+          <div class="testimonial-quote-icon" aria-hidden="true">
+            <svg viewBox="0 0 60 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 48V28.8C0 12.48 9.6 3.36 28.8 0l3.6 5.76C21.84 7.68 15.6 12.96 14.4 21.6H24V48H0ZM36 48V28.8C36 12.48 45.6 3.36 64.8 0l3.6 5.76C57.84 7.68 51.6 12.96 50.4 21.6H60V48H36Z" fill="currentColor"/>
+            </svg>
+          </div>
+
+          <blockquote class="testimonial-quote">
+            <p>Ở được gần một năm rồi, điều mình thích nhất là mỗi sáng mở mắt ra đã thấy nhà sáng tự nhiên mà không nóng. Hướng Tây mà mát — lúc đầu mình không tin, nhưng hệ lam và thông tầng thực sự hiệu quả. Tiền điện giảm gần phân nửa so với hồi ở chung cư. Bọn nhỏ thì mê cái sân vườn nhỏ, cuối tuần không đòi đi đâu nữa. Nói thật là mình rất hài lòng.</p>
+          </blockquote>
+
+          <div class="testimonial-author">
+            <span class="testimonial-author__name">Anh Hoàng &amp; Chị Lan</span>
+            <span class="testimonial-author__role">Chủ đầu tư · Villa Thảo Điền, Nha Trang</span>
+          </div>
+
+          <div class="testimonial-badge">
+            <svg class="testimonial-badge__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" fill="currentColor"/>
+            </svg>
+            <svg class="testimonial-badge__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" fill="currentColor"/>
+            </svg>
+            <svg class="testimonial-badge__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" fill="currentColor"/>
+            </svg>
+            <svg class="testimonial-badge__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" fill="currentColor"/>
+            </svg>
+            <svg class="testimonial-badge__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" fill="currentColor"/>
+            </svg>
+            <span class="testimonial-badge__label">Được xác minh</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- /#d8-testimonial -->
+
+  <!-- ══════════════════════════════════════════════════════════
+       D10: CTA — Kêu Gọi Hành Động
+       ══════════════════════════════════════════════════════════ -->
+  <section id="d10-cta" class="d10-cta d10-cta--with-bg">
+    <div class="d10-cta__overlay" aria-hidden="true"></div>
+    <div class="site-container">
+      <div class="d10-cta__inner anim-fade-up">
+
+        <h2 class="d10-cta__headline">
+          Bạn cũng muốn một không gian sống<br class="d10-cta__br" />
+          <em>trọn vẹn và minh bạch</em> như thế này?
+        </h2>
+
+        <div class="d10-cta__actions">
+          <!-- CTA 1: Dự Toán Xanh — accent button with shimmer (matches blog lead-magnet__cta) -->
+          <a href="#" class="btn btn--primary group" id="cta-du-toan">
+            <span>Sử Dụng Công Cụ Dự Toán Xanh</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
+          </a>
+
+          <!-- CTA 2: Chat Zalo — outline/ghost button -->
+          <a href="https://zalo.me/your-oa-id" target="_blank" rel="noopener noreferrer" class="btn btn--ghost group" id="cta-zalo">
+            <span>Trao Đổi Riêng Với Chuyên Gia</span>
+            <i data-lucide="message-circle" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- /#d10-cta -->
+
+  <!-- ══════════════════════════════════════════════════════════
+       D9: Related Projects — Dự Án Liên Quan
+       ══════════════════════════════════════════════════════════ -->
+  <section id="d9-related" class="d9-related">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="d9-related__header anim-fade-up">
+        <span class="section-eyebrow d9-related__eyebrow">Cùng Danh Mục</span>
+        <h2 class="section-title d9-related__title">Dự Án Liên Quan</h2>
+      </div>
+
+      <!-- Project Cards Grid -->
+      <div class="d9-related__grid">
+
+        <!-- Card 1 -->
+        <a href="#" class="project-card anim-fade-up">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/service-interior.png" alt="The Oakwood Tower" width="600" height="400" loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--completed">Hoàn Thành</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Nhà Phố</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Đà Nẵng</span>
+            </div>
+            <h3 class="project-card__title">The Oakwood Tower</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 180 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 6 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Japandi</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="#" class="project-card anim-fade-up">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/service-architecture.png" alt="Skyline Apartments" width="600" height="400" loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--completed">Hoàn Thành</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Căn Hộ</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Nha Trang</span>
+            </div>
+            <h3 class="project-card__title">Skyline Apartments</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 95 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 4 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Minimalism</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="#" class="project-card anim-fade-up">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/service-renovation.png" alt="Harbor Innovation Hub" width="600" height="400" loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--concept">Concept</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Thương Mại</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Quận 7, TP.HCM</span>
+            </div>
+            <h3 class="project-card__title">Harbor Innovation Hub</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 1.200 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 14 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Industrial Chic</span>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /.d9-related__grid -->
+
+    </div>
+  </section><!-- /#d9-related -->
+
   <!-- Page Script -->
   <script src="portfolio-detail.js"></script>
+
 </body>
 </html>

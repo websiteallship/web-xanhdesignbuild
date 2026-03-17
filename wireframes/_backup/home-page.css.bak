@@ -2,17 +2,102 @@
    HOME PAGE — XANH Design & Build
    Wireframe 02: Minnaro-inspired layout
    ============================================== */
-/* Tokens, Reset, Container, Reduced Motion, Scroll-lock, Drawer anim → base.css */
 
-/* ── Homepage-specific tokens ── */
+/* ── CSS Variables (Brand Tokens) ── */
 :root {
+  --color-primary: #14513D;
+  --color-accent: #FF8A00;
+  --color-white: #FFFFFF;
+  --color-light: #F3F4F6;
+  --color-beige: #D8C7A3;
+  --color-dark: #1A1A1A;
+
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+
   --border-focus: var(--color-primary);
+  --color-accent-hover: #e67a00;
 }
 
-/* ── Homepage-specific container variant ── */
+/* ── Base Reset ── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* ── Site Container (ARCH_LUXURY_VISUAL_DIRECTION §4) ── */
+/* Default content width: 1280px — all sections share this */
+.site-container {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-6, 1.5rem);
+}
+
+@media (min-width: 768px) {
+  .site-container {
+    padding-inline: var(--space-8, 2rem);
+  }
+}
+
+/* Hero exception: wider at 1440px per docs */
+.site-container--hero {
+  max-width: 1440px;
+}
+
+/* Core Values: full-width split but capped at 1280px */
 .site-container--full {
   max-width: 1280px;
   margin-inline: auto;
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================= */
+/* UTILITY: Scroll Lock & Drawer Link Animation  */
+/* ============================================= */
+.is-scroll-locked {
+  overflow: hidden;
+}
+
+.drawer-link--hidden {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.drawer-link--visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 /* ============================================= */
@@ -29,28 +114,57 @@
   .section { padding-top: 5rem; padding-bottom: 5rem; }   /* 80px desktop */
 }
 
-/* Section header base, eyebrow base, title base, subtitle base → base.css */
-
-/* ── Homepage-specific section header overrides ── */
+/* ============================================= */
+/* SHARED: Section Header Pattern (§1)           */
+/* ============================================= */
+.section-header {
+  margin-bottom: 2rem;        /* section-gap mobile 32px */
+}
 @media (min-width: 768px) {
-  .section-header { margin-bottom: 2.5rem; }
+  .section-header { margin-bottom: 2.5rem; }   /* 40px */
 }
 @media (min-width: 1024px) {
-  .section-header { margin-bottom: 3rem; }
+  .section-header { margin-bottom: 3rem; }     /* 48px */
 }
+.section-header--center { text-align: center; margin-inline: auto; }
+.section-header--left   { text-align: left; }
 
-/* Eyebrow overrides */
-.section-eyebrow { margin-bottom: 1rem; }
+/* Eyebrow */
+.section-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+/* Light background variant (default) */
 .section-eyebrow             { color: rgb(20 81 61 / 0.5); }
+/* Dark background variant */
 .section-header--dark .section-eyebrow { color: rgba(255,255,255,0.5); }
 
-/* Title overrides */
-.section-title { font-weight: 800; margin-bottom: 1.25rem; }
+/* Title */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
 .section-title             { color: var(--color-dark); }
 .section-header--dark .section-title { color: var(--color-white); }
 
-/* Subtitle overrides */
-.section-subtitle { line-height: 1.7; letter-spacing: 0.01em; max-width: 600px; }
+/* Subtitle */
+.section-subtitle {
+  font-size: 1rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  max-width: 600px;
+}
+@media (min-width: 768px) {
+  .section-subtitle { font-size: 1.125rem; }
+}
 .section-subtitle                       { color: rgba(26,26,26,0.7); }
 .section-header--center .section-subtitle { margin-inline: auto; }
 .section-header--dark .section-subtitle   { color: rgba(255,255,255,0.7); }
@@ -60,30 +174,87 @@
 /* Light title (on dark backgrounds, standalone) */
 .section-title--light { color: var(--color-white); }
 
-/* .btn base, .btn--primary, .btn--primary::after shimmer,
-   @keyframes ctaShimmer, .btn--outline, .btn--ghost → base.css */
-
-/* ── Homepage-specific btn overrides ── */
+/* ============================================= */
+/* SHARED: CTA Buttons (§2)                      */
+/* ============================================= */
 .btn {
-  border: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;       /* ~py-3.5 px-8 */
+  font-size: 0.875rem;
+  font-weight: 600;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
   text-decoration: none;
+  border-radius: 0;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
   min-width: 200px;
   justify-content: center;
-  transition: background 300ms ease, color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
-  width: 100%;
-  min-height: 48px;
 }
-.btn__icon { width: 1rem; height: 1rem; }
+.btn__icon { width: 1rem; height: 1rem; flex-shrink: 0; }
+
+/* Primary (Orange) */
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+}
+.btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%, transparent 100%);
+  background-size: 220% 100%;
+  background-position: 200% 0;
+  animation: ctaShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ctaShimmer {
+  0%   { background-position: 200% 0; }
+  60%  { background-position: -20% 0; }
+  100% { background-position: -20% 0; }
+}
+.btn--primary:hover {
+  background: var(--color-accent-hover);
+  box-shadow: 0 8px 24px rgba(255,138,0,0.25);
+  transform: translateY(-2px);
+}
+
+/* Outline (on light backgrounds) */
+.btn--outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn--outline:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* Ghost (on dark backgrounds) */
+.btn--ghost {
+  background: transparent;
+  color: var(--color-white);
+  border-color: rgba(255,255,255,0.3);
+}
+.btn--ghost:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Mobile-first: full-width buttons, auto at sm+ */
+.btn { width: 100%; min-height: 48px; }
 
 @media (min-width: 640px) {
   .btn { width: auto; min-height: auto; }
 }
 
-/* btn--primary hover → base.css (no override needed) */
-
 /* ============================================= */
-/* SHARED: Card Base (§4) — Homepage-specific     */
+/* SHARED: Card Base (§4)                        */
 /* ============================================= */
 .card {
   background: var(--color-white);
@@ -96,10 +267,12 @@
   box-shadow: 0 12px 36px rgba(0,0,0,0.1);
 }
 
-/* .text-lead, .text-body, .text-quote base → base.css */
-
-/* ── Homepage-specific text overrides ── */
+/* ============================================= */
+/* SHARED: Text Block Classes (§5)               */
+/* ============================================= */
 .text-lead {
+  font-size: 1.125rem;
+  line-height: 1.7;
   font-weight: 300;
   max-width: 65ch;
   color: rgba(26,26,26,0.7);
@@ -108,6 +281,8 @@
   .text-lead { font-size: 1.25rem; }
 }
 .text-body {
+  font-size: 1rem;
+  line-height: 1.7;
   font-weight: 400;
   max-width: 65ch;
   color: rgba(26,26,26,0.7);
@@ -117,7 +292,9 @@
   padding-left: 1.25rem;
   border-left: 3px solid var(--color-accent);
   font-size: 1.0625rem;
+  line-height: 1.7;
   font-weight: 500;
+  font-style: italic;
   color: var(--color-dark);
   max-width: 55ch;
 }
@@ -155,17 +332,59 @@
   border-radius: 2px;
 }
 
-/* .anim-fade-up/left/right/scale-in base → base.css */
+/* =============================================
+/* SHARED: Entrance Animations (§9)              */
+/* ============================================= */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: opacity, transform;
+}
+.anim-fade-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  will-change: opacity, transform;
+}
+.anim-fade-right {
+  opacity: 0;
+  transform: translateX(40px);
+  will-change: opacity, transform;
+}
+.anim-scale-in {
+  opacity: 0;
+  transform: scale(0.95);
+  will-change: opacity, transform;
+}
 
-/* Header base (is-scrolled, nav-link, logo, hamburger) → base.css */
+/* ============================================= */
+/* HEADER                                        */
+/* ============================================= */
 
-/* ── Homepage-specific header overrides ── */
 #site-header {
+  background: transparent;
   backdrop-filter: none;
 }
 
 #site-header.is-scrolled {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+#site-header.is-scrolled .nav-link {
+  color: var(--color-dark);
+}
+
+#site-header.is-scrolled .logo-white {
+  opacity: 0;
+}
+
+#site-header.is-scrolled .logo-dark {
+  opacity: 1;
+}
+
+#site-header.is-scrolled .nav-link:hover {
+  color: var(--color-primary);
 }
 
 #site-header.is-scrolled #header-cta {
@@ -178,9 +397,8 @@
 }
 
 #site-header.is-scrolled #header-cta:hover {
-  background: var(--color-accent-hover);
+  background: var(--color-primary);
   color: var(--color-white);
-  box-shadow: 0 10px 25px rgba(255, 138, 0, 0.3);
 }
 
 #site-header.is-scrolled svg {
@@ -195,7 +413,7 @@
   color: var(--color-dark);
 }
 
-/* Nav link — homepage uses width-based instead of scaleX */
+/* Nav link underline animation */
 .nav-link::after {
   content: '';
   position: absolute;
@@ -204,13 +422,11 @@
   width: 0;
   height: 1.5px;
   background: currentColor;
-  transform: none;
   transition: width var(--transition-base);
 }
 
 .nav-link:hover::after {
   width: 100%;
-  transform: none;
 }
 
 /* ============================================= */
@@ -1041,44 +1257,74 @@
   margin-bottom: 2.5rem;
 }
 
-.cta-btn--ghost {
+.cta-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(20, 81, 61, 0.5);
-  padding: 0.85rem 1.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  gap: 0.65rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   text-decoration: none;
-  transition:
-    background 0.35s ease,
-    color 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
+  border-radius: 0;
+  padding: 0.75rem 1.75rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.cta-btn--primary {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-accent);
+  color: #fff;
+}
+.cta-btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%, transparent 100%);
+  background-size: 220% 100%;
+  background-position: 200% 0;
+  animation: ctaShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.cta-btn--primary:hover {
+  background-color: #fff;
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+.cta-btn--primary:hover::after {
+  animation: none;
+}
+
+.cta-btn--primary svg {
+  width: 16px;
+  height: 16px;
+}
+
+.cta-btn--ghost {
+  color: rgba(255, 255, 255, 0.75);
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  gap: 0.4rem;
 }
 
 .cta-btn--ghost:hover {
   color: #fff;
-  background: rgba(20, 81, 61, 0.75);
-  border-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-bottom-color: #fff;
 }
 
-.cta-btn--ghost__icon {
-  width: 17px;
-  height: 17px;
-  flex-shrink: 0;
+.cta-btn--ghost svg {
+  width: 15px;
+  height: 15px;
   transition: transform 0.3s ease;
 }
 
-.cta-btn--ghost:hover .cta-btn--ghost__icon {
-  transform: scale(1.1);
+.cta-btn--ghost:hover svg {
+  transform: translateX(4px);
 }
 
 /* ── Trust Badges ── */
@@ -1227,7 +1473,7 @@
     margin-bottom: 2rem;
   }
 
-  .cta-actions .btn {
+  .cta-btn--primary {
     width: 100%;
     justify-content: center;
     max-width: 260px;
@@ -1408,14 +1654,21 @@
 }
 
 .cta-contact__btn:hover {
-  box-shadow: 0 10px 25px rgba(255, 138, 0, 0.3);
+  background: var(--color-white);
+  color: var(--color-primary);
+  border-color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
 }
 
-.cta-contact__btn svg,
-.cta-contact__btn i {
+.cta-contact__btn svg {
   width: 18px;
   height: 18px;
   transition: transform var(--transition-base);
+}
+
+.cta-contact__btn:hover svg {
+  transform: scale(1.1);
 }
 
 /* GSAP initial state */
@@ -1827,7 +2080,6 @@
   overflow: hidden;
   padding-bottom: 2.5rem;
   /* space for pagination */
-  cursor: pointer;
 }
 
 .mobile-project-card {
@@ -2529,7 +2781,6 @@
 .blog-swiper {
   overflow: hidden;
   padding-bottom: 0.5rem;
-  cursor: pointer;
 }
 
 /* ── Blog Card ── */
