@@ -58,6 +58,18 @@
   <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+  <!-- img-comparison-slider Web Component -->
+  <link rel="stylesheet" href="https://unpkg.com/img-comparison-slider@8/dist/styles.css" />
+  <script src="https://unpkg.com/img-comparison-slider@8/dist/index.js" defer></script>
+
+  <!-- GLightbox — Lightbox for D7 Gallery -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js" defer></script>
+
   <!-- Page Styles -->
   <link rel="stylesheet" href="portfolio-detail.css" />
 </head>
@@ -270,9 +282,9 @@
 
     <!-- Section Header -->
     <div class="site-container">
-      <div class="project-story__header anim-fade-up">
-        <span class="section-eyebrow project-story__eyebrow">Câu Chuyện Dự Án</span>
-        <h2 class="project-story__title">Mỗi Không Gian Đều Bắt Đầu<br class="hidden md:block" /> Từ Một Bài Toán Thực Tế</h2>
+      <div class="section-header section-header--center anim-fade-up">
+        <span class="section-eyebrow">Câu Chuyện Dự Án</span>
+        <h2 class="section-title">Mỗi Không Gian Đều Bắt Đầu<br class="hidden md:block" /> Từ Một Bài Toán Thực Tế</h2>
       </div>
     </div>
 
@@ -297,38 +309,49 @@
 
         <span class="project-story__col-label">Bài Toán</span>
 
-        <h3 class="project-story__challenge-title">
+        <h3 class="project-story__col-title">
           Khu Đất Hướng Tây<br />Nắng Nóng Gay Gắt
         </h3>
 
-        <p class="project-story__challenge-body">
+        <p class="text-lead text-dark/80 mb-6">
           Anh Hoàng tìm đến XANH với khu đất hướng Tây tại trung tâm Nha Trang — nơi nhiệt độ chiều có thể lên đến 38°C vào mùa hè. Ngân sách giới hạn ở mức 2.5 tỷ, trong khi mong muốn là một không gian sống thoáng mát, gần gũi thiên nhiên, đủ cho gia đình 4 người.
         </p>
 
         <div class="project-story__context">
           <h4 class="project-story__context-heading">Bối Cảnh & Giới Hạn</h4>
-          <p class="project-story__context-body">
+          <p class="text-body text-dark/70">
             Mặt tiền 6m hướng chính Tây, diện tích 120m². Gia chủ mong muốn phòng khách rộng rãi đón bạn bè — nhưng hướng Tây khiến khu vực này trở thành "lò nướng" mỗi chiều hè. Mọi đơn vị tư vấn trước đó đều bỏ qua yếu tố này.
           </p>
         </div>
 
-        <blockquote class="project-story__quote">
-          <p>"Tôi đã đi xem 5–6 đơn vị, ai cũng nói 'hướng Tây không vấn đề gì.' Chỉ XANH hỏi tôi: chiều nào anh về nhà sớm nhất?"</p>
-          <cite>— Anh Hoàng, Gia chủ</cite>
+        <blockquote class="project-story__quote mt-auto">
+          <p class="text-quote">"Tôi đã đi xem 5–6 đơn vị, ai cũng nói 'hướng Tây không vấn đề gì.' Chỉ XANH hỏi tôi: chiều nào anh về nhà sớm nhất?"</p>
+          <cite class="block mt-4 text-xs font-semibold text-primary tracking-wide uppercase">— Anh Hoàng, Gia chủ</cite>
         </blockquote>
 
+      </div>
+
+      <!-- ▌ CONNECTOR — Dashed Arrow -->
+      <div class="project-story__connector" aria-hidden="true">
+        <div class="project-story__connector-line"></div>
+        <div class="project-story__connector-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </div>
+        <div class="project-story__connector-line"></div>
       </div>
 
       <!-- ▌ RIGHT — LỜI GIẢI (White Panel) -->
       <div class="project-story__solution">
 
         <span class="project-story__col-label">Lời Giải</span>
-        <h3 class="project-story__solution-heading">Thiết Kế & Giải Pháp Kỹ Thuật</h3>
+        <h3 class="project-story__col-title">Thiết Kế & Giải Pháp Kỹ Thuật</h3>
 
         <!-- Solution Item 1 — ACF repeater row -->
-        <div class="project-story__solution-item">
-          <div class="project-story__sol-icon">
-            <i data-lucide="grid-3x3" class="w-6 h-6"></i>
+        <div class="project-story__solution-item group cursor-default">
+          <div class="icon-circle icon-circle--sm shrink-0">
+            <i data-lucide="grid-3x3" class="w-5 h-5"></i>
           </div>
           <div class="project-story__sol-content">
             <h4 class="project-story__sol-title">Gạch Bông Gió Mặt Tiền</h4>
@@ -337,9 +360,9 @@
         </div>
 
         <!-- Solution Item 2 -->
-        <div class="project-story__solution-item">
-          <div class="project-story__sol-icon">
-            <i data-lucide="venetian-mask" class="w-6 h-6"></i>
+        <div class="project-story__solution-item group cursor-default">
+          <div class="icon-circle icon-circle--sm shrink-0">
+            <i data-lucide="venetian-mask" class="w-5 h-5"></i>
           </div>
           <div class="project-story__sol-content">
             <h4 class="project-story__sol-title">Hệ Lam Chắn Nắng 45°</h4>
@@ -348,9 +371,9 @@
         </div>
 
         <!-- Solution Item 3 -->
-        <div class="project-story__solution-item">
-          <div class="project-story__sol-icon">
-            <i data-lucide="wind" class="w-6 h-6"></i>
+        <div class="project-story__solution-item group cursor-default">
+          <div class="icon-circle icon-circle--sm shrink-0">
+            <i data-lucide="wind" class="w-5 h-5"></i>
           </div>
           <div class="project-story__sol-content">
             <h4 class="project-story__sol-title">Xoay Trục Đón Gió</h4>
@@ -359,9 +382,9 @@
         </div>
 
         <!-- Solution Item 4 -->
-        <div class="project-story__solution-item">
-          <div class="project-story__sol-icon">
-            <i data-lucide="piggy-bank" class="w-6 h-6"></i>
+        <div class="project-story__solution-item group cursor-default">
+          <div class="icon-circle icon-circle--sm shrink-0">
+            <i data-lucide="piggy-bank" class="w-5 h-5"></i>
           </div>
           <div class="project-story__sol-content">
             <h4 class="project-story__sol-title">Minh Bạch Chi Phí</h4>
@@ -375,12 +398,519 @@
 
   </section>
 
-  <!-- Placeholder: Các sections D5-D10 sẽ được thêm sau -->
-  <section class="py-20 md:py-32 lg:py-40 bg-light">
-    <div class="site-container text-center">
-      <p class="text-dark/30 text-sm uppercase tracking-[0.15em] font-medium">Sections D5 — D10 sẽ được triển khai tiếp theo</p>
+  <!-- ============================================= -->
+  <!-- SECTION D5: BEFORE / AFTER — Image Comparison  -->
+  <!-- ============================================= -->
+  <section id="before-after" class="before-after" aria-label="So sánh Concept 3D và Thực tế">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center anim-fade-up">
+        <span class="section-eyebrow">Concept 3D vs Thực Tế</span>
+        <h2 class="section-title">Từ Bản Vẽ Đến<br class="hidden md:block" /> Ngôi Nhà Thực</h2>
+        <p class="ba-help-text anim-fade-up">Kéo để so sánh</p>
+      </div>
+
+      <!-- ── Main Comparison Slider (Swiper) ── -->
+      <div class="ba-main-wrap anim-fade-up">
+        <div class="swiper ba-main-swiper" id="ba-main-swiper">
+          <div class="swiper-wrapper">
+
+            <!-- Slide 1: Phòng Khách -->
+            <div class="swiper-slide">
+              <div class="ba-slide">
+                <img-comparison-slider class="ba-comparison">
+                  <img slot="first" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Khách" width="1200" height="700" loading="lazy" />
+                  <img slot="second" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Khách" width="1200" height="700" loading="lazy" />
+                  <!-- Custom Handle -->
+                  <div slot="handle" class="ba-handle">
+                    <div class="ba-handle__line"></div>
+                    <div class="ba-handle__knob">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18-6-6 6-6" />
+                        <path d="m15 6 6 6-6 6" />
+                      </svg>
+                    </div>
+                    <div class="ba-handle__line"></div>
+                  </div>
+                </img-comparison-slider>
+                <!-- Labels -->
+                <span class="ba-label ba-label--before">Concept 3D</span>
+                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                <span class="ba-slide-title">Phòng Khách Tầng 1</span>
+                <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&h=1080&fit=crop" data-title="Phòng Khách Tầng 1">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 2: Phòng Bếp -->
+            <div class="swiper-slide">
+              <div class="ba-slide">
+                <img-comparison-slider class="ba-comparison">
+                  <img slot="first" src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Bếp" width="1200" height="700" loading="lazy" />
+                  <img slot="second" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Bếp" width="1200" height="700" loading="lazy" />
+                  <div slot="handle" class="ba-handle">
+                    <div class="ba-handle__line"></div>
+                    <div class="ba-handle__knob">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18-6-6 6-6" />
+                        <path d="m15 6 6 6-6 6" />
+                      </svg>
+                    </div>
+                    <div class="ba-handle__line"></div>
+                  </div>
+                </img-comparison-slider>
+                <span class="ba-label ba-label--before">Concept 3D</span>
+                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                <span class="ba-slide-title">Phòng Bếp & Ăn</span>
+                <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=1080&fit=crop" data-title="Phòng Bếp & Ăn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 3: Phòng Ngủ -->
+            <div class="swiper-slide">
+              <div class="ba-slide">
+                <img-comparison-slider class="ba-comparison">
+                  <img slot="first" src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Ngủ" width="1200" height="700" loading="lazy" />
+                  <img slot="second" src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Ngủ" width="1200" height="700" loading="lazy" />
+                  <div slot="handle" class="ba-handle">
+                    <div class="ba-handle__line"></div>
+                    <div class="ba-handle__knob">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18-6-6 6-6" />
+                        <path d="m15 6 6 6-6 6" />
+                      </svg>
+                    </div>
+                    <div class="ba-handle__line"></div>
+                  </div>
+                </img-comparison-slider>
+                <span class="ba-label ba-label--before">Concept 3D</span>
+                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                <span class="ba-slide-title">Phòng Ngủ Master</span>
+                <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1920&h=1080&fit=crop" data-title="Phòng Ngủ Master">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 4: Sân Vườn -->
+            <div class="swiper-slide">
+              <div class="ba-slide">
+                <img-comparison-slider class="ba-comparison">
+                  <img slot="first" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&h=700&fit=crop" alt="Concept 3D — Sân Vườn" width="1200" height="700" loading="lazy" />
+                  <img slot="second" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&h=700&fit=crop" alt="Thực tế — Sân Vườn" width="1200" height="700" loading="lazy" />
+                  <div slot="handle" class="ba-handle">
+                    <div class="ba-handle__line"></div>
+                    <div class="ba-handle__knob">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18-6-6 6-6" />
+                        <path d="m15 6 6 6-6 6" />
+                      </svg>
+                    </div>
+                    <div class="ba-handle__line"></div>
+                  </div>
+                </img-comparison-slider>
+                <span class="ba-label ba-label--before">Concept 3D</span>
+                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                <span class="ba-slide-title">Sân Vườn & Mặt Tiền</span>
+                <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1920&h=1080&fit=crop" data-title="Sân Vườn & Mặt Tiền">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 5: Phòng Tắm -->
+            <div class="swiper-slide">
+              <div class="ba-slide">
+                <img-comparison-slider class="ba-comparison">
+                  <img slot="first" src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Tắm" width="1200" height="700" loading="lazy" />
+                  <img slot="second" src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Tắm" width="1200" height="700" loading="lazy" />
+                  <div slot="handle" class="ba-handle">
+                    <div class="ba-handle__line"></div>
+                    <div class="ba-handle__knob">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18-6-6 6-6" />
+                        <path d="m15 6 6 6-6 6" />
+                      </svg>
+                    </div>
+                    <div class="ba-handle__line"></div>
+                  </div>
+                </img-comparison-slider>
+                <span class="ba-label ba-label--before">Concept 3D</span>
+                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                <span class="ba-slide-title">Phòng Tắm Tầng 2</span>
+                <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1920&h=1080&fit=crop" data-title="Phòng Tắm Tầng 2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 6: Cầu Thang -->
+            <div class="swiper-slide">
+              <div class="ba-slide">
+                <img-comparison-slider class="ba-comparison">
+                  <img slot="first" src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200&h=700&fit=crop" alt="Concept 3D — Cầu Thang" width="1200" height="700" loading="lazy" />
+                  <img slot="second" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&h=700&fit=crop" alt="Thực tế — Cầu Thang" width="1200" height="700" loading="lazy" />
+                  <div slot="handle" class="ba-handle">
+                    <div class="ba-handle__line"></div>
+                    <div class="ba-handle__knob">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18-6-6 6-6" />
+                        <path d="m15 6 6 6-6 6" />
+                      </svg>
+                    </div>
+                    <div class="ba-handle__line"></div>
+                  </div>
+                </img-comparison-slider>
+                <span class="ba-label ba-label--before">Concept 3D</span>
+                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                <span class="ba-slide-title">Cầu Thang & Hành Lang</span>
+                <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&h=1080&fit=crop" data-title="Cầu Thang & Hành Lang">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 7: Ban Công -->
+            <div class="swiper-slide">
+              <div class="ba-slide">
+                <img-comparison-slider class="ba-comparison">
+                  <img slot="first" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=700&fit=crop&q=80" alt="Concept 3D — Ban Công" width="1200" height="700" loading="lazy" />
+                  <img slot="second" src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1200&h=700&fit=crop" alt="Thực tế — Ban Công" width="1200" height="700" loading="lazy" />
+                  <div slot="handle" class="ba-handle">
+                    <div class="ba-handle__line"></div>
+                    <div class="ba-handle__knob">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18-6-6 6-6" />
+                        <path d="m15 6 6 6-6 6" />
+                      </svg>
+                    </div>
+                    <div class="ba-handle__line"></div>
+                  </div>
+                </img-comparison-slider>
+                <span class="ba-label ba-label--before">Concept 3D</span>
+                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                <span class="ba-slide-title">Ban Công Tầng 3</span>
+                <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&h=1080&fit=crop&q=80" data-second="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1920&h=1080&fit=crop" data-title="Ban Công Tầng 3">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Thumbnail Navigation (Swiper Thumbs) ── -->
+      <div class="ba-thumbs-wrap anim-fade-up" data-delay="200">
+        <div class="swiper ba-thumbs-swiper" id="ba-thumbs-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <button class="ba-thumb" type="button" aria-label="Phòng Khách Tầng 1">
+                <div class="ba-thumb__img">
+                  <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=200&fit=crop" alt="Phòng Khách" width="300" height="200" loading="lazy" />
+                </div>
+                <span class="ba-thumb__name">Phòng Khách</span>
+                <div class="ba-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="ba-thumb" type="button" aria-label="Phòng Bếp & Ăn">
+                <div class="ba-thumb__img">
+                  <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=200&fit=crop" alt="Phòng Bếp" width="300" height="200" loading="lazy" />
+                </div>
+                <span class="ba-thumb__name">Phòng Bếp</span>
+                <div class="ba-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="ba-thumb" type="button" aria-label="Phòng Ngủ Master">
+                <div class="ba-thumb__img">
+                  <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=300&h=200&fit=crop" alt="Phòng Ngủ" width="300" height="200" loading="lazy" />
+                </div>
+                <span class="ba-thumb__name">Phòng Ngủ</span>
+                <div class="ba-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="ba-thumb" type="button" aria-label="Sân Vườn & Mặt Tiền">
+                <div class="ba-thumb__img">
+                  <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=300&h=200&fit=crop" alt="Sân Vườn" width="300" height="200" loading="lazy" />
+                </div>
+                <span class="ba-thumb__name">Sân Vườn</span>
+                <div class="ba-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="ba-thumb" type="button" aria-label="Phòng Tắm Tầng 2">
+                <div class="ba-thumb__img">
+                  <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=300&h=200&fit=crop" alt="Phòng Tắm" width="300" height="200" loading="lazy" />
+                </div>
+                <span class="ba-thumb__name">Phòng Tắm</span>
+                <div class="ba-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="ba-thumb" type="button" aria-label="Cầu Thang & Hành Lang">
+                <div class="ba-thumb__img">
+                  <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=300&h=200&fit=crop" alt="Cầu Thang" width="300" height="200" loading="lazy" />
+                </div>
+                <span class="ba-thumb__name">Cầu Thang</span>
+                <div class="ba-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="ba-thumb" type="button" aria-label="Ban Công Tầng 3">
+                <div class="ba-thumb__img">
+                  <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=300&h=200&fit=crop" alt="Ban Công" width="300" height="200" loading="lazy" />
+                </div>
+                <span class="ba-thumb__name">Ban Công</span>
+                <div class="ba-thumb__bar"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Nav Arrows -->
+        <button class="ba-nav-btn ba-nav-prev" aria-label="Không gian trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="ba-nav-btn ba-nav-next" aria-label="Không gian tiếp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <!-- Mobile bottom nav: prev/next + pagination dots -->
+      <div class="ba-thumbs-nav">
+        <button class="ba-nav-btn ba-thumbs-nav__prev ba-thumbs-mobile-prev" type="button" aria-label="Không gian trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="ba-thumbs-pagination"></div>
+        <button class="ba-nav-btn ba-thumbs-nav__next ba-thumbs-mobile-next" type="button" aria-label="Không gian tiếp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ── Lightbox Modal ── -->
+    <div class="ba-lightbox" id="ba-lightbox" role="dialog" aria-modal="true" aria-label="Phóng to so sánh">
+      <div class="ba-lightbox__backdrop"></div>
+      <div class="ba-lightbox__content">
+        <div class="ba-lightbox__header">
+          <span class="ba-lightbox__title" id="ba-lightbox-title"></span>
+          <span class="ba-lightbox__counter" id="ba-lightbox-counter"></span>
+          <button class="ba-lightbox__close" id="ba-lightbox-close" type="button" aria-label="Đóng">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="ba-lightbox__body">
+          <!-- Prev/Next Arrows -->
+          <button class="ba-lightbox__arrow ba-lightbox__arrow--prev" id="ba-lb-prev" type="button" aria-label="Ảnh trước">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <div class="ba-lightbox__slider" id="ba-lightbox-slider">
+            <!-- Dynamically populated by JS -->
+          </div>
+          <button class="ba-lightbox__arrow ba-lightbox__arrow--next" id="ba-lb-next" type="button" aria-label="Ảnh tiếp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <!-- Labels -->
+          <div class="ba-lightbox__labels">
+            <span class="ba-label ba-label--before">Concept 3D</span>
+            <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+          </div>
+        </div>
+        <!-- Lightbox Thumb Nav -->
+        <div class="ba-lightbox__thumbs" id="ba-lightbox-thumbs">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- ============================================= -->
+  <!-- Section D7: Real Gallery + Video              -->
+  <!-- ============================================= -->
+  <section id="d7-gallery" class="gallery-section">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center anim-fade-up">
+        <span class="section-eyebrow text-primary/50">Thực Tế Thi Công</span>
+        <h2 class="section-title text-dark">Thành Quả <em>Trọn Vẹn</em></h2>
+        <p class="section-subtitle text-dark/80">Từng góc không gian được ghi lại sau khi hoàn thiện — chứng minh cho cam kết 98% sát thiết kế gốc.</p>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid" id="gallery-grid">
+
+        <!-- Item 1 — Span wide -->
+        <a href="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&h=1080&fit=crop"
+           class="gallery-grid__item gallery-grid__item--wide anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Phòng khách — Villa Thảo Điền"
+           aria-label="Xem ảnh phòng khách">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&h=600&fit=crop"
+               alt="Phòng khách biệt thự Villa Thảo Điền — XANH Design & Build"
+               width="900" height="600" loading="lazy" />
+          <span class="gallery-grid__caption">Phòng Khách</span>
+        </a>
+
+        <!-- Item 2 -->
+        <a href="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=1280&fit=crop"
+           class="gallery-grid__item anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Phòng bếp — Villa Thảo Điền"
+           aria-label="Xem ảnh phòng bếp">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=700&fit=crop"
+               alt="Phòng bếp hiện đại — XANH Design & Build"
+               width="600" height="700" loading="lazy" />
+          <span class="gallery-grid__caption">Phòng Bếp & Ăn</span>
+        </a>
+
+        <!-- Item 3 — Tall -->
+        <a href="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1920&h=2560&fit=crop"
+           class="gallery-grid__item gallery-grid__item--tall anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Phòng ngủ master — Villa Thảo Điền"
+           aria-label="Xem ảnh phòng ngủ master">
+          <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=900&fit=crop"
+               alt="Phòng ngủ master sang trọng — XANH Design & Build"
+               width="600" height="900" loading="lazy" />
+          <span class="gallery-grid__caption">Phòng Ngủ Master</span>
+        </a>
+
+        <!-- Item 4 -->
+        <a href="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1920&h=1280&fit=crop"
+           class="gallery-grid__item anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Sân vườn — Villa Thảo Điền"
+           aria-label="Xem ảnh sân vườn">
+          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop"
+               alt="Sân vườn tropical — XANH Design & Build"
+               width="600" height="400" loading="lazy" />
+          <span class="gallery-grid__caption">Sân Vườn</span>
+        </a>
+
+        <!-- Item 5 -->
+        <a href="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1920&h=1280&fit=crop"
+           class="gallery-grid__item anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Phòng tắm — Villa Thảo Điền"
+           aria-label="Xem ảnh phòng tắm">
+          <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=600&h=700&fit=crop"
+               alt="Phòng tắm cao cấp — XANH Design & Build"
+               width="600" height="700" loading="lazy" />
+          <span class="gallery-grid__caption">Phòng Tắm</span>
+        </a>
+
+        <!-- Item 6 — Wide -->
+        <a href="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&h=1080&fit=crop"
+           class="gallery-grid__item gallery-grid__item--wide anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Cầu thang & hành lang — Villa Thảo Điền"
+           aria-label="Xem ảnh cầu thang">
+          <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&h=500&fit=crop"
+               alt="Cầu thang gỗ tự nhiên — XANH Design & Build"
+               width="900" height="500" loading="lazy" />
+          <span class="gallery-grid__caption">Cầu Thang & Hành Lang</span>
+        </a>
+
+        <!-- Item 7 -->
+        <a href="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1920&h=1280&fit=crop"
+           class="gallery-grid__item anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Ban công tầng 3 — Villa Thảo Điền"
+           aria-label="Xem ảnh ban công">
+          <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=600&h=700&fit=crop"
+               alt="Ban công view thành phố — XANH Design & Build"
+               width="600" height="700" loading="lazy" />
+          <span class="gallery-grid__caption">Ban Công Tầng 3</span>
+        </a>
+
+        <!-- Item 8 -->
+        <a href="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&h=1280&fit=crop"
+           class="gallery-grid__item anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Phòng đọc sách — Villa Thảo Điền"
+           aria-label="Xem ảnh phòng đọc sách">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop"
+               alt="Phòng đọc sách thư viện riêng — XANH Design & Build"
+               width="600" height="400" loading="lazy" />
+          <span class="gallery-grid__caption">Phòng Đọc Sách</span>
+        </a>
+
+        <!-- Item 9 — Tall -->
+        <a href="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=1920&h=2560&fit=crop"
+           class="gallery-grid__item gallery-grid__item--tall anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Cửa sổ mặt tiền — Villa Thảo Điền"
+           aria-label="Xem ảnh cửa sổ mặt tiền">
+          <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=600&h=900&fit=crop"
+               alt="Khung cửa sổ mặt tiền tropical — XANH Design & Build"
+               width="600" height="900" loading="lazy" />
+          <span class="gallery-grid__caption">Mặt Tiền</span>
+        </a>
+
+        <!-- Item 10 -->
+        <a href="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1280&fit=crop"
+           class="gallery-grid__item anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Văn phòng tại gia — Villa Thảo Điền"
+           aria-label="Xem ảnh văn phòng">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop"
+               alt="Không gian làm việc tại nhà — XANH Design & Build"
+               width="600" height="400" loading="lazy" />
+          <span class="gallery-grid__caption">Văn Phòng Tại Gia</span>
+        </a>
+
+        <!-- Item 11 -->
+        <a href="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=1920&h=1280&fit=crop"
+           class="gallery-grid__item anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-description="Phòng ngủ trẻ em — Villa Thảo Điền"
+           aria-label="Xem ảnh phòng ngủ trẻ em">
+          <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=600&h=700&fit=crop"
+               alt="Phòng ngủ trẻ em sáng tạo — XANH Design & Build"
+               width="600" height="700" loading="lazy" />
+          <span class="gallery-grid__caption">Phòng Trẻ Em</span>
+        </a>
+
+        <!-- Item 12 — Video Card -->
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+           class="gallery-grid__item gallery-grid__item--video anim-fade-up"
+           data-glightbox
+           data-gallery="project-gallery"
+           data-type="video"
+           data-description="Video tour Villa Thảo Điền — XANH Design & Build"
+           aria-label="Xem video tour dự án">
+          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=900&h=500&fit=crop"
+               alt="Video tour Villa Thảo Điền — XANH Design & Build"
+               width="900" height="500" loading="lazy" />
+          <div class="gallery-play-btn" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <span class="gallery-grid__caption">Video Tour Dự Án</span>
+        </a>
+
+      </div><!-- /.gallery-grid -->
+
+    </div><!-- /.site-container -->
+  </section><!-- /#d7-gallery -->
 
   <!-- Page Script -->
   <script src="portfolio-detail.js"></script>
