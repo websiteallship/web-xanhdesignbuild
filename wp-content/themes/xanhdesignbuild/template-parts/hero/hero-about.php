@@ -25,7 +25,7 @@ $image     = xanh_get_image( 'about_hero_image' );
 $video_url = get_field( 'about_hero_video_url' ) ?: 'https://www.youtube.com/embed/dQw4w9WgXcQ';
 
 // Fallback image.
-$img_url = $image['url'] ?? esc_url( XANH_THEME_URI . '/assets/images/about-hero-bg.png' );
+$img_url = $image['url'] ?? esc_url( content_url( '/uploads/2026/03/about-hero-bg.png' ) );
 $img_alt = $image['alt'] ?? 'Không gian nội thất sang trọng — XANH Design & Build';
 $img_id  = $image['ID'] ?? null;
 
