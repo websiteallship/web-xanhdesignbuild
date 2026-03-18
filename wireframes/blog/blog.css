@@ -206,13 +206,9 @@
 .card {
   background: var(--color-white);
   position: relative;
-  box-shadow: var(--card-shadow);
   transition: var(--card-transition);
   will-change: transform;
   contain: layout;
-}
-.card:hover {
-  box-shadow: var(--card-shadow-hover);
 }
 
 /* ── Animated border: top + bottom (trên card) ── */
@@ -653,8 +649,8 @@
   transition: transform 1.2s var(--ease-luxury), filter 0.6s ease;
 }
 .article-card:hover .article-card__image img {
-  transform: scale(1.05);
-  filter: brightness(1.04) contrast(1.02);
+  transform: scale(1.08);
+  filter: brightness(1.05) contrast(1.02);
 }
 
 .article-card__image::before {
@@ -712,6 +708,8 @@
   gap: 0.5rem;
   flex: 1;
   position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: none;
 }
 
 .article-card__meta {
@@ -748,19 +746,7 @@
   flex: 1;
 }
 
-/* right border on article card body */
-.article-card__body::after {
-  content: '';
-  position: absolute;
-  z-index: 10;
-  top: 0; right: 0;
-  width: 2px; height: 100%;
-  background: var(--color-accent);
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform var(--duration-hover) var(--ease-luxury);
-}
-.article-card:hover .article-card__body::after { transform: scaleY(1); }
+/* static border on body matches portfolio project-card__info */
 
 .article-grid__footer {
   display: flex;

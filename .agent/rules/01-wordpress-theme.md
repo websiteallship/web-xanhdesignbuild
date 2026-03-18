@@ -1,6 +1,6 @@
 ---
-description: WordPress theme development rules for xanh-theme. Apply when editing PHP templates, template-parts, or inc/ files.
-globs: wp-content/themes/xanh-theme/**/*.php
+description: WordPress theme development rules for xanhdesignbuild. Apply when editing PHP templates, template-parts, or inc/ files.
+globs: wp-content/themes/xanhdesignbuild/**/*.php
 ---
 
 # WordPress Theme Rules
@@ -38,14 +38,19 @@ inc/
 - Sanitize input: `sanitize_text_field()`, `absint()`, `wp_unslash()`
 - AJAX: ALWAYS verify nonces + check capabilities
 - Clean code: SRP, early return, max 30 lines/function
-- Textdomain: `xanh` | Min PHP: 7.4 | Min WP: 6.0
+- Textdomain: `xanh` | Min PHP: 7.4 | Min WP: 6.5
+- Theme constants: `XANH_THEME_VERSION`, `XANH_THEME_DIR`, `XANH_THEME_URI`
 
 ## ACF Usage
 - Read: `get_field('field_name', $post_id)` — NEVER direct meta queries
-- Options: `get_field('field_name', 'option')`
+- Options: `get_field('field_name', 'option')` → hotline, email, address, social links
 - Repeater: `have_rows()` + `the_row()` + `get_sub_field()`
+- Relationship: `get_field('featured_projects')` → returns post objects array
+- Image: `get_field('image')` → returns array with `['ID']`, `['url']`, `['alt']`
 - Null-safe: `$value = get_field('x', $id) ?: 'default';`
-- Field groups: `docs/CORE_DATA_MODEL.md`
+- ALWAYS null-check before array access: `if ($image && isset($image['ID']))`
+- Field groups: `docs/CORE_DATA_MODEL.md` + `docs/implement/ACF_FIELD_GROUPS.md`
+- Options Page: `inc/acf-fields.php` registers "Cài Đặt XANH" menu
 
 ## Custom Post Types
 | CPT | Slug | Archive | REST API |
@@ -71,53 +76,51 @@ function xanh_ajax_{action}() {
 ```php
 function xanh_enqueue_scripts() {
     $ver = XANH_THEME_VERSION;
-    $uri = get_template_directory_uri();
+    $uri = XANH_THEME_URI;
 
     // === CSS: Tailwind (compiled) + Custom ===
     wp_enqueue_style('xanh-tailwind', "$uri/assets/css/output.css", [], $ver);
     wp_enqueue_style('xanh-variables', "$uri/assets/css/variables.css", ['xanh-tailwind'], $ver);
     wp_enqueue_style('xanh-components', "$uri/assets/css/components.css", ['xanh-variables'], $ver);
 
-    // === JS: Alpine.js (CDN — must load in head with defer) ===
-    wp_enqueue_script('alpinejs', 'https://cdn.jsdelivr.net/npm/alpinejs@3.15.8/dist/cdn.min.js', [], '3.15.8', false);
-    wp_script_add_data('alpinejs', 'strategy', 'defer');
-
     // === JS: Vendor CDN (global, defer, footer) ===
-    wp_enqueue_script('gsap', 'https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js', [], '3.12.7', true);
-    wp_enqueue_script('gsap-st', 'https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js', ['gsap'], '3.12.7', true);
-    wp_enqueue_script('lenis', 'https://cdn.jsdelivr.net/npm/lenis@1.3.17/dist/lenis.min.js', [], '1.3.17', true);
-
-    // === JS: Lucide Icons (CDN) ===
-    wp_enqueue_script('lucide', 'https://unpkg.com/lucide@latest', [], null, true);
+    // WP 6.5+ script strategy API: ['strategy' => 'defer', 'in_footer' => true]
+    wp_enqueue_script('gsap', 'https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js',
+        [], '3.12.7', ['strategy' => 'defer', 'in_footer' => true]);
+    wp_enqueue_script('gsap-st', 'https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js',
+        ['gsap'], '3.12.7', ['strategy' => 'defer', 'in_footer' => true]);
+    wp_enqueue_script('lenis', 'https://cdn.jsdelivr.net/npm/lenis@1.3.17/dist/lenis.min.js',
+        [], '1.3.17', ['strategy' => 'defer', 'in_footer' => true]);
+    wp_enqueue_script('lucide', 'https://unpkg.com/lucide@latest',
+        [], null, ['strategy' => 'defer', 'in_footer' => true]);
 
     // === JS: Custom (global) ===
-    wp_enqueue_script('xanh-main', "$uri/assets/js/main.js", ['gsap', 'gsap-st', 'lenis'], $ver, true);
-    wp_enqueue_script('xanh-animations', "$uri/assets/js/animations.js", ['xanh-main'], $ver, true);
+    wp_enqueue_script('xanh-main', "$uri/assets/js/main.js",
+        ['gsap', 'gsap-st', 'lenis'], $ver, ['strategy' => 'defer', 'in_footer' => true]);
 
     // === JS: Conditional (Swiper + GLightbox via CDN) ===
     if (is_front_page() || is_singular('xanh_project')) {
         wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], null);
-        wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11', true);
-        wp_enqueue_script('xanh-slider', "$uri/assets/js/slider.js", ['swiper'], $ver, true);
+        wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
+            [], '11', ['strategy' => 'defer', 'in_footer' => true]);
     }
     if (is_singular('xanh_project')) {
         wp_enqueue_style('glightbox-css', 'https://cdn.jsdelivr.net/npm/glightbox@3/dist/css/glightbox.min.css', [], null);
-        wp_enqueue_script('glightbox', 'https://cdn.jsdelivr.net/npm/glightbox@3/dist/glightbox.min.js', [], '3', true);
-        wp_enqueue_script('xanh-gallery', "$uri/assets/js/gallery.js", ['glightbox'], $ver, true);
+        wp_enqueue_script('glightbox', 'https://cdn.jsdelivr.net/npm/glightbox@3/dist/glightbox.min.js',
+            [], '3', ['strategy' => 'defer', 'in_footer' => true]);
     }
     if (is_post_type_archive('xanh_project') || is_home()) {
-        wp_enqueue_script('xanh-filter', "$uri/assets/js/filter.js", ['xanh-main'], $ver, true);
+        wp_enqueue_script('xanh-filter', "$uri/assets/js/filter.js",
+            ['xanh-main'], $ver, ['strategy' => 'defer', 'in_footer' => true]);
         wp_localize_script('xanh-filter', 'xanhAjax', [
-            'url' => admin_url('admin-ajax.php'),
+            'url'   => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('xanh_filter_nonce'),
         ]);
-    }
-    if (is_page('lien-he') || is_front_page()) {
-        wp_enqueue_script('xanh-forms', "$uri/assets/js/forms.js", ['xanh-main'], $ver, true);
     }
 }
 add_action('wp_enqueue_scripts', 'xanh_enqueue_scripts');
 ```
+> **Note:** Xem thêm `rules/17-wp-optimization.md` cho WP bloat removal + dequeue block styles.
 
 ## Custom Hooks (Extensibility)
 ```php

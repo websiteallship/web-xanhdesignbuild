@@ -1,6 +1,6 @@
 ---
-description: UX/UI design rules for XANH website. Apply when creating or modifying page layouts, components, or user flows.
-globs: wp-content/themes/xanh-theme/**/*.{php,css}
+description: UX/UI design and accessibility rules for XANH website. Apply when creating or modifying page layouts, components, or user flows.
+globs: wp-content/themes/xanhdesignbuild/**/*.{php,css}
 ---
 
 # UX/UI Design Rules
@@ -9,7 +9,7 @@ globs: wp-content/themes/xanh-theme/**/*.{php,css}
 - **Restraint** — Ít chi tiết, chất lượng cao. Mỗi element phải có lý do
 - **Breathing Room** — Content/whitespace ratio 40/60. Khoảng trắng = sang trọng
 - **Subtlety** — Hiệu ứng tinh tế, hover nhẹ, transitions mượt. KHÔNG bounce/shake
-- **Consistency** — Component tokens bắt buộc (§9 `ARCH_DESIGN_TOKENS.md`). Cross-section element sync: `.agent/rules/08-cross-section-consistency.md`
+- **Consistency** — Component tokens bắt buộc (§9 `ARCH_DESIGN_TOKENS.md`). Cross-section sync: `.agent/rules/08-cross-section-consistency.md`
 - **Warmth** — Tông beige ấm, ảnh có con người, copy mời gọi (không lạnh lẽo)
 - **Storytelling:** Aspiration → Empathy → Solution → Proof → Invitation (bắt đầu từ ước mơ, KHÔNG nỗi đau)
 - **Full direction:** `docs/ARCH_LUXURY_VISUAL_DIRECTION.md`
@@ -89,3 +89,55 @@ Key luxury interactions:
 - 3D rotate (trừ Card Flip 4 Xanh)
 - Quá nhiều animation cùng lúc
 - Entrance duration > 1s
+
+## Accessibility (WCAG 2.1 AA)
+
+### Focus Management
+```css
+/* Visible focus cho keyboard users */
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+/* Remove focus ring for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+```
+
+### Keyboard Navigation
+- All interactive elements: keyboard accessible (Tab, Enter, Escape)
+- Modal/off-canvas: trap focus inside, Escape to close
+- Skip-to-content link: đầu tiên trong DOM
+```html
+<a href="#main-content" class="sr-only focus:not-sr-only">
+    Chuyển đến nội dung chính
+</a>
+```
+
+### ARIA Labels (MANDATORY)
+- Buttons without visible text: `aria-label`
+- Navigation landmarks: `aria-label="Menu chính"`, `aria-label="Breadcrumb"`
+- Icon-only links: `aria-label="Facebook"`, `aria-label="Đóng menu"`
+- Toggle buttons: `aria-expanded="true/false"`
+- Current page nav: `aria-current="page"`
+
+### Color Contrast
+- Text trên nền tối (#14513D): dùng trắng `#FFFFFF` (ratio ≥ 7:1) ✅
+- Text trên nền sáng: dùng `#1A1A1A` hoặc primary (ratio ≥ 4.5:1) ✅
+- Small text (< 18px): ratio ≥ 4.5:1
+- Large text (≥ 18px bold): ratio ≥ 3:1
+
+### Screen Reader
+- `alt` text cho tất cả ảnh (descriptive, Vietnamese)
+- Decorative images: `alt=""` + `aria-hidden="true"`
+- Section landmarks: `<main>`, `<nav>`, `<section aria-label>`, `<footer>`
+
+### Reduced Motion
+- Xem rule `14-animation-performance.md` — `prefers-reduced-motion` bắt buộc
+
+## Related Rules
+- `12-html-to-wp-conversion.md` — Preserve ARIA/data-* khi convert
+- `13-image-performance.md` — Image alt text, loading strategies
+- `14-animation-performance.md` — GSAP/CSS animation performance
+- `15-seo-schema.md` — Semantic HTML, heading hierarchy
