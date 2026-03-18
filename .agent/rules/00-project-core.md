@@ -50,7 +50,7 @@ globs: **/*
   - `docs/implement/ACF_FIELD_GROUPS.md` — 7 field groups, ~158 fields
   - `docs/implement/THEME_CONVENTIONS.md` — Naming, enqueue, structure
   - `docs/implement/PERFORMANCE_SEO.md` — Core Web Vitals, Schema.org, caching
-  - `docs/implement/plan.md` — Sprint 1+2 execution plan
+  - `docs/implement/HTML_TO_WP_ROADMAP.md` — Lộ trình chuyển đổi HTML → WP
 - Task lookup: `docs/REF_AI_HANDOVER.md`
 
 ## Critical Rules

@@ -241,7 +241,7 @@ ACF Admin UI → wp_postmeta / wp_options
 |---|---|
 | [CONVERT_HTML_TO_WP.md](./CONVERT_HTML_TO_WP.md) | Lộ trình chuyển đổi |
 | [ACF_FIELD_GROUPS.md](./ACF_FIELD_GROUPS.md) | Chi tiết ACF fields |
-| [plan.md](./plan.md) | Implementation plan gốc |
+| [HTML_TO_WP_ROADMAP.md](./HTML_TO_WP_ROADMAP.md) | Lộ trình chuyển đổi HTML → WP |
 | [../CORE_ARCHITECTURE.md](../CORE_ARCHITECTURE.md) | Kiến trúc tổng thể |
 | [../CORE_DATA_MODEL.md](../CORE_DATA_MODEL.md) | Data model |
 | [../GOV_CODING_STANDARDS.md](../GOV_CODING_STANDARDS.md) | Coding standards |

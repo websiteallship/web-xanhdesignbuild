@@ -2,7 +2,7 @@
 
 > **Theme:** `xanhdesignbuild`
 > **Ngày tạo:** 2026-03-18
-> **Tham chiếu:** [plan.md](./plan.md) | [ACF_FIELD_GROUPS.md](./ACF_FIELD_GROUPS.md) | [THEME_CONVENTIONS.md](./THEME_CONVENTIONS.md)
+> **Tham chiếu:** [HTML_TO_WP_ROADMAP.md](./HTML_TO_WP_ROADMAP.md) | [ACF_FIELD_GROUPS.md](./ACF_FIELD_GROUPS.md) | [THEME_CONVENTIONS.md](./THEME_CONVENTIONS.md)
 
 ---
 
@@ -156,7 +156,7 @@ Chuyển từng trang HTML → PHP, thứ tự ưu tiên:
 
 | File | Mô tả |
 |---|---|
-| [plan.md](./plan.md) | Implementation plan gốc (Sprint 1+2) |
+| [HTML_TO_WP_ROADMAP.md](./HTML_TO_WP_ROADMAP.md) | Implementation plan gốc (Sprint 1+2) |
 | [ACF_FIELD_GROUPS.md](./ACF_FIELD_GROUPS.md) | Chi tiết ACF fields cho tất cả trang |
 | [THEME_CONVENTIONS.md](./THEME_CONVENTIONS.md) | Quy ước code và cấu trúc theme |
 | [../CORE_ARCHITECTURE.md](../CORE_ARCHITECTURE.md) | Kiến trúc tổng thể |
