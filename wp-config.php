@@ -73,8 +73,10 @@ $table_prefix = 'wp_';
 
 /* Add any custom values between this line and the "stop editing" line. */
 
-
-
+/* ── Security Hardening ── */
+define( 'DISALLOW_FILE_EDIT', true );   // No theme/plugin editor in admin.
+define( 'WP_POST_REVISIONS', 5 );       // Limit revisions to save DB space.
+define( 'AUTOSAVE_INTERVAL', 120 );     // Autosave every 2 minutes.
 /**
  * For developers: WordPress debugging mode.
  *
