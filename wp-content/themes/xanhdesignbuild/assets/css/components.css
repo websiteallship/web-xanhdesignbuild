@@ -1,0 +1,835 @@
+/**
+ * XANH Theme — BEM Components & Global Styles
+ *
+ * Migrated from: wireframes/_shared/base.css §2–§13
+ * Contains: base reset, reduced motion, site container, section headers,
+ * buttons, shimmer keyframes, header scroll state, text blocks, icon circle,
+ * entrance animations, utilities, footer.
+ *
+ * @package XanhDesignBuild
+ * @since   1.0.0
+ */
+
+/* ==============================================
+   2. BASE STYLES
+   ============================================== */
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-dark);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* ==============================================
+   3. REDUCED MOTION
+   ============================================== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ==============================================
+   4. SITE CONTAINER
+   ============================================== */
+.site-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: var(--space-6);
+}
+
+@media (min-width: 768px) {
+    .site-container {
+        padding-inline: var(--space-8);
+    }
+}
+
+@media (min-width: 1024px) {
+    .site-container {
+        padding-inline: var(--space-12);
+    }
+}
+
+/* Hero exception: wider at 1440px */
+.site-container--hero {
+    max-width: 1440px;
+}
+
+/* ==============================================
+   5. SECTION HEADER PATTERN
+   ============================================== */
+.section-header {
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .section-header {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-header {
+        margin-bottom: 4rem;
+    }
+}
+
+.section-header--center {
+    text-align: center;
+    margin-inline: auto;
+}
+
+.section-header--left {
+    text-align: left;
+}
+
+/* ── Eyebrow ── */
+.section-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* ── Title ── */
+.section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    /* Default: primary green on light/white backgrounds */
+    color: var(--color-primary);
+}
+
+/* Override: white on dark/primary backgrounds */
+.section-title--light,
+.section-header--dark .section-title,
+.bg-primary .section-title,
+[class*="bg-dark"] .section-title {
+    color: var(--color-white);
+}
+
+/* ── Subtitle ── */
+.section-subtitle {
+    font-size: 1rem;
+    line-height: 1.8;
+    letter-spacing: 0.025em;
+    max-width: 42rem;
+}
+
+@media (min-width: 768px) {
+    .section-subtitle {
+        font-size: 1.125rem;
+    }
+}
+
+/* ==============================================
+   6. BUTTONS
+   ============================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    cursor: pointer;
+    transition:
+        background var(--duration-base) ease-in-out,
+        color var(--duration-base) ease-in-out,
+        border-color var(--duration-base) ease-in-out,
+        box-shadow var(--duration-base) ease-in-out;
+    background: transparent;
+}
+
+.btn__icon {
+    flex-shrink: 0;
+}
+
+/* ── Primary (Orange) ── */
+.btn--primary {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-accent);
+    color: var(--color-white);
+    border-color: var(--color-accent);
+}
+
+.btn--primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%, transparent 100%);
+    background-size: 220% 100%;
+    background-position: 200% 0;
+    animation: ctaShimmer 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.btn--primary:hover {
+    background: var(--color-accent-hover);
+    box-shadow: 0 10px 25px rgba(255, 138, 0, 0.3);
+}
+
+/* ── Outline ── */
+.btn--outline {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    transition: color 0.4s var(--ease-luxury),
+        border-color 0.4s var(--ease-luxury),
+        box-shadow 0.4s var(--ease-luxury);
+}
+
+.btn--outline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-primary);
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-luxury);
+}
+
+.btn--outline span,
+.btn--outline svg,
+.btn--outline i {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.4s var(--ease-luxury);
+}
+
+.btn--outline:hover {
+    color: var(--color-white);
+    box-shadow: 0 4px 12px rgba(20, 81, 61, 0.2);
+}
+
+.btn--outline:hover::before {
+    transform: scaleX(1);
+}
+
+.btn--outline:hover svg,
+.btn--outline:hover i {
+    transform: translateY(3px);
+}
+
+/* ── Ghost (on dark backgrounds) ── */
+.btn--ghost {
+    color: var(--color-white);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==============================================
+   7. SHIMMER KEYFRAMES
+   ============================================== */
+@keyframes ctaShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    60% {
+        background-position: -20% 0;
+    }
+
+    100% {
+        background-position: -20% 0;
+    }
+}
+
+@keyframes lightSweep {
+    0% {
+        background-position: 150% 0;
+    }
+
+    100% {
+        background-position: -50% 0;
+    }
+}
+
+/* ==============================================
+   8. HEADER — Scroll State
+   ============================================== */
+/* ── Header CTA — hidden below lg (1024px) ── */
+/* .btn sets display:inline-flex which overrides Tailwind's `hidden` utility */
+@media (max-width: 1023px) {
+    #header-cta {
+        display: none;
+    }
+}
+
+#site-header {
+    background: transparent;
+}
+
+/* ── WP Admin Bar Fix ── */
+.admin-bar #site-header {
+    top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    .admin-bar #site-header {
+        top: 46px;
+    }
+}
+
+#site-header.is-scrolled {
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+#site-header.is-scrolled .nav-link {
+    color: var(--color-dark);
+}
+
+#site-header.is-scrolled .nav-link:hover {
+    color: var(--color-primary);
+}
+
+#site-header.is-scrolled .logo-white {
+    opacity: 0;
+}
+
+#site-header.is-scrolled .logo-dark {
+    opacity: 1;
+}
+
+/* ── Nav link underline animation ── */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--duration-base) ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* ── Hamburger animation ── */
+#mobile-menu-btn.is-active .hamburger-line:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+#mobile-menu-btn.is-active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+#mobile-menu-btn.is-active .hamburger-line:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ==============================================
+   9. TEXT BLOCKS
+   ============================================== */
+.text-lead {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.8;
+    letter-spacing: 0.025em;
+}
+
+@media (min-width: 768px) {
+    .text-lead {
+        font-size: 1.125rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .text-lead {
+        font-size: 1.25rem;
+    }
+}
+
+.text-body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 65ch;
+}
+
+.text-quote {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(26, 26, 26, 0.75);
+}
+
+/* ==============================================
+   10. ICON CIRCLE
+   ============================================== */
+.icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(26, 26, 26, 0.12);
+    color: rgba(26, 26, 26, 0.7);
+    background: transparent;
+    transition:
+        background var(--transition-slow),
+        color var(--transition-slow),
+        border-color var(--transition-slow);
+}
+
+.group:hover .icon-circle {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+/* ==============================================
+   11. ENTRANCE ANIMATIONS
+   ============================================== */
+.anim-fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    will-change: opacity, transform;
+}
+
+.anim-fade-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
+
+.anim-fade-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    will-change: opacity, transform;
+}
+
+.anim-fade-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
+
+.anim-fade-right {
+    opacity: 0;
+    transform: translateX(40px);
+    will-change: opacity, transform;
+}
+
+.anim-fade-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+}
+
+.anim-scale-in {
+    opacity: 0;
+    transform: scale(0.95);
+    will-change: opacity, transform;
+}
+
+/* ==============================================
+   12. UTILITIES
+   ============================================== */
+
+/* Scroll lock (mobile menu) */
+.is-scroll-locked {
+    overflow: hidden;
+}
+
+/* Drawer link animation (mobile nav) */
+.drawer-link--hidden {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.drawer-link--visible {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* ==============================================
+   13. FOOTER — Comprehensive Mega-Footer
+   ============================================== */
+
+.site-footer {
+    background-color: var(--color-primary);
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--font-body);
+}
+
+/* ── Main Grid: 4 columns ── */
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+    gap: 3rem;
+    padding: 5rem 0 4rem;
+}
+
+/* ── Column: Brand ── */
+.footer-logo {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo__img {
+    height: 72px;
+    width: auto;
+    display: block;
+}
+
+.footer-brand-desc {
+    font-size: 0.875rem;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 280px;
+    margin-bottom: 1.5rem;
+}
+
+/* Trust badges */
+.footer-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.55);
+    transition: all var(--transition-base);
+}
+
+.footer-badge:hover {
+    border-color: var(--color-beige);
+    color: var(--color-beige);
+}
+
+/* ── Column Titles ── */
+.footer-col__title {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    margin-bottom: 1.75rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.footer-col__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background: var(--color-beige);
+}
+
+/* ── Navigation Links ── */
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.footer-links a {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    transition: color var(--transition-base), padding-left var(--transition-base);
+    position: relative;
+}
+
+.footer-links a:hover {
+    color: var(--color-white);
+    padding-left: 6px;
+}
+
+.footer-links a::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 1px;
+    background: var(--color-beige);
+    transition: width var(--transition-base);
+}
+
+.footer-links a:hover::before {
+    width: 8px;
+}
+
+/* ── Contact List ── */
+.footer-contact {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+}
+
+.footer-contact li svg {
+    width: 18px;
+    height: 18px;
+    color: var(--color-beige);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.footer-contact a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.footer-contact a:hover {
+    color: var(--color-white);
+}
+
+/* ── Newsletter ── */
+.footer-newsletter {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-newsletter__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.75rem;
+}
+
+.footer-newsletter__form {
+    display: flex;
+    gap: 0;
+}
+
+.footer-newsletter__input {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    color: var(--color-white);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: none;
+    outline: none;
+    transition: all var(--transition-base);
+}
+
+.footer-newsletter__input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.footer-newsletter__input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--color-beige);
+}
+
+.footer-newsletter__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    background: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    color: var(--color-white);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+}
+
+.footer-newsletter__btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.footer-newsletter__btn:hover {
+    background: #e67a00;
+    border-color: #e67a00;
+}
+
+/* ── Bottom Bar ── */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-copyright {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.35);
+    white-space: nowrap;
+}
+
+.footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+}
+
+.footer-legal a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.footer-legal a:hover {
+    color: var(--color-white);
+}
+
+.footer-legal__sep {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Social Icons ── */
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer-social__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.45);
+    transition: background var(--transition-base), border-color var(--transition-base), color var(--transition-base), transform var(--transition-base);
+}
+
+.footer-social__link svg {
+    width: 15px;
+    height: 15px;
+}
+
+.footer-social__link:hover {
+    background: var(--color-beige);
+    border-color: var(--color-beige);
+    color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+/* ── Footer Responsive: Tablet ── */
+@media (max-width: 1023px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+        padding: 4rem 0 3rem;
+    }
+
+    .footer-col--brand {
+        grid-column: 1 / -1;
+    }
+
+    .footer-brand-desc {
+        max-width: 440px;
+    }
+}
+
+/* ── Footer Responsive: Mobile ── */
+@media (max-width: 639px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 0 2.5rem;
+    }
+
+    .footer-col--brand {
+        grid-column: auto;
+    }
+
+    .footer-brand-desc {
+        max-width: 100%;
+    }
+
+    .footer-bottom__inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        padding: 1.25rem 0;
+    }
+
+    .footer-copyright {
+        order: 3;
+    }
+
+    .footer-social {
+        order: 1;
+    }
+
+    .footer-legal {
+        order: 2;
+    }
+
+    .footer-newsletter__form {
+        flex-direction: row;
+    }
+}

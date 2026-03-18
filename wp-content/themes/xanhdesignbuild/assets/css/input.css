@@ -1,0 +1,44 @@
+/**
+ * XANH Theme — Tailwind CSS Input
+ *
+ * This file is processed by Tailwind CSS CLI to generate output.css.
+ * Tailwind v4 uses CSS-first configuration via @theme directive.
+ *
+ * Build: npm run build
+ * Watch: npm run dev
+ *
+ * @package XanhDesignBuild
+ * @since   1.0.0
+ */
+
+@import "tailwindcss";
+
+/* ── Theme Configuration (Tailwind v4 CSS-first config) ── */
+@theme {
+  /* Brand Colors */
+  --color-primary: #14513D;
+  --color-accent: #FF8A00;
+  --color-accent-hover: #e67a00;
+  --color-light: #F3F4F6;
+  --color-dark: #1A1A1A;
+  --color-beige: #D8C7A3;
+
+  /* Typography */
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  /* Breakpoints (matching wireframes) */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+}
+
+/* ── Content paths for purging ── */
+@source "../../..";
+@source "../../../../wireframes";
+
+/* ── Custom CSS loaded separately via enqueue.php ──
+   variables.css and components.css are NOT imported here
+   to avoid duplicate rules in output.css.               */
