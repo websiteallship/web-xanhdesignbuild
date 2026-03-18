@@ -8,42 +8,25 @@
 const XanhContact = {
   /* ── Entry point ── */
   init() {
-    this.initHeroEntrance();
+    XanhBase.initHeroReveal('#hero-bg', '.contact-hero-el');
     this.initFAQ();
     this.initFormValidation();
     this.initFormSubmit();
     this.initSelectPlaceholder();
-    this.initBackToTop();
-    this.initCookieConsent();
-    this.initLenis();
+    XanhBase.initBackToTop('back-to-top', 400);
+    XanhBase.initCookieConsent();
+    XanhBase.initLenis({ lerp: 0.07 });
 
     if (document.querySelector('[data-counter]')) {
-      this.initCounters();
+      XanhBase.animateCounters('[data-counter]', { dataAttr: 'counter', useGSAP: true });
     }
     if (document.querySelector('.anim-fade-up, .anim-fade-left, .anim-fade-right')) {
-      this.initScrollAnimations();
+      XanhBase.initScrollReveal('.anim-fade-up, .anim-fade-left, .anim-fade-right');
     }
+    XanhBase.initLucide();
   },
 
-  /* ══════════════════════════════════════════
-     HERO ENTRANCE
-     ══════════════════════════════════════════ */
-  initHeroEntrance() {
-    const heroBg = document.getElementById('hero-bg');
-    const heroEls = document.querySelectorAll('.contact-hero-el');
 
-    if (heroBg) {
-      requestAnimationFrame(() => {
-        heroBg.classList.add('is-loaded');
-      });
-    }
-
-    if (heroEls.length) {
-      setTimeout(() => {
-        heroEls.forEach(el => el.classList.add('is-visible'));
-      }, 300);
-    }
-  },
 
 
 
@@ -196,153 +179,7 @@ const XanhContact = {
     });
   },
 
-  /* ══════════════════════════════════════════
-     SCROLL ANIMATIONS — IntersectionObserver
-     ══════════════════════════════════════════ */
-  initScrollAnimations() {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const animEls = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right');
 
-    if (prefersReducedMotion) {
-      animEls.forEach(el => {
-        el.classList.add('is-visible');
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
-      return;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    animEls.forEach(el => observer.observe(el));
-  },
-
-  /* ══════════════════════════════════════════
-     COUNTERS — GSAP count-up
-     ══════════════════════════════════════════ */
-  initCounters() {
-    const counters = document.querySelectorAll('[data-counter]');
-    if (!counters.length) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      gsap.registerPlugin(ScrollTrigger);
-
-      counters.forEach(counter => {
-        const target = parseInt(counter.dataset.counter, 10);
-
-        if (prefersReducedMotion) {
-          counter.textContent = target;
-          return;
-        }
-
-        gsap.to(counter, {
-          textContent: target,
-          duration: 2,
-          snap: { textContent: 1 },
-          ease: 'power1.inOut',
-          scrollTrigger: {
-            trigger: counter,
-            start: 'top 85%',
-            once: true,
-          },
-        });
-      });
-    } else {
-      // Fallback: show numbers immediately
-      counters.forEach(counter => {
-        counter.textContent = counter.dataset.counter;
-      });
-    }
-  },
-
-  /* ══════════════════════════════════════════
-     BACK TO TOP
-     ══════════════════════════════════════════ */
-  initBackToTop() {
-    const btn = document.getElementById('back-to-top');
-    if (!btn) return;
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          btn.classList.toggle('is-visible', window.scrollY > 400);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  },
-
-  /* ══════════════════════════════════════════
-     LENIS — Smooth Scroll
-     ══════════════════════════════════════════ */
-  initLenis() {
-    if (typeof Lenis === 'undefined') return;
-    if (typeof gsap === 'undefined') return;
-
-    try {
-      const lenis = new Lenis({
-        lerp: 0.07,
-        smoothWheel: true,
-        wheelMultiplier: 0.8,
-      });
-
-      if (typeof ScrollTrigger !== 'undefined') {
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => lenis.raf(time * 1000));
-        gsap.ticker.lagSmoothing(0);
-      }
-    } catch (error) {
-      console.warn('[XANH] Lenis init failed:', error.message);
-    }
-  },
-
-  /* ══════════════════════════════════════════
-     COOKIE CONSENT
-     ══════════════════════════════════════════ */
-  initCookieConsent() {
-    const banner = document.getElementById('cookie-consent');
-    const acceptBtn = document.getElementById('cookie-accept');
-    const settingsBtn = document.getElementById('cookie-settings');
-    if (!banner) return;
-
-    // Check if already accepted
-    if (localStorage.getItem('xanh_cookie_consent') === 'true') return;
-
-    // Show after 2s
-    setTimeout(() => {
-      banner.classList.add('is-visible');
-    }, 2000);
-
-    if (acceptBtn) {
-      acceptBtn.addEventListener('click', () => {
-        localStorage.setItem('xanh_cookie_consent', 'true');
-        banner.classList.remove('is-visible');
-      });
-    }
-
-    if (settingsBtn) {
-      settingsBtn.addEventListener('click', () => {
-        // In a real app, open cookie preferences modal
-        console.warn('[XANH] Cookie settings modal — not implemented in wireframe');
-        banner.classList.remove('is-visible');
-      });
-    }
-  },
 };
 
 /* ── Bootstrap ── */

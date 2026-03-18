@@ -74,9 +74,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
-  <!-- img-comparison-slider Web Component -->
-  <link rel="stylesheet" href="https://unpkg.com/img-comparison-slider@8/dist/styles.css" />
-  <script src="https://unpkg.com/img-comparison-slider@8/dist/index.js" defer></script>
+  <!-- Custom Before/After Slider (no external dependency) -->
 
   <!-- GLightbox — Lightbox for D7 Gallery -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
@@ -379,24 +377,23 @@
             <!-- Slide 1: Phòng Khách -->
             <div class="swiper-slide">
               <div class="ba-slide">
-                <img-comparison-slider class="ba-comparison">
-                  <img slot="first" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Khách" width="1200" height="700" loading="lazy" />
-                  <img slot="second" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Khách" width="1200" height="700" loading="lazy" />
-                  <!-- Custom Handle -->
-                  <div slot="handle" class="ba-handle">
-                    <div class="ba-handle__line"></div>
-                    <div class="ba-handle__knob">
+                <div class="ba-custom-slider">
+                  <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Khách" class="ba-custom-slider__after" draggable="false" width="1200" height="700" loading="lazy" />
+                  <div class="ba-custom-slider__before">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Khách" draggable="false" width="1200" height="700" loading="lazy" />
+                  </div>
+                  <div class="ba-custom-slider__handle">
+                    <div class="ba-custom-slider__handle-line"></div>
+                    <div class="ba-custom-slider__handle-knob">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18-6-6 6-6" />
-                        <path d="m15 6 6 6-6 6" />
+                        <path d="m9 18-6-6 6-6" /><path d="m15 6 6 6-6 6" />
                       </svg>
                     </div>
-                    <div class="ba-handle__line"></div>
+                    <div class="ba-custom-slider__handle-line"></div>
                   </div>
-                </img-comparison-slider>
-                <!-- Labels -->
-                <span class="ba-label ba-label--before">Concept 3D</span>
-                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                  <span class="ba-label ba-label--before">Concept 3D</span>
+                  <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                </div>
                 <span class="ba-slide-title">Phòng Khách Tầng 1</span>
                 <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&h=1080&fit=crop" data-title="Phòng Khách Tầng 1">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -407,22 +404,19 @@
             <!-- Slide 2: Phòng Bếp -->
             <div class="swiper-slide">
               <div class="ba-slide">
-                <img-comparison-slider class="ba-comparison">
-                  <img slot="first" src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Bếp" width="1200" height="700" loading="lazy" />
-                  <img slot="second" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Bếp" width="1200" height="700" loading="lazy" />
-                  <div slot="handle" class="ba-handle">
-                    <div class="ba-handle__line"></div>
-                    <div class="ba-handle__knob">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18-6-6 6-6" />
-                        <path d="m15 6 6 6-6 6" />
-                      </svg>
-                    </div>
-                    <div class="ba-handle__line"></div>
+                <div class="ba-custom-slider">
+                  <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Bếp" class="ba-custom-slider__after" draggable="false" width="1200" height="700" loading="lazy" />
+                  <div class="ba-custom-slider__before">
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Bếp" draggable="false" width="1200" height="700" loading="lazy" />
                   </div>
-                </img-comparison-slider>
-                <span class="ba-label ba-label--before">Concept 3D</span>
-                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                  <div class="ba-custom-slider__handle">
+                    <div class="ba-custom-slider__handle-line"></div>
+                    <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6" /><path d="m15 6 6 6-6 6" /></svg></div>
+                    <div class="ba-custom-slider__handle-line"></div>
+                  </div>
+                  <span class="ba-label ba-label--before">Concept 3D</span>
+                  <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                </div>
                 <span class="ba-slide-title">Phòng Bếp & Ăn</span>
                 <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=1080&fit=crop" data-title="Phòng Bếp & Ăn">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -433,22 +427,19 @@
             <!-- Slide 3: Phòng Ngủ -->
             <div class="swiper-slide">
               <div class="ba-slide">
-                <img-comparison-slider class="ba-comparison">
-                  <img slot="first" src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Ngủ" width="1200" height="700" loading="lazy" />
-                  <img slot="second" src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Ngủ" width="1200" height="700" loading="lazy" />
-                  <div slot="handle" class="ba-handle">
-                    <div class="ba-handle__line"></div>
-                    <div class="ba-handle__knob">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18-6-6 6-6" />
-                        <path d="m15 6 6 6-6 6" />
-                      </svg>
-                    </div>
-                    <div class="ba-handle__line"></div>
+                <div class="ba-custom-slider">
+                  <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Ngủ" class="ba-custom-slider__after" draggable="false" width="1200" height="700" loading="lazy" />
+                  <div class="ba-custom-slider__before">
+                    <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Ngủ" draggable="false" width="1200" height="700" loading="lazy" />
                   </div>
-                </img-comparison-slider>
-                <span class="ba-label ba-label--before">Concept 3D</span>
-                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                  <div class="ba-custom-slider__handle">
+                    <div class="ba-custom-slider__handle-line"></div>
+                    <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6" /><path d="m15 6 6 6-6 6" /></svg></div>
+                    <div class="ba-custom-slider__handle-line"></div>
+                  </div>
+                  <span class="ba-label ba-label--before">Concept 3D</span>
+                  <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                </div>
                 <span class="ba-slide-title">Phòng Ngủ Master</span>
                 <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1920&h=1080&fit=crop" data-title="Phòng Ngủ Master">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -459,22 +450,19 @@
             <!-- Slide 4: Sân Vườn -->
             <div class="swiper-slide">
               <div class="ba-slide">
-                <img-comparison-slider class="ba-comparison">
-                  <img slot="first" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&h=700&fit=crop" alt="Concept 3D — Sân Vườn" width="1200" height="700" loading="lazy" />
-                  <img slot="second" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&h=700&fit=crop" alt="Thực tế — Sân Vườn" width="1200" height="700" loading="lazy" />
-                  <div slot="handle" class="ba-handle">
-                    <div class="ba-handle__line"></div>
-                    <div class="ba-handle__knob">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18-6-6 6-6" />
-                        <path d="m15 6 6 6-6 6" />
-                      </svg>
-                    </div>
-                    <div class="ba-handle__line"></div>
+                <div class="ba-custom-slider">
+                  <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&h=700&fit=crop" alt="Thực tế — Sân Vườn" class="ba-custom-slider__after" draggable="false" width="1200" height="700" loading="lazy" />
+                  <div class="ba-custom-slider__before">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&h=700&fit=crop" alt="Concept 3D — Sân Vườn" draggable="false" width="1200" height="700" loading="lazy" />
                   </div>
-                </img-comparison-slider>
-                <span class="ba-label ba-label--before">Concept 3D</span>
-                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                  <div class="ba-custom-slider__handle">
+                    <div class="ba-custom-slider__handle-line"></div>
+                    <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6" /><path d="m15 6 6 6-6 6" /></svg></div>
+                    <div class="ba-custom-slider__handle-line"></div>
+                  </div>
+                  <span class="ba-label ba-label--before">Concept 3D</span>
+                  <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                </div>
                 <span class="ba-slide-title">Sân Vườn & Mặt Tiền</span>
                 <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1920&h=1080&fit=crop" data-title="Sân Vườn & Mặt Tiền">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -485,22 +473,19 @@
             <!-- Slide 5: Phòng Tắm -->
             <div class="swiper-slide">
               <div class="ba-slide">
-                <img-comparison-slider class="ba-comparison">
-                  <img slot="first" src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Tắm" width="1200" height="700" loading="lazy" />
-                  <img slot="second" src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Tắm" width="1200" height="700" loading="lazy" />
-                  <div slot="handle" class="ba-handle">
-                    <div class="ba-handle__line"></div>
-                    <div class="ba-handle__knob">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18-6-6 6-6" />
-                        <path d="m15 6 6 6-6 6" />
-                      </svg>
-                    </div>
-                    <div class="ba-handle__line"></div>
+                <div class="ba-custom-slider">
+                  <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1200&h=700&fit=crop" alt="Thực tế — Phòng Tắm" class="ba-custom-slider__after" draggable="false" width="1200" height="700" loading="lazy" />
+                  <div class="ba-custom-slider__before">
+                    <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&h=700&fit=crop" alt="Concept 3D — Phòng Tắm" draggable="false" width="1200" height="700" loading="lazy" />
                   </div>
-                </img-comparison-slider>
-                <span class="ba-label ba-label--before">Concept 3D</span>
-                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                  <div class="ba-custom-slider__handle">
+                    <div class="ba-custom-slider__handle-line"></div>
+                    <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6" /><path d="m15 6 6 6-6 6" /></svg></div>
+                    <div class="ba-custom-slider__handle-line"></div>
+                  </div>
+                  <span class="ba-label ba-label--before">Concept 3D</span>
+                  <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                </div>
                 <span class="ba-slide-title">Phòng Tắm Tầng 2</span>
                 <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1920&h=1080&fit=crop" data-title="Phòng Tắm Tầng 2">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -511,22 +496,19 @@
             <!-- Slide 6: Cầu Thang -->
             <div class="swiper-slide">
               <div class="ba-slide">
-                <img-comparison-slider class="ba-comparison">
-                  <img slot="first" src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200&h=700&fit=crop" alt="Concept 3D — Cầu Thang" width="1200" height="700" loading="lazy" />
-                  <img slot="second" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&h=700&fit=crop" alt="Thực tế — Cầu Thang" width="1200" height="700" loading="lazy" />
-                  <div slot="handle" class="ba-handle">
-                    <div class="ba-handle__line"></div>
-                    <div class="ba-handle__knob">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18-6-6 6-6" />
-                        <path d="m15 6 6 6-6 6" />
-                      </svg>
-                    </div>
-                    <div class="ba-handle__line"></div>
+                <div class="ba-custom-slider">
+                  <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&h=700&fit=crop" alt="Thực tế — Cầu Thang" class="ba-custom-slider__after" draggable="false" width="1200" height="700" loading="lazy" />
+                  <div class="ba-custom-slider__before">
+                    <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200&h=700&fit=crop" alt="Concept 3D — Cầu Thang" draggable="false" width="1200" height="700" loading="lazy" />
                   </div>
-                </img-comparison-slider>
-                <span class="ba-label ba-label--before">Concept 3D</span>
-                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                  <div class="ba-custom-slider__handle">
+                    <div class="ba-custom-slider__handle-line"></div>
+                    <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6" /><path d="m15 6 6 6-6 6" /></svg></div>
+                    <div class="ba-custom-slider__handle-line"></div>
+                  </div>
+                  <span class="ba-label ba-label--before">Concept 3D</span>
+                  <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                </div>
                 <span class="ba-slide-title">Cầu Thang & Hành Lang</span>
                 <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1920&h=1080&fit=crop" data-second="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&h=1080&fit=crop" data-title="Cầu Thang & Hành Lang">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -537,22 +519,19 @@
             <!-- Slide 7: Ban Công -->
             <div class="swiper-slide">
               <div class="ba-slide">
-                <img-comparison-slider class="ba-comparison">
-                  <img slot="first" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=700&fit=crop&q=80" alt="Concept 3D — Ban Công" width="1200" height="700" loading="lazy" />
-                  <img slot="second" src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1200&h=700&fit=crop" alt="Thực tế — Ban Công" width="1200" height="700" loading="lazy" />
-                  <div slot="handle" class="ba-handle">
-                    <div class="ba-handle__line"></div>
-                    <div class="ba-handle__knob">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18-6-6 6-6" />
-                        <path d="m15 6 6 6-6 6" />
-                      </svg>
-                    </div>
-                    <div class="ba-handle__line"></div>
+                <div class="ba-custom-slider">
+                  <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1200&h=700&fit=crop" alt="Thực tế — Ban Công" class="ba-custom-slider__after" draggable="false" width="1200" height="700" loading="lazy" />
+                  <div class="ba-custom-slider__before">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=700&fit=crop&q=80" alt="Concept 3D — Ban Công" draggable="false" width="1200" height="700" loading="lazy" />
                   </div>
-                </img-comparison-slider>
-                <span class="ba-label ba-label--before">Concept 3D</span>
-                <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                  <div class="ba-custom-slider__handle">
+                    <div class="ba-custom-slider__handle-line"></div>
+                    <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18-6-6 6-6" /><path d="m15 6 6 6-6 6" /></svg></div>
+                    <div class="ba-custom-slider__handle-line"></div>
+                  </div>
+                  <span class="ba-label ba-label--before">Concept 3D</span>
+                  <span class="ba-label ba-label--after">Thực tế nghiệm thu</span>
+                </div>
                 <span class="ba-slide-title">Ban Công Tầng 3</span>
                 <button class="ba-zoom-btn" type="button" aria-label="Phóng to" data-first="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&h=1080&fit=crop&q=80" data-second="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1920&h=1080&fit=crop" data-title="Ban Công Tầng 3">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -1099,6 +1078,7 @@
   </section><!-- /#d9-related -->
 
   <!-- Page Script -->
+  <script src="../shared/base.js"></script>
   <script src="portfolio-detail.js"></script>
 
 </body>

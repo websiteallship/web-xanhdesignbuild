@@ -19,37 +19,19 @@ const XanhBlog = {
 
   /* ── Entry point ── */
   init() {
-
-    this.initHeroEntrance();
+    XanhBase.initHeroReveal('.blog-hero__bg', '.blog-hero-el');
     this.initSearchPlaceholder();
     this.initSearchDropdown();
     this.initCategoryTabs();
-    this.initScrollReveal();
+    XanhBase.initScrollReveal('.anim-fade-up');
     this.initLoadMore();
-    this.initBackToTop();
-    this.initLenis();
+    XanhBase.initBackToTop('back-to-top', 500);
+    XanhBase.initLenis();
     this.initLeadMagnet();
-
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
+    XanhBase.initLucide();
   },
 
 
-
-  /* ============================================= */
-  /* HERO ENTRANCE                                 */
-  /* ============================================= */
-  initHeroEntrance() {
-    const bg = document.querySelector('.blog-hero__bg');
-    const els = document.querySelectorAll('.blog-hero-el');
-    if (!bg && !els.length) return;
-
-    requestAnimationFrame(() => {
-      if (bg) bg.classList.add('is-loaded');
-      els.forEach(el => el.classList.add('is-visible'));
-    });
-  },
 
   /* ============================================= */
   /* SEARCH — Animated Placeholder (Typing Effect) */
@@ -195,31 +177,7 @@ const XanhBlog = {
     });
   },
 
-  /* ============================================= */
-  /* SCROLL REVEAL — anim-fade-up via IO            */
-  /* ============================================= */
-  initScrollReveal() {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const targets = document.querySelectorAll('.anim-fade-up');
-    if (!targets.length) return;
-
-    if (prefersReducedMotion) {
-      targets.forEach(el => el.classList.add('is-visible'));
-      return;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    targets.forEach(el => observer.observe(el));
-  },
 
   /* ============================================= */
   /* LOAD MORE — Article Grid                      */
@@ -263,52 +221,7 @@ const XanhBlog = {
     }
   },
 
-  /* ============================================= */
-  /* BACK TO TOP                                   */
-  /* ============================================= */
-  initBackToTop() {
-    const btn = document.getElementById('back-to-top');
-    if (!btn) return;
 
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          btn.classList.toggle('is-visible', window.scrollY > 500);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  },
-
-  /* ============================================= */
-  /* LENIS — Smooth Scroll                         */
-  /* ============================================= */
-  initLenis() {
-    if (typeof Lenis === 'undefined') return;
-    if (typeof gsap === 'undefined') return;
-
-    try {
-      const lenis = new Lenis({
-        lerp: 0.07,
-        smoothWheel: true,
-        wheelMultiplier: 0.8,
-      });
-
-      if (typeof ScrollTrigger !== 'undefined') {
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => lenis.raf(time * 1000));
-        gsap.ticker.lagSmoothing(0);
-      }
-    } catch (error) {
-      console.warn('[XANH] Lenis init failed:', error.message);
-    }
-  },
 
   /* ============================================= */
   /* LEAD MAGNET — 3D Book Tilt + Form Submit       */

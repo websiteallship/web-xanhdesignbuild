@@ -7,15 +7,7 @@
  * Load More: 9 extra cards (total 18)
  */
 
-/* ── Animation Defaults (10 §3.2 — chuẩn hóa toàn site) ── */
-const ANIM_DEFAULTS = {
-  fadeUp:    { opacity: 0, y: 40, duration: 0.8, ease: 'power2.out' },
-  fadeLeft:  { opacity: 0, x: -40, duration: 0.8, ease: 'power2.out' },
-  fadeRight: { opacity: 0, x: 40, duration: 0.8, ease: 'power2.out' },
-  scaleIn:   { opacity: 0, scale: 0.95, duration: 0.6, ease: 'power2.out' },
-  counter:   { duration: 2, ease: 'power1.inOut' },
-  stagger:   0.1,
-};
+/* ── Animation Defaults: inherited from base.js (ANIM_DEFAULTS) ── */
 
 const XanhPortfolio = {
   lenis: null,
@@ -28,101 +20,26 @@ const XanhPortfolio = {
   },
 
   init() {
-    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.prefersReducedMotion = XanhBase.prefersReducedMotion();
 
     /* Register GSAP plugins ONCE (10 §3.1) */
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      gsap.registerPlugin(ScrollTrigger);
-    }
+    XanhBase.registerGSAP();
 
-    this.initLucide();
-    this.initLenis();
-    this.initHeroReveal();
+    XanhBase.initLucide();
+    XanhBase.initLenis();
+    XanhBase.initHeroReveal('.portfolio-hero__bg', '.portfolio-hero-el', 300);
     this.initFilterTabs();
     this.initLoadMore();
-    this.initEntranceAnimation();
+    
+    this.revealObserver = XanhBase.initScrollReveal('.project-card.anim-fade-up', { className: 'is-revealed', rootMargin: '0px 0px -40px 0px' });
+
     if (!this.prefersReducedMotion) {
-      this.initHeroParallax();
-      this.initCounterAnimation();
-    }
-  },
-
-  initLucide() {
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-  },
-
-
-
-  /* ── Lenis ── */
-  initLenis() {
-    if (typeof Lenis === 'undefined') return;
-    try {
-      this.lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 0.8 });
-      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        this.lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add(time => this.lenis.raf(time * 1000));
-        gsap.ticker.lagSmoothing(0);
-      }
-    } catch (error) {
-      console.warn('[XANH] Lenis init failed:', error.message);
+      XanhBase.initHeroParallax('.portfolio-hero__bg img', '#portfolio-hero');
+      XanhBase.animateCounters('.counter-number', { dataAttr: 'target', useGSAP: true });
     }
   },
 
 
-
-  /* ── Hero ── */
-  initHeroReveal() {
-    setTimeout(() => {
-      const bg = document.querySelector('.portfolio-hero__bg');
-      if (bg) bg.classList.add('is-loaded');
-      document.querySelectorAll('.portfolio-hero-el').forEach(el => el.classList.add('is-visible'));
-    }, 300);
-  },
-
-  initHeroParallax() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    try {
-      const img = document.querySelector('.portfolio-hero__bg img');
-      if (img) gsap.fromTo(img, { scale: 1.06 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '#portfolio-hero', start: 'top top', end: 'bottom top', scrub: 1 } });
-    } catch (error) {
-      console.warn('[XANH] Hero parallax init failed:', error.message);
-    }
-  },
-
-  initCounterAnimation() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    try {
-      document.querySelectorAll('.counter-number').forEach(el => {
-        const target = parseInt(el.dataset.target, 10);
-        ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () => {
-          const obj = { v: 0 };
-          gsap.to(obj, { v: target, ...ANIM_DEFAULTS.counter, onUpdate: () => { el.textContent = Math.round(obj.v); } });
-        }});
-      });
-    } catch (error) {
-      console.warn('[XANH] Counter animation failed:', error.message);
-    }
-  },
-
-  /* ── Entrance Animation (IntersectionObserver) ── */
-  initEntranceAnimation() {
-    if (this.prefersReducedMotion) {
-      document.querySelectorAll('.project-card.anim-fade-up').forEach(c => c.classList.add('is-revealed'));
-      return;
-    }
-    this.revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          this.revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.project-card.anim-fade-up').forEach(card => {
-      this.revealObserver.observe(card);
-    });
-  },
 
   observeNewCards(cards) {
     if (!this.revealObserver || this.prefersReducedMotion) {

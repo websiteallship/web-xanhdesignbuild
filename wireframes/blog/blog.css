@@ -12,13 +12,7 @@
 /* ==============================================
    6. BLOG HERO
    ============================================== */
-.blog-hero {
-  height: 85vh;
-  min-height: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
+/* .blog-hero dimensions → see HERO RESPONSIVE section below */
 
 .blog-hero__bg {
   transform: scale(1.06);
@@ -345,7 +339,6 @@
   height: 100%;
   object-fit: cover;
   transition: transform 1.2s var(--ease-luxury), filter 0.6s ease;
-  will-change: transform;
 }
 .featured-card--large:hover .featured-card__image img {
   transform: scale(1.08);
@@ -590,6 +583,9 @@
 .blog-hero {
   height: 90svh;
   min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 .blog-search__input {
   padding: 0.875rem 1rem 0.875rem 3rem;
@@ -655,7 +651,6 @@
   height: 100%;
   object-fit: cover;
   transition: transform 1.2s var(--ease-luxury), filter 0.6s ease;
-  will-change: transform;
 }
 .article-card:hover .article-card__image img {
   transform: scale(1.05);
