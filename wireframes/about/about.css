@@ -19,51 +19,8 @@
   }
 }
 
-/* ── .btn--outline — Sweep hover effect (matches blog load-more) ── */
-.btn--outline {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: color 0.4s var(--ease-luxury),
-              border-color 0.4s var(--ease-luxury),
-              box-shadow 0.4s var(--ease-luxury);
-}
+/* ── .btn--outline sweep → base.css ── */
 
-.btn--outline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--color-primary);
-  z-index: -1;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--ease-luxury);
-}
-
-.btn--outline span,
-.btn--outline svg,
-.btn--outline i {
-  position: relative;
-  z-index: 2;
-  transition: transform 0.4s var(--ease-luxury);
-}
-
-.btn--outline:hover {
-  color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(20, 81, 61, 0.2);
-}
-
-.btn--outline:hover::before {
-  transform: scaleX(1);
-}
-
-.btn--outline:hover svg,
-.btn--outline:hover i {
-  transform: translateY(3px);
-}
 
 /* ── About-specific icon-circle sizing ── */
 .icon-circle {
@@ -102,9 +59,7 @@
   min-height: 100svh;
 }
 
-.about-hero__bg {
-  will-change: transform;
-}
+/* .about-hero__bg will-change → set via JS when animating */
 
 .about-hero__bg img {
   width: 100%;
@@ -406,7 +361,6 @@
 }
 
 
-/* Duplicate blocks below were merged into base declarations above */
 
 /* ============================================= */
 /* SECTION 3: TURNING POINT — Circular Infographic */
@@ -414,7 +368,7 @@
 
 /* Turn nodes — hover glow */
 .turn-node circle {
-  transition: all 0.4s ease;
+  transition: fill 0.4s ease, stroke 0.4s ease;
 }
 
 .turn-node:hover circle {
@@ -444,12 +398,6 @@
 
 .turn-node.is-active text {
   fill: var(--color-beige);
-}
-
-/* Tooltip for circle nodes */
-.turn-tooltip {
-  display: none;
-  /* deprecated — replaced by center overlay */
 }
 
 /* ── Center Overlay (inside circle) ── */

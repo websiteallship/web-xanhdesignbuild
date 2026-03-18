@@ -230,6 +230,7 @@
   font-size: 1.625rem;
   padding-left: 1rem;
   border-left: 4px solid var(--color-primary);
+  color: var(--color-primary);
 }
 
 /* H3 — subsection, màu primary, đường accent ngắn dưới */

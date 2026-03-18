@@ -22,51 +22,8 @@
 
 /* Section header, eyebrow, title, text blocks, icon-circle → base.css */
 
-/* ── .btn--outline — Sweep hover effect (matches blog load-more) ── */
-.btn--outline {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: color 0.4s var(--ease-luxury),
-              border-color 0.4s var(--ease-luxury),
-              box-shadow 0.4s var(--ease-luxury);
-}
+/* ── .btn--outline sweep → base.css ── */
 
-.btn--outline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--color-primary);
-  z-index: -1;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--ease-luxury);
-}
-
-.btn--outline span,
-.btn--outline svg,
-.btn--outline i {
-  position: relative;
-  z-index: 2;
-  transition: transform 0.4s var(--ease-luxury);
-}
-
-.btn--outline:hover {
-  color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(20, 81, 61, 0.2);
-}
-
-.btn--outline:hover::before {
-  transform: scaleX(1);
-}
-
-.btn--outline:hover svg,
-.btn--outline:hover i {
-  transform: translateY(3px);
-}
 
 /* ── Portfolio-detail section header overrides ── */
 .section-header {
@@ -757,12 +714,12 @@
     padding: 4px 10px;
   }
 
-  .ba-handle__knob {
+  .ba-custom-slider__handle-knob {
     width: 36px;
     height: 36px;
   }
 
-  .ba-handle__knob svg {
+  .ba-custom-slider__handle-knob svg {
     width: 14px;
     height: 14px;
   }
@@ -823,39 +780,68 @@
   overflow: hidden;
 }
 
-/* The comparison slider component */
-.ba-comparison {
-  --divider-color: rgba(255, 255, 255, 0.85);
-  --divider-width: 2px;
-  --default-handle-opacity: 0;
-
-  display: block;
+/* The custom comparison slider (clipPath-based, matching homepage) */
+.ba-custom-slider {
+  position: relative;
   width: 100%;
+  aspect-ratio: 12 / 7;
+  overflow: hidden;
+  cursor: col-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
-.ba-comparison img {
+.ba-custom-slider__after,
+.ba-custom-slider__before img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
-/* ── Custom Drag Handle ── */
-.ba-handle {
+.ba-custom-slider__after {
+  z-index: 1;
+}
+
+.ba-custom-slider__before {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  clip-path: inset(0 50% 0 0);
+}
+
+.ba-custom-slider__before img {
+  position: absolute;
+  inset: 0;
+}
+
+/* Drag handle */
+.ba-custom-slider__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
-  cursor: ew-resize;
+  width: 44px;
+  pointer-events: none;
 }
 
-.ba-handle__line {
+.ba-custom-slider__handle-line {
   flex: 1;
   width: 2px;
   background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
 }
 
-.ba-handle__knob {
+.ba-custom-slider__handle-knob {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -866,9 +852,14 @@
   color: var(--color-white);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
   flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
-.ba-handle__knob svg {
+.ba-custom-slider:active .ba-custom-slider__handle-knob {
+  transform: scale(1.12);
+}
+
+.ba-custom-slider__handle-knob svg {
   width: 18px;
   height: 18px;
 }
@@ -1271,18 +1262,16 @@
   opacity: 0;
 }
 
-.ba-lightbox__slider img-comparison-slider {
-  --divider-color: rgba(255, 255, 255, 0.85);
-  --divider-width: 2px;
-  --default-handle-opacity: 0;
+.ba-lightbox__slider .ba-custom-slider {
   display: block;
   width: 100%;
+  aspect-ratio: 12 / 7;
+  max-height: 72vh;
 }
 
-.ba-lightbox__slider img-comparison-slider img {
+.ba-lightbox__slider .ba-custom-slider img {
   width: 100%;
-  height: auto;
-  max-height: 72vh;
+  height: 100%;
   object-fit: cover;
   display: block;
 }

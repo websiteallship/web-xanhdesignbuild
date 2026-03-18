@@ -691,56 +691,8 @@
   .counter-strip__number { font-size: 1.75rem; }
 }
 
-/* ==============================================
-   11. COOKIE CONSENT
-   ============================================== */
-.cookie-consent {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 9000;
-  padding: var(--space-4) var(--space-6);
-  background: rgba(26,26,26,0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: rgba(255,255,255,0.8);
-  font-size: 0.8125rem;
-  line-height: 1.6;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-4);
-  transform: translateY(100%);
-  transition: transform 0.5s var(--ease-luxury);
-}
-.cookie-consent.is-visible { transform: translateY(0); }
+/* Cookie consent → removed */
 
-.cookie-consent__text { flex: 1; min-width: 280px; }
-.cookie-consent__actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
-.cookie-consent__btn {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: none;
-  cursor: pointer;
-  transition: background var(--duration-base) ease, color var(--duration-base) ease;
-}
-.cookie-consent__btn--accept {
-  background: var(--color-accent);
-  color: var(--color-white);
-}
-.cookie-consent__btn--accept:hover { background: var(--color-accent-hover); }
-.cookie-consent__btn--settings {
-  background: transparent;
-  color: rgba(255,255,255,0.6);
-  border: 1px solid rgba(255,255,255,0.15);
-}
-.cookie-consent__btn--settings:hover {
-  color: var(--color-white);
-  border-color: rgba(255,255,255,0.35);
-}
 
 /* ==============================================
    12. BACK TO TOP
@@ -765,38 +717,7 @@
 #back-to-top:hover { background: var(--color-accent); transform: translateY(-2px); }
 #back-to-top svg { width: 1.25rem; height: 1.25rem; }
 
-/* ==============================================
-   13. ENTRANCE ANIMATIONS
-   ============================================== */
-.anim-fade-up {
-  opacity: 0;
-  transform: translateY(40px);
-}
-.anim-fade-up.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
-}
-
-.anim-fade-left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
-.anim-fade-left.is-visible {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
-}
-
-.anim-fade-right {
-  opacity: 0;
-  transform: translateX(40px);
-}
-.anim-fade-right.is-visible {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
-}
+/* Entrance animations (.anim-fade-up/left/right) → base.css */
 
 /* ==============================================
    14. FOCUS-VISIBLE — Accessibility

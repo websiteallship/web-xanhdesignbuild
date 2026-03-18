@@ -10,16 +10,7 @@
 const mqDesktop = window.matchMedia('(min-width: 1024px)');
 const mqTablet = window.matchMedia('(min-width: 640px)');
 
-/* ─────────────────────────────────────────────── */
-/* Module 1 — Lucide Icons                         */
-/* ─────────────────────────────────────────────── */
-const XanhIcons = {
-  init() {
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-  },
-};
+// XanhIcons removed, using XanhBase
 
 /* ─────────────────────────────────────────────── */
 /* Module 2 — Mobile Drawer Menu                   */
@@ -118,38 +109,7 @@ const XanhMobileMenu = {
   },
 };
 
-/* ─────────────────────────────────────────────── */
-/* Module 3 — Lenis Smooth Scroll                  */
-/* ─────────────────────────────────────────────── */
-const XanhSmoothScroll = {
-  lenis: null,
-
-  init() {
-    if (typeof Lenis === 'undefined') return;
-
-    this.lenis = new Lenis({
-      lerp: 0.1,
-      smoothWheel: true,
-      wheelMultiplier: 0.8,
-    });
-
-    // Sync Lenis with GSAP ScrollTrigger (preferred)
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      this.lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        this.lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      // Fallback: standalone rAF loop when GSAP is unavailable
-      const raf = (time) => {
-        this.lenis.raf(time);
-        requestAnimationFrame(raf);
-      };
-      requestAnimationFrame(raf);
-    }
-  },
-};
+// XanhSmoothScroll removed, using XanhBase
 
 /* ─────────────────────────────────────────────── */
 /* Module 4 — Header Scroll Behavior               */
@@ -612,7 +572,8 @@ const XanhProjects = {
         slidesPerView: 1,
         spaceBetween: 16,
         loop: true,
-        grabCursor: true,
+        allowTouchMove: false,
+        grabCursor: false,
         pagination: {
           el: '.thumbs-pagination',
           clickable: true,
@@ -621,7 +582,50 @@ const XanhProjects = {
 
       if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
       if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
+
+      // Init drag sliders for mobile cards
+      this._initMobileDragSliders();
+      mobileSwiper.on('slideChangeTransitionEnd', () => this._initMobileDragSliders());
     }
+  },
+
+  /** @private — Init drag sliders for mobile BA cards */
+  _initMobileDragSliders() {
+    document.querySelectorAll('.ba-custom-slider').forEach(slider => {
+      if (slider._dragInit) return;
+      slider._dragInit = true;
+
+      const beforeClip = slider.querySelector('.ba-custom-slider__before');
+      const handle = slider.querySelector('.ba-custom-slider__handle');
+      if (!beforeClip || !handle) return;
+
+      let isDragging = false;
+
+      function setPos(pct) {
+        pct = Math.max(0, Math.min(100, pct));
+        beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+        handle.style.left = pct + '%';
+      }
+
+      function getPct(e) {
+        const r = slider.getBoundingClientRect();
+        return ((e.clientX - r.left) / r.width) * 100;
+      }
+
+      slider.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        isDragging = true;
+        slider.setPointerCapture(e.pointerId);
+        setPos(getPct(e));
+      });
+      slider.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        setPos(getPct(e));
+      });
+      slider.addEventListener('pointerup', () => { isDragging = false; });
+      slider.addEventListener('pointercancel', () => { isDragging = false; });
+      setPos(50);
+    });
   },
 
   /** @private — Before/After drag logic */
@@ -1175,9 +1179,9 @@ const XanhSideArrows = {
 /* BOOTSTRAP — Initialize all modules              */
 /* ─────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  XanhIcons.init();
+  XanhBase.initLucide();
   XanhMobileMenu.init();
-  XanhSmoothScroll.init();
+  XanhBase.initLenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 0.8 });
   XanhHeader.init();
   XanhHero.init();
   XanhScrollAnimations.init();

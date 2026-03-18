@@ -6,14 +6,7 @@
  * Pattern:   XanhAbout module (rule 10 §1)
  */
 
-/* ── Animation Defaults (rule 10 §3.2 / rule 08 §9) ── */
-const ANIM_DEFAULTS = {
-  fadeUp:    { opacity: 0, y: 40, duration: 0.8, ease: 'power2.out' },
-  fadeLeft:  { opacity: 0, x: -40, duration: 0.8, ease: 'power2.out' },
-  fadeRight: { opacity: 0, x: 40, duration: 0.8, ease: 'power2.out' },
-  scaleIn:   { opacity: 0, scale: 0.95, duration: 0.6, ease: 'power2.out' },
-  stagger:   0.1,
-};
+/* ── Animation Defaults: inherited from base.js (ANIM_DEFAULTS) ── */
 
 const XanhAbout = {
   // Shared state
@@ -23,18 +16,18 @@ const XanhAbout = {
 
   /* ── Entry Point ── */
   init() {
-    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.prefersReducedMotion = XanhBase.prefersReducedMotion();
 
-    this.initLucide();
-    this.initLenis();
-    this.initHeroReveal();
+    XanhBase.initLucide();
+    this.lenis = XanhBase.initLenis();
+    XanhBase.initHeroReveal('.about-hero__bg', '.about-hero-el');
     this.initVideoModal();
 
     // Animations — only if user allows motion
     if (!this.prefersReducedMotion) {
       if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         // GSAP available → full cinematic animations
-        this.initHeroParallax();
+        XanhBase.initHeroParallax('.about-hero__bg img', '#about-hero');
         this.initSectionAnimations();
         this.initPainAnimations();
         this.initPromiseAnimations();
@@ -54,61 +47,7 @@ const XanhAbout = {
     }
   },
 
-  /* ── Lucide Icons ── */
-  initLucide() {
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-  },
 
-  /* ── Lenis Smooth Scroll (rule 10 §9 — GSAP ticker only) ── */
-  initLenis() {
-    if (typeof Lenis === 'undefined') return;
-
-    this.lenis = new Lenis({
-      lerp: 0.1,
-      smoothWheel: true,
-      wheelMultiplier: 0.8,
-    });
-
-    // Sync with GSAP ticker — NO separate rAF loop
-    if (typeof ScrollTrigger !== 'undefined') {
-      this.lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        this.lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
-    }
-  },
-
-  /* ── Hero Content Reveal ── */
-  initHeroReveal() {
-    const heroBg = document.querySelector('.about-hero__bg');
-    const heroEls = document.querySelectorAll('.about-hero-el');
-
-    setTimeout(() => {
-      if (heroBg) heroBg.classList.add('is-loaded');
-      heroEls.forEach(el => el.classList.add('is-visible'));
-    }, 300);
-  },
-
-  /* ── Hero Parallax (GSAP) ── */
-  initHeroParallax() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    const heroBgImg = document.querySelector('.about-hero__bg img');
-    if (!heroBgImg) return;
-
-    gsap.fromTo(heroBgImg,
-      { scale: 1.06 },
-      {
-        scale: 1,
-        ease: 'none',
-        scrollTrigger: { trigger: '#about-hero', start: 'top top', end: 'bottom top', scrub: 1 },
-      }
-    );
-  },
 
   /* ── Video Modal ── */
   initVideoModal() {
