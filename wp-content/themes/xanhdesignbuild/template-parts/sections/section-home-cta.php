@@ -25,7 +25,7 @@ $secondary_text  = get_field( 'cta_secondary_text' ) ?: 'Khám Phá Các Tác Ph
 $secondary_url   = get_field( 'cta_secondary_url' ) ?: '#projects';
 $quote           = get_field( 'cta_quote' ) ?: '"Thiết kế không chỉ là vẻ đẹp bên ngoài — đó là cách không gian khiến bạn cảm thấy."';
 $image           = get_field( 'cta_image' );
-$img_url         = $image['url'] ?? esc_url( XANH_THEME_URI . '/assets/images/interior-living.png' );
+$img_url         = $image['url'] ?? esc_url( content_url( '/uploads/2026/03/interior-living.png' ) );
 $img_alt         = $image['alt'] ?? 'Không gian nội thất XANH Design & Build';
 $img_id          = $image['ID'] ?? null;
 

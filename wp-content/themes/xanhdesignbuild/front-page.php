@@ -24,26 +24,26 @@ get_header();
 	?>
 
 	<?php get_template_part( 'template-parts/hero/hero', 'home' ); ?>
-	<?php get_template_part( 'template-parts/sections/section', 'marquee' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-marquee' ); ?>
 
 	<?php // B1b: ?>
-	<?php get_template_part( 'template-parts/sections/section', 'empathy' ); ?>
-	<?php get_template_part( 'template-parts/sections/section', '4xanh' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-empathy' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-4xanh' ); ?>
 
 	<?php // B1c: ?>
-	<?php get_template_part( 'template-parts/sections/section', 'services' ); ?>
-	<?php get_template_part( 'template-parts/sections/section', 'cta' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-services' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-cta' ); ?>
 
 	<?php // B1d: ?>
-	<?php get_template_part( 'template-parts/sections/section', 'portfolio-featured' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-portfolio-featured' ); ?>
 
 	<?php // B1e: ?>
-	<?php get_template_part( 'template-parts/sections/section', 'process' ); ?>
-	<?php get_template_part( 'template-parts/sections/section', 'cta-contact' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-process' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-cta-contact' ); ?>
 
 	<?php // B1f: ?>
-	<?php get_template_part( 'template-parts/sections/section', 'partners' ); ?>
-	<?php get_template_part( 'template-parts/sections/section', 'blog-latest' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-partners' ); ?>
+	<?php get_template_part( 'template-parts/sections/section', 'home-blog-latest' ); ?>
 
 	<?php
 	/**

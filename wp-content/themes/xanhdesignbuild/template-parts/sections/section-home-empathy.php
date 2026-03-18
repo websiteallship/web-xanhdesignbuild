@@ -23,7 +23,7 @@ $paragraphs = get_field( 'empathy_paragraphs' ) ?: [
 ];
 $quote      = get_field( 'empathy_quote' ) ?: '"Đó không phải là cách một tổ ấm được sinh ra. Và đó là lúc, <strong>Xanh</strong> chọn đi một con đường khác."';
 $image      = get_field( 'empathy_image' );
-$img_url    = $image['url'] ?? esc_url( XANH_THEME_URI . '/assets/images/empathy-moody.png' );
+$img_url    = $image['url'] ?? esc_url( content_url( '/uploads/2026/03/empathy-moody.png' ) );
 $img_alt    = $image['alt'] ?? 'Góc khuất ngành xây dựng — XANH Design & Build';
 $img_id     = $image['ID'] ?? null;
 ?>
