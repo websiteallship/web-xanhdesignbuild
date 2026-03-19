@@ -21,10 +21,13 @@ $hero_cta_text   = get_field( 'hero_cta_text' ) ?: 'Lắng Nghe Câu Chuyện C�
 $hero_cta_url    = get_field( 'hero_cta_url' ) ?: '#empathy';
 
 // Default slides if no ACF data.
+$upload_dir = wp_get_upload_dir();
+$upload_baseurl = $upload_dir['baseurl'];
+
 $default_slides = [
-	[ 'image' => [ 'url' => esc_url( XANH_THEME_URI . '/assets/images/hero-house.png' ), 'alt' => 'Biệt thự hiện đại giữa thiên nhiên — XANH' ] ],
-	[ 'image' => [ 'url' => esc_url( XANH_THEME_URI . '/assets/images/hero-bg.png' ), 'alt' => 'Gia đình hạnh phúc trong tổ ấm — XANH' ] ],
-	[ 'image' => [ 'url' => esc_url( XANH_THEME_URI . '/assets/images/project-1.png' ), 'alt' => 'Nhà phố nhiệt đới hiện đại — XANH' ] ],
+	[ 'image' => [ 'url' => esc_url( $upload_baseurl . '/2026/03/hero-house.png' ), 'alt' => 'Biệt thự hiện đại giữa thiên nhiên — XANH' ] ],
+	[ 'image' => [ 'url' => esc_url( $upload_baseurl . '/2026/03/hero-bg.png' ), 'alt' => 'Gia đình hạnh phúc trong tổ ấm — XANH' ] ],
+	[ 'image' => [ 'url' => esc_url( $upload_baseurl . '/2026/03/project-1.png' ), 'alt' => 'Nhà phố nhiệt đới hiện đại — XANH' ] ],
 ];
 
 $slides = $hero_slides ?: $default_slides;

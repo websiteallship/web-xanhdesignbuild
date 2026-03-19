@@ -518,7 +518,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('../../images/blueprint-pattern.png');
+  background-image: url('/wp-content/uploads/2026/03/blueprint-pattern.png');
   background-size: cover;
   background-position: center center;
   opacity: 0.15;

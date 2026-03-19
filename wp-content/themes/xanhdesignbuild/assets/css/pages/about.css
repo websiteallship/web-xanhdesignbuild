@@ -721,7 +721,7 @@
   background-color: var(--color-primary);
   background-image:
     linear-gradient(rgba(20, 81, 61, 0.9), rgba(20, 81, 61, 0.9)),
-    url('../images/hero-house.png');
+    url('/wp-content/uploads/2026/03/hero-house.png');
   background-size: cover;
   background-position: center;
 }

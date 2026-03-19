@@ -24,11 +24,11 @@ function xanh_register_options_pages()
 	acf_add_options_page([
 		'page_title' => __('Cài Đặt XANH', 'xanh'),
 		'menu_title' => __('Cài Đặt XANH', 'xanh'),
-		'menu_slug' => 'xanh-settings',
+		'menu_slug'  => 'xanh-settings',
 		'capability' => 'edit_posts',
-		'redirect' => false,
-		'icon_url' => 'dashicons-admin-customizer',
-		'position' => 2,
+		'redirect'   => false,
+		'icon_url'   => 'dashicons-admin-customizer',
+		'position'   => 2,
 	]);
 }
 add_action('acf/init', 'xanh_register_options_pages');
@@ -1386,3 +1386,528 @@ function xanh_register_about_fields()
 	]);
 }
 add_action('acf/init', 'xanh_register_about_fields');
+
+/**
+ * ─────────────────────────────────────────────────────────
+ * ACF Field Groups — Portfolio Archive (Dự Án).
+ *
+ * All settings fields on a single Options page with vertical tabs.
+ * ─────────────────────────────────────────────────────────
+ */
+function xanh_register_settings_fields()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group([
+		'key' => 'group_xanh_settings',
+		'title' => 'Cài Đặt XANH',
+		'fields' => [
+
+			/* ══════ TAB 1: Trang Dự Án ══════ */
+			[
+				'key' => 'field_tab_portfolio',
+				'label' => 'Trang Dự Án',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Section: Hero ── */
+			[
+				'key' => 'field_pf_hero_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'portfolio_hero_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Portfolio — Tác Phẩm Thực Tế',
+			],
+			[
+				'key' => 'field_pf_hero_title',
+				'label' => 'Headline',
+				'name' => 'portfolio_hero_title',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br class="hidden sm:block"&gt; để xuống dòng trên desktop.',
+				'placeholder' => 'Tác Phẩm Thực Tế.<br class="hidden sm:block" /> Giá Trị Khởi Nguồn Từ Sự Thật.',
+			],
+			[
+				'key' => 'field_pf_hero_subtitle',
+				'label' => 'Sub-headline',
+				'name' => 'portfolio_hero_subtitle',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'placeholder' => 'Mỗi công trình là một hành trình — từ bản vẽ 3D đến không gian sống thực tế, minh bạch từng chi tiết, trọn vẹn từng kỳ vọng.',
+			],
+			[
+				'key' => 'field_pf_hero_image',
+				'label' => 'Ảnh nền Hero',
+				'name' => 'portfolio_hero_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'mime_types' => 'jpg,jpeg,png,webp',
+				'instructions' => 'Kích thước tối ưu: 1920×1080px. Format: WebP hoặc JPG.',
+			],
+
+			/* ── Tab: Counter Strip ── */
+			[
+				'key' => 'field_pf_counter_projects',
+				'label' => 'Số Dự Án',
+				'name' => 'portfolio_counter_projects',
+				'type' => 'text',
+				'instructions' => 'Để trống = tự đếm từ CPT xanh_project (published).',
+				'placeholder' => '47',
+				'wrapper' => ['width' => '33'],
+			],
+			[
+				'key' => 'field_pf_counter_3d',
+				'label' => '% Sát 3D',
+				'name' => 'portfolio_counter_3d',
+				'type' => 'text',
+				'placeholder' => '98',
+				'wrapper' => ['width' => '33'],
+			],
+			[
+				'key' => 'field_pf_counter_overrun',
+				'label' => '% Phát Sinh',
+				'name' => 'portfolio_counter_overrun',
+				'type' => 'text',
+				'placeholder' => '0',
+				'wrapper' => ['width' => '33'],
+			],
+
+			/* ── Tab: CTA ── */
+			[
+				'key' => 'field_pf_cta_title',
+				'label' => 'Headline',
+				'name' => 'portfolio_cta_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br class="hidden sm:block"&gt; để xuống dòng.',
+				'placeholder' => 'Bạn Cũng Muốn Một Không Gian Sống<br class="hidden sm:block" /> Trọn Vẹn Và Minh Bạch?',
+			],
+			[
+				'key' => 'field_pf_cta_subtitle',
+				'label' => 'Mô tả',
+				'name' => 'portfolio_cta_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Hãy bắt đầu hành trình kiến tạo tổ ấm cùng đội ngũ XANH — minh bạch từ dự toán đến bàn giao.',
+			],
+			[
+				'key' => 'field_pf_cta_bg_image',
+				'label' => 'Ảnh nền CTA',
+				'name' => 'portfolio_cta_bg_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Ảnh panorama công trình (1920×600px).',
+			],
+			[
+				'key' => 'field_pf_cta_btn1_text',
+				'label' => 'Nút chính — Text',
+				'name' => 'portfolio_cta_btn1_text',
+				'type' => 'text',
+				'placeholder' => 'Khám Phá Dự Toán Của Bạn',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_pf_cta_btn1_url',
+				'label' => 'Nút chính — URL',
+				'name' => 'portfolio_cta_btn1_url',
+				'type' => 'url',
+				'placeholder' => '/du-toan/',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_pf_cta_btn2_text',
+				'label' => 'Nút phụ — Text',
+				'name' => 'portfolio_cta_btn2_text',
+				'type' => 'text',
+				'placeholder' => 'Chat Với Kỹ Sư Trưởng',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_pf_cta_btn2_url',
+				'label' => 'Nút phụ — URL',
+				'name' => 'portfolio_cta_btn2_url',
+				'type' => 'url',
+				'instructions' => 'URL Zalo OA hoặc link liên hệ.',
+				'wrapper' => ['width' => '50'],
+			],
+
+
+			/* ══════ TAB 2: Header & Footer ══════ */
+			[
+				'key' => 'field_tab_header_footer',
+				'label' => 'Header & Footer',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Section: Logo ── */
+			[
+				'key' => 'field_hf_logo_header_white',
+				'label' => 'Logo Header (Trắng)',
+				'name' => 'xanh_logo_header_white',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Logo SVG/PNG nền trong suốt, hiển thị trên header trong suốt. Kích thước ~200×36px.',
+				'mime_types' => 'svg,png,webp',
+			],
+			[
+				'key' => 'field_hf_logo_header_dark',
+				'label' => 'Logo Header (Tối)',
+				'name' => 'xanh_logo_header_dark',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Logo cho header khi cuộn (nền trắng). Kích thước ~200×36px.',
+				'mime_types' => 'svg,png,webp',
+			],
+			[
+				'key' => 'field_hf_logo_footer',
+				'label' => 'Logo Footer',
+				'name' => 'xanh_logo_footer',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Logo SVG/PNG cho footer (nền tối). Kích thước ~200×36px.',
+				'mime_types' => 'svg,png,webp',
+			],
+
+			/* ── Tab: Thông tin liên hệ ── */
+			[
+				'key' => 'field_hf_hotline',
+				'label' => 'Hotline',
+				'name' => 'xanh_hotline',
+				'type' => 'text',
+				'placeholder' => '0909 123 456',
+				'instructions' => 'Số điện thoại chính — hiển thị ở header, footer, contact.',
+			],
+			[
+				'key' => 'field_hf_email',
+				'label' => 'Email',
+				'name' => 'xanh_email',
+				'type' => 'email',
+				'placeholder' => 'info@xanhdesignbuild.vn',
+			],
+			[
+				'key' => 'field_hf_address',
+				'label' => 'Địa chỉ',
+				'name' => 'xanh_address',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => '123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh',
+			],
+
+			/* ── Tab: Mạng xã hội ── */
+			[
+				'key' => 'field_hf_facebook',
+				'label' => 'Facebook URL',
+				'name' => 'xanh_facebook',
+				'type' => 'url',
+				'placeholder' => 'https://facebook.com/xanhdesignbuild',
+			],
+			[
+				'key' => 'field_hf_instagram',
+				'label' => 'Instagram URL',
+				'name' => 'xanh_instagram',
+				'type' => 'url',
+				'placeholder' => 'https://instagram.com/xanhdesignbuild',
+			],
+			[
+				'key' => 'field_hf_youtube',
+				'label' => 'YouTube URL',
+				'name' => 'xanh_youtube',
+				'type' => 'url',
+				'placeholder' => 'https://youtube.com/@xanhdesignbuild',
+			],
+			[
+				'key' => 'field_hf_zalo',
+				'label' => 'Zalo OA URL',
+				'name' => 'xanh_zalo_oa',
+				'type' => 'url',
+				'placeholder' => 'https://zalo.me/xanhdesignbuild',
+			],
+
+			/* ── Tab: Footer ── */
+			[
+				'key' => 'field_hf_footer_desc',
+				'label' => 'Mô tả Footer',
+				'name' => 'xanh_footer_desc',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'placeholder' => 'Kiến tạo tổ ấm bình yên — minh bạch từ viên gạch đầu tiên.',
+				'instructions' => 'Đoạn mô tả ngắn hiển thị dưới logo footer.',
+			],
+			[
+				'key' => 'field_hf_footer_badges',
+				'label' => 'Footer Badges',
+				'name' => 'xanh_footer_badges',
+				'type' => 'repeater',
+				'min' => 0,
+				'max' => 5,
+				'layout' => 'table',
+				'button_label' => 'Thêm Badge',
+				'instructions' => 'Các huy hiệu/chứng nhận hiển thị ở footer (ví dụ: ISO 9001:2015, 10+ Năm).',
+				'sub_fields' => [
+					['key' => 'field_hf_badge_text', 'label' => 'Text', 'name' => 'text', 'type' => 'text', 'placeholder' => 'ISO 9001:2015'],
+				],
+			],
+
+			/* ══════ TAB 3: Blog ══════ */
+			[
+				'key' => 'field_tab_blog',
+				'label' => 'Blog',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Section: Hero ── */
+			[
+				'key' => 'field_blog_hero_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'blog_hero_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Blog & Cảm Hứng',
+			],
+			[
+				'key' => 'field_blog_hero_title',
+				'label' => 'Headline',
+				'name' => 'blog_hero_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+				'placeholder' => 'Chia Sẻ Cảm Hứng Kiến Tạo',
+			],
+			[
+				'key' => 'field_blog_hero_subtitle',
+				'label' => 'Sub-headline',
+				'name' => 'blog_hero_subtitle',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'placeholder' => 'Khám phá kiến thức, kinh nghiệm và cảm hứng từ những dự án thực tế.',
+			],
+			[
+				'key' => 'field_blog_hero_image',
+				'label' => 'Ảnh nền Hero',
+				'name' => 'blog_hero_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'mime_types' => 'jpg,jpeg,png,webp',
+				'instructions' => 'Kích thước tối ưu: 1920×600px.',
+			],
+
+			/* ── Tab: Sidebar ── */
+			[
+				'key' => 'field_blog_posts_per_page',
+				'label' => 'Số bài mỗi trang',
+				'name' => 'blog_posts_per_page',
+				'type' => 'number',
+				'default_value' => 9,
+				'min' => 3,
+				'max' => 24,
+				'step' => 3,
+				'instructions' => 'Số bài viết hiển thị mỗi trang (mặc định 9).',
+			],
+			[
+				'key' => 'field_blog_show_sidebar',
+				'label' => 'Hiện Sidebar?',
+				'name' => 'blog_show_sidebar',
+				'type' => 'true_false',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => 'Có',
+				'ui_off_text' => 'Không',
+			],
+
+			/* ══════ TAB 4: Liên Hệ ══════ */
+			[
+				'key' => 'field_tab_contact',
+				'label' => 'Liên Hệ',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Section: Hero ── */
+			[
+				'key' => 'field_ct_hero_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'contact_hero_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Liên Hệ Với Chúng Tôi',
+			],
+			[
+				'key' => 'field_ct_hero_title',
+				'label' => 'Headline',
+				'name' => 'contact_hero_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Bắt Đầu Hành Trình Kiến Tạo Tổ Ấm',
+			],
+			[
+				'key' => 'field_ct_hero_subtitle',
+				'label' => 'Sub-headline',
+				'name' => 'contact_hero_subtitle',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+			],
+
+			/* ── Tab: Thông tin ── */
+			[
+				'key' => 'field_ct_office_name',
+				'label' => 'Tên văn phòng',
+				'name' => 'contact_office_name',
+				'type' => 'text',
+				'placeholder' => 'Văn phòng XANH Design & Build',
+			],
+			[
+				'key' => 'field_ct_office_address',
+				'label' => 'Địa chỉ chi tiết',
+				'name' => 'contact_office_address',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Nếu để trống, sẽ dùng địa chỉ từ Header & Footer.',
+			],
+			[
+				'key' => 'field_ct_phone_2',
+				'label' => 'Số điện thoại phụ',
+				'name' => 'contact_phone_2',
+				'type' => 'text',
+				'placeholder' => '028 1234 5678',
+				'instructions' => 'Số điện thoại bàn văn phòng (nếu có).',
+			],
+
+			/* ── Tab: Bản đồ ── */
+			[
+				'key' => 'field_ct_map_embed',
+				'label' => 'Google Maps Embed URL',
+				'name' => 'contact_map_embed',
+				'type' => 'url',
+				'instructions' => 'URL iframe embed từ Google Maps. Ví dụ: https://www.google.com/maps/embed?pb=...',
+				'placeholder' => 'https://www.google.com/maps/embed?pb=...',
+			],
+			[
+				'key' => 'field_ct_map_link',
+				'label' => 'Google Maps Link',
+				'name' => 'contact_map_link',
+				'type' => 'url',
+				'instructions' => 'Link mở Google Maps khi click "Xem bản đồ".',
+				'placeholder' => 'https://maps.google.com/?q=...',
+			],
+
+			/* ── Tab: Giờ làm việc ── */
+			[
+				'key' => 'field_ct_working_hours',
+				'label' => 'Giờ làm việc',
+				'name' => 'contact_working_hours',
+				'type' => 'repeater',
+				'min' => 0,
+				'max' => 4,
+				'layout' => 'table',
+				'button_label' => 'Thêm dòng',
+				'instructions' => 'Ví dụ: "Thứ 2 – Thứ 6" → "8:00 – 17:30"',
+				'sub_fields' => [
+					['key' => 'field_ct_hours_day', 'label' => 'Ngày', 'name' => 'day', 'type' => 'text', 'placeholder' => 'Thứ 2 – Thứ 6', 'wrapper' => ['width' => '50']],
+					['key' => 'field_ct_hours_time', 'label' => 'Giờ', 'name' => 'time', 'type' => 'text', 'placeholder' => '8:00 – 17:30', 'wrapper' => ['width' => '50']],
+				],
+			],
+
+			/* ══════ TAB 5: SEO & Scripts ══════ */
+			[
+				'key' => 'field_tab_seo',
+				'label' => 'SEO & Scripts',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Section: Meta mặc định ── */
+			[
+				'key' => 'field_seo_default_title',
+				'label' => 'Title mặc định',
+				'name' => 'seo_default_title',
+				'type' => 'text',
+				'instructions' => 'Title SEO mặc định cho các trang chưa có title riêng.',
+				'placeholder' => 'XANH Design & Build — Kiến Tạo Tổ Ấm Bình Yên',
+			],
+			[
+				'key' => 'field_seo_default_desc',
+				'label' => 'Meta Description mặc định',
+				'name' => 'seo_default_desc',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Tối đa 160 ký tự. Áp dụng cho trang không có description riêng.',
+				'placeholder' => 'XANH Design & Build — thiết kế và xây dựng nhà ở bền vững, minh bạch từ viên gạch đầu tiên.',
+				'maxlength' => 160,
+			],
+			[
+				'key' => 'field_seo_og_image',
+				'label' => 'Ảnh OG mặc định',
+				'name' => 'seo_og_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Ảnh Open Graph mặc định khi chia sẻ lên Facebook/Zalo (1200×630px).',
+				'mime_types' => 'jpg,jpeg,png,webp',
+			],
+
+			/* ── Tab: Scripts ── */
+			[
+				'key' => 'field_seo_head_scripts',
+				'label' => 'Scripts trong &lt;head&gt;',
+				'name' => 'seo_head_scripts',
+				'type' => 'textarea',
+				'rows' => 8,
+				'instructions' => 'Mã theo dõi chèn vào &lt;head&gt; (Google Tag Manager, Meta Pixel…). Bao gồm thẻ &lt;script&gt;.',
+				'placeholder' => '<!-- Google Tag Manager -->',
+			],
+			[
+				'key' => 'field_seo_body_scripts',
+				'label' => 'Scripts trước &lt;/body&gt;',
+				'name' => 'seo_body_scripts',
+				'type' => 'textarea',
+				'rows' => 8,
+				'instructions' => 'Mã chèn trước thẻ đóng &lt;/body&gt; (chat widgets, analytics…). Bao gồm thẻ &lt;script&gt;.',
+				'placeholder' => '<!-- Google Tag Manager (noscript) -->',
+			],
+			[
+				'key' => 'field_seo_ga_id',
+				'label' => 'Google Analytics ID',
+				'name' => 'seo_ga_id',
+				'type' => 'text',
+				'placeholder' => 'G-XXXXXXXXXX',
+				'instructions' => 'Google Analytics 4 Measurement ID. Để trống nếu dùng GTM.',
+			],
+		],
+		'location' => [
+			[
+				[
+					'param' => 'options_page',
+					'operator' => '==',
+					'value' => 'xanh-settings',
+				],
+			],
+		],
+		'style' => 'default',
+		'position' => 'normal',
+		'label_placement' => 'top',
+		'menu_order' => 0,
+		'active' => true,
+	]);
+}
+add_action('acf/init', 'xanh_register_settings_fields');
