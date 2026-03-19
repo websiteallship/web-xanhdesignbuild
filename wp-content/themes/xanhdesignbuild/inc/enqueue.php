@@ -126,20 +126,10 @@ function xanh_enqueue_scripts() {
 	}
 
 	// ═══════════════════════════════════════════
-	// Conditional: AJAX Filter (Portfolio List + Blog)
+	// Conditional: AJAX data (used by portfolio.js / blog.js)
 	// ═══════════════════════════════════════════
 	if ( is_post_type_archive( 'xanh_project' ) || is_home() ) {
-		wp_enqueue_script(
-			'xanh-filter',
-			"$uri/assets/js/filter.js",
-			[ 'xanh-main' ],
-			$ver,
-			[ 'strategy' => 'defer', 'in_footer' => true ]
-		);
-		wp_localize_script( 'xanh-filter', 'xanhAjax', [
-			'url'   => admin_url( 'admin-ajax.php' ),
-			'nonce' => wp_create_nonce( 'xanh_filter_nonce' ),
-		] );
+		// xanhAjax is localized on the page-specific JS handle below.
 	}
 
 	// ═══════════════════════════════════════════
@@ -180,6 +170,13 @@ function xanh_resource_hints() {
 		} else {
 			$lcp_src = site_url( '/wp-content/uploads/2026/03/about-hero-bg.png' );
 		}
+	} elseif ( is_post_type_archive( 'xanh_project' ) ) {
+		$pf_image = function_exists( 'get_field' ) ? get_field( 'portfolio_hero_image', 'option' ) : null;
+		if ( is_array( $pf_image ) && isset( $pf_image['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $pf_image['ID'], 'full' );
+		} else {
+			$lcp_src = site_url( '/wp-content/uploads/2026/03/about-hero-bg.png' );
+		}
 	}
 
 	if ( $lcp_src ) {
@@ -214,7 +211,7 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 		wp_enqueue_script( 'xanh-contact-js', "$uri/assets/js/pages/contact.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 	}
 
-	if ( is_home() || is_archive() ) {
+	if ( ( is_home() || is_archive() ) && ! is_post_type_archive( 'xanh_project' ) ) {
 		wp_enqueue_style( 'xanh-blog', "$uri/assets/css/pages/blog.css", $deps_css, $ver );
 		wp_enqueue_script( 'xanh-blog-js', "$uri/assets/js/pages/blog.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 	}
@@ -227,6 +224,10 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 	if ( is_post_type_archive( 'xanh_project' ) ) {
 		wp_enqueue_style( 'xanh-portfolio', "$uri/assets/css/pages/portfolio.css", $deps_css, $ver );
 		wp_enqueue_script( 'xanh-portfolio-js', "$uri/assets/js/pages/portfolio.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
+		wp_localize_script( 'xanh-portfolio-js', 'xanhAjax', [
+			'url'   => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'xanh_filter_nonce' ),
+		] );
 	}
 
 	if ( is_singular( 'xanh_project' ) ) {

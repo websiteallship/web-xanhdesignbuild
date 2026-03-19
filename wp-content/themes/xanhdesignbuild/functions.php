@@ -42,3 +42,33 @@ foreach ( $xanh_inc_files as $xanh_file ) {
 		require_once $xanh_filepath;
 	}
 }
+
+/**
+ * Ẩn editor trên Trang chủ và trang About.
+ *
+ * Các trang này render nội dung hoàn toàn qua template parts / ACF,
+ * nên editor chỉ gây rối mà không có tác dụng.
+ */
+add_action( 'admin_init', function () {
+	// Lấy post ID đang edit trong admin.
+	$post_id = isset( $_GET['post'] ) ? (int) $_GET['post'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+	if ( ! $post_id ) {
+		return;
+	}
+
+	// Trang chủ (front page).
+	$front_page_id = (int) get_option( 'page_on_front' );
+
+	if ( $post_id === $front_page_id ) {
+		remove_post_type_support( 'page', 'editor' );
+		return;
+	}
+
+	// Trang About (template "Giới Thiệu" = page-about.php).
+	$template = get_post_meta( $post_id, '_wp_page_template', true );
+
+	if ( 'page-about.php' === $template ) {
+		remove_post_type_support( 'page', 'editor' );
+	}
+} );

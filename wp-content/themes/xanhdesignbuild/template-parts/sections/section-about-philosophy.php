@@ -19,13 +19,15 @@ $philo_desc    = get_field( 'about_philo_subtitle' ) ?: 'Không mang ý nghĩa p
 
 // Philosophy cards — ACF repeater or fallback.
 $philo_items = get_field( 'about_philo_items' );
+$defaults = [
+	[ 'icon' => 'leaf', 'title' => 'Không Gian Sống<br>Trong Lành', 'desc' => 'Nơi ánh sáng tự nhiên và luồng khí tươi ôm trọn mỗi khoảnh khắc, kiến tạo một tổ ấm thực sự tốt cho sức khỏe và tinh thần.', 'image' => null ],
+	[ 'icon' => 'box',  'title' => 'Vật Liệu Chuẩn Mực<br>Bền Vững', 'desc' => 'Khắt khe trong từng lựa chọn. Chúng tôi ưu tiên những giải pháp vật liệu mang tính di sản, an toàn tuyệt đối và tôn trọng tự nhiên.', 'image' => null ],
+	[ 'icon' => 'zap',  'title' => 'Giải Pháp Năng<br>Lượng Tối Ưu', 'desc' => 'Tối giản chi phí vận hành thông qua các ứng dụng thiết kế thông minh, trả lại cho bạn đặc quyền tận hưởng cuộc sống không âu lo.', 'image' => null ],
+	[ 'icon' => 'sun',  'title' => 'Cảnh Quan Hòa Hợp<br>Thiên Nhiên', 'desc' => 'Ranh giới giữa trong và ngoài được xóa nhòa. Mỗi góc nhìn đều là một bức tranh sống động, kết nối con người với thiên nhiên nguyên bản.', 'image' => null ],
+];
+
 if ( empty( $philo_items ) ) {
-	$philo_items = [
-		[ 'icon' => 'leaf', 'title' => 'Không Gian Sống<br>Trong Lành', 'desc' => 'Nơi ánh sáng tự nhiên và luồng khí tươi ôm trọn mỗi khoảnh khắc, kiến tạo một tổ ấm thực sự tốt cho sức khỏe và tinh thần.', 'image' => null ],
-		[ 'icon' => 'box',  'title' => 'Vật Liệu Chuẩn Mực<br>Bền Vững', 'desc' => 'Khắt khe trong từng lựa chọn. Chúng tôi ưu tiên những giải pháp vật liệu mang tính di sản, an toàn tuyệt đối và tôn trọng tự nhiên.', 'image' => null ],
-		[ 'icon' => 'zap',  'title' => 'Giải Pháp Năng<br>Lượng Tối Ưu', 'desc' => 'Tối giản chi phí vận hành thông qua các ứng dụng thiết kế thông minh, trả lại cho bạn đặc quyền tận hưởng cuộc sống không âu lo.', 'image' => null ],
-		[ 'icon' => 'sun',  'title' => 'Cảnh Quan Hòa Hợp<br>Thiên Nhiên', 'desc' => 'Ranh giới giữa trong và ngoài được xóa nhòa. Mỗi góc nhìn đều là một bức tranh sống động, kết nối con người với thiên nhiên nguyên bản.', 'image' => null ],
-	];
+	$philo_items = $defaults;
 }
 ?>
 
@@ -48,9 +50,11 @@ if ( empty( $philo_items ) ) {
 		<!-- 2×2 Grid -->
 		<div class="philo-grid grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
 			<?php foreach ( $philo_items as $k => $card ) :
-				$icon     = $card['icon'] ?? 'leaf';
-				$title    = $card['title'] ?? '';
-				$desc     = $card['desc'] ?? '';
+				$default  = $defaults[ $k % 4 ] ?? $defaults[0];
+				$icon     = ! empty( $card['icon'] ) ? $card['icon'] : $default['icon'];
+				$title    = ! empty( $card['title'] ) ? $card['title'] : $default['title'];
+				$desc     = ! empty( $card['desc'] ) ? $card['desc'] : $default['desc'];
+				
 				$img      = $card['image'] ?? null;
 				$img_url  = '';
 				if ( is_array( $img ) && ! empty( $img['url'] ) ) {
@@ -61,10 +65,11 @@ if ( empty( $philo_items ) ) {
 				if ( ! $img_url ) {
 					$img_url = content_url( 'uploads/2026/03/philo-' . ( $k + 1 ) . '.png' );
 				}
+				
 				$delay_style = ( $k % 2 === 1 ) ? ' style="transition-delay: 80ms;"' : '';
 			?>
 				<div
-					class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer"<?php echo esc_attr( $delay_style ); ?>>
+					class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer"<?php echo $delay_style; ?>>
 					<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>"
 						class="philo-card__img absolute inset-0 w-full h-full object-cover" loading="lazy">
 					<div class="philo-card__overlay absolute inset-x-0 bottom-0 pointer-events-none"></div>

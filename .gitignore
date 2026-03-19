@@ -1,1 +1,28 @@
+# Node
 node_modules/
+
+# Agent skills (auto-generated)
+.agent/skills/skills
+
+# WordPress core files
+wp-admin/
+wp-includes/
+wp-*.php
+index.php
+license.txt
+readme.html
+xmlrpc.php
+
+# WordPress content (exclude all except theme)
+wp-content/plugins/
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/mu-plugins/
+wp-content/themes/index.php
+
+# Config (keep wp-config tracked if needed)
+.htaccess
+
+# OS files
+.DS_Store
+Thumbs.db
