@@ -75,7 +75,7 @@ $steps = [
 					<div class="process-panel__expanded">
 						<img src="<?php echo esc_url( $step['img'] ); ?>"
 							alt="Bước <?php echo esc_attr( $step['num'] ); ?> — <?php echo esc_attr( $step['title'] ); ?>"
-							class="process-panel__bg" />
+							class="process-panel__bg" width="800" height="1000" loading="lazy" />
 						<div class="process-panel__overlay"></div>
 						<div class="process-panel__content">
 							<span class="process-panel__num"><?php echo esc_html( $step['num'] ); ?></span>

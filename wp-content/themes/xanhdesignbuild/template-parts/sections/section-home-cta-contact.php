@@ -18,7 +18,7 @@ $bg_img  = $uploads . 'interior-living.png';
 
 <section id="cta-contact" class="cta-contact-section" aria-label="Đặt lịch tư vấn">
 	<!-- Background Image -->
-	<img src="<?php echo esc_url( $bg_img ); ?>" alt="" class="cta-contact__bg" aria-hidden="true" loading="lazy" />
+	<img src="<?php echo esc_url( $bg_img ); ?>" alt="" class="cta-contact__bg" aria-hidden="true" width="1920" height="1080" loading="lazy" />
 	<!-- Dark Overlay -->
 	<div class="cta-contact__overlay"></div>
 

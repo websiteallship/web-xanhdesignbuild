@@ -38,6 +38,11 @@ $xanh_nav_items = [
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<!-- Skip Navigation — WCAG 2.4.1 -->
+<a href="#main-content" class="skip-link">
+	<?php esc_html_e( 'Chuyển đến nội dung chính', 'xanh' ); ?>
+</a>
+
 <!-- ============================================= -->
 <!-- HEADER / NAVIGATION                           -->
 <!-- ============================================= -->

@@ -14,13 +14,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $uploads = content_url( '/uploads/2026/03/' );
 
-// Query latest posts.
-$blog_query = new WP_Query( [
-	'posts_per_page' => 6,
-	'post_status'    => 'publish',
-	'orderby'        => 'date',
-	'order'          => 'DESC',
-] );
+// Query latest posts (cached via transient — 1hr TTL).
+$transient_key = 'xanh_home_blog_latest';
+$blog_query = get_transient( $transient_key );
+
+if ( false === $blog_query ) {
+	$blog_query = new WP_Query( [
+		'posts_per_page' => 6,
+		'post_status'    => 'publish',
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+	] );
+	set_transient( $transient_key, $blog_query, HOUR_IN_SECONDS );
+}
 
 // Fallback static posts if no posts exist.
 $fallback_posts = [

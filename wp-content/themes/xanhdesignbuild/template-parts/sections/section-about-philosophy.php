@@ -64,7 +64,7 @@ if ( empty( $philo_items ) ) {
 				$delay_style = ( $k % 2 === 1 ) ? ' style="transition-delay: 80ms;"' : '';
 			?>
 				<div
-					class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer"<?php echo $delay_style; ?>>
+					class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer"<?php echo esc_attr( $delay_style ); ?>>
 					<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>"
 						class="philo-card__img absolute inset-0 w-full h-full object-cover" loading="lazy">
 					<div class="philo-card__overlay absolute inset-x-0 bottom-0 pointer-events-none"></div>
