@@ -51,8 +51,8 @@ $slides = $hero_slides ?: $default_slides;
 					$img_alt = esc_attr( $slide['image']['alt'] ?? '' );
 					?>
 					<div class="swiper-slide">
-						<img src="<?php echo $img_url; ?>"
-							alt="<?php echo $img_alt; ?>"
+						<img src="<?php echo esc_url( $slide['image']['url'] ?? '' ); ?>"
+							alt="<?php echo esc_attr( $slide['image']['alt'] ?? '' ); ?>"
 							class="w-full h-full object-cover"
 							width="1920" height="1080" />
 					</div>

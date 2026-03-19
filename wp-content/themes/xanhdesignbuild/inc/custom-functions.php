@@ -110,5 +110,9 @@ function xanh_clear_projects_cache( $post_id ) {
 	if ( 'xanh_project' === $type || 'page' === $type ) {
 		delete_transient( 'xanh_featured_projects' );
 	}
+	// Clear blog transient when any post is saved.
+	if ( 'post' === $type ) {
+		delete_transient( 'xanh_home_blog_latest' );
+	}
 }
 add_action( 'save_post', 'xanh_clear_projects_cache' );

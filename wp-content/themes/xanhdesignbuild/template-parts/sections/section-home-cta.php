@@ -43,16 +43,16 @@ $badges = get_field( 'cta_badges' ) ?: $default_badges;
 			<!-- LEFT: Text panel -->
 			<div class="cta-panel cta-panel--text">
 				<div class="cta-content">
-					<p class="cta-el section-eyebrow cta-eyebrow">
+					<p class="gsap-el section-eyebrow cta-eyebrow">
 						<?php echo esc_html( $eyebrow ); ?>
 					</p>
-					<h2 class="cta-el section-title text-primary cta-heading">
+					<h2 class="gsap-el section-title text-primary cta-heading">
 						<?php echo wp_kses_post( $headline ); ?>
 					</h2>
-					<p class="cta-el cta-body">
+					<p class="gsap-el cta-body">
 						<?php echo esc_html( $body ); ?>
 					</p>
-					<div class="cta-el cta-actions">
+					<div class="gsap-el cta-actions">
 						<a href="<?php echo esc_url( $primary_url ); ?>" class="btn btn--primary group">
 							<span><?php echo esc_html( $primary_text ); ?></span>
 							<i data-lucide="phone" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
@@ -63,7 +63,7 @@ $badges = get_field( 'cta_badges' ) ?: $default_badges;
 						</a>
 					</div>
 					<!-- Trust badges row -->
-					<div class="cta-el cta-badges">
+					<div class="gsap-el cta-badges">
 						<?php foreach ( $badges as $i => $badge ) : ?>
 							<?php if ( $i > 0 ) : ?>
 								<div class="cta-badge-sep"></div>

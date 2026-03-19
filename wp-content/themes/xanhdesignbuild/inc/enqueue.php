@@ -157,9 +157,34 @@ add_action( 'wp_enqueue_scripts', 'xanh_enqueue_scripts' );
 function xanh_resource_hints() {
 	// DNS Prefetch + Preconnect for CDN domains.
 	echo '<link rel="dns-prefetch" href="//cdn.jsdelivr.net">' . "\n";
-	echo '<link rel="dns-prefetch" href="//unpkg.com">' . "\n";
 	echo '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' . "\n";
+	echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+
+	// Hero image preload for LCP (Home & About)
+	$lcp_src = null;
+
+	if ( is_front_page() ) {
+		$hero_slides = function_exists( 'get_field' ) ? get_field( 'hero_slides' ) : null;
+		if ( $hero_slides && isset( $hero_slides[0]['image']['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $hero_slides[0]['image']['ID'], 'full' );
+		} else {
+			$lcp_src = site_url( '/wp-content/uploads/2026/03/hero-house.png' );
+		}
+	} elseif ( is_page( 'gioi-thieu' ) ) {
+		$about_image = function_exists( 'get_field' ) ? get_field( 'about_hero_image' ) : null;
+		if ( is_array( $about_image ) && isset( $about_image['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $about_image['ID'], 'full' );
+		} elseif ( is_numeric( $about_image ) && $about_image ) {
+			$lcp_src = wp_get_attachment_image_url( $about_image, 'full' );
+		} else {
+			$lcp_src = site_url( '/wp-content/uploads/2026/03/about-hero-bg.png' );
+		}
+	}
+
+	if ( $lcp_src ) {
+		echo '<link rel="preload" as="image" href="' . esc_url( $lcp_src ) . '" fetchpriority="high">' . "\n";
+	}
 }
 add_action( 'wp_head', 'xanh_resource_hints', 1 );
 

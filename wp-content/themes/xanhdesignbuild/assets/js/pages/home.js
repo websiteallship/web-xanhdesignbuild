@@ -9,8 +9,42 @@
 /* Shared matchMedia queries (Rule 10 §5.3) */
 const mqDesktop = window.matchMedia('(min-width: 1024px)');
 const mqTablet = window.matchMedia('(min-width: 640px)');
+const mqReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // XanhIcons removed, using XanhBase
+
+/* ─── Shared Utilities (Rule 10 §3.2, §9) ──── */
+
+/** Debounce helper — delays fn by `wait` ms (default 150). */
+function xanhDebounce(fn, wait = 150) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(null, args), wait);
+  };
+}
+
+/** Shared IntersectionObserver fallback for .anim-fade-up elements. */
+function observeFadeIn(section) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
+            setTimeout(() => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+              el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            }, i * 150);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+  observer.observe(section);
+}
 
 /* XanhMobileMenu → moved to shared/base.js */
 /* XanhHeader → moved to shared/base.js */
@@ -198,25 +232,7 @@ const XanhScrollAnimations = {
 
   /** @private — Fallback when GSAP is not loaded */
   _initFallback() {
-    const fallbackObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.anim-fade-up').forEach((el, index) => {
-              setTimeout(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-              }, index * 150);
-            });
-            fallbackObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    document.querySelectorAll('section').forEach((sec) => fallbackObserver.observe(sec));
+    document.querySelectorAll('section').forEach((sec) => observeFadeIn(sec));
   },
 };
 
@@ -228,7 +244,7 @@ const XanhCTA = {
     const ctaSection = document.getElementById('cta');
     if (!ctaSection) return;
 
-    const ctaEls = ctaSection.querySelectorAll('.cta-el');
+    const ctaEls = ctaSection.querySelectorAll('.gsap-el');
     const ctaImgPanel = ctaSection.querySelector('.cta-panel--image');
     const counterEls = ctaSection.querySelectorAll('.cta-badge__num[data-count]');
 
@@ -720,20 +736,7 @@ const XanhProcess = {
       }
     } else {
       // Fallback
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
-                setTimeout(() => el.classList.add('is-visible'), i * 120);
-              });
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15 }
-      );
-      observer.observe(section);
+      observeFadeIn(section);
     }
   },
 };
@@ -766,25 +769,7 @@ const XanhCTAContact = {
       }
     } else {
       // Fallback
-      const els = section.querySelectorAll('.anim-fade-up');
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              els.forEach((el, i) => {
-                setTimeout(() => {
-                  el.style.opacity = '1';
-                  el.style.transform = 'translateY(0)';
-                  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-                }, i * 120);
-              });
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15 }
-      );
-      observer.observe(section);
+      observeFadeIn(section);
     }
   },
 };
@@ -822,24 +807,7 @@ const XanhPartners = {
     }
 
     // IntersectionObserver for non-GSAP fade-in
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
-              setTimeout(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-              }, i * 150);
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(section);
+    observeFadeIn(section);
   },
 
   destroy() {
@@ -895,13 +863,13 @@ const XanhBlog = {
     if (mobileNext) mobileNext.addEventListener('click', () => this._blogSwiper.slideNext());
 
     // Dynamic vertical centering of side arrows
-    this._updateBlogImgCenter = () => {
+    this._updateBlogImgCenter = xanhDebounce(() => {
       if (!sliderWrap) return;
       const firstImg = sliderWrap.querySelector('.blog-card__img');
       if (firstImg && firstImg.offsetHeight > 0) {
         sliderWrap.style.setProperty('--blog-img-center', (firstImg.offsetHeight / 2) + 'px');
       }
-    };
+    });
     window.addEventListener('load', this._updateBlogImgCenter);
     window.addEventListener('resize', this._updateBlogImgCenter);
     this._updateBlogImgCenter();
@@ -966,24 +934,7 @@ const XanhBlog = {
 
   /** @private */
   _initFallback(section) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
-              setTimeout(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-              }, i * 150);
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(section);
+    observeFadeIn(section);
   },
 
   destroy() {
@@ -1052,8 +1003,9 @@ const XanhSideArrows = {
       }
     }
 
+    const debouncedUpdate = xanhDebounce(updateCenter);
     window.addEventListener('load', updateCenter);
-    window.addEventListener('resize', updateCenter);
+    window.addEventListener('resize', debouncedUpdate);
     updateCenter();
   },
 };
@@ -1067,11 +1019,21 @@ document.addEventListener('DOMContentLoaded', () => {
    * are already initialized in main.js — do NOT call them again here.
    */
   XanhHero.init();
-  XanhScrollAnimations.init();
-  XanhCTA.init();
+
+  if (mqReducedMotion.matches) {
+    // Reduced motion: skip GSAP animations, just reveal everything
+    document.querySelectorAll('.anim-fade-up, .gsap-el').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  } else {
+    XanhScrollAnimations.init();
+    XanhCTA.init();
+    XanhCTAContact.init();
+  }
+
   XanhProjects.init();
   XanhProcess.init();
-  XanhCTAContact.init();
   XanhPartners.init();
   XanhBlog.init();
   XanhSideArrows.init();

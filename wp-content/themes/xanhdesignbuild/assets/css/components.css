@@ -40,6 +40,31 @@ body {
 }
 
 /* ==============================================
+   3b. SKIP NAVIGATION (WCAG 2.4.1)
+   ============================================== */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-radius: 0 0 8px 8px;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* ==============================================
    4. SITE CONTAINER
    ============================================== */
 .site-container {
@@ -47,6 +72,11 @@ body {
     max-width: 1280px;
     margin-inline: auto;
     padding-inline: var(--space-6);
+}
+
+/* Layout containment for rendering perf (rule 14) */
+.section {
+    contain: layout style;
 }
 
 @media (min-width: 768px) {
@@ -423,7 +453,6 @@ body {
 .anim-fade-up {
     opacity: 0;
     transform: translateY(40px);
-    will-change: opacity, transform;
 }
 
 .anim-fade-up.is-visible {
@@ -435,7 +464,6 @@ body {
 .anim-fade-left {
     opacity: 0;
     transform: translateX(-40px);
-    will-change: opacity, transform;
 }
 
 .anim-fade-left.is-visible {
@@ -447,7 +475,6 @@ body {
 .anim-fade-right {
     opacity: 0;
     transform: translateX(40px);
-    will-change: opacity, transform;
 }
 
 .anim-fade-right.is-visible {
@@ -459,7 +486,64 @@ body {
 .anim-scale-in {
     opacity: 0;
     transform: scale(0.95);
-    will-change: opacity, transform;
+}
+
+/* ==============================================
+   11b. SHARED GSAP / SLIDER COMPONENTS
+   ============================================== */
+
+/* GSAP initial state — shared across all page-specific *-el classes */
+.gsap-el {
+    opacity: 0;
+}
+
+/* Shared slider navigation button (44×44, square, bordered) */
+.slider-nav-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(var(--color-dark-rgb), 0.2);
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-dark);
+    cursor: pointer;
+    transition: background var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+    flex-shrink: 0;
+}
+
+.slider-nav-btn:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.slider-nav-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Shared dash-style pagination (Swiper) */
+.dash-pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: auto !important;
+}
+
+.dash-pagination .swiper-pagination-bullet {
+    width: 20px;
+    height: 3px;
+    border-radius: 0;
+    background: rgba(var(--color-dark-rgb), 0.2);
+    opacity: 1;
+    transition: width var(--transition-base), background var(--transition-base);
+}
+
+.dash-pagination .swiper-pagination-bullet-active {
+    width: 32px;
+    background: var(--color-primary);
 }
 
 /* ==============================================

@@ -21,6 +21,12 @@
   --color-white: #FFFFFF;
   --color-beige: #D8C7A3;
 
+  /* ── Color RGB channels (for alpha compositing) ── */
+  --color-primary-rgb: 20, 81, 61;
+  --color-dark-rgb: 26, 26, 26;
+  --color-white-rgb: 255, 255, 255;
+  --color-beige-rgb: 216, 199, 163;
+
   /* ── Spacing ── */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
