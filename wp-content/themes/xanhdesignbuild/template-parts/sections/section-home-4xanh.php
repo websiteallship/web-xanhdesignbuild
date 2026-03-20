@@ -60,13 +60,13 @@ $items     = ( is_array( $acf_items ) && ! empty( $acf_items[0]['desc'] ?? '' ) 
 					?>
 					<div class="core-value-item">
 						<div class="core-value-item__header">
-							<span class="core-value-item__number"><?php echo $number; ?></span>
+							<span class="core-value-item__number"><?php echo $number; // phpcs:ignore -- pre-escaped via esc_html on L56. ?></span>
 							<?php if ( $icon ) : ?>
 								<i data-lucide="<?php echo esc_attr( $icon ); ?>" class="core-value-item__icon"></i>
 							<?php endif; ?>
 						</div>
-						<h3 class="core-value-item__title"><?php echo $title; ?></h3>
-						<p class="core-value-item__desc"><?php echo $desc; ?></p>
+						<h3 class="core-value-item__title"><?php echo $title; // phpcs:ignore -- pre-escaped via wp_kses_post on L58. ?></h3>
+						<p class="core-value-item__desc"><?php echo $desc; // phpcs:ignore -- pre-escaped via esc_html on L59. ?></p>
 					</div>
 				<?php endforeach; ?>
 			</div>

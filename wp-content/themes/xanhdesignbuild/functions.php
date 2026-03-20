@@ -27,6 +27,7 @@ define( 'XANH_THEME_URI', get_template_directory_uri() );
  * then CPTs (before ACF), then ACF, then helpers, then enqueue last.
  */
 $xanh_inc_files = [
+	'inc/class-xanh-nav-walker.php', // Custom Nav Walker (load before templates).
 	'inc/theme-setup.php',       // add_theme_support, menus, image sizes, WP bloat removal.
 	'inc/cpt-registration.php',  // Custom Post Types + Taxonomies.
 	'inc/acf-fields.php',        // ACF Options Page + field helpers.
@@ -34,6 +35,7 @@ $xanh_inc_files = [
 	'inc/template-tags.php',     // Reusable template render functions.
 	'inc/ajax-handlers.php',     // AJAX endpoints (filter, load more).
 	'inc/enqueue.php',           // Conditional CSS/JS loading.
+	'inc/admin-tweaks.php',      // Admin dashboard customizations (thumbnail columns).
 ];
 
 foreach ( $xanh_inc_files as $xanh_file ) {

@@ -44,8 +44,10 @@ function xanh_theme_setup() {
 
 	// Register navigation menus.
 	register_nav_menus( [
-		'primary' => __( 'Menu Chính', 'xanh' ),
-		'footer'  => __( 'Menu Footer', 'xanh' ),
+		'primary'      => __( 'Menu Chính', 'xanh' ),
+		'footer'       => __( 'Menu Footer', 'xanh' ),
+		'footer_col_2' => __( 'Footer — Cột 2 (Khám Phá)', 'xanh' ),
+		'footer_col_3' => __( 'Footer — Cột 3 (Dịch Vụ)', 'xanh' ),
 	] );
 }
 add_action( 'after_setup_theme', 'xanh_theme_setup' );
@@ -134,6 +136,27 @@ function xanh_remove_wp_bloat() {
 add_action( 'after_setup_theme', 'xanh_remove_wp_bloat' );
 
 /**
+ * Send security headers via PHP (works on both Nginx and Apache).
+ *
+ * Complements .htaccess headers for Apache/LiteSpeed environments.
+ * Only outputs on frontend to avoid interfering with wp-admin iframes.
+ *
+ * @return void
+ */
+function xanh_security_headers() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	header( 'X-Content-Type-Options: nosniff' );
+	header( 'X-Frame-Options: SAMEORIGIN' );
+	header( 'X-XSS-Protection: 1; mode=block' );
+	header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+	header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(self)' );
+}
+add_action( 'send_headers', 'xanh_security_headers' );
+
+/**
  * Dequeue block library styles (classic theme — no Gutenberg frontend).
  *
  * @return void
@@ -174,6 +197,46 @@ function xanh_disable_frontend_heartbeat() {
 	}
 }
 add_action( 'init', 'xanh_disable_frontend_heartbeat', 1 );
+
+/**
+ * Dequeue jQuery on frontend (theme uses vanilla ES6+).
+ *
+ * Saves ~87 KB. jQuery remains available in wp-admin for ACF + plugins.
+ *
+ * @return void
+ */
+function xanh_dequeue_frontend_jquery() {
+	if ( ! is_admin() && ! is_customize_preview() ) {
+		wp_deregister_script( 'jquery' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'xanh_dequeue_frontend_jquery', 1 );
+
+/**
+ * Lazy-load third-party widgets (Zalo) — 3 s after window.load.
+ *
+ * Prevents render-blocking by deferring non-critical third-party JS.
+ *
+ * @return void
+ */
+function xanh_delayed_third_party() {
+	if ( is_admin() ) {
+		return;
+	}
+	?>
+	<script>
+	window.addEventListener('load', function() {
+		setTimeout(function() {
+			var s = document.createElement('script');
+			s.src = 'https://sp.zalo.me/plugins/sdk.js';
+			s.async = true;
+			document.body.appendChild(s);
+		}, 3000);
+	});
+	</script>
+	<?php
+}
+add_action( 'wp_footer', 'xanh_delayed_third_party', 99 );
 
 /**
  * Output JSON-LD structured data in wp_head.

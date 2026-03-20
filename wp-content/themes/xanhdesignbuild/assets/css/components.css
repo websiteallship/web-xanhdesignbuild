@@ -621,7 +621,7 @@ body {
     padding: 5px 12px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.55);
-    transition: all var(--transition-base);
+    transition: border-color var(--transition-base), color var(--transition-base);
 }
 
 .footer-badge:hover {
@@ -754,7 +754,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-right: none;
     outline: none;
-    transition: all var(--transition-base);
+    transition: background var(--transition-base), border-color var(--transition-base);
 }
 
 .footer-newsletter__input::placeholder {
@@ -775,7 +775,7 @@ body {
     border: 1px solid var(--color-accent);
     color: var(--color-white);
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: background var(--transition-base), border-color var(--transition-base);
     flex-shrink: 0;
 }
 
@@ -785,8 +785,8 @@ body {
 }
 
 .footer-newsletter__btn:hover {
-    background: #e67a00;
-    border-color: #e67a00;
+    background: color-mix(in srgb, var(--color-accent), black 10%);
+    border-color: color-mix(in srgb, var(--color-accent), black 10%);
 }
 
 /* ── Bottom Bar ── */
@@ -916,4 +916,1055 @@ body {
     .footer-newsletter__form {
         flex-direction: row;
     }
+}
+
+/* ==============================================
+   13. SHARED CARD ANIMATIONS
+   ==============================================
+   Reusable hover-effect primitives for any card
+   component (blog cards, project cards, etc.).
+   Apply via HTML classes — no duplication across
+   page-level CSS files.
+   ============================================== */
+
+/* ── Base card: top + bottom border sweep ── */
+.xanh-card {
+  position: relative;
+  overflow: hidden;
+  contain: layout;
+  transition: var(--card-transition);
+  will-change: transform;
+}
+.xanh-card::before,
+.xanh-card::after {
+  content: '';
+  position: absolute;
+  z-index: 10;
+  background: var(--color-accent);
+  transition: transform var(--duration-hover) var(--ease-luxury);
+}
+.xanh-card::before {
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.xanh-card::after {
+  bottom: 0; right: 0;
+  width: 100%; height: 2px;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+.xanh-card:hover::before { transform: scaleX(1); }
+.xanh-card:hover::after  { transform: scaleX(1); }
+
+/* ── Image wrapper: left + right border sweep ── */
+.xanh-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.xanh-card__img-wrap::before,
+.xanh-card__img-wrap::after {
+  content: '';
+  position: absolute;
+  z-index: 10;
+  background: var(--color-accent);
+  transition: transform var(--duration-hover) var(--ease-luxury);
+}
+.xanh-card__img-wrap::before {
+  top: 0; left: 0;
+  width: 2px; height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.xanh-card__img-wrap::after {
+  top: 0; right: 0;
+  width: 2px; height: 100%;
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+.xanh-card:hover .xanh-card__img-wrap::before { transform: scaleY(1); }
+.xanh-card:hover .xanh-card__img-wrap::after  { transform: scaleY(1); }
+
+/* ── Image zoom on hover ── */
+.xanh-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-luxury), filter 0.6s ease;
+}
+.xanh-card:hover .xanh-card__img-wrap img {
+  transform: scale(1.08);
+  filter: brightness(1.05) contrast(1.02);
+}
+
+/* ── Gradient overlay on hover ── */
+.xanh-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20,81,61,0.55) 0%,
+    rgba(20,81,61,0.08) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-hover) ease;
+  z-index: 2;
+  pointer-events: none;
+}
+.xanh-card:hover .xanh-card__overlay { opacity: 1; }
+
+/* ── Light sweep hover effect ── */
+.xanh-card__sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255,255,255,0.22) 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-position: 150% 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.xanh-card:hover .xanh-card__sweep {
+  opacity: 1;
+  animation: lightSweep 0.8s ease-out forwards;
+}
+
+/* ==============================================
+   15. WORDPRESS EDITOR CONTENT — Global Prose
+   ==============================================
+   Styles for the_content() output across ALL pages
+   (blog, portfolio, services, static pages).
+   Page-specific typography (drop cap, heading accents)
+   lives in page CSS (e.g. blog-detail.css .article-body).
+   ============================================== */
+
+/* ── WordPress Alignment Classes ── */
+.alignleft {
+  float: left;
+  margin: 0.5em 1.5em 1em 0;
+  max-width: 50%;
+}
+
+.alignright {
+  float: right;
+  margin: 0.5em 0 1em 1.5em;
+  max-width: 50%;
+}
+
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+}
+
+.alignwide {
+  margin-left: -2rem;
+  margin-right: -2rem;
+  max-width: calc(100% + 4rem);
+}
+
+.alignfull {
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  max-width: 100vw;
+  width: 100vw;
+}
+
+/* Prevent alignment floats from breaking layout */
+.alignleft + *,
+.alignright + * {
+  clear: none;
+}
+
+@media (max-width: 639px) {
+  .alignleft,
+  .alignright {
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+
+/* ── Responsive Embed (YouTube, Vimeo, etc.) ── */
+.wp-block-embed {
+  margin: 2.5rem 0;
+}
+
+.wp-block-embed__wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.wp-block-embed__wrapper iframe,
+.wp-block-embed__wrapper object,
+.wp-block-embed__wrapper embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Standalone iframe fallback */
+iframe:not([src*="facebook"]) {
+  max-width: 100%;
+}
+
+/* ── WP Block Image ── */
+.wp-block-image {
+  margin: 2.5rem 0;
+}
+
+.wp-block-image img {
+  border-radius: 2px;
+  height: auto;
+}
+
+.wp-block-image figcaption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: rgba(26, 26, 26, 0.5);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── WP Block Quote ── */
+.wp-block-quote {
+  position: relative;
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  background: rgba(20, 81, 61, 0.04);
+  border-left: 4px solid var(--color-primary);
+  font-style: italic;
+  color: rgba(26, 26, 26, 0.8);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.wp-block-quote cite {
+  display: block;
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  margin-top: 1rem;
+}
+
+/* ── WP Block Pull Quote ── */
+.wp-block-pullquote {
+  border-top: 3px solid var(--color-primary);
+  border-bottom: 3px solid var(--color-primary);
+  border-left: none;
+  padding: 2rem 0;
+  margin: 3rem 0;
+  text-align: center;
+  background: transparent;
+}
+
+.wp-block-pullquote blockquote {
+  border-left: none;
+  background: transparent;
+  padding: 0;
+}
+
+.wp-block-pullquote p {
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-dark);
+}
+
+.wp-block-pullquote cite {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+}
+
+/* ── WP Block Buttons ── */
+.wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+
+.wp-block-button__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: 0;
+  cursor: pointer;
+  background: var(--color-accent);
+  color: var(--color-white);
+  border: 1px solid var(--color-accent);
+  transition: background var(--duration-base) ease,
+              box-shadow var(--duration-base) ease;
+}
+
+.wp-block-button__link:hover {
+  background: var(--color-accent-hover, #e67a00);
+  box-shadow: 0 10px 25px rgba(255, 138, 0, 0.3);
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(20, 81, 61, 0.2);
+}
+
+/* ── WP Block Cover ── */
+.wp-block-cover {
+  position: relative;
+  margin: 2.5rem 0;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wp-block-cover__inner-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── WP Block Video / Audio ── */
+.wp-block-video,
+.wp-block-audio {
+  margin: 2rem 0;
+}
+
+.wp-block-video video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+.wp-block-audio audio {
+  width: 100%;
+}
+
+/* ── WP Block Table ── */
+.wp-block-table {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+
+.wp-block-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.wp-block-table thead {
+  background: var(--color-primary);
+  color: white;
+}
+
+.wp-block-table thead th {
+  padding: 0.875rem 1rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: left;
+}
+
+.wp-block-table tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  transition: background var(--duration-base) ease;
+}
+
+.wp-block-table tbody tr:hover {
+  background: rgba(20, 81, 61, 0.04);
+}
+
+.wp-block-table td {
+  padding: 0.75rem 1rem;
+  color: rgba(26, 26, 26, 0.78);
+}
+
+/* ── WP Block Code ── */
+.wp-block-code {
+  background: var(--color-dark);
+  color: #e5e7eb;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  border-left: 4px solid var(--color-accent);
+}
+
+.wp-block-code code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+/* ── WP Block Group ── */
+.wp-block-group {
+  margin: 2rem 0;
+}
+
+/* ── WP Block List ── */
+.wp-block-list {
+  margin: 0 0 1.5em 0;
+}
+
+/* ── Figure & Figcaption (WP Image Blocks) ── */
+.prose-content figure,
+.wp-block-image {
+  margin: 2.5rem 0;
+}
+
+.prose-content figure img,
+.wp-block-image img {
+  margin: 0;
+  width: 100%;
+  border-radius: 2px;
+}
+
+.prose-content figcaption,
+.wp-caption-text {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--color-dark-50, rgba(26, 26, 26, 0.5));
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Details / Summary — FAQ Accordion (contact.html pattern) ── */
+.prose-content details,
+details.wp-block-details {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0;
+  margin: 0;
+}
+
+.prose-content details:first-of-type,
+details.wp-block-details:first-of-type {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.prose-content details summary,
+details.wp-block-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.25rem 0;
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-dark);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--duration-base) ease;
+}
+
+.prose-content details summary::-webkit-details-marker,
+details.wp-block-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.prose-content details summary::marker,
+details.wp-block-details summary::marker {
+  display: none;
+  content: '';
+}
+
+.prose-content details summary::after,
+details.wp-block-details summary::after {
+  content: '';
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  margin-left: 1rem;
+  transition: transform 0.3s var(--ease-smooth);
+}
+
+.prose-content details summary:hover,
+details.wp-block-details summary:hover {
+  color: var(--color-primary);
+}
+
+.prose-content details[open] summary::after,
+details.wp-block-details[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.prose-content details[open] summary,
+details.wp-block-details[open] summary {
+  color: var(--color-primary);
+  padding-bottom: 0.75rem;
+}
+
+.prose-content details > *:not(summary),
+details.wp-block-details > *:not(summary) {
+  padding-bottom: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: rgba(26, 26, 26, 0.65);
+  max-width: 65ch;
+}
+
+@media (min-width: 768px) {
+  .prose-content details summary,
+  details.wp-block-details summary {
+    font-size: 1.0625rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .prose-content details > *:not(summary),
+  details.wp-block-details > *:not(summary) {
+    padding-inline: 1rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* ── WP Block Buttons — CTA style ── */
+.wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.wp-block-button__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background var(--duration-base) ease,
+              color var(--duration-base) ease,
+              border-color var(--duration-base) ease,
+              box-shadow var(--duration-base) ease,
+              transform var(--duration-hover) ease;
+}
+
+/* Filled button */
+.wp-block-button:not(.is-style-outline) .wp-block-button__link {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+}
+
+.wp-block-button:not(.is-style-outline) .wp-block-button__link:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(20, 81, 61, 0.25);
+}
+
+/* Outline button */
+.wp-block-button.is-style-outline .wp-block-button__link {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(20, 81, 61, 0.25);
+}
+
+/* ── Classic Editor Caption ── */
+.wp-caption {
+  max-width: 100%;
+  margin: 2.5rem 0;
+}
+
+.wp-caption img {
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+.wp-caption-text {
+  font-size: 0.8125rem;
+  color: rgba(26, 26, 26, 0.5);
+  font-style: italic;
+  text-align: center;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+/* ── Clear floats helper ── */
+.entry-content::after,
+.prose-content::after,
+.article-body::after,
+.article-main::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* ==============================================
+   16. PROSE CONTENT — Reusable Typography
+   ==============================================
+   Base prose formatting for the_content() output.
+   Apply class="prose-content" on any wrapper that
+   renders the_content() — blog, portfolio, page, etc.
+   Page-specific enhancements (drop cap, colored H2)
+   override via a second class (e.g. .article-body).
+
+   Performance: lives in components.css (global, cached
+   after first visit). No extra HTTP request per page.
+   ============================================== */
+.prose-content {
+  max-width: 72ch;
+  margin-inline: auto;
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  line-height: 1.8;
+  color: rgba(26, 26, 26, 0.82);
+}
+
+/* ── Paragraph ── */
+.prose-content p {
+  margin-bottom: 1.5em;
+}
+
+.prose-content p strong {
+  color: var(--color-dark);
+  font-weight: 700;
+}
+
+.prose-content p em {
+  font-style: italic;
+}
+
+/* ── Headings — bold only, primary color, no decorations ── */
+.prose-content h1,
+.prose-content h2,
+.prose-content h3,
+.prose-content h4,
+.prose-content h5,
+.prose-content h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--color-primary);
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+  text-decoration: none;
+  border: none;
+  text-transform: none;
+}
+
+.prose-content h1 {
+  font-size: 2rem;
+  letter-spacing: -0.025em;
+}
+
+.prose-content h2 {
+  font-size: 1.625rem;
+}
+
+.prose-content h3 {
+  font-size: 1.25rem;
+}
+
+.prose-content h4 {
+  font-size: 1rem;
+}
+
+.prose-content h5 {
+  font-size: 0.9375rem;
+}
+
+.prose-content h6 {
+  font-size: 0.8125rem;
+}
+
+/* ── Links ── */
+.prose-content a:not(.btn) {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--duration-base) ease,
+              text-decoration-color var(--duration-base) ease;
+}
+
+.prose-content a:not(.btn):hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+}
+
+/* ── Unordered List ── */
+.prose-content ul {
+  list-style: none;
+  margin: 0 0 1.5em 0;
+  padding-left: 0;
+}
+
+.prose-content ul li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.prose-content ul ul li::before {
+  background: transparent;
+  border: 1.5px solid var(--color-primary);
+}
+
+/* ── Ordered List ── */
+.prose-content ol {
+  list-style: none;
+  counter-reset: ordered-list;
+  margin: 0 0 1.5em 0;
+  padding-left: 0;
+}
+
+.prose-content ol li {
+  position: relative;
+  padding-left: 2em;
+  margin-bottom: 0.5em;
+  counter-increment: ordered-list;
+}
+
+.prose-content ol li::before {
+  content: counter(ordered-list) '.';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 0.875em;
+}
+
+/* ── Definition List ── */
+.prose-content dl {
+  margin: 0 0 1.5em 0;
+}
+
+.prose-content dt {
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 0.25em;
+}
+
+.prose-content dd {
+  margin-left: 1.5em;
+  margin-bottom: 0.75em;
+  color: rgba(26, 26, 26, 0.7);
+}
+
+/* ── Blockquote ── */
+.prose-content blockquote {
+  position: relative;
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  background: rgba(20, 81, 61, 0.04);
+  border-left: 4px solid var(--color-primary);
+  font-style: italic;
+  color: rgba(26, 26, 26, 0.8);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.prose-content blockquote p {
+  margin-bottom: 0.5em;
+}
+
+.prose-content blockquote cite {
+  display: block;
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  margin-top: 1rem;
+}
+
+/* ── Inline Code ── */
+.prose-content code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875em;
+  background: rgba(20, 81, 61, 0.07);
+  color: var(--color-primary);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* ── Code Block ── */
+.prose-content pre {
+  background: var(--color-dark);
+  color: #e5e7eb;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  border-left: 4px solid var(--color-accent);
+}
+
+.prose-content pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+/* ── Table ── */
+.prose-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9375rem;
+}
+
+.prose-content thead {
+  background: var(--color-primary);
+  color: white;
+}
+
+.prose-content thead th {
+  padding: 0.875rem 1rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: left;
+}
+
+.prose-content tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  transition: background var(--duration-base) ease;
+}
+
+.prose-content tbody tr:hover {
+  background: rgba(20, 81, 61, 0.04);
+}
+
+.prose-content td {
+  padding: 0.75rem 1rem;
+  color: rgba(26, 26, 26, 0.78);
+}
+
+.prose-content tfoot td {
+  font-weight: 700;
+  color: var(--color-dark);
+  border-top: 2px solid var(--color-primary);
+}
+
+/* ── Figure & Figcaption ── */
+.prose-content figure {
+  margin: 2.5rem 0;
+}
+
+.prose-content figure img {
+  margin: 0;
+  width: 100%;
+  border-radius: 2px;
+}
+
+.prose-content figcaption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: rgba(26, 26, 26, 0.5);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.prose-content > img {
+  border-radius: 2px;
+  margin: 2.5rem 0;
+  width: 100%;
+}
+
+/* ── Horizontal Rule ── */
+.prose-content hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 3rem 0;
+}
+
+/* ── Inline Elements ── */
+.prose-content sup,
+.prose-content sub {
+  font-size: 0.7em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.prose-content sup { top: -0.5em; }
+.prose-content sub { bottom: -0.25em; }
+
+.prose-content abbr[title] {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.prose-content mark {
+  background: rgba(255, 138, 0, 0.18);
+  color: var(--color-dark);
+  padding: 0.05em 0.25em;
+}
+
+.prose-content kbd {
+  display: inline-block;
+  padding: 0.15em 0.45em;
+  font-size: 0.8em;
+  font-family: 'Courier New', Courier, monospace;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom-width: 3px;
+  border-radius: 3px;
+  background: var(--color-light);
+}
+
+/* ── WP Gutenberg Blocks (within prose) ── */
+.prose-content .wp-block-gallery {
+  display: grid;
+  gap: 0.75rem;
+  margin: 2.5rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.prose-content .wp-block-gallery img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  margin: 0;
+}
+
+.prose-content .wp-block-separator {
+  border: none;
+  border-top: 2px solid rgba(0, 0, 0, 0.08);
+  margin: 3rem 0;
+}
+
+.prose-content .wp-block-columns {
+  display: flex;
+  gap: 2rem;
+  margin: 2.5rem 0;
+  flex-wrap: wrap;
+}
+
+.prose-content .wp-block-column {
+  flex: 1 1 200px;
+}
+
+/* Text alignment helpers */
+.prose-content .has-text-align-center { text-align: center; }
+.prose-content .has-text-align-right { text-align: right; }
+.prose-content .has-text-align-justify { text-align: justify; }
+
+/* ── Responsive table (mobile) ── */
+@media (max-width: 640px) {
+  .prose-content table { font-size: 0.8125rem; }
+  .prose-content thead th,
+  .prose-content td { padding: 0.625rem 0.75rem; }
+}
+
+/* ==============================================
+   BACK TO TOP — Global
+   ============================================== */
+#back-to-top {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 50;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#back-to-top.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#back-to-top:hover {
+    background: color-mix(in srgb, var(--color-primary) 85%, black);
+    transform: translateY(-2px);
+}
+
+#back-to-top:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
 }

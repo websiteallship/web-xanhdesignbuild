@@ -40,6 +40,18 @@ function xanh_enqueue_scripts() {
 	wp_enqueue_style( 'xanh-tailwind', "$uri/assets/css/output.css", [ 'xanh-google-fonts' ], $ver );
 	wp_enqueue_style( 'xanh-variables', "$uri/assets/css/variables.css", [ 'xanh-tailwind' ], $ver );
 	wp_enqueue_style( 'xanh-components', "$uri/assets/css/components.css", [ 'xanh-variables' ], $ver );
+	wp_enqueue_style( 'xanh-preloader', "$uri/assets/css/components/preloader.css", [ 'xanh-variables' ], $ver );
+
+	// ═══════════════════════════════════════════
+	// JS: Preloader (load early, before vendor scripts)
+	// ═══════════════════════════════════════════
+	wp_enqueue_script(
+		'xanh-preloader',
+		"$uri/assets/js/components/preloader.js",
+		[ 'gsap' ],
+		$ver,
+		[ 'strategy' => 'defer', 'in_footer' => true ]
+	);
 
 	// ═══════════════════════════════════════════
 	// JS: Vendor CDN (global, defer, footer)
@@ -70,7 +82,7 @@ function xanh_enqueue_scripts() {
 
 	wp_enqueue_script(
 		'lucide',
-		'https://unpkg.com/lucide@0.468.0',
+		'https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js',
 		[],
 		'0.468.0',
 		[ 'strategy' => 'defer', 'in_footer' => true ]
@@ -112,15 +124,15 @@ function xanh_enqueue_scripts() {
 	if ( is_singular( 'xanh_project' ) ) {
 		wp_enqueue_style(
 			'glightbox-css',
-			'https://cdn.jsdelivr.net/npm/glightbox@3/dist/css/glightbox.min.css',
+			'https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css',
 			[],
 			null
 		);
 		wp_enqueue_script(
 			'glightbox',
-			'https://cdn.jsdelivr.net/npm/glightbox@3/dist/glightbox.min.js',
+			'https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js',
 			[],
-			'3',
+			'3.3.0',
 			[ 'strategy' => 'defer', 'in_footer' => true ]
 		);
 	}
@@ -170,12 +182,52 @@ function xanh_resource_hints() {
 		} else {
 			$lcp_src = site_url( '/wp-content/uploads/2026/03/about-hero-bg.png' );
 		}
-	} elseif ( is_post_type_archive( 'xanh_project' ) ) {
+	} elseif ( is_post_type_archive( 'xanh_project' ) || is_tax( 'project_type' ) ) {
 		$pf_image = function_exists( 'get_field' ) ? get_field( 'portfolio_hero_image', 'option' ) : null;
 		if ( is_array( $pf_image ) && isset( $pf_image['ID'] ) ) {
 			$lcp_src = wp_get_attachment_image_url( $pf_image['ID'], 'full' );
 		} else {
 			$lcp_src = site_url( '/wp-content/uploads/2026/03/about-hero-bg.png' );
+		}
+	} elseif ( is_post_type_archive( 'xanh_service' ) ) {
+		$sv_image = function_exists( 'get_field' ) ? get_field( 'services_hero_image', 'option' ) : null;
+		if ( is_array( $sv_image ) && isset( $sv_image['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $sv_image['ID'], 'full' );
+		} else {
+			$lcp_src = site_url( '/wp-content/uploads/2026/03/about-hero-bg.png' );
+		}
+	} elseif ( is_page( 'lien-he' ) ) {
+		$ct_image = function_exists( 'get_field' ) ? get_field( 'contact_hero_image' ) : null;
+		if ( is_array( $ct_image ) && isset( $ct_image['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $ct_image['ID'], 'full' );
+		} else {
+			$lcp_src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80';
+		}
+	} elseif ( is_home() || is_category() ) {
+		$blog_image = function_exists( 'get_field' ) ? get_field( 'blog_hero_image', 'option' ) : null;
+		if ( is_array( $blog_image ) && isset( $blog_image['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $blog_image['ID'], 'full' );
+		} else {
+			$lcp_src = site_url( '/wp-content/uploads/2026/03/interior-living.png' );
+		}
+	} elseif ( is_singular( 'post' ) ) {
+		// Blog detail: preload the featured image.
+		if ( has_post_thumbnail() ) {
+			$lcp_src = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+		}
+	} elseif ( is_singular( 'xanh_project' ) ) {
+		$pd_hero = function_exists( 'get_field' ) ? get_field( 'pd_hero_image' ) : null;
+		if ( is_array( $pd_hero ) && isset( $pd_hero['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $pd_hero['ID'], 'full' );
+		} elseif ( has_post_thumbnail() ) {
+			$lcp_src = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+		}
+	} elseif ( is_singular( 'xanh_service' ) ) {
+		$sv_hero = function_exists( 'get_field' ) ? get_field( 'sv_hero_image' ) : null;
+		if ( is_array( $sv_hero ) && isset( $sv_hero['ID'] ) ) {
+			$lcp_src = wp_get_attachment_image_url( $sv_hero['ID'], 'full' );
+		} elseif ( has_post_thumbnail() ) {
+			$lcp_src = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 		}
 	}
 
@@ -211,17 +263,22 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 		wp_enqueue_script( 'xanh-contact-js', "$uri/assets/js/pages/contact.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 	}
 
-	if ( ( is_home() || is_archive() ) && ! is_post_type_archive( 'xanh_project' ) ) {
+	if ( ( is_home() || is_archive() ) && ! is_post_type_archive( 'xanh_project' ) && ! is_post_type_archive( 'xanh_service' ) ) {
 		wp_enqueue_style( 'xanh-blog', "$uri/assets/css/pages/blog.css", $deps_css, $ver );
 		wp_enqueue_script( 'xanh-blog-js', "$uri/assets/js/pages/blog.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
+		wp_localize_script( 'xanh-blog-js', 'xanhBlogAjax', [
+			'url'   => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'xanh_blog_nonce' ),
+		] );
 	}
 
 	if ( is_singular( 'post' ) ) {
-		wp_enqueue_style( 'xanh-blog-detail', "$uri/assets/css/pages/blog-detail.css", $deps_css, $ver );
+		wp_enqueue_style( 'xanh-blog', "$uri/assets/css/pages/blog.css", $deps_css, $ver );
+		wp_enqueue_style( 'xanh-blog-detail', "$uri/assets/css/pages/blog-detail.css", [ 'xanh-blog' ], $ver );
 		wp_enqueue_script( 'xanh-blog-detail-js', "$uri/assets/js/pages/blog-detail.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 	}
 
-	if ( is_post_type_archive( 'xanh_project' ) ) {
+	if ( is_post_type_archive( 'xanh_project' ) || is_tax( 'project_type' ) ) {
 		wp_enqueue_style( 'xanh-portfolio', "$uri/assets/css/pages/portfolio.css", $deps_css, $ver );
 		wp_enqueue_script( 'xanh-portfolio-js', "$uri/assets/js/pages/portfolio.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 		wp_localize_script( 'xanh-portfolio-js', 'xanhAjax', [
@@ -232,6 +289,20 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 
 	if ( is_singular( 'xanh_project' ) ) {
 		wp_enqueue_style( 'xanh-portfolio-detail', "$uri/assets/css/pages/portfolio-detail.css", $deps_css, $ver );
-		wp_enqueue_script( 'xanh-portfolio-detail-js', "$uri/assets/js/pages/portfolio-detail.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
+		wp_enqueue_script( 'xanh-portfolio-detail-js', "$uri/assets/js/pages/portfolio-detail.js", array_merge( $deps_js, [ 'swiper', 'glightbox' ] ), $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
+	}
+
+	if ( is_singular( 'xanh_service' ) ) {
+		wp_enqueue_style( 'xanh-service-detail', "$uri/assets/css/pages/service-detail.css", $deps_css, $ver );
+		wp_enqueue_script( 'xanh-service-detail-js', "$uri/assets/js/pages/service-detail.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
+	}
+
+	if ( is_post_type_archive( 'xanh_service' ) ) {
+		wp_enqueue_style( 'xanh-services', "$uri/assets/css/pages/services.css", $deps_css, $ver );
+		wp_enqueue_script( 'xanh-services-js', "$uri/assets/js/pages/services.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
+		wp_localize_script( 'xanh-services-js', 'xanhAjax', [
+			'url'   => set_url_scheme( admin_url( 'admin-ajax.php' ), wp_parse_url( home_url(), PHP_URL_SCHEME ) ),
+			'nonce' => wp_create_nonce( 'xanh_services_nonce' ),
+		] );
 	}
 }

@@ -176,12 +176,9 @@
    ============================================== */
 .project-card {
   display: block;
-  overflow: hidden;
   cursor: pointer;
   background: var(--color-white);
-  position: relative;
   border-radius: 0;
-  contain: layout;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
   border-top: 2px solid color-mix(in srgb, var(--color-primary) 12%, transparent);
 }
@@ -189,110 +186,15 @@
   .project-card { box-shadow: none; border-top: none; }
 }
 
-/* ── Animated border line effect ── */
-.project-card::before,
-.project-card::after {
-  content: '';
-  position: absolute;
-  z-index: 10;
-  background: var(--color-accent);
-  transition: transform var(--duration-hover) var(--ease-luxury);
-}
-.project-card::before {
-  top: 0; left: 0;
-  width: 100%; height: 2px;
-  transform: scaleX(0);
-  transform-origin: left;
-}
-.project-card::after {
-  bottom: 0; right: 0;
-  width: 100%; height: 2px;
-  transform: scaleX(0);
-  transform-origin: right;
-}
-.project-card:hover::before { transform: scaleX(1); }
-.project-card:hover::after { transform: scaleX(1); }
+/* Card hover effects (borders, zoom, overlay, sweep) → components.css (.xanh-card) */
 
-/* Left + right borders via inner pseudos */
-.project-card__image::before,
-.project-card__image::after {
-  content: '';
-  position: absolute;
-  z-index: 10;
-  background: var(--color-accent);
-  transition: transform var(--duration-hover) var(--ease-luxury);
-}
-.project-card__image::before {
-  top: 0; left: 0;
-  width: 2px; height: 100%;
-  transform: scaleY(0);
-  transform-origin: top;
-}
-.project-card__image::after {
-  top: 0; right: 0;
-  width: 2px; height: 100%;
-  transform: scaleY(0);
-  transform-origin: bottom;
-}
-.project-card:hover .project-card__image::before { transform: scaleY(1); }
-.project-card:hover .project-card__image::after { transform: scaleY(1); }
-
-/* Card Image — slow zoom on hover */
+/* Card Image */
 .project-card__image {
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border-radius: 0;
-}
-.project-card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.2s var(--ease-luxury), filter 0.8s ease;
-}
-.project-card:hover .project-card__image img {
-  transform: scale(1.08);
-  filter: brightness(1.05) contrast(1.02);
-}
-
-/* ── Gradient overlay on hover ── */
-.project-card__image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    color-mix(in srgb, var(--color-primary) 50%, transparent) 0%,
-    color-mix(in srgb, var(--color-primary) 5%, transparent) 50%,
-    transparent 100%
-  );
-  opacity: 0;
-  transition: opacity var(--duration-hover) ease;
-  z-index: 2;
-  pointer-events: none;
-}
-.project-card:hover .project-card__image-overlay { opacity: 1; }
-
-/* ── Light sweep hover effect ── */
-.project-card__light-sweep {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background: linear-gradient(
-    120deg,
-    transparent 0%, transparent 40%,
-    rgba(255, 255, 255, 0.25) 50%,
-    transparent 60%, transparent 100%
-  );
-  background-size: 200% 100%;
-  background-position: 150% 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.project-card:hover .project-card__light-sweep {
-  opacity: 1;
-  animation: lightSweep 0.8s ease-out forwards;
 }
 
 /* ── Card Info ── */
@@ -491,3 +393,6 @@
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
+
+/* Fix: .portfolio-grid `display:grid` overrides .hidden `display:none` */
+#skeleton-loader.hidden { display: none !important; }

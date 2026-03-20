@@ -15,14 +15,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $per_page = apply_filters( 'xanh_portfolio_per_page', 9 );
 
-$portfolio_query = new WP_Query( [
+$grid_args = [
 	'post_type'      => 'xanh_project',
 	'posts_per_page' => $per_page,
 	'paged'          => 1,
 	'post_status'    => 'publish',
 	'orderby'        => 'date',
 	'order'          => 'DESC',
-] );
+];
+
+// On taxonomy archive, filter by current term.
+if ( is_tax( 'project_type' ) ) {
+	$grid_args['tax_query'] = [
+		[
+			'taxonomy' => 'project_type',
+			'field'    => 'term_id',
+			'terms'    => get_queried_object_id(),
+		],
+	];
+}
+
+$portfolio_query = new WP_Query( $grid_args );
 
 $total_pages = $portfolio_query->max_num_pages;
 ?>

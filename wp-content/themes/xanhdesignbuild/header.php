@@ -17,8 +17,11 @@ $xanh_logo_white = XANH_THEME_URI . '/assets/images/logo-white.svg';
 $xanh_logo_dark  = XANH_THEME_URI . '/assets/images/logo-dark.svg';
 $xanh_hotline    = xanh_get_hotline();
 $xanh_socials    = xanh_get_social_links();
+$xanh_cta_text   = xanh_get_option( 'xanh_header_cta_text', __( 'Đặt Lịch Tư Vấn', 'xanh' ) );
+$xanh_cta_url    = xanh_get_option( 'xanh_header_cta_url' );
+$xanh_cta_url    = $xanh_cta_url ? $xanh_cta_url : home_url( '/lien-he/' );
 
-// Navigation items — used for both desktop and mobile menus.
+// Navigation items — fallback when no WP menu is assigned to 'primary'.
 $xanh_nav_items = [
 	[ 'label' => __( 'Trang Chủ', 'xanh' ), 'url' => home_url( '/' ) ],
 	[ 'label' => __( 'Giới Thiệu', 'xanh' ), 'url' => home_url( '/gioi-thieu/' ) ],
@@ -26,6 +29,7 @@ $xanh_nav_items = [
 	[ 'label' => __( 'Dịch Vụ', 'xanh' ),    'url' => home_url( '/dich-vu/' ) ],
 	[ 'label' => __( 'Blog', 'xanh' ),        'url' => get_permalink( get_option( 'page_for_posts' ) ) ],
 ];
+$xanh_has_wp_menu = has_nav_menu( 'primary' );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -37,6 +41,9 @@ $xanh_nav_items = [
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+
+<?php // Preloader — SVG path line drawing (ACF controlled) ?>
+<?php get_template_part( 'template-parts/components/preloader' ); ?>
 
 <!-- Skip Navigation — WCAG 2.4.1 -->
 <a href="#main-content" class="skip-link">
@@ -66,23 +73,36 @@ $xanh_nav_items = [
 		</a>
 
 		<!-- Desktop Menu -->
-		<ul class="hidden lg:flex items-center gap-10" id="desktop-menu">
-			<?php foreach ( $xanh_nav_items as $xanh_item ) : ?>
-				<li>
-					<a href="<?php echo esc_url( $xanh_item['url'] ); ?>"
-					   class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">
-						<?php echo esc_html( $xanh_item['label'] ); ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
+		<?php if ( $xanh_has_wp_menu ) : ?>
+			<?php
+			wp_nav_menu( [
+				'theme_location' => 'primary',
+				'container'      => false,
+				'menu_class'     => 'hidden lg:flex items-center gap-10',
+				'menu_id'        => 'desktop-menu',
+				'depth'          => 1,
+				'walker'         => new Xanh_Nav_Walker( 'desktop' ),
+			] );
+			?>
+		<?php else : ?>
+			<ul class="hidden lg:flex items-center gap-10" id="desktop-menu">
+				<?php foreach ( $xanh_nav_items as $xanh_item ) : ?>
+					<li>
+						<a href="<?php echo esc_url( $xanh_item['url'] ); ?>"
+						   class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">
+							<?php echo esc_html( $xanh_item['label'] ); ?>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
 
 		<!-- Desktop CTA -->
-		<a href="<?php echo esc_url( home_url( '/lien-he/' ) ); ?>"
+		<a href="<?php echo esc_url( $xanh_cta_url ); ?>"
 		   class="hidden lg:inline-flex btn btn--primary py-2.5 px-6 min-w-0 text-sm tracking-[0.1em]"
 		   id="header-cta">
 			<i data-lucide="phone" class="btn__icon"></i>
-			<?php esc_html_e( 'Đặt Lịch Tư Vấn', 'xanh' ); ?>
+			<?php echo esc_html( $xanh_cta_text ); ?>
 		</a>
 
 	</nav>
@@ -123,24 +143,37 @@ $xanh_nav_items = [
 
 	<!-- Nav Items -->
 	<nav class="flex-1 overflow-y-auto py-4">
-		<ul class="flex flex-col">
-			<?php foreach ( $xanh_nav_items as $xanh_item ) : ?>
-				<li>
-					<a href="<?php echo esc_url( $xanh_item['url'] ); ?>"
-					   class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
-						<?php echo esc_html( $xanh_item['label'] ); ?>
-						<i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
+		<?php if ( $xanh_has_wp_menu ) : ?>
+			<?php
+			wp_nav_menu( [
+				'theme_location' => 'primary',
+				'container'      => false,
+				'menu_class'     => 'flex flex-col',
+				'menu_id'        => 'mobile-menu',
+				'depth'          => 1,
+				'walker'         => new Xanh_Nav_Walker( 'mobile' ),
+			] );
+			?>
+		<?php else : ?>
+			<ul class="flex flex-col">
+				<?php foreach ( $xanh_nav_items as $xanh_item ) : ?>
+					<li>
+						<a href="<?php echo esc_url( $xanh_item['url'] ); ?>"
+						   class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+							<?php echo esc_html( $xanh_item['label'] ); ?>
+							<i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
 
 		<!-- CTA inside drawer -->
 		<div class="px-6 mt-6">
-			<a href="<?php echo esc_url( home_url( '/lien-he/' ) ); ?>"
-			   class="btn btn--primary w-full !min-w-0">
+			<a href="<?php echo esc_url( $xanh_cta_url ); ?>"
+			   class="btn btn--primary w-full !min-w-0 !py-2.5 text-xs">
 				<i data-lucide="phone" class="btn__icon"></i>
-				<?php esc_html_e( 'Đặt Lịch Tư Vấn Riêng', 'xanh' ); ?>
+				<?php echo esc_html( $xanh_cta_text ); ?>
 			</a>
 		</div>
 	</nav>

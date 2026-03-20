@@ -24,11 +24,11 @@ function xanh_register_options_pages()
 	acf_add_options_page([
 		'page_title' => __('Cài Đặt XANH', 'xanh'),
 		'menu_title' => __('Cài Đặt XANH', 'xanh'),
-		'menu_slug'  => 'xanh-settings',
+		'menu_slug' => 'xanh-settings',
 		'capability' => 'edit_posts',
-		'redirect'   => false,
-		'icon_url'   => 'dashicons-admin-customizer',
-		'position'   => 2,
+		'redirect' => false,
+		'icon_url' => 'dashicons-admin-customizer',
+		'position' => 2,
 	]);
 }
 add_action('acf/init', 'xanh_register_options_pages');
@@ -1581,7 +1581,71 @@ function xanh_register_settings_fields()
 				'mime_types' => 'svg,png,webp',
 			],
 
-			/* ── Tab: Thông tin liên hệ ── */
+			/* ── Section: Header CTA ── */
+			[
+				'key' => 'field_hf_header_cta_text',
+				'label' => 'Header CTA — Text',
+				'name' => 'xanh_header_cta_text',
+				'type' => 'text',
+				'instructions' => 'Nội dung nút CTA trên header. Để trống = mặc định "Đặt Lịch Tư Vấn".',
+				'placeholder' => 'Đặt Lịch Tư Vấn',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_hf_header_cta_url',
+				'label' => 'Header CTA — URL',
+				'name' => 'xanh_header_cta_url',
+				'type' => 'url',
+				'instructions' => 'URL nút CTA trên header. Để trống = mặc định trang Liên Hệ.',
+				'placeholder' => '/lien-he/',
+				'wrapper' => ['width' => '50'],
+			],
+
+			/* ── Section: Preloader ── */
+			[
+				'key' => 'field_hf_preloader_enabled',
+				'label' => 'Preloader — Bật/Tắt',
+				'name' => 'xanh_preloader_enabled',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+				'ui_on_text' => 'Bật',
+				'ui_off_text' => 'Tắt',
+				'instructions' => 'Bật hiệu ứng SVG logo animation khi tải trang (1 lần/session). Tự động ẩn trên trang chi tiết bài viết/dự án/dịch vụ.',
+			],
+			[
+				'key' => 'field_hf_preloader_theme',
+				'label' => 'Preloader — Theme',
+				'name' => 'xanh_preloader_theme',
+				'type' => 'button_group',
+				'choices' => [
+					'dark'  => '🌲 Dark (Nền xanh)',
+					'light' => '☀️ Light (Nền trắng)',
+				],
+				'default_value' => 'dark',
+				'layout' => 'horizontal',
+				'instructions' => 'Dark = nền primary + logo trắng. Light = nền trắng + logo xanh.',
+				'conditional_logic' => [
+					[['field' => 'field_hf_preloader_enabled', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_hf_preloader_mode',
+				'label' => 'Preloader — Chế độ hiển thị',
+				'name' => 'xanh_preloader_mode',
+				'type' => 'button_group',
+				'choices' => [
+					'session' => '🔁 1 lần / session',
+					'always'  => '♾️ Luôn hiện mọi trang',
+				],
+				'default_value' => 'session',
+				'layout' => 'horizontal',
+				'instructions' => 'Session = chỉ hiện 1 lần khi khách mở tab mới. Luôn hiện = hiệu ứng chạy mỗi lần chuyển trang.',
+				'conditional_logic' => [
+					[['field' => 'field_hf_preloader_enabled', 'operator' => '==', 'value' => '1']],
+				],
+			],
+
 			[
 				'key' => 'field_hf_hotline',
 				'label' => 'Hotline',
@@ -1604,7 +1668,7 @@ function xanh_register_settings_fields()
 				'type' => 'textarea',
 				'rows' => 2,
 				'new_lines' => '',
-				'placeholder' => '123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh',
+				'placeholder' => '123 Nguyễn Tất Thành, Phường Phước Hải, TP. Nha Trang, Khánh Hòa',
 			],
 
 			/* ── Tab: Mạng xã hội ── */
@@ -1662,6 +1726,32 @@ function xanh_register_settings_fields()
 					['key' => 'field_hf_badge_text', 'label' => 'Text', 'name' => 'text', 'type' => 'text', 'placeholder' => 'ISO 9001:2015'],
 				],
 			],
+			[
+				'key' => 'field_hf_footer_copyright',
+				'label' => 'Footer Copyright',
+				'name' => 'xanh_footer_copyright',
+				'type' => 'text',
+				'instructions' => 'Text copyright footer. Để trống = mặc định "© {năm} {tên site}. All rights reserved."',
+				'placeholder' => '© 2026 XANH Design & Build. All rights reserved.',
+			],
+			[
+				'key' => 'field_hf_legal_privacy_url',
+				'label' => 'Chính sách bảo mật — URL',
+				'name' => 'xanh_legal_privacy_url',
+				'type' => 'url',
+				'instructions' => 'URL trang chính sách bảo mật. Để trống = mặc định /chinh-sach-bao-mat/.',
+				'placeholder' => '/chinh-sach-bao-mat/',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_hf_legal_terms_url',
+				'label' => 'Điều khoản sử dụng — URL',
+				'name' => 'xanh_legal_terms_url',
+				'type' => 'url',
+				'instructions' => 'URL trang điều khoản sử dụng. Để trống = mặc định /dieu-khoan-su-dung/.',
+				'placeholder' => '/dieu-khoan-su-dung/',
+				'wrapper' => ['width' => '50'],
+			],
 
 			/* ══════ TAB 3: Blog ══════ */
 			[
@@ -1671,32 +1761,13 @@ function xanh_register_settings_fields()
 				'placement' => 'left',
 			],
 
-			/* ── Section: Hero ── */
+			/* ── Accordion: Hero ── */
 			[
-				'key' => 'field_blog_hero_eyebrow',
-				'label' => 'Eyebrow',
-				'name' => 'blog_hero_eyebrow',
-				'type' => 'text',
-				'placeholder' => 'Blog & Cảm Hứng',
-			],
-			[
-				'key' => 'field_blog_hero_title',
-				'label' => 'Headline',
-				'name' => 'blog_hero_title',
-				'type' => 'textarea',
-				'rows' => 2,
-				'new_lines' => '',
-				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
-				'placeholder' => 'Chia Sẻ Cảm Hứng Kiến Tạo',
-			],
-			[
-				'key' => 'field_blog_hero_subtitle',
-				'label' => 'Sub-headline',
-				'name' => 'blog_hero_subtitle',
-				'type' => 'textarea',
-				'rows' => 3,
-				'new_lines' => '',
-				'placeholder' => 'Khám phá kiến thức, kinh nghiệm và cảm hứng từ những dự án thực tế.',
+				'key' => 'field_blog_acc_hero',
+				'label' => 'Hero',
+				'type' => 'accordion',
+				'open' => 1,
+				'multi_expand' => 1,
 			],
 			[
 				'key' => 'field_blog_hero_image',
@@ -1706,10 +1777,156 @@ function xanh_register_settings_fields()
 				'return_format' => 'array',
 				'preview_size' => 'medium',
 				'mime_types' => 'jpg,jpeg,png,webp',
-				'instructions' => 'Kích thước tối ưu: 1920×600px.',
+				'instructions' => 'Kích thước tối ưu: 1920×1080px. Format: WebP hoặc JPG.',
+			],
+			[
+				'key' => 'field_blog_hero_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'blog_hero_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Blog — Cẩm Nang & Tin Tức',
+			],
+			[
+				'key' => 'field_blog_hero_headline',
+				'label' => 'Headline',
+				'name' => 'blog_hero_headline',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+				'placeholder' => 'Cẩm Nang Xây Dựng &<br class="hidden sm:block" /> Không Gian Sống Bền Vững.',
+			],
+			[
+				'key' => 'field_blog_hero_subtitle',
+				'label' => 'Subtitle',
+				'name' => 'blog_hero_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'placeholder' => 'Trở thành chuyên gia cho chính ngôi nhà của bạn — kinh nghiệm thực chiến, vật liệu bền vững, xu hướng thiết kế mới nhất.',
 			],
 
-			/* ── Tab: Sidebar ── */
+			/* ── Accordion: Lead Magnet ── */
+			[
+				'key' => 'field_blog_acc_lm',
+				'label' => 'Lead Magnet',
+				'type' => 'accordion',
+				'open' => 0,
+				'multi_expand' => 1,
+			],
+			[
+				'key' => 'field_blog_lm_headline',
+				'label' => 'Headline',
+				'name' => 'blog_lm_headline',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng, &lt;em&gt;…&lt;/em&gt; cho chữ nhấn beige.',
+				'placeholder' => 'Xây Nhà Lần Đầu?<br /><em>Đừng Bỏ Qua Cuốn Cẩm Nang Này.</em>',
+			],
+			[
+				'key' => 'field_blog_lm_subtext',
+				'label' => 'Subtext',
+				'name' => 'blog_lm_subtext',
+				'type' => 'textarea',
+				'rows' => 2,
+				'instructions' => 'Dùng &lt;strong&gt;…&lt;/strong&gt; cho chữ in đậm.',
+				'placeholder' => 'Ebook: <strong>"Bí Quyết Xây Nhà Không Phát Sinh Chi Phí & Tối Ưu Vận Hành"</strong>',
+			],
+			[
+				'key' => 'field_blog_lm_book_title',
+				'label' => 'Tên sách (bìa)',
+				'name' => 'blog_lm_book_title',
+				'type' => 'text',
+				'placeholder' => 'Bí Quyết Xây Nhà Không Phát Sinh',
+			],
+			[
+				'key' => 'field_blog_lm_trust_text',
+				'label' => 'Cam kết bảo mật',
+				'name' => 'blog_lm_trust_text',
+				'type' => 'text',
+				'placeholder' => 'Không spam — XANH cam kết bảo mật thông tin của bạn.',
+			],
+
+			/* ── Accordion: Inline CTA Banner ── */
+			[
+				'key' => 'field_blog_acc_inline_cta',
+				'label' => 'Inline CTA Banner',
+				'type' => 'accordion',
+				'open' => 0,
+				'multi_expand' => 1,
+			],
+			[
+				'key' => 'field_blog_show_inline_cta',
+				'label' => 'Hiển thị Inline CTA trong bài viết',
+				'name' => 'blog_show_inline_cta',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+				'instructions' => 'Bật để hiển thị khối CTA giữa bài viết trên mọi post.',
+			],
+			[
+				'key' => 'field_blog_inline_cta_title',
+				'label' => 'Tiêu đề',
+				'name' => 'blog_inline_cta_title',
+				'type' => 'text',
+				'placeholder' => 'Bạn đang gặp khó khăn trong việc tính toán dự toán dự án?',
+				'conditional_logic' => [
+					[['field' => 'field_blog_show_inline_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_blog_inline_cta_subtitle',
+				'label' => 'Mô tả ngắn',
+				'name' => 'blog_inline_cta_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'placeholder' => 'Nhận báo giá thiết kế chi tiết với sai số dưới 5% từ đội ngũ KTS XANH ngay hôm nay.',
+				'conditional_logic' => [
+					[['field' => 'field_blog_show_inline_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_blog_inline_cta_btn_text',
+				'label' => 'Nút CTA — Text',
+				'name' => 'blog_inline_cta_btn_text',
+				'type' => 'text',
+				'placeholder' => 'Tính Dự Toán',
+				'wrapper' => ['width' => '50'],
+				'conditional_logic' => [
+					[['field' => 'field_blog_show_inline_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_blog_inline_cta_btn_url',
+				'label' => 'Nút CTA — URL',
+				'name' => 'blog_inline_cta_btn_url',
+				'type' => 'url',
+				'placeholder' => '/lien-he/',
+				'wrapper' => ['width' => '50'],
+				'conditional_logic' => [
+					[['field' => 'field_blog_show_inline_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_blog_inline_cta_icon',
+				'label' => 'Lucide Icon (nền)',
+				'name' => 'blog_inline_cta_icon',
+				'type' => 'text',
+				'placeholder' => 'calculator',
+				'instructions' => 'Tên icon Lucide hiển thị nền mờ trang trí. Mặc định: calculator.',
+				'conditional_logic' => [
+					[['field' => 'field_blog_show_inline_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+
+			/* ── Accordion: Sidebar & Pagination ── */
+			[
+				'key' => 'field_blog_acc_sidebar',
+				'label' => 'Sidebar & Pagination',
+				'type' => 'accordion',
+				'open' => 0,
+				'multi_expand' => 1,
+			],
 			[
 				'key' => 'field_blog_posts_per_page',
 				'label' => 'Số bài mỗi trang',
@@ -1730,6 +1947,14 @@ function xanh_register_settings_fields()
 				'ui' => 1,
 				'ui_on_text' => 'Có',
 				'ui_off_text' => 'Không',
+			],
+
+			/* ── Accordion: End ── */
+			[
+				'key' => 'field_blog_acc_end',
+				'label' => 'Accordion End',
+				'type' => 'accordion',
+				'endpoint' => 1,
 			],
 
 			/* ══════ TAB 4: Liên Hệ ══════ */
@@ -1911,3 +2136,1597 @@ function xanh_register_settings_fields()
 	]);
 }
 add_action('acf/init', 'xanh_register_settings_fields');
+
+/**
+ * ─────────────────────────────────────────────────────────
+ * ACF Field Group — Project Detail (single-xanh_project).
+ *
+ * Per-post fields for portfolio detail page sections.
+ * Each section has a True/False toggle to show/hide.
+ * ─────────────────────────────────────────────────────────
+ */
+function xanh_register_project_detail_fields()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group([
+		'key' => 'group_project_detail',
+		'title' => 'Chi Tiết Dự Án — Nội dung các section',
+		'fields' => [
+
+			/* ══════════════ Tab: Card Info (Archive Grid) ══════════════ */
+			[
+				'key' => 'field_pd_tab_card',
+				'label' => 'Card Info',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_project_location',
+				'label' => 'Vị trí',
+				'name' => 'project_location',
+				'type' => 'text',
+				'placeholder' => 'Quận 2, TP.HCM',
+				'instructions' => 'Hiển thị trên card dự án (archive grid).',
+			],
+			[
+				'key' => 'field_pd_project_area',
+				'label' => 'Diện tích',
+				'name' => 'project_area',
+				'type' => 'text',
+				'placeholder' => '320 m²',
+			],
+			[
+				'key' => 'field_pd_project_duration',
+				'label' => 'Thời gian',
+				'name' => 'project_duration',
+				'type' => 'text',
+				'placeholder' => '8 tháng',
+			],
+			[
+				'key' => 'field_pd_project_service',
+				'label' => 'Dịch vụ liên quan',
+				'name' => 'project_service',
+				'type' => 'post_object',
+				'post_type' => ['xanh_service'],
+				'return_format' => 'object',
+				'allow_null' => 1,
+				'ui' => 1,
+				'instructions' => 'Chọn dịch vụ mà dự án này thuộc về. Tên dịch vụ + icon sẽ hiển thị trên card dự án.',
+			],
+			[
+				'key' => 'field_pd_project_tagline',
+				'label' => 'Tagline (Card)',
+				'name' => 'project_tagline',
+				'type' => 'text',
+				'placeholder' => 'Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh',
+				'instructions' => 'Mô tả ngắn trên card. Để trống = mặc định.',
+			],
+
+			/* ══════════════ Tab: Hero (D1+D2) ══════════════ */
+			[
+				'key' => 'field_pd_tab_hero',
+				'label' => 'Hero',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_hero_image',
+				'label' => 'Ảnh Hero',
+				'name' => 'pd_hero_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Ảnh nền hero full-width (1920×1080px). Nếu trống dùng Featured Image.',
+			],
+			[
+				'key' => 'field_pd_eyebrow',
+				'label' => 'Eyebrow (Loại hình)',
+				'name' => 'pd_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Biệt Thự — Modern Tropical',
+				'instructions' => 'Loại hình dự án hiển thị dưới title.',
+			],
+			[
+				'key' => 'field_pd_tagline',
+				'label' => 'Tagline',
+				'name' => 'pd_tagline',
+				'type' => 'text',
+				'placeholder' => 'Hoàn thiện sát 3D 98%  |  0% Phát sinh chi phí  |  Quận 2, TP.HCM',
+				'instructions' => 'Dòng thông tin ngắn dưới eyebrow.',
+			],
+
+			/* ══════════════ Tab: Stats (D3) ══════════════ */
+			[
+				'key' => 'field_pd_tab_stats',
+				'label' => 'Stats Bar',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_stats',
+				'label' => 'Hiển thị Stats Bar',
+				'name' => 'show_stats',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+			],
+			[
+				'key' => 'field_pd_stats',
+				'label' => 'Thống Số',
+				'name' => 'pd_stats',
+				'type' => 'repeater',
+				'min' => 0,
+				'max' => 6,
+				'layout' => 'table',
+				'button_label' => 'Thêm Thống Số',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_stats', 'operator' => '==', 'value' => '1']],
+				],
+				'sub_fields' => [
+					[
+						'key' => 'field_pd_stat_icon',
+						'label' => 'Lucide Icon',
+						'name' => 'icon',
+						'type' => 'text',
+						'placeholder' => 'map-pin',
+						'wrapper' => ['width' => '20'],
+					],
+					[
+						'key' => 'field_pd_stat_value',
+						'label' => 'Giá trị',
+						'name' => 'value',
+						'type' => 'text',
+						'placeholder' => '120',
+						'wrapper' => ['width' => '20'],
+					],
+					[
+						'key' => 'field_pd_stat_unit',
+						'label' => 'Đơn vị',
+						'name' => 'unit',
+						'type' => 'text',
+						'placeholder' => 'm²',
+						'wrapper' => ['width' => '15'],
+					],
+					[
+						'key' => 'field_pd_stat_label',
+						'label' => 'Nhãn',
+						'name' => 'label',
+						'type' => 'text',
+						'placeholder' => 'Diện Tích',
+						'wrapper' => ['width' => '25'],
+					],
+					[
+						'key' => 'field_pd_stat_is_counter',
+						'label' => 'Counter?',
+						'name' => 'is_counter',
+						'type' => 'true_false',
+						'ui' => 1,
+						'default_value' => 0,
+						'instructions' => 'Bật nếu muốn hiệu ứng đếm số.',
+						'wrapper' => ['width' => '10'],
+					],
+					[
+						'key' => 'field_pd_stat_decimals',
+						'label' => 'Số thập phân',
+						'name' => 'decimals',
+						'type' => 'number',
+						'placeholder' => '0',
+						'wrapper' => ['width' => '10'],
+					],
+				],
+			],
+			[
+				'key' => 'field_pd_stats_highlight_value',
+				'label' => 'Highlight Value',
+				'name' => 'pd_stats_highlight_value',
+				'type' => 'text',
+				'placeholder' => '0%',
+				'instructions' => 'Con số nổi bật (VD: 0%). Để trống = ẩn.',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_stats', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_stats_highlight_text',
+				'label' => 'Highlight Text',
+				'name' => 'pd_stats_highlight_text',
+				'type' => 'text',
+				'placeholder' => 'Phát sinh chi phí',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_stats', 'operator' => '==', 'value' => '1']],
+				],
+			],
+
+			/* ══════════════ Tab: Story (D4) ══════════════ */
+			[
+				'key' => 'field_pd_tab_story',
+				'label' => 'Câu Chuyện',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_story',
+				'label' => 'Hiển thị Câu Chuyện Dự Án',
+				'name' => 'show_story',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+			],
+			[
+				'key' => 'field_pd_story_eyebrow',
+				'label' => 'Section Eyebrow',
+				'name' => 'pd_story_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Câu Chuyện Dự Án',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_story_title',
+				'label' => 'Section Title',
+				'name' => 'pd_story_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Mỗi Không Gian Đều Bắt Đầu<br>Từ Một Bài Toán Thực Tế',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			// Challenge panel
+			[
+				'key' => 'field_pd_challenge_title',
+				'label' => 'Bài Toán — Tiêu đề',
+				'name' => 'pd_challenge_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Khu Đất Hướng Tây<br>Nắng Nóng Gay Gắt',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_challenge_body',
+				'label' => 'Bài Toán — Nội dung',
+				'name' => 'pd_challenge_body',
+				'type' => 'textarea',
+				'rows' => 4,
+				'placeholder' => 'Anh Hoàng tìm đến XANH với khu đất hướng Tây tại trung tâm Nha Trang...',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_context_heading',
+				'label' => 'Bối Cảnh — Heading',
+				'name' => 'pd_context_heading',
+				'type' => 'text',
+				'placeholder' => 'Bối Cảnh & Giới Hạn',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_context_body',
+				'label' => 'Bối Cảnh — Nội dung',
+				'name' => 'pd_context_body',
+				'type' => 'textarea',
+				'rows' => 3,
+				'placeholder' => 'Mặt tiền 6m hướng chính Tây, diện tích 120m²...',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_client_quote',
+				'label' => 'Trích dẫn khách hàng',
+				'name' => 'pd_client_quote',
+				'type' => 'textarea',
+				'rows' => 3,
+				'placeholder' => '"Tôi đã đi xem 5–6 đơn vị, ai cũng nói \'hướng Tây không vấn đề gì.\'..."',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_client_name',
+				'label' => 'Tên khách hàng',
+				'name' => 'pd_client_name',
+				'type' => 'text',
+				'placeholder' => '— Anh Hoàng, Gia chủ',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			// Solution panel
+			[
+				'key' => 'field_pd_solution_title',
+				'label' => 'Lời Giải — Tiêu đề',
+				'name' => 'pd_solution_title',
+				'type' => 'text',
+				'placeholder' => 'Thiết Kế & Giải Pháp Kỹ Thuật',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_solutions',
+				'label' => 'Giải pháp',
+				'name' => 'pd_solutions',
+				'type' => 'repeater',
+				'min' => 0,
+				'max' => 6,
+				'layout' => 'block',
+				'button_label' => 'Thêm Giải Pháp',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_story', 'operator' => '==', 'value' => '1']],
+				],
+				'sub_fields' => [
+					[
+						'key' => 'field_pd_sol_icon',
+						'label' => 'Lucide Icon',
+						'name' => 'icon',
+						'type' => 'text',
+						'placeholder' => 'grid-3x3',
+						'wrapper' => ['width' => '25'],
+					],
+					[
+						'key' => 'field_pd_sol_title',
+						'label' => 'Tiêu đề',
+						'name' => 'title',
+						'type' => 'text',
+						'placeholder' => 'Gạch Bông Gió Mặt Tiền',
+						'wrapper' => ['width' => '35'],
+					],
+					[
+						'key' => 'field_pd_sol_desc',
+						'label' => 'Mô tả',
+						'name' => 'desc',
+						'type' => 'textarea',
+						'rows' => 2,
+						'placeholder' => 'Hệ gạch bông gió mặt tiền phía Tây vừa tạo thẩm mỹ...',
+					],
+				],
+			],
+
+			/* ══════════════ Tab: Before/After (D5) ══════════════ */
+			[
+				'key' => 'field_pd_tab_ba',
+				'label' => 'Before/After',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_before_after',
+				'label' => 'Hiển thị Before/After',
+				'name' => 'show_before_after',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+			],
+			[
+				'key' => 'field_pd_ba_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'pd_ba_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Concept 3D vs Thực Tế',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_before_after', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_ba_title',
+				'label' => 'Title',
+				'name' => 'pd_ba_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Từ Bản Vẽ Đến<br>Ngôi Nhà Thực',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_before_after', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_ba_slides',
+				'label' => 'Slides So Sánh',
+				'name' => 'pd_ba_slides',
+				'type' => 'repeater',
+				'min' => 0,
+				'max' => 10,
+				'layout' => 'block',
+				'button_label' => 'Thêm Slide',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_before_after', 'operator' => '==', 'value' => '1']],
+				],
+				'sub_fields' => [
+					[
+						'key' => 'field_pd_ba_before_img',
+						'label' => 'Ảnh Before (Concept 3D)',
+						'name' => 'before_img',
+						'type' => 'image',
+						'return_format' => 'array',
+						'preview_size' => 'medium',
+						'wrapper' => ['width' => '33'],
+					],
+					[
+						'key' => 'field_pd_ba_after_img',
+						'label' => 'Ảnh After (Thực tế)',
+						'name' => 'after_img',
+						'type' => 'image',
+						'return_format' => 'array',
+						'preview_size' => 'medium',
+						'wrapper' => ['width' => '33'],
+					],
+					[
+						'key' => 'field_pd_ba_thumb_img',
+						'label' => 'Thumbnail',
+						'name' => 'thumb_img',
+						'type' => 'image',
+						'return_format' => 'array',
+						'preview_size' => 'thumbnail',
+						'instructions' => 'Ảnh nhỏ cho thanh thumbnail. Để trống = dùng ảnh After.',
+						'wrapper' => ['width' => '34'],
+					],
+					[
+						'key' => 'field_pd_ba_room_name',
+						'label' => 'Tên không gian',
+						'name' => 'room_name',
+						'type' => 'text',
+						'placeholder' => 'Phòng Khách Tầng 1',
+					],
+				],
+			],
+
+			/* ══════════════ Tab: Video (D5b) ══════════════ */
+			[
+				'key' => 'field_pd_tab_video',
+				'label' => 'Video',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_video',
+				'label' => 'Hiển thị Video',
+				'name' => 'show_video',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+			],
+			[
+				'key' => 'field_pd_video_title',
+				'label' => 'Title',
+				'name' => 'pd_video_title',
+				'type' => 'text',
+				'placeholder' => 'Không Gian Sống Động',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_video', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_video_url',
+				'label' => 'YouTube URL',
+				'name' => 'pd_video_url',
+				'type' => 'url',
+				'placeholder' => 'https://www.youtube.com/watch?v=...',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_video', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_video_subtext',
+				'label' => 'Subtext',
+				'name' => 'pd_video_subtext',
+				'type' => 'text',
+				'placeholder' => 'Thiết Kế Nội Thất Cao Cấp | Luxury Interior Design',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_video', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_video_bg',
+				'label' => 'Ảnh nền Video',
+				'name' => 'pd_video_bg',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_video', 'operator' => '==', 'value' => '1']],
+				],
+			],
+
+			/* ══════════════ Tab: Gallery (D7) ══════════════ */
+			[
+				'key' => 'field_pd_tab_gallery',
+				'label' => 'Gallery',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_gallery',
+				'label' => 'Hiển thị Gallery',
+				'name' => 'show_gallery',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+			],
+			[
+				'key' => 'field_pd_gallery_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'pd_gallery_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Thực Tế Thi Công',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_gallery', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_gallery_title',
+				'label' => 'Title',
+				'name' => 'pd_gallery_title',
+				'type' => 'text',
+				'placeholder' => 'Thành Quả Trọn Vẹn',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_gallery', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_gallery_subtitle',
+				'label' => 'Subtitle',
+				'name' => 'pd_gallery_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'placeholder' => 'Từng góc không gian được ghi lại sau khi hoàn thiện...',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_gallery', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_gallery_images',
+				'label' => 'Ảnh Gallery',
+				'name' => 'pd_gallery_images',
+				'type' => 'repeater',
+				'min' => 0,
+				'max' => 20,
+				'layout' => 'block',
+				'button_label' => 'Thêm Ảnh',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_gallery', 'operator' => '==', 'value' => '1']],
+				],
+				'sub_fields' => [
+					[
+						'key' => 'field_pd_gal_image',
+						'label' => 'Ảnh',
+						'name' => 'image',
+						'type' => 'image',
+						'return_format' => 'array',
+						'preview_size' => 'medium',
+						'wrapper' => ['width' => '40'],
+					],
+					[
+						'key' => 'field_pd_gal_caption',
+						'label' => 'Caption',
+						'name' => 'caption',
+						'type' => 'text',
+						'placeholder' => 'Phòng Khách',
+						'wrapper' => ['width' => '30'],
+					],
+					[
+						'key' => 'field_pd_gal_layout',
+						'label' => 'Layout',
+						'name' => 'layout',
+						'type' => 'select',
+						'choices' => [
+							'normal' => 'Normal',
+							'wide' => 'Wide (2 cột)',
+							'tall' => 'Tall (2 hàng)',
+						],
+						'default_value' => 'normal',
+						'wrapper' => ['width' => '30'],
+					],
+				],
+			],
+
+			/* ══════════════ Tab: Testimonial (D8) ══════════════ */
+			[
+				'key' => 'field_pd_tab_testimonial',
+				'label' => 'Cảm Nhận',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_testimonial',
+				'label' => 'Hiển thị Cảm Nhận Chủ Nhà',
+				'name' => 'show_testimonial',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+			],
+			[
+				'key' => 'field_pd_testi_image',
+				'label' => 'Ảnh khách hàng',
+				'name' => 'pd_testi_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Ảnh portrait, tỉ lệ 4:5 (720×900px).',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_testimonial', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_testi_quote',
+				'label' => 'Lời nhận xét',
+				'name' => 'pd_testi_quote',
+				'type' => 'textarea',
+				'rows' => 4,
+				'placeholder' => 'Ở được gần một năm rồi, điều mình thích nhất là...',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_testimonial', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_testi_name',
+				'label' => 'Tên khách hàng',
+				'name' => 'pd_testi_name',
+				'type' => 'text',
+				'placeholder' => 'Anh Hoàng & Chị Lan',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_testimonial', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_testi_role',
+				'label' => 'Vai trò / Vị trí',
+				'name' => 'pd_testi_role',
+				'type' => 'text',
+				'placeholder' => 'Chủ đầu tư · Villa Thảo Điền, Nha Trang',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_testimonial', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_testi_rating',
+				'label' => 'Đánh giá (sao)',
+				'name' => 'pd_testi_rating',
+				'type' => 'number',
+				'min' => 1,
+				'max' => 5,
+				'default_value' => 5,
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_testimonial', 'operator' => '==', 'value' => '1']],
+				],
+			],
+
+			/* ══════════════ Tab: CTA (D10) ══════════════ */
+			[
+				'key' => 'field_pd_tab_cta',
+				'label' => 'CTA',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_cta',
+				'label' => 'Hiển thị CTA',
+				'name' => 'show_cta',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+			],
+			[
+				'key' => 'field_pd_cta_headline',
+				'label' => 'Headline',
+				'name' => 'pd_cta_headline',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Bạn cũng muốn một không gian sống<br><em>trọn vẹn và minh bạch</em> như thế này?',
+				'instructions' => 'Dùng &lt;br&gt; và &lt;em&gt; để format.',
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_cta_btn1_text',
+				'label' => 'Nút chính — Text',
+				'name' => 'pd_cta_btn1_text',
+				'type' => 'text',
+				'placeholder' => 'Sử Dụng Công Cụ Dự Toán Xanh',
+				'wrapper' => ['width' => '50'],
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_cta_btn1_url',
+				'label' => 'Nút chính — URL',
+				'name' => 'pd_cta_btn1_url',
+				'type' => 'url',
+				'placeholder' => 'https://',
+				'wrapper' => ['width' => '50'],
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_cta_btn2_text',
+				'label' => 'Nút phụ — Text',
+				'name' => 'pd_cta_btn2_text',
+				'type' => 'text',
+				'placeholder' => 'Trao Đổi Riêng Với Chuyên Gia',
+				'wrapper' => ['width' => '50'],
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_pd_cta_btn2_url',
+				'label' => 'Nút phụ — URL',
+				'name' => 'pd_cta_btn2_url',
+				'type' => 'url',
+				'placeholder' => 'https://zalo.me/',
+				'wrapper' => ['width' => '50'],
+				'conditional_logic' => [
+					[['field' => 'field_pd_show_cta', 'operator' => '==', 'value' => '1']],
+				],
+			],
+
+			/* ══════════════ Tab: Related (D9) ══════════════ */
+			[
+				'key' => 'field_pd_tab_related',
+				'label' => 'Liên Quan',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_pd_show_related',
+				'label' => 'Hiển thị Dự Án Liên Quan',
+				'name' => 'show_related',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+				'instructions' => 'Tự động lấy 3 dự án cùng danh mục.',
+			],
+		],
+		'location' => [
+			[
+				[
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'xanh_project',
+				],
+			],
+		],
+		'style' => 'default',
+		'position' => 'normal',
+		'label_placement' => 'top',
+		'menu_order' => 0,
+		'active' => true,
+	]);
+}
+add_action('acf/init', 'xanh_register_project_detail_fields');
+
+/**
+ * ─────────────────────────────────────────────────────────
+ * ACF Field Groups — Contact Page (page-contact.php).
+ *
+ * Tabs: Hero | Contact Block | FAQ.
+ * ─────────────────────────────────────────────────────────
+ */
+function xanh_register_contact_page_fields()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group([
+		'key' => 'group_contact_page',
+		'title' => 'Liên Hệ — Nội dung trang Contact',
+		'fields' => [
+
+			/* ══════════════ Tab: Hero ══════════════ */
+			[
+				'key' => 'field_ct_tab_hero',
+				'label' => 'Hero',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_ct_hero_image',
+				'label' => 'Ảnh nền Hero',
+				'name' => 'contact_hero_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Kích thước tối ưu: 1920×960px. Format: WebP hoặc JPG.',
+				'mime_types' => 'jpg,jpeg,png,webp',
+			],
+			[
+				'key' => 'field_ct_hero_title',
+				'label' => 'Tiêu đề Hero',
+				'name' => 'contact_hero_title',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng, &lt;em&gt; cho chữ nhấn màu beige.',
+				'placeholder' => 'Mọi Công Trình Bền Vững Đều Bắt Đầu<br>Từ Một <em>Cuộc Trò Chuyện.</em>',
+			],
+			[
+				'key' => 'field_ct_hero_subtitle',
+				'label' => 'Mô tả Hero',
+				'name' => 'contact_hero_subtitle',
+				'type' => 'textarea',
+				'rows' => 3,
+				'placeholder' => 'Bạn đang ấp ủ một không gian sống mới nhưng còn nhiều trăn trở? Hãy chia sẻ với chúng tôi...',
+			],
+
+			/* ══════════════ Tab: Contact Block ══════════════ */
+			[
+				'key' => 'field_ct_tab_block',
+				'label' => 'Contact Block',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_ct_block_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'contact_block_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Liên Hệ Với Chúng Tôi',
+			],
+			[
+				'key' => 'field_ct_block_title',
+				'label' => 'Tiêu đề Section',
+				'name' => 'contact_block_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng, &lt;em&gt; cho chữ nhấn.',
+				'placeholder' => 'Kể Cho Chúng Tôi Nghe<br>Về <em style="font-style:normal;color:var(--color-primary);">Bài Toán Của Bạn</em>',
+			],
+			[
+				'key' => 'field_ct_form_shortcode',
+				'label' => 'Form Shortcode (Fluent Form)',
+				'name' => 'contact_form_shortcode',
+				'type' => 'text',
+				'instructions' => 'Nhập shortcode Fluent Form. Ví dụ: [fluentform id="1"]. Để trống sẽ hiện form mặc định.',
+				'placeholder' => '[fluentform id="1"]',
+			],
+			[
+				'key' => 'field_ct_working_hours',
+				'label' => 'Giờ Làm Việc',
+				'name' => 'contact_working_hours',
+				'type' => 'text',
+				'placeholder' => 'Thứ 2 — Thứ 7: 08:00 – 17:30',
+			],
+			[
+				'key' => 'field_ct_google_maps_url',
+				'label' => 'Google Maps Embed URL',
+				'name' => 'contact_google_maps_url',
+				'type' => 'url',
+				'instructions' => 'Lấy từ Google Maps → Chia sẻ → Nhúng bản đồ → Copy URL trong src="...".',
+				'placeholder' => 'https://www.google.com/maps/embed?pb=...',
+			],
+
+			/* ══════════════ Tab: FAQ ══════════════ */
+			[
+				'key' => 'field_ct_tab_faq',
+				'label' => 'FAQ',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_ct_faq_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'contact_faq_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Câu Hỏi Thường Gặp',
+			],
+			[
+				'key' => 'field_ct_faq_title',
+				'label' => 'Tiêu đề FAQ',
+				'name' => 'contact_faq_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;em&gt; cho chữ nhấn.',
+				'placeholder' => 'Những Điều Bạn <em style="font-style:normal;color:var(--color-primary);">Muốn Biết</em>',
+			],
+			[
+				'key' => 'field_ct_faq_items',
+				'label' => 'Câu hỏi & Trả lời',
+				'name' => 'contact_faq_items',
+				'type' => 'repeater',
+				'instructions' => 'Thêm các câu hỏi thường gặp. Tối đa 10 câu. Dữ liệu này cũng được dùng cho FAQPage Schema (SEO).',
+				'min' => 0,
+				'max' => 10,
+				'layout' => 'block',
+				'button_label' => 'Thêm FAQ',
+				'sub_fields' => [
+					[
+						'key' => 'field_ct_faq_question',
+						'label' => 'Câu hỏi',
+						'name' => 'question',
+						'type' => 'text',
+						'placeholder' => 'Tôi có phải trả phí cho buổi tư vấn ban đầu không?',
+					],
+					[
+						'key' => 'field_ct_faq_answer',
+						'label' => 'Trả lời',
+						'name' => 'answer',
+						'type' => 'textarea',
+						'rows' => 3,
+						'placeholder' => 'Hoàn toàn không. Buổi tư vấn đầu tiên tại XANH luôn miễn phí...',
+					],
+				],
+			],
+
+		],
+		'location' => [
+			[
+				[
+					'param' => 'page',
+					'operator' => '==',
+					'value' => 'lien-he',
+				],
+			],
+		],
+		'style' => 'default',
+		'position' => 'normal',
+		'label_placement' => 'top',
+		'menu_order' => 0,
+		'hide_on_screen' => [
+			'',
+			'the_content',
+		],
+		'active' => true,
+	]);
+}
+add_action('acf/init', 'xanh_register_contact_page_fields');
+
+/**
+ * ─────────────────────────────────────────────────────────
+ * ACF Field Groups — Service Detail Page.
+ *
+ * Tabs: Hero | Empathy | Features | Process | Portfolio |
+ *       Testimonial | FAQ | CTA
+ * Location: Page Template = page-service-detail.php
+ * ─────────────────────────────────────────────────────────
+ */
+function xanh_register_service_detail_fields()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group([
+		'key' => 'group_service_detail',
+		'title' => 'Service Detail — Trang Chi Tiết Dịch Vụ',
+		'fields' => [
+
+			/* ── Tab: Hero ── */
+			[
+				'key' => 'field_sv_tab_hero',
+				'label' => 'Hero',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_hero_image',
+				'label' => 'Ảnh nền Hero',
+				'name' => 'sv_hero_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => '1920×1080px, WebP. Preload LCP.',
+				'mime_types' => 'jpg,jpeg,png,webp',
+			],
+			[
+				'key' => 'field_sv_hero_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'sv_hero_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Dịch Vụ — Thiết Kế Kiến Trúc & Nội Thất',
+			],
+			[
+				'key' => 'field_sv_hero_title',
+				'label' => 'H1 Title',
+				'name' => 'sv_hero_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+				'placeholder' => 'Không Gian Sống Bản Sắc.<br>Hành Trình Kiến Tạo Di Sản.',
+			],
+			[
+				'key' => 'field_sv_hero_desc',
+				'label' => 'Mô tả Hero',
+				'name' => 'sv_hero_desc',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Cho phép &lt;strong&gt;. Hiển thị dưới H1.',
+			],
+			[
+				'key' => 'field_sv_hero_counters',
+				'label' => 'Counter Strip',
+				'name' => 'sv_hero_counters',
+				'type' => 'repeater',
+				'instructions' => 'Dải số liệu cuối hero (3 items).',
+				'min' => 0,
+				'max' => 5,
+				'layout' => 'table',
+				'button_label' => 'Thêm Counter',
+				'sub_fields' => [
+					[
+						'key' => 'field_sv_counter_number',
+						'label' => 'Số',
+						'name' => 'number',
+						'type' => 'text',
+						'placeholder' => '98',
+						'wrapper' => ['width' => '30'],
+					],
+					[
+						'key' => 'field_sv_counter_suffix',
+						'label' => 'Hậu tố',
+						'name' => 'suffix',
+						'type' => 'text',
+						'placeholder' => '%',
+						'wrapper' => ['width' => '20'],
+					],
+					[
+						'key' => 'field_sv_counter_label',
+						'label' => 'Label',
+						'name' => 'label',
+						'type' => 'text',
+						'placeholder' => 'Sát 3D',
+						'wrapper' => ['width' => '50'],
+					],
+				],
+			],
+			[
+				'key' => 'field_sv_card_icon',
+				'label' => 'Card Icon (Archive Grid)',
+				'name' => 'sv_card_icon',
+				'type' => 'text',
+				'instructions' => 'Tên icon Lucide hiển thị trên card ở trang danh sách dịch vụ. Tra cứu: <a href="https://lucide.dev/icons" target="_blank">lucide.dev/icons</a>. Ví dụ: drafting-compass, paint-roller, hard-hat, ruler, home',
+				'placeholder' => 'drafting-compass',
+			],
+
+			/* ── Tab: Empathy ── */
+			[
+				'key' => 'field_sv_tab_empathy',
+				'label' => 'Empathy (S2)',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_empathy_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'sv_empathy_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Sự Đồng Cảm Chuyên Sâu',
+			],
+			[
+				'key' => 'field_sv_empathy_title',
+				'label' => 'Headline (H2)',
+				'name' => 'sv_empathy_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+			],
+			[
+				'key' => 'field_sv_empathy_body',
+				'label' => 'Body (Wysiwyg)',
+				'name' => 'sv_empathy_body',
+				'type' => 'wysiwyg',
+				'tabs' => 'all',
+				'toolbar' => 'basic',
+				'media_upload' => 0,
+				'instructions' => 'Nội dung đồng cảm. Cho phép bold, italic, links.',
+			],
+			[
+				'key' => 'field_sv_empathy_image',
+				'label' => 'Ảnh bên phải',
+				'name' => 'sv_empathy_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Tỉ lệ 4:3 (720×540px).',
+			],
+
+			/* ── Tab: Features ── */
+			[
+				'key' => 'field_sv_tab_features',
+				'label' => 'Features (S3)',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_features_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'sv_features_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Nền Tảng Giải Pháp',
+			],
+			[
+				'key' => 'field_sv_features_title',
+				'label' => 'Headline (H2)',
+				'name' => 'sv_features_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+			],
+			[
+				'key' => 'field_sv_features_subtitle',
+				'label' => 'Subtitle',
+				'name' => 'sv_features_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'instructions' => 'Cho phép &lt;strong&gt;.',
+			],
+			[
+				'key' => 'field_sv_features_items',
+				'label' => 'Feature Cards',
+				'name' => 'sv_features',
+				'type' => 'repeater',
+				'instructions' => '6 thẻ năng lực chính.',
+				'min' => 0,
+				'max' => 8,
+				'layout' => 'block',
+				'button_label' => 'Thêm Feature',
+				'sub_fields' => [
+					[
+						'key' => 'field_sv_feat_icon',
+						'label' => 'Lucide Icon',
+						'name' => 'icon',
+						'type' => 'text',
+						'instructions' => 'Tên icon Lucide. Tra tại <a href="https://lucide.dev/icons" target="_blank">lucide.dev</a>',
+						'placeholder' => 'compass',
+						'wrapper' => ['width' => '25'],
+					],
+					[
+						'key' => 'field_sv_feat_title',
+						'label' => 'Tiêu đề',
+						'name' => 'title',
+						'type' => 'text',
+						'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+						'wrapper' => ['width' => '35'],
+					],
+					[
+						'key' => 'field_sv_feat_desc',
+						'label' => 'Mô tả',
+						'name' => 'desc',
+						'type' => 'textarea',
+						'rows' => 2,
+						'wrapper' => ['width' => '40'],
+					],
+				],
+			],
+
+			/* ── Tab: Process ── */
+			[
+				'key' => 'field_sv_tab_process',
+				'label' => 'Process (S4)',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_process_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'sv_process_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Xây Dựng Niềm Tin',
+			],
+			[
+				'key' => 'field_sv_process_title',
+				'label' => 'Headline (H2)',
+				'name' => 'sv_process_title',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+			],
+			[
+				'key' => 'field_sv_process_desc',
+				'label' => 'Mô tả',
+				'name' => 'sv_process_desc',
+				'type' => 'textarea',
+				'rows' => 2,
+				'instructions' => 'Cho phép &lt;strong&gt;.',
+			],
+			[
+				'key' => 'field_sv_process_stat_number',
+				'label' => 'Stat Number',
+				'name' => 'sv_process_stat_number',
+				'type' => 'text',
+				'placeholder' => '5',
+				'wrapper' => ['width' => '30'],
+			],
+			[
+				'key' => 'field_sv_process_stat_label',
+				'label' => 'Stat Label',
+				'name' => 'sv_process_stat_label',
+				'type' => 'text',
+				'placeholder' => 'Cột Mốc Rõ Ràng',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+				'wrapper' => ['width' => '70'],
+			],
+			[
+				'key' => 'field_sv_process_steps',
+				'label' => 'Các bước',
+				'name' => 'sv_process_steps',
+				'type' => 'repeater',
+				'instructions' => '5 bước quy trình.',
+				'min' => 0,
+				'max' => 8,
+				'layout' => 'block',
+				'button_label' => 'Thêm Bước',
+				'sub_fields' => [
+					[
+						'key' => 'field_sv_step_title',
+						'label' => 'Tiêu đề',
+						'name' => 'title',
+						'type' => 'text',
+						'wrapper' => ['width' => '30'],
+					],
+					[
+						'key' => 'field_sv_step_desc',
+						'label' => 'Mô tả',
+						'name' => 'desc',
+						'type' => 'textarea',
+						'rows' => 2,
+						'wrapper' => ['width' => '40'],
+					],
+					[
+						'key' => 'field_sv_step_icon1',
+						'label' => 'Icon 1',
+						'name' => 'icon_1',
+						'type' => 'text',
+						'placeholder' => 'headphones',
+						'wrapper' => ['width' => '15'],
+					],
+					[
+						'key' => 'field_sv_step_icon2',
+						'label' => 'Icon 2',
+						'name' => 'icon_2',
+						'type' => 'text',
+						'placeholder' => 'map-pin',
+						'wrapper' => ['width' => '15'],
+					],
+					[
+						'key' => 'field_sv_step_image',
+						'label' => 'Ảnh minh hoạ',
+						'name' => 'image',
+						'type' => 'image',
+						'return_format' => 'array',
+						'preview_size' => 'medium',
+						'mime_types' => 'jpg,jpeg,png,webp',
+						'instructions' => 'Ảnh minh hoạ cho bước quy trình (280×180px khuyến nghị).',
+					],
+				],
+			],
+
+			/* ── Tab: Portfolio ── */
+			[
+				'key' => 'field_sv_tab_portfolio',
+				'label' => 'Portfolio (S5)',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_portfolio_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'sv_portfolio_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Minh Chứng Chất Lượng',
+			],
+			[
+				'key' => 'field_sv_portfolio_title',
+				'label' => 'Headline (H2)',
+				'name' => 'sv_portfolio_title',
+				'type' => 'text',
+				'placeholder' => 'Bộ Sưu Tập Di Sản',
+			],
+			[
+				'key' => 'field_sv_portfolio_subtitle',
+				'label' => 'Subtitle',
+				'name' => 'sv_portfolio_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'instructions' => 'Cho phép &lt;strong&gt;.',
+			],
+			[
+				'key' => 'field_sv_portfolio_mode',
+				'label' => 'Chế độ chọn dự án',
+				'name' => 'sv_portfolio_mode',
+				'type' => 'button_group',
+				'choices' => [
+					'auto'     => '🔗 Tự động (theo dịch vụ)',
+					'manual'   => '🎯 Chọn tay từng dự án',
+					'taxonomy' => '📂 Theo danh mục dự án',
+				],
+				'default_value' => 'auto',
+				'layout' => 'horizontal',
+				'instructions' => 'Tự động = lấy dự án có gắn dịch vụ hiện tại. Chọn tay = pick từng dự án. Theo danh mục = lấy theo Loại Dự Án.',
+			],
+			[
+				'key' => 'field_sv_related_projects',
+				'label' => 'Chọn dự án',
+				'name' => 'sv_related_projects',
+				'type' => 'relationship',
+				'post_type' => ['xanh_project'],
+				'filters' => ['search'],
+				'min' => 0,
+				'max' => 6,
+				'return_format' => 'object',
+				'instructions' => 'Chọn 3-6 dự án tiêu biểu liên quan.',
+				'conditional_logic' => [
+					[['field' => 'field_sv_portfolio_mode', 'operator' => '==', 'value' => 'manual']],
+				],
+			],
+			[
+				'key' => 'field_sv_portfolio_category',
+				'label' => 'Danh mục dự án',
+				'name' => 'sv_portfolio_category',
+				'type' => 'taxonomy',
+				'taxonomy' => 'project_type',
+				'field_type' => 'multi_select',
+				'allow_null' => 1,
+				'add_term' => 0,
+				'save_terms' => 0,
+				'load_terms' => 0,
+				'return_format' => 'id',
+				'multiple' => 1,
+				'instructions' => 'Chọn 1 hoặc nhiều Loại Dự Án. Hệ thống sẽ tự lấy tối đa 6 dự án mới nhất trong danh mục đã chọn.',
+				'conditional_logic' => [
+					[['field' => 'field_sv_portfolio_mode', 'operator' => '==', 'value' => 'taxonomy']],
+				],
+			],
+			[
+				'key' => 'field_sv_portfolio_count',
+				'label' => 'Số dự án hiển thị',
+				'name' => 'sv_portfolio_count',
+				'type' => 'number',
+				'default_value' => 6,
+				'min' => 1,
+				'max' => 12,
+				'step' => 1,
+				'instructions' => 'Số dự án tối đa hiển thị (mặc định: 6).',
+				'wrapper' => ['width' => '30'],
+				'conditional_logic' => [
+					[['field' => 'field_sv_portfolio_mode', 'operator' => '==', 'value' => 'auto']],
+					[['field' => 'field_sv_portfolio_mode', 'operator' => '==', 'value' => 'taxonomy']],
+				],
+			],
+
+			/* ── Tab: Testimonial ── */
+			[
+				'key' => 'field_sv_tab_testimonial',
+				'label' => 'Testimonial (S6)',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_testi_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'sv_testi_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Dấu Ấn Sự Hài Lòng',
+			],
+			[
+				'key' => 'field_sv_testi_title',
+				'label' => 'Headline (H2)',
+				'name' => 'sv_testi_title',
+				'type' => 'text',
+				'placeholder' => 'Tiếng Nói Khách Hàng',
+			],
+			[
+				'key' => 'field_sv_testi_subtitle',
+				'label' => 'Subtitle',
+				'name' => 'sv_testi_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'instructions' => 'Cho phép &lt;strong&gt;.',
+			],
+			[
+				'key' => 'field_sv_testi_bg_image',
+				'label' => 'Ảnh nền section',
+				'name' => 'sv_testi_bg_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+			],
+			[
+				'key' => 'field_sv_testimonials',
+				'label' => 'Testimonials',
+				'name' => 'sv_testimonials',
+				'type' => 'repeater',
+				'instructions' => 'Các lời chứng từ khách hàng.',
+				'min' => 0,
+				'max' => 6,
+				'layout' => 'block',
+				'button_label' => 'Thêm Testimonial',
+				'sub_fields' => [
+					[
+						'key' => 'field_sv_testi_quote',
+						'label' => 'Quote',
+						'name' => 'quote',
+						'type' => 'textarea',
+						'rows' => 3,
+					],
+					[
+						'key' => 'field_sv_testi_name',
+						'label' => 'Tên',
+						'name' => 'name',
+						'type' => 'text',
+						'placeholder' => 'Chị Thuỳ Linh',
+						'wrapper' => ['width' => '50'],
+					],
+					[
+						'key' => 'field_sv_testi_role',
+						'label' => 'Vai trò / Dự án',
+						'name' => 'role',
+						'type' => 'text',
+						'placeholder' => 'Khách Hàng Xác Minh ⎮ Villa Thảo Điền',
+						'wrapper' => ['width' => '50'],
+					],
+					[
+						'key' => 'field_sv_testi_avatar',
+						'label' => 'Avatar',
+						'name' => 'avatar',
+						'type' => 'image',
+						'return_format' => 'array',
+						'preview_size' => 'thumbnail',
+						'instructions' => 'Ảnh tròn 72×72px.',
+					],
+					[
+						'key' => 'field_sv_testi_image',
+						'label' => 'Ảnh dự án',
+						'name' => 'image',
+						'type' => 'image',
+						'return_format' => 'array',
+						'preview_size' => 'medium',
+						'instructions' => 'Ảnh bên trái slide (optional).',
+					],
+				],
+			],
+
+			/* ── Tab: FAQ ── */
+			[
+				'key' => 'field_sv_tab_faq',
+				'label' => 'FAQ (S7)',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_faq_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'sv_faq_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Giải Đáp Thắc Mắc',
+			],
+			[
+				'key' => 'field_sv_faq_title',
+				'label' => 'Headline (H2)',
+				'name' => 'sv_faq_title',
+				'type' => 'text',
+				'instructions' => 'Cho phép &lt;em&gt;.',
+				'placeholder' => 'Những Câu Hỏi Thường Gặp',
+			],
+			[
+				'key' => 'field_sv_faq_items',
+				'label' => 'FAQ Items',
+				'name' => 'sv_faq_items',
+				'type' => 'repeater',
+				'instructions' => 'Schema FAQPage JSON-LD tự động.',
+				'min' => 0,
+				'max' => 10,
+				'layout' => 'block',
+				'button_label' => 'Thêm Câu Hỏi',
+				'sub_fields' => [
+					[
+						'key' => 'field_sv_faq_question',
+						'label' => 'Câu hỏi',
+						'name' => 'question',
+						'type' => 'text',
+					],
+					[
+						'key' => 'field_sv_faq_answer',
+						'label' => 'Trả lời',
+						'name' => 'answer',
+						'type' => 'textarea',
+						'rows' => 4,
+					],
+				],
+			],
+
+			/* ── Tab: CTA ── */
+			[
+				'key' => 'field_sv_tab_cta',
+				'label' => 'CTA (S8)',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key' => 'field_sv_cta_title',
+				'label' => 'Headline',
+				'name' => 'sv_cta_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
+			],
+			[
+				'key' => 'field_sv_cta_subtitle',
+				'label' => 'Subtitle',
+				'name' => 'sv_cta_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+			],
+			[
+				'key' => 'field_sv_cta_bg_image',
+				'label' => 'Ảnh nền',
+				'name' => 'sv_cta_bg_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+			],
+			[
+				'key' => 'field_sv_cta_btn_text',
+				'label' => 'Nút chính — Text',
+				'name' => 'sv_cta_btn_text',
+				'type' => 'text',
+				'placeholder' => 'Khám Phá Dự Toán Của Bạn',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_sv_cta_btn_link',
+				'label' => 'Nút chính — URL',
+				'name' => 'sv_cta_btn_link',
+				'type' => 'url',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_sv_cta_ghost_text',
+				'label' => 'Nút phụ — Text',
+				'name' => 'sv_cta_ghost_text',
+				'type' => 'text',
+				'placeholder' => 'Chat Với Kỹ Sư Trưởng',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_sv_cta_ghost_link',
+				'label' => 'Nút phụ — URL',
+				'name' => 'sv_cta_ghost_link',
+				'type' => 'url',
+				'wrapper' => ['width' => '50'],
+			],
+		],
+		'location' => [
+			[
+				[
+					'param'    => 'post_type',
+					'operator' => '==',
+					'value'    => 'xanh_service',
+				],
+			],
+		],
+		'style' => 'default',
+		'position' => 'normal',
+		'label_placement' => 'top',
+		'menu_order' => 0,
+		'hide_on_screen' => [
+			'',
+			'the_content',
+		],
+		'active' => true,
+	]);
+}
+add_action('acf/init', 'xanh_register_service_detail_fields');
