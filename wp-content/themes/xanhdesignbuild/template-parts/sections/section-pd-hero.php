@@ -24,6 +24,8 @@ if ( $hero_img && isset( $hero_img['url'] ) ) {
 	}
 } elseif ( has_post_thumbnail() ) {
 	$hero_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+} else {
+	$hero_url = XANH_THEME_URI . '/assets/images/placeholder-project.png';
 }
 
 // ── ACF fields ──

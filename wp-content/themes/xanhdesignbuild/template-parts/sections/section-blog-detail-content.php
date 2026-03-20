@@ -75,7 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="text-sm font-semibold uppercase tracking-widest text-dark/50">Chia sẻ bài viết</div>
 		<div class="flex items-center gap-3">
 			<!-- Facebook -->
-			<a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo esc_url( rawurlencode( get_permalink() ) ); ?>"
+			<a href="<?php echo esc_url( 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode( get_permalink() ) ); ?>"
 			   class="social-btn w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center text-dark hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors"
 			   target="_blank"
 			   rel="noopener noreferrer"
@@ -83,7 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<i data-lucide="facebook" class="w-4 h-4"></i>
 			</a>
 			<!-- Zalo -->
-			<a href="https://zalo.me/share?url=<?php echo esc_url( rawurlencode( get_permalink() ) ); ?>"
+			<a href="<?php echo esc_url( 'https://zalo.me/share?url=' . urlencode( get_permalink() ) ); ?>"
 			   class="social-btn w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center text-dark hover:bg-[#0068FF] hover:text-white hover:border-[#0068FF] transition-colors"
 			   target="_blank"
 			   rel="noopener noreferrer"

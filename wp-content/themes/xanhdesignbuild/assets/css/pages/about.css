@@ -967,3 +967,17 @@
   }
 }
 
+/* ============================================= */
+/* SECTION 4: PROMISE — Mobile overrides         */
+/* ============================================= */
+@media (max-width: 1023px) {
+  #about-promise .section-header--left {
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  /* Reduce gap between header and content on mobile */
+  #about-promise .flex.flex-col {
+    gap: 2rem;
+  }
+}

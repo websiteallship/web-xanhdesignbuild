@@ -125,6 +125,33 @@ Write-Host "output.css: $([math]::Round($out.Length/1KB,1)) KB"
 - [ ] Responsive: `wp_get_attachment_image()` → auto `srcset`
 - [ ] Format: WebP (Smush auto-convert production)
 
+#### Thêm LCP Preload cho trang có Hero Banner mới
+
+Khi thêm một trang mới có hero banner (full-screen image above-the-fold), cần bổ sung vào hàm `xanh_resource_hints()` trong `inc/enqueue.php`. Code pattern chung:
+
+```php
+// Trong hàm xanh_resource_hints(), thêm elseif vào chuỗi if/elseif:
+} elseif ( is_page( 'slug-trang-moi' ) ) {
+    $field = function_exists( 'get_field' ) ? get_field( 'ten_acf_field_image' ) : null;
+    if ( is_array( $field ) && isset( $field['ID'] ) ) {
+        $lcp_src = wp_get_attachment_image_url( $field['ID'], 'full' );
+    } elseif ( is_numeric( $field ) && $field ) {
+        $lcp_src = wp_get_attachment_image_url( $field, 'full' );
+    } else {
+        $lcp_src = site_url( '/wp-content/uploads/2026/03/fallback-image.png' );
+    }
+}
+```
+
+**Checklist khi thêm trang mới:**
+1. Xác định ACF field name của hero image trong template (vd: `about_hero_image`, `contact_hero_image`)
+2. Xác định ảnh fallback tương ứng trong `/wp-content/uploads/`
+3. Thêm `elseif` vào chuỗi điều kiện trong `xanh_resource_hints()`
+4. Đảm bảo thẻ `<img>` trong template có `loading="eager"` (KHÔNG lazy load)
+5. Verify: mở DevTools → `<head>` phải có `<link rel="preload" as="image" ... fetchpriority="high">`
+
+**Các trang đã implement:** Home (`is_front_page()`), About (`is_page('gioi-thieu')`)
+
 ### 4.2 — Below-the-fold
 - [ ] `loading="lazy"` trên TẤT CẢ images below-fold
 - [ ] Aspect ratio placeholders → prevent CLS

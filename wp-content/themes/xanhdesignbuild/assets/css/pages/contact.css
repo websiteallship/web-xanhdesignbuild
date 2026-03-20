@@ -477,9 +477,9 @@
   font-family: var(--font-body);
   font-size: 0.9375rem;
   color: var(--color-dark);
-  background: #f5f5f5;
-  border: 1.5px solid transparent;
-  border-radius: 0;
+  background: #f5f5f5 !important;
+  border: 1.5px solid transparent !important;
+  border-radius: 0 !important;
   transition:
     border-color var(--duration-base) ease,
     box-shadow var(--duration-base) ease,
@@ -494,10 +494,10 @@
 
 /* Focus state */
 .contact-form-wrap .ff-el-form-control:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  background: var(--color-white);
-  box-shadow: 0 0 0 3px rgba(20, 81, 61, 0.08);
+  outline: none !important;
+  border-color: var(--color-primary) !important;
+  background: var(--color-white) !important;
+  box-shadow: 0 0 0 3px rgba(20, 81, 61, 0.08) !important;
 }
 
 /* ── Textarea specific ── */

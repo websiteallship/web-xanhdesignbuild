@@ -40,7 +40,7 @@ const XanhPreloader = {
   /* ── State ── */
   _timeline: null,
   _safetyTimer: null,
-  _mode: 'session', // 'session' | 'always'
+  _mode: 'session', // 'session' | 'per-page' | 'always'
 
   /**
    * Initialize preloader with smart display rules.
@@ -86,9 +86,17 @@ const XanhPreloader = {
    * @returns {boolean} true if preloader should be skipped.
    */
   _shouldSkip() {
-    /* 1. Session check — only apply in "session" mode */
+    /* 1a. Session check — global (show once for entire session) */
     if (this._mode === 'session' && sessionStorage.getItem(this.SESSION_KEY)) {
       return true;
+    }
+
+    /* 1b. Per-page check — show once per page per session */
+    if (this._mode === 'per-page') {
+      const pageKey = this.SESSION_KEY + '_' + window.location.pathname;
+      if (sessionStorage.getItem(pageKey)) {
+        return true;
+      }
     }
 
     /* 2. Reduced motion preference */
@@ -247,9 +255,12 @@ const XanhPreloader = {
       this._safetyTimer = null;
     }
 
-    /* Mark as shown (only matters for "session" mode) */
+    /* Mark as shown */
     if (this._mode === 'session') {
       sessionStorage.setItem(this.SESSION_KEY, '1');
+    } else if (this._mode === 'per-page') {
+      const pageKey = this.SESSION_KEY + '_' + window.location.pathname;
+      sessionStorage.setItem(pageKey, '1');
     }
 
     /* Unlock scroll */
@@ -273,6 +284,9 @@ const XanhPreloader = {
 
     if (this._mode === 'session') {
       sessionStorage.setItem(this.SESSION_KEY, '1');
+    } else if (this._mode === 'per-page') {
+      const pageKey = this.SESSION_KEY + '_' + window.location.pathname;
+      sessionStorage.setItem(pageKey, '1');
     }
 
     document.body.classList.remove('preloader-active');

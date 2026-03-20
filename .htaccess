@@ -1,4 +1,51 @@
 
+# ── Security Headers ──
+<IfModule mod_headers.c>
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    # Prevent clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    # XSS Protection
+    Header set X-XSS-Protection "1; mode=block"
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    # Permissions Policy
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=(self)"
+    # HSTS — Force HTTPS for 1 year (enable on production with SSL)
+    # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    # Content Security Policy
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net unpkg.com sp.zalo.me www.google.com www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' fonts.gstatic.com; connect-src 'self'; frame-src www.youtube.com www.google.com;"
+</IfModule>
+
+# ── Disable Directory Browsing ──
+Options -Indexes
+
+# ── Browser Caching ──
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault                          "access plus 1 month"
+    ExpiresByType image/webp                "access plus 1 year"
+    ExpiresByType image/avif                "access plus 1 year"
+    ExpiresByType image/jpeg                "access plus 1 year"
+    ExpiresByType image/png                 "access plus 1 year"
+    ExpiresByType image/svg+xml             "access plus 1 year"
+    ExpiresByType font/woff2                "access plus 1 year"
+    ExpiresByType font/woff                 "access plus 1 year"
+    ExpiresByType text/css                  "access plus 1 month"
+    ExpiresByType application/javascript    "access plus 1 month"
+    ExpiresByType text/javascript           "access plus 1 month"
+</IfModule>
+
+# ── Gzip Compression ──
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml
+    AddOutputFilterByType DEFLATE text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/woff font/woff2
+</IfModule>
+
 # BEGIN WordPress
 # Các nội dung nằm giữa "BEGIN WordPress" và "END WordPress" được tạo ra tự động, và chỉ nên được thay đổi thông qua các filter của WordPress. Mọi thay đổi tới thành phần này có thể sẽ bị mất và ghi đè.
 <IfModule mod_rewrite.c>

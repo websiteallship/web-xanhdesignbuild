@@ -63,14 +63,14 @@ if ( ! $faq_items ) {
 				?>
 					<div class="faq-item<?php echo $is_first ? ' is-open' : ''; ?>">
 						<button class="faq-item__question" aria-expanded="<?php echo $is_first ? 'true' : 'false'; ?>">
-							<span><?php echo esc_html( $question ); ?></span>
+							<span><?php echo wp_kses_post( $question ); ?></span>
 							<span class="faq-item__icon">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
 							</span>
 						</button>
 						<div class="faq-item__answer"<?php echo $is_first ? ' style="max-height:300px;"' : ''; ?>>
 							<div class="faq-item__answer-inner">
-								<?php echo esc_html( $answer ); ?>
+								<?php echo wp_kses_post( $answer ); ?>
 							</div>
 						</div>
 					</div>
@@ -93,10 +93,10 @@ if ( $faq_items ) :
 		}
 		$schema_items[] = [
 			'@type'          => 'Question',
-			'name'           => $q,
+			'name'           => wp_strip_all_tags( $q ),
 			'acceptedAnswer' => [
 				'@type' => 'Answer',
-				'text'  => $a,
+				'text'  => wp_strip_all_tags( $a ),
 			],
 		];
 	}

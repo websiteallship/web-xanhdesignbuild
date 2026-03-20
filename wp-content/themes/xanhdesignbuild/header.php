@@ -80,16 +80,24 @@ $xanh_has_wp_menu = has_nav_menu( 'primary' );
 				'container'      => false,
 				'menu_class'     => 'hidden lg:flex items-center gap-10',
 				'menu_id'        => 'desktop-menu',
-				'depth'          => 1,
+				'depth'          => 3,
 				'walker'         => new Xanh_Nav_Walker( 'desktop' ),
 			] );
 			?>
 		<?php else : ?>
 			<ul class="hidden lg:flex items-center gap-10" id="desktop-menu">
-				<?php foreach ( $xanh_nav_items as $xanh_item ) : ?>
+				<?php
+				$xanh_current_url = trailingslashit( home_url( $_SERVER['REQUEST_URI'] ?? '' ) );
+				foreach ( $xanh_nav_items as $xanh_item ) :
+					$xanh_is_active = ( trailingslashit( $xanh_item['url'] ) === $xanh_current_url );
+					// Also check if current page is a child of this section.
+					if ( ! $xanh_is_active && $xanh_item['url'] !== home_url( '/' ) ) {
+						$xanh_is_active = ( strpos( $xanh_current_url, trailingslashit( $xanh_item['url'] ) ) === 0 );
+					}
+				?>
 					<li>
 						<a href="<?php echo esc_url( $xanh_item['url'] ); ?>"
-						   class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">
+						   class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative<?php echo $xanh_is_active ? ' active' : ''; ?>">
 							<?php echo esc_html( $xanh_item['label'] ); ?>
 						</a>
 					</li>
@@ -150,16 +158,25 @@ $xanh_has_wp_menu = has_nav_menu( 'primary' );
 				'container'      => false,
 				'menu_class'     => 'flex flex-col',
 				'menu_id'        => 'mobile-menu',
-				'depth'          => 1,
+				'depth'          => 3,
 				'walker'         => new Xanh_Nav_Walker( 'mobile' ),
 			] );
 			?>
 		<?php else : ?>
 			<ul class="flex flex-col">
-				<?php foreach ( $xanh_nav_items as $xanh_item ) : ?>
+				<?php
+				if ( ! isset( $xanh_current_url ) ) {
+					$xanh_current_url = trailingslashit( home_url( $_SERVER['REQUEST_URI'] ?? '' ) );
+				}
+				foreach ( $xanh_nav_items as $xanh_item ) :
+					$xanh_is_active = ( trailingslashit( $xanh_item['url'] ) === $xanh_current_url );
+					if ( ! $xanh_is_active && $xanh_item['url'] !== home_url( '/' ) ) {
+						$xanh_is_active = ( strpos( $xanh_current_url, trailingslashit( $xanh_item['url'] ) ) === 0 );
+					}
+				?>
 					<li>
 						<a href="<?php echo esc_url( $xanh_item['url'] ); ?>"
-						   class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+						   class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300<?php echo $xanh_is_active ? ' active' : ''; ?>">
 							<?php echo esc_html( $xanh_item['label'] ); ?>
 							<i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
 						</a>

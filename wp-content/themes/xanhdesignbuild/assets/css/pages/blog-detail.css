@@ -333,8 +333,183 @@
   transition: transform var(--duration-hover) var(--ease-luxury);
 }
 
-.end-cta input:focus {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+/* ── Fluent Form overrides inside CTA banner ── */
+
+/* Hide labels (placeholder-only UI) */
+.end-cta .ff-el-input--label {
+  display: none !important;
+}
+
+/* Remove default Fluent Form spacing */
+.end-cta .ff-el-group {
+  margin-bottom: 0 !important;
+}
+
+/* Fix narrow width of Name field caused by nested FluentForm structure */
+.end-cta .ff-name-field-wrapper .ff-t-container {
+  display: block !important;
+  width: 100% !important;
+}
+.end-cta .ff-name-part.ff-name-first {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Remove default form margins */
+.end-cta .fluentform,
+.end-cta .frm-fluent-form {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Input fields — glass style matching wireframe ── */
+.end-cta .ff-el-input--content input[type="text"],
+.end-cta .ff-el-input--content input[type="tel"],
+.end-cta .ff-el-input--content input[type="email"],
+.end-cta .ff-el-form-control {
+  width: 100% !important;
+  height: 52px;
+  padding: 0.75rem 1rem !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.9375rem !important;
+  color: var(--color-white) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 0 !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: border-color 0.3s ease,
+              background 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+.end-cta .ff-el-input--content input::placeholder,
+.end-cta .ff-el-form-control::placeholder {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.end-cta .ff-el-input--content input:focus,
+.end-cta .ff-el-form-control:focus {
+  outline: none !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ── Submit button — orange accent, uppercase + arrow ── */
+.end-cta .ff-btn-submit.ff-btn-submit {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.625rem;
+  height: 52px;
+  padding: 0 2.25rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-white) !important;
+  background: var(--color-accent) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+.end-cta .ff-btn-submit.ff-btn-submit:hover {
+  background: var(--color-accent-hover, var(--color-accent)) !important;
+  box-shadow: 0 8px 24px rgba(255, 138, 0, 0.35);
+}
+
+/* Arrow icon appended to button */
+.end-cta .ff-btn-submit.ff-btn-submit::after {
+  content: '';
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transition: transform 0.3s ease;
+}
+
+.end-cta .ff-btn-submit.ff-btn-submit:hover::after {
+  transform: translateX(3px);
+}
+
+/* ── Error messages ── */
+.end-cta .error.text-danger {
+  color: rgba(255, 180, 180, 0.85) !important;
+  font-size: 0.75rem !important;
+}
+
+/* ── Success message ── */
+.end-cta .ff-message-success {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ── Inline row layout (sm+) ── */
+@media (min-width: 640px) {
+  /* The fieldset holds all three groups — make it flex */
+  .end-cta .frm-fluent-form fieldset {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  /* Name wrapper and phone group each take equal space */
+  .end-cta .ff-name-field-wrapper,
+  .end-cta .frm-fluent-form > fieldset > .ff-el-group {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Submit wrapper auto-sizes to button */
+  .end-cta .ff_submit_btn_wrapper {
+    flex: none;
+  }
+
+  /* Name sub-container (ff-t-container with single cell) */
+  .end-cta .ff-t-container {
+    height: 100%;
+  }
+
+  .end-cta .ff-t-cell {
+    height: 100%;
+  }
+
+  .end-cta .ff-t-cell .ff-el-group {
+    height: 100%;
+  }
+
+  .end-cta .ff-t-cell .ff-el-input--content {
+    height: 100%;
+  }
+
+  .end-cta .ff-t-cell .ff-el-form-control {
+    height: 100%;
+  }
+}
+
+/* ── Stacked on mobile ── */
+@media (max-width: 639px) {
+  .end-cta .ff-el-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .end-cta .ff-btn-submit {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ==============================================

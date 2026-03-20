@@ -64,3 +64,111 @@ function xanh_admin_style_thumbnail_column() {
 	</style>';
 }
 add_action( 'admin_head', 'xanh_admin_style_thumbnail_column' );
+
+/**
+ * ====================================================================
+ * Custom Admin Menu Order
+ * ====================================================================
+ * Group 1: Bài viết, Trang, Dự Án, Dịch Vụ
+ * --- separator ---
+ * Group 2: Media, Bình luận, Fluent Forms
+ * --- separator ---
+ * Remaining items follow their default order.
+ */
+add_filter( 'custom_menu_order', '__return_true' );
+add_filter( 'menu_order', 'xanh_custom_menu_order' );
+
+/**
+ * Reorder admin menu items.
+ *
+ * @param array $menu_order Default menu order slugs.
+ * @return array Reordered menu slugs.
+ */
+function xanh_custom_menu_order( $menu_order ) {
+
+	// ── Group 1: Content ──
+	$group_content = [
+		'edit.php',                          // Bài viết (Posts)
+		'edit.php?post_type=page',           // Trang (Pages)
+		'edit.php?post_type=xanh_project',   // Dự Án
+		'edit.php?post_type=xanh_service',   // Dịch Vụ
+	];
+
+	// ── Group 2: Utility ──
+	$group_utility = [
+		'upload.php',                        // Media
+		'edit-comments.php',                 // Bình luận
+		'fluent_forms',                      // Fluent Forms
+	];
+
+	// Merge both groups for easy lookup.
+	$prioritised = array_merge( $group_content, $group_utility );
+
+	// Collect items that appear in $menu_order but NOT in our priority lists.
+	$remaining = [];
+	foreach ( $menu_order as $item ) {
+		if (
+			! in_array( $item, $prioritised, true )
+			&& 'separator1' !== $item
+			&& 'separator2' !== $item
+			&& 'separator-content' !== $item
+		) {
+			$remaining[] = $item;
+		}
+	}
+
+	// Build the final order.
+	$new_order = [];
+
+	// Dashboard always first (if present in remaining).
+	if ( ( $key = array_search( 'index.php', $remaining, true ) ) !== false ) {
+		$new_order[] = 'index.php';
+		unset( $remaining[ $key ] );
+		$remaining = array_values( $remaining );
+		$new_order[] = 'separator1'; // separator after Dashboard
+	}
+
+	// Group 1 — Content items (only those that actually exist in menu).
+	foreach ( $group_content as $slug ) {
+		if ( in_array( $slug, $menu_order, true ) ) {
+			$new_order[] = $slug;
+		}
+	}
+
+	// Separator between content and utility.
+	$new_order[] = 'separator-content';
+
+	// Group 2 — Utility items.
+	foreach ( $group_utility as $slug ) {
+		if ( in_array( $slug, $menu_order, true ) ) {
+			$new_order[] = $slug;
+		}
+	}
+
+	// Separator before remaining items.
+	$new_order[] = 'separator2';
+
+	// Remaining items keep their relative order.
+	foreach ( $remaining as $item ) {
+		$new_order[] = $item;
+	}
+
+	return $new_order;
+}
+
+/**
+ * Register a custom separator so WP renders the divider line between groups.
+ */
+function xanh_register_menu_separator() {
+	global $menu;
+
+	// Find a free position to insert the separator.
+	// We use a fractional key to avoid colliding with existing entries.
+	$position = 58.5;
+	while ( isset( $menu[ (string) $position ] ) ) {
+		$position += 0.1;
+	}
+
+	$menu[ $position ] = [ '', 'read', 'separator-content', '', 'wp-menu-separator' ];
+}
+add_action( 'admin_menu', 'xanh_register_menu_separator', 999 );

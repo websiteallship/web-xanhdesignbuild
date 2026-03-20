@@ -125,6 +125,11 @@
   margin-bottom: 1.5rem;
 }
 
+.empathy-body p:not(:last-child) {
+  margin-bottom: 1.25rem;
+}
+
+
 
 /* ── RIGHT: Editorial Image ── */
 .empathy-section__image {
@@ -134,8 +139,8 @@
 .empathy-image-wrap {
   position: relative;
   overflow: hidden;
-  /* Tỷ lệ editorial 4:3 */
-  aspect-ratio: 4 / 3;
+  /* Tỷ lệ editorial 3:4 */
+  aspect-ratio: 3 / 4;
 }
 
 .empathy-image-wrap img {
@@ -474,7 +479,7 @@
 .process-section {
   background-color: var(--color-white);
   padding-block: 80px;
-  overflow: hidden;
+  overflow: clip;
 }
 
 @media (min-width: 768px) {
@@ -1564,6 +1569,10 @@
   line-height: 1.8;
   color: rgba(26,26,26,0.65);
   max-width: 65ch;
+}
+
+.faq-item__answer-inner p:not(:last-child) {
+  margin-bottom: 1.25rem;
 }
 
 @media (min-width: 768px) {

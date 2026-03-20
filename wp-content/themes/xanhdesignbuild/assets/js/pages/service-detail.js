@@ -190,6 +190,22 @@ const XanhServiceDetail = {
     }, { threshold: 0.5, rootMargin: '-20% 0px -40% 0px' });
 
     steps.forEach(el => activeIO.observe(el));
+
+    /* 4. GST Pinning for process-sticky (because Lenis + overflow breaks CSS sticky) */
+    const stickyPanel = section.querySelector('.process-sticky');
+    if (stickyPanel && window.gsap && window.ScrollTrigger) {
+      ScrollTrigger.matchMedia({
+        "(min-width: 768px)": () => {
+          ScrollTrigger.create({
+            trigger: ".process-layout",
+            start: "top top+=120",
+            end: "bottom bottom",
+            pin: stickyPanel,
+            pinSpacing: false
+          });
+        }
+      });
+    }
   },
 
   /* ── S5: Portfolio cards scroll reveal ── */

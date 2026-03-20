@@ -199,18 +199,21 @@ function xanh_disable_frontend_heartbeat() {
 add_action( 'init', 'xanh_disable_frontend_heartbeat', 1 );
 
 /**
- * Dequeue jQuery on frontend (theme uses vanilla ES6+).
+ * Move jQuery to footer on frontend (non-render-blocking).
  *
- * Saves ~87 KB. jQuery remains available in wp-admin for ACF + plugins.
+ * Theme uses vanilla ES6+ but Fluent Forms still needs jQuery.
+ * Moving to footer keeps it out of <head> so it won't block
+ * first paint — same perf benefit, zero console errors.
  *
  * @return void
  */
-function xanh_dequeue_frontend_jquery() {
+function xanh_move_jquery_to_footer() {
 	if ( ! is_admin() && ! is_customize_preview() ) {
-		wp_deregister_script( 'jquery' );
+		wp_scripts()->add_data( 'jquery',      'group', 1 );
+		wp_scripts()->add_data( 'jquery-core', 'group', 1 );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'xanh_dequeue_frontend_jquery', 1 );
+add_action( 'wp_enqueue_scripts', 'xanh_move_jquery_to_footer', 1 );
 
 /**
  * Lazy-load third-party widgets (Zalo) — 3 s after window.load.
@@ -269,11 +272,16 @@ function xanh_output_schema_jsonld() {
 			'@context'    => 'https://schema.org',
 			'@type'       => 'Organization',
 			'name'        => esc_html( $site_name ),
+			'legalName'   => 'CÔNG TY CỔ PHẦN ĐẦU TƯ THIẾT BỊ VÀ GIẢI PHÁP XANH',
 			'url'         => esc_url( $site_url ),
 			'description' => get_bloginfo( 'description' ),
+			'telephone'   => '0978.303.025',
+			'email'       => 'contact@xanhdesignbuild.vn',
+			'taxID'       => '4202048146',
 			'address'     => [
 				'@type'           => 'PostalAddress',
-				'addressLocality' => 'Nha Trang',
+				'streetAddress'   => '49 Nguyễn Tất Thành',
+				'addressLocality' => 'Phường Phước Long',
 				'addressRegion'   => 'Khánh Hòa',
 				'addressCountry'  => 'VN',
 			],
@@ -386,3 +394,87 @@ function xanh_output_schema_jsonld() {
 	}
 }
 add_action( 'wp_head', 'xanh_output_schema_jsonld', 5 );
+
+/**
+ * Custom Document Title Separator
+ */
+function xanh_custom_title_separator( $sep ) {
+	return '|';
+}
+add_filter( 'document_title_separator', 'xanh_custom_title_separator' );
+
+/**
+ * Custom Document Title Parts
+ */
+function xanh_custom_title_parts( $title ) {
+	if ( isset( $title['site'] ) ) {
+		$title['site'] = 'XANH - Design & Build';
+	}
+	if ( is_singular( 'xanh_service' ) ) {
+		if ( get_the_ID() == 119 ) {
+			$title['title'] = 'Dịch Vụ Thiết Kế Kiến Trúc & Nội Thất';
+		} elseif ( get_the_ID() == 120 ) {
+			$title['title'] = 'Dịch Vụ Thi Công Xây Dựng Trọn Gói';
+		} elseif ( get_the_ID() == 121 ) {
+			$title['title'] = 'Sản Xuất & Thi Công Nội Thất';
+		} elseif ( get_the_ID() == 122 ) {
+			$title['title'] = 'Cải Tạo & Nâng Cấp Công Trình';
+		}
+	}
+	return $title;
+}
+add_filter( 'document_title_parts', 'xanh_custom_title_parts' );
+
+/**
+ * Output SEO Meta Tags (Description, Open Graph, Twitter)
+ */
+function xanh_seo_meta_tags() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	if ( is_singular( 'xanh_service' ) ) {
+		$post_id = get_the_ID();
+		
+		$seo_title = get_the_title();
+		$desc = wp_trim_words( wp_strip_all_tags( get_field('sv_hero_desc', $post_id) ?: get_the_excerpt() ), 25 );
+		
+		if ( $post_id == 119 ) {
+			$seo_title = 'Dịch Vụ Thiết Kế Kiến Trúc & Nội Thất';
+			$desc = 'Dịch vụ thiết kế kiến trúc và nội thất. Cam kết phối cảnh 3D sát thực tế 98%, hồ sơ kỹ thuật triệt để. Khám Phá Dự Toán Của Bạn ngay với XANH!';
+		} elseif ( $post_id == 120 ) {
+			$seo_title = 'Dịch Vụ Thi Công Xây Dựng Trọn Gói';
+			$desc = 'Dịch vụ thi công xây dựng trọn gói tại Khánh Hoà. Cam kết 100% đúng tiến độ, 0% phát sinh chi phí, bảo hành kết cấu 5 năm. Tìm hiểu ngay!';
+		} elseif ( $post_id == 121 ) {
+			$seo_title = 'Sản Xuất & Thi Công Nội Thất';
+			$desc = 'Dịch vụ sản xuất và thi công nội thất tinh xảo. Xưởng mộc trực tiếp 2000m2, thi công sắc nét 98% bản vẽ, bảo hành gỗ 3 năm. Xem xưởng ngay!';
+		} elseif ( $post_id == 122 ) {
+			$seo_title = 'Cải Tạo & Nâng Cấp Công Trình';
+			$desc = 'Dịch vụ cải tạo công trình chuyên sâu. Xử lý triệt để thấm dột, kiến tạo nét đẹp không gian Warm Luxury. Tối ưu kinh phí 40%. Xem dự án ngay!';
+		}
+
+		$title = $seo_title . ' | XANH - Design & Build';
+		$url   = get_permalink();
+		
+		$image     = function_exists('xanh_get_image') ? xanh_get_image( 'sv_hero_image', $post_id ) : false;
+		$image_url = $image ? $image['url'] : get_the_post_thumbnail_url( $post_id, 'full' );
+
+		echo '<!-- Custom SEO Meta Tags -->'."\n";
+		echo '<meta name="description" content="' . esc_attr( $desc ) . '" />'."\n";
+		echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />'."\n";
+		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '" />'."\n";
+		echo '<meta property="og:type" content="article" />'."\n";
+		echo '<meta property="og:url" content="' . esc_url( $url ) . '" />'."\n";
+		if ( $image_url ) {
+			echo '<meta property="og:image" content="' . esc_url( $image_url ) . '" />'."\n";
+			echo '<meta name="twitter:image" content="' . esc_url( $image_url ) . '" />'."\n";
+		}
+		echo '<meta property="og:site_name" content="XANH - Design & Build" />'."\n";
+		echo '<meta name="twitter:card" content="summary_image_large" />'."\n";
+		echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '" />'."\n";
+		echo '<meta name="twitter:description" content="' . esc_attr( $desc ) . '" />'."\n";
+		echo '<!-- End Custom SEO Meta Tags -->'."\n";
+	}
+}
+add_action( 'wp_head', 'xanh_seo_meta_tags', 1 );
+

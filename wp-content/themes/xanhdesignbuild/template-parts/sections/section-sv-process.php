@@ -88,8 +88,8 @@ $process_fallback_imgs = [
 						</div>
 						<div class="process-step__content">
 							<div class="process-step__text">
-								<h3 class="process-step__title"><?php echo esc_html( $step['title'] ?? '' ); ?></h3>
-								<p class="process-step__desc"><?php echo esc_html( $step['desc'] ?? '' ); ?></p>
+								<h3 class="process-step__title"><?php echo wp_kses_post( $step['title'] ?? '' ); ?></h3>
+								<p class="process-step__desc"><?php echo wp_kses_post( $step['desc'] ?? '' ); ?></p>
 								<div class="process-step__icons">
 									<?php if ( ! empty( $step['icon_1'] ) ) : ?>
 										<i data-lucide="<?php echo esc_attr( $step['icon_1'] ); ?>" class="process-step__icon"></i>

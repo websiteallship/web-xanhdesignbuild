@@ -27,8 +27,9 @@ function xanh_register_options_pages()
 		'menu_slug' => 'xanh-settings',
 		'capability' => 'edit_posts',
 		'redirect' => false,
-		'icon_url' => 'dashicons-admin-customizer',
+		'icon_url' => 'dashicons-admin-site-alt3',
 		'position' => 2,
+
 	]);
 }
 add_action('acf/init', 'xanh_register_options_pages');
@@ -143,6 +144,14 @@ function xanh_register_homepage_fields()
 				],
 			],
 			[
+				'key' => 'field_hp_hero_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'hero_eyebrow',
+				'type' => 'text',
+				'instructions' => 'Dòng text nhỏ lẻ phía trên Headline.',
+				'placeholder' => 'Kiến Tạo Tổ Ấm Bình Yên',
+			],
+			[
 				'key' => 'field_hp_hero_headline',
 				'label' => 'Headline',
 				'name' => 'hero_headline',
@@ -172,9 +181,17 @@ function xanh_register_homepage_fields()
 				'key' => 'field_hp_hero_cta_url',
 				'label' => 'CTA URL',
 				'name' => 'hero_cta_url',
-				'type' => 'url',
+				'type' => 'text',
 				'instructions' => 'URL hoặc anchor (#empathy). Để trống = mặc định #empathy.',
 				'placeholder' => '#empathy',
+			],
+			[
+				'key' => 'field_hp_hero_video_url',
+				'label' => 'Video URL',
+				'name' => 'hero_video_url',
+				'type' => 'url',
+				'instructions' => 'URL video YouTube/Vimeo. Nếu nhập sẽ hiện nút "Xem Video".',
+				'placeholder' => 'https://www.youtube.com/watch?v=...',
 			],
 
 			/* ── Tab: Marquee ── */
@@ -373,56 +390,12 @@ function xanh_register_homepage_fields()
 				'rows' => 2,
 			],
 			[
-				'key' => 'field_hp_services_items',
-				'label' => 'Service Cards',
-				'name' => 'services_items',
-				'type' => 'repeater',
-				'instructions' => '4 dịch vụ chính.',
-				'min' => 0,
-				'max' => 4,
-				'layout' => 'block',
-				'button_label' => 'Thêm Dịch Vụ',
-				'sub_fields' => [
-					[
-						'key' => 'field_hp_services_image',
-						'label' => 'Ảnh',
-						'name' => 'image',
-						'type' => 'image',
-						'return_format' => 'array',
-						'preview_size' => 'medium',
-						'wrapper' => ['width' => '30'],
-					],
-					[
-						'key' => 'field_hp_services_title',
-						'label' => 'Title',
-						'name' => 'title',
-						'type' => 'text',
-						'instructions' => 'Dùng &lt;br&gt; để xuống dòng.',
-						'wrapper' => ['width' => '70'],
-					],
-					[
-						'key' => 'field_hp_services_desc',
-						'label' => 'Mô tả',
-						'name' => 'desc',
-						'type' => 'textarea',
-						'rows' => 2,
-					],
-					[
-						'key' => 'field_hp_services_link_text',
-						'label' => 'Link Text',
-						'name' => 'link_text',
-						'type' => 'text',
-						'placeholder' => 'Tìm Hiểu Thêm',
-						'wrapper' => ['width' => '50'],
-					],
-					[
-						'key' => 'field_hp_services_link_url',
-						'label' => 'Link URL',
-						'name' => 'link_url',
-						'type' => 'url',
-						'wrapper' => ['width' => '50'],
-					],
-				],
+				'key' => 'field_hp_services_more_url',
+				'label' => 'URL nút "Xem Thêm Dịch Vụ"',
+				'name' => 'services_more_url',
+				'type' => 'text',
+				'instructions' => 'Link nút xem thêm dịch vụ. Mặc định: /dich-vu/',
+				'placeholder' => '/dich-vu/',
 			],
 
 			/* ── Tab: CTA ── */
@@ -467,7 +440,7 @@ function xanh_register_homepage_fields()
 				'key' => 'field_hp_cta_primary_url',
 				'label' => 'Nút chính — URL',
 				'name' => 'cta_primary_url',
-				'type' => 'url',
+				'type' => 'text',
 				'wrapper' => ['width' => '50'],
 			],
 			[
@@ -482,7 +455,7 @@ function xanh_register_homepage_fields()
 				'key' => 'field_hp_cta_secondary_url',
 				'label' => 'Nút phụ — URL',
 				'name' => 'cta_secondary_url',
-				'type' => 'url',
+				'type' => 'text',
 				'wrapper' => ['width' => '50'],
 			],
 			[
@@ -672,7 +645,7 @@ function xanh_register_homepage_fields()
 						'key' => 'field_hp_portfolio_link',
 						'label' => 'Link chi tiết',
 						'name' => 'link',
-						'type' => 'url',
+						'type' => 'text',
 						'wrapper' => ['width' => '50'],
 					],
 				],
@@ -808,7 +781,7 @@ function xanh_register_homepage_fields()
 				'key' => 'field_hp_ctac_btn_url',
 				'label' => 'Nút CTA — URL',
 				'name' => 'ctac_btn_url',
-				'type' => 'url',
+				'type' => 'text',
 				'wrapper' => ['width' => '50'],
 			],
 
@@ -852,7 +825,7 @@ function xanh_register_homepage_fields()
 						'key' => 'field_hp_partners_url',
 						'label' => 'Website',
 						'name' => 'url',
-						'type' => 'url',
+						'type' => 'text',
 						'wrapper' => ['width' => '20'],
 					],
 				],
@@ -1154,7 +1127,7 @@ function xanh_register_about_fields()
 				'key' => 'field_about_promise_cta_url',
 				'label' => 'CTA URL',
 				'name' => 'about_promise_cta_url',
-				'type' => 'url',
+				'type' => 'text',
 				'placeholder' => '#',
 			],
 
@@ -1341,7 +1314,7 @@ function xanh_register_about_fields()
 				'key' => 'field_about_cta_btn1_url',
 				'label' => 'Nút chính - URL',
 				'name' => 'about_cta_btn1_url',
-				'type' => 'url',
+				'type' => 'text',
 				'placeholder' => '/lien-he/',
 			],
 			[
@@ -1355,7 +1328,7 @@ function xanh_register_about_fields()
 				'key' => 'field_about_cta_btn2_url',
 				'label' => 'Nút phụ - URL',
 				'name' => 'about_cta_btn2_url',
-				'type' => 'url',
+				'type' => 'text',
 				'placeholder' => '/du-an/',
 			],
 			[
@@ -1405,7 +1378,286 @@ function xanh_register_settings_fields()
 		'title' => 'Cài Đặt XANH',
 		'fields' => [
 
-			/* ══════ TAB 1: Trang Dự Án ══════ */
+			/* ══════ TAB 1: Header & Footer ══════ */
+			[
+				'key' => 'field_tab_header_footer',
+				'label' => 'Header & Footer',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Section: Logo ── */
+			[
+				'key' => 'field_hf_logo_header_white',
+				'label' => 'Logo Header (Trắng)',
+				'name' => 'xanh_logo_header_white',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Logo SVG/PNG nền trong suốt, hiển thị trên header trong suốt. Kích thước ~200×36px.',
+				'mime_types' => 'svg,png,webp',
+			],
+			[
+				'key' => 'field_hf_logo_header_dark',
+				'label' => 'Logo Header (Tối)',
+				'name' => 'xanh_logo_header_dark',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Logo cho header khi cuộn (nền trắng). Kích thước ~200×36px.',
+				'mime_types' => 'svg,png,webp',
+			],
+			[
+				'key' => 'field_hf_logo_footer',
+				'label' => 'Logo Footer',
+				'name' => 'xanh_logo_footer',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Logo SVG/PNG cho footer (nền tối). Kích thước ~200×36px.',
+				'mime_types' => 'svg,png,webp',
+			],
+
+			/* ── Section: Header CTA ── */
+			[
+				'key' => 'field_hf_header_cta_text',
+				'label' => 'Header CTA — Text',
+				'name' => 'xanh_header_cta_text',
+				'type' => 'text',
+				'instructions' => 'Nội dung nút CTA trên header. Để trống = mặc định "Đặt Lịch Tư Vấn".',
+				'placeholder' => 'Đặt Lịch Tư Vấn',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_hf_header_cta_url',
+				'label' => 'Header CTA — URL',
+				'name' => 'xanh_header_cta_url',
+				'type' => 'text',
+				'instructions' => 'URL nút CTA trên header. Để trống = mặc định trang Liên Hệ.',
+				'placeholder' => '/lien-he/',
+				'wrapper' => ['width' => '50'],
+			],
+
+			/* ── Section: Preloader ── */
+			[
+				'key' => 'field_hf_preloader_enabled',
+				'label' => 'Preloader — Bật/Tắt',
+				'name' => 'xanh_preloader_enabled',
+				'type' => 'true_false',
+				'default_value' => 1,
+				'ui' => 1,
+				'ui_on_text' => 'Bật',
+				'ui_off_text' => 'Tắt',
+				'instructions' => 'Bật hiệu ứng SVG logo animation khi tải trang (1 lần/session). Tự động ẩn trên trang chi tiết bài viết/dự án/dịch vụ.',
+			],
+			[
+				'key' => 'field_hf_preloader_theme',
+				'label' => 'Preloader — Theme',
+				'name' => 'xanh_preloader_theme',
+				'type' => 'button_group',
+				'choices' => [
+					'dark'  => '🌲 Dark (Nền xanh)',
+					'light' => '☀️ Light (Nền trắng)',
+				],
+				'default_value' => 'dark',
+				'layout' => 'horizontal',
+				'instructions' => 'Dark = nền primary + logo trắng. Light = nền trắng + logo xanh.',
+				'conditional_logic' => [
+					[['field' => 'field_hf_preloader_enabled', 'operator' => '==', 'value' => '1']],
+				],
+			],
+			[
+				'key' => 'field_hf_preloader_mode',
+				'label' => 'Preloader — Chế độ hiển thị',
+				'name' => 'xanh_preloader_mode',
+				'type' => 'button_group',
+				'choices' => [
+					'session'  => '🔁 1 lần / session',
+					'per-page' => '📄 Mỗi trang 1 lần',
+					'always'   => '♾️ Luôn hiện mọi trang',
+				],
+				'default_value' => 'per-page',
+				'layout' => 'horizontal',
+				'instructions' => 'Session = hiện 1 lần duy nhất. Mỗi trang = hiện 1 lần cho mỗi trang khác nhau. Luôn hiện = hiệu ứng chạy mỗi lần tải. Đóng trình duyệt = reset lại tất cả.',
+				'conditional_logic' => [
+					[['field' => 'field_hf_preloader_enabled', 'operator' => '==', 'value' => '1']],
+				],
+			],
+
+			[
+				'key' => 'field_hf_hotline',
+				'label' => 'Hotline',
+				'name' => 'xanh_hotline',
+				'type' => 'text',
+				'placeholder' => '0978.303.025',
+				'instructions' => 'Số điện thoại chính — hiển thị ở header, footer, contact.',
+			],
+			[
+				'key' => 'field_hf_email',
+				'label' => 'Email',
+				'name' => 'xanh_email',
+				'type' => 'email',
+				'placeholder' => 'contact@xanhdesignbuild.vn',
+			],
+			[
+				'key' => 'field_hf_address',
+				'label' => 'Địa chỉ',
+				'name' => 'xanh_address',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => '49 Nguyễn Tất Thành, Phường Phước Long, Tỉnh Khánh Hòa, Việt Nam',
+			],
+
+			/* ── Tab: Mạng xã hội ── */
+			[
+				'key' => 'field_hf_facebook',
+				'label' => 'Facebook URL',
+				'name' => 'xanh_facebook',
+				'type' => 'text',
+				'placeholder' => 'https://facebook.com/xanhdesignbuild',
+			],
+			[
+				'key' => 'field_hf_instagram',
+				'label' => 'Instagram URL',
+				'name' => 'xanh_instagram',
+				'type' => 'text',
+				'placeholder' => 'https://instagram.com/xanhdesignbuild',
+			],
+			[
+				'key' => 'field_hf_youtube',
+				'label' => 'YouTube URL',
+				'name' => 'xanh_youtube',
+				'type' => 'text',
+				'placeholder' => 'https://youtube.com/@xanhdesignbuild',
+			],
+			[
+				'key' => 'field_hf_zalo',
+				'label' => 'Zalo OA URL',
+				'name' => 'xanh_zalo_oa',
+				'type' => 'text',
+				'placeholder' => 'https://zalo.me/xanhdesignbuild',
+			],
+
+			/* ── Tab: Footer ── */
+			[
+				'key' => 'field_hf_footer_desc',
+				'label' => 'Mô tả Footer',
+				'name' => 'xanh_footer_desc',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'placeholder' => 'Kiến tạo tổ ấm bình yên — minh bạch từ viên gạch đầu tiên.',
+				'instructions' => 'Đoạn mô tả ngắn hiển thị dưới logo footer.',
+			],
+			[
+				'key' => 'field_hf_footer_badges',
+				'label' => 'Footer Badges',
+				'name' => 'xanh_footer_badges',
+				'type' => 'repeater',
+				'min' => 0,
+				'max' => 5,
+				'layout' => 'table',
+				'button_label' => 'Thêm Badge',
+				'instructions' => 'Các huy hiệu/chứng nhận hiển thị ở footer (ví dụ: ISO 9001:2015, 10+ Năm).',
+				'sub_fields' => [
+					['key' => 'field_hf_badge_text', 'label' => 'Text', 'name' => 'text', 'type' => 'text', 'placeholder' => 'ISO 9001:2015'],
+				],
+			],
+			[
+				'key' => 'field_hf_footer_copyright',
+				'label' => 'Footer Copyright',
+				'name' => 'xanh_footer_copyright',
+				'type' => 'text',
+				'instructions' => 'Text copyright footer. Để trống = mặc định "© {năm} {tên site}. All rights reserved."',
+				'placeholder' => '© 2026 XANH Design & Build. All rights reserved.',
+			],
+			[
+				'key' => 'field_hf_legal_privacy_url',
+				'label' => 'Chính sách bảo mật — URL',
+				'name' => 'xanh_legal_privacy_url',
+				'type' => 'text',
+				'instructions' => 'URL trang chính sách bảo mật. Để trống = mặc định /chinh-sach-bao-mat/.',
+				'placeholder' => '/chinh-sach-bao-mat/',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_hf_legal_terms_url',
+				'label' => 'Điều khoản sử dụng — URL',
+				'name' => 'xanh_legal_terms_url',
+				'type' => 'text',
+				'instructions' => 'URL trang điều khoản sử dụng. Để trống = mặc định /dieu-khoan-su-dung/.',
+				'placeholder' => '/dieu-khoan-su-dung/',
+				'wrapper' => ['width' => '50'],
+			],
+
+			/* ══════ TAB 2: SEO & Scripts ══════ */
+			[
+				'key' => 'field_tab_seo',
+				'label' => 'SEO & Scripts',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Section: Meta mặc định ── */
+			[
+				'key' => 'field_seo_default_title',
+				'label' => 'Title mặc định',
+				'name' => 'seo_default_title',
+				'type' => 'text',
+				'instructions' => 'Title SEO mặc định cho các trang chưa có title riêng.',
+				'placeholder' => 'XANH Design & Build — Kiến Tạo Tổ Ấm Bình Yên',
+			],
+			[
+				'key' => 'field_seo_default_desc',
+				'label' => 'Meta Description mặc định',
+				'name' => 'seo_default_desc',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'instructions' => 'Tối đa 160 ký tự. Áp dụng cho trang không có description riêng.',
+				'placeholder' => 'XANH Design & Build — thiết kế và xây dựng nhà ở bền vững, minh bạch từ viên gạch đầu tiên.',
+				'maxlength' => 160,
+			],
+			[
+				'key' => 'field_seo_og_image',
+				'label' => 'Ảnh OG mặc định',
+				'name' => 'seo_og_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Ảnh Open Graph mặc định khi chia sẻ lên Facebook/Zalo (1200×630px).',
+				'mime_types' => 'jpg,jpeg,png,webp',
+			],
+
+			/* ── Tab: Scripts ── */
+			[
+				'key' => 'field_seo_head_scripts',
+				'label' => 'Scripts trong &lt;head&gt;',
+				'name' => 'seo_head_scripts',
+				'type' => 'textarea',
+				'rows' => 8,
+				'instructions' => 'Mã theo dõi chèn vào &lt;head&gt; (Google Tag Manager, Meta Pixel…). Bao gồm thẻ &lt;script&gt;.',
+				'placeholder' => '<!-- Google Tag Manager -->',
+			],
+			[
+				'key' => 'field_seo_body_scripts',
+				'label' => 'Scripts trước &lt;/body&gt;',
+				'name' => 'seo_body_scripts',
+				'type' => 'textarea',
+				'rows' => 8,
+				'instructions' => 'Mã chèn trước thẻ đóng &lt;/body&gt; (chat widgets, analytics…). Bao gồm thẻ &lt;script&gt;.',
+				'placeholder' => '<!-- Google Tag Manager (noscript) -->',
+			],
+			[
+				'key' => 'field_seo_ga_id',
+				'label' => 'Google Analytics ID',
+				'name' => 'seo_ga_id',
+				'type' => 'text',
+				'placeholder' => 'G-XXXXXXXXXX',
+				'instructions' => 'Google Analytics 4 Measurement ID. Để trống nếu dùng GTM.',
+			],
+			/* ══════ TAB 3: Trang Dự Án ══════ */
 			[
 				'key' => 'field_tab_portfolio',
 				'label' => 'Trang Dự Án',
@@ -1519,7 +1771,7 @@ function xanh_register_settings_fields()
 				'key' => 'field_pf_cta_btn1_url',
 				'label' => 'Nút chính — URL',
 				'name' => 'portfolio_cta_btn1_url',
-				'type' => 'url',
+				'type' => 'text',
 				'placeholder' => '/du-toan/',
 				'wrapper' => ['width' => '50'],
 			],
@@ -1535,225 +1787,13 @@ function xanh_register_settings_fields()
 				'key' => 'field_pf_cta_btn2_url',
 				'label' => 'Nút phụ — URL',
 				'name' => 'portfolio_cta_btn2_url',
-				'type' => 'url',
+				'type' => 'text',
 				'instructions' => 'URL Zalo OA hoặc link liên hệ.',
 				'wrapper' => ['width' => '50'],
 			],
 
 
-			/* ══════ TAB 2: Header & Footer ══════ */
-			[
-				'key' => 'field_tab_header_footer',
-				'label' => 'Header & Footer',
-				'type' => 'tab',
-				'placement' => 'left',
-			],
-
-			/* ── Section: Logo ── */
-			[
-				'key' => 'field_hf_logo_header_white',
-				'label' => 'Logo Header (Trắng)',
-				'name' => 'xanh_logo_header_white',
-				'type' => 'image',
-				'return_format' => 'array',
-				'preview_size' => 'medium',
-				'instructions' => 'Logo SVG/PNG nền trong suốt, hiển thị trên header trong suốt. Kích thước ~200×36px.',
-				'mime_types' => 'svg,png,webp',
-			],
-			[
-				'key' => 'field_hf_logo_header_dark',
-				'label' => 'Logo Header (Tối)',
-				'name' => 'xanh_logo_header_dark',
-				'type' => 'image',
-				'return_format' => 'array',
-				'preview_size' => 'medium',
-				'instructions' => 'Logo cho header khi cuộn (nền trắng). Kích thước ~200×36px.',
-				'mime_types' => 'svg,png,webp',
-			],
-			[
-				'key' => 'field_hf_logo_footer',
-				'label' => 'Logo Footer',
-				'name' => 'xanh_logo_footer',
-				'type' => 'image',
-				'return_format' => 'array',
-				'preview_size' => 'medium',
-				'instructions' => 'Logo SVG/PNG cho footer (nền tối). Kích thước ~200×36px.',
-				'mime_types' => 'svg,png,webp',
-			],
-
-			/* ── Section: Header CTA ── */
-			[
-				'key' => 'field_hf_header_cta_text',
-				'label' => 'Header CTA — Text',
-				'name' => 'xanh_header_cta_text',
-				'type' => 'text',
-				'instructions' => 'Nội dung nút CTA trên header. Để trống = mặc định "Đặt Lịch Tư Vấn".',
-				'placeholder' => 'Đặt Lịch Tư Vấn',
-				'wrapper' => ['width' => '50'],
-			],
-			[
-				'key' => 'field_hf_header_cta_url',
-				'label' => 'Header CTA — URL',
-				'name' => 'xanh_header_cta_url',
-				'type' => 'url',
-				'instructions' => 'URL nút CTA trên header. Để trống = mặc định trang Liên Hệ.',
-				'placeholder' => '/lien-he/',
-				'wrapper' => ['width' => '50'],
-			],
-
-			/* ── Section: Preloader ── */
-			[
-				'key' => 'field_hf_preloader_enabled',
-				'label' => 'Preloader — Bật/Tắt',
-				'name' => 'xanh_preloader_enabled',
-				'type' => 'true_false',
-				'default_value' => 1,
-				'ui' => 1,
-				'ui_on_text' => 'Bật',
-				'ui_off_text' => 'Tắt',
-				'instructions' => 'Bật hiệu ứng SVG logo animation khi tải trang (1 lần/session). Tự động ẩn trên trang chi tiết bài viết/dự án/dịch vụ.',
-			],
-			[
-				'key' => 'field_hf_preloader_theme',
-				'label' => 'Preloader — Theme',
-				'name' => 'xanh_preloader_theme',
-				'type' => 'button_group',
-				'choices' => [
-					'dark'  => '🌲 Dark (Nền xanh)',
-					'light' => '☀️ Light (Nền trắng)',
-				],
-				'default_value' => 'dark',
-				'layout' => 'horizontal',
-				'instructions' => 'Dark = nền primary + logo trắng. Light = nền trắng + logo xanh.',
-				'conditional_logic' => [
-					[['field' => 'field_hf_preloader_enabled', 'operator' => '==', 'value' => '1']],
-				],
-			],
-			[
-				'key' => 'field_hf_preloader_mode',
-				'label' => 'Preloader — Chế độ hiển thị',
-				'name' => 'xanh_preloader_mode',
-				'type' => 'button_group',
-				'choices' => [
-					'session' => '🔁 1 lần / session',
-					'always'  => '♾️ Luôn hiện mọi trang',
-				],
-				'default_value' => 'session',
-				'layout' => 'horizontal',
-				'instructions' => 'Session = chỉ hiện 1 lần khi khách mở tab mới. Luôn hiện = hiệu ứng chạy mỗi lần chuyển trang.',
-				'conditional_logic' => [
-					[['field' => 'field_hf_preloader_enabled', 'operator' => '==', 'value' => '1']],
-				],
-			],
-
-			[
-				'key' => 'field_hf_hotline',
-				'label' => 'Hotline',
-				'name' => 'xanh_hotline',
-				'type' => 'text',
-				'placeholder' => '0909 123 456',
-				'instructions' => 'Số điện thoại chính — hiển thị ở header, footer, contact.',
-			],
-			[
-				'key' => 'field_hf_email',
-				'label' => 'Email',
-				'name' => 'xanh_email',
-				'type' => 'email',
-				'placeholder' => 'info@xanhdesignbuild.vn',
-			],
-			[
-				'key' => 'field_hf_address',
-				'label' => 'Địa chỉ',
-				'name' => 'xanh_address',
-				'type' => 'textarea',
-				'rows' => 2,
-				'new_lines' => '',
-				'placeholder' => '123 Nguyễn Tất Thành, Phường Phước Hải, TP. Nha Trang, Khánh Hòa',
-			],
-
-			/* ── Tab: Mạng xã hội ── */
-			[
-				'key' => 'field_hf_facebook',
-				'label' => 'Facebook URL',
-				'name' => 'xanh_facebook',
-				'type' => 'url',
-				'placeholder' => 'https://facebook.com/xanhdesignbuild',
-			],
-			[
-				'key' => 'field_hf_instagram',
-				'label' => 'Instagram URL',
-				'name' => 'xanh_instagram',
-				'type' => 'url',
-				'placeholder' => 'https://instagram.com/xanhdesignbuild',
-			],
-			[
-				'key' => 'field_hf_youtube',
-				'label' => 'YouTube URL',
-				'name' => 'xanh_youtube',
-				'type' => 'url',
-				'placeholder' => 'https://youtube.com/@xanhdesignbuild',
-			],
-			[
-				'key' => 'field_hf_zalo',
-				'label' => 'Zalo OA URL',
-				'name' => 'xanh_zalo_oa',
-				'type' => 'url',
-				'placeholder' => 'https://zalo.me/xanhdesignbuild',
-			],
-
-			/* ── Tab: Footer ── */
-			[
-				'key' => 'field_hf_footer_desc',
-				'label' => 'Mô tả Footer',
-				'name' => 'xanh_footer_desc',
-				'type' => 'textarea',
-				'rows' => 3,
-				'new_lines' => '',
-				'placeholder' => 'Kiến tạo tổ ấm bình yên — minh bạch từ viên gạch đầu tiên.',
-				'instructions' => 'Đoạn mô tả ngắn hiển thị dưới logo footer.',
-			],
-			[
-				'key' => 'field_hf_footer_badges',
-				'label' => 'Footer Badges',
-				'name' => 'xanh_footer_badges',
-				'type' => 'repeater',
-				'min' => 0,
-				'max' => 5,
-				'layout' => 'table',
-				'button_label' => 'Thêm Badge',
-				'instructions' => 'Các huy hiệu/chứng nhận hiển thị ở footer (ví dụ: ISO 9001:2015, 10+ Năm).',
-				'sub_fields' => [
-					['key' => 'field_hf_badge_text', 'label' => 'Text', 'name' => 'text', 'type' => 'text', 'placeholder' => 'ISO 9001:2015'],
-				],
-			],
-			[
-				'key' => 'field_hf_footer_copyright',
-				'label' => 'Footer Copyright',
-				'name' => 'xanh_footer_copyright',
-				'type' => 'text',
-				'instructions' => 'Text copyright footer. Để trống = mặc định "© {năm} {tên site}. All rights reserved."',
-				'placeholder' => '© 2026 XANH Design & Build. All rights reserved.',
-			],
-			[
-				'key' => 'field_hf_legal_privacy_url',
-				'label' => 'Chính sách bảo mật — URL',
-				'name' => 'xanh_legal_privacy_url',
-				'type' => 'url',
-				'instructions' => 'URL trang chính sách bảo mật. Để trống = mặc định /chinh-sach-bao-mat/.',
-				'placeholder' => '/chinh-sach-bao-mat/',
-				'wrapper' => ['width' => '50'],
-			],
-			[
-				'key' => 'field_hf_legal_terms_url',
-				'label' => 'Điều khoản sử dụng — URL',
-				'name' => 'xanh_legal_terms_url',
-				'type' => 'url',
-				'instructions' => 'URL trang điều khoản sử dụng. Để trống = mặc định /dieu-khoan-su-dung/.',
-				'placeholder' => '/dieu-khoan-su-dung/',
-				'wrapper' => ['width' => '50'],
-			],
-
-			/* ══════ TAB 3: Blog ══════ */
+			/* ══════ TAB 4: Blog ══════ */
 			[
 				'key' => 'field_tab_blog',
 				'label' => 'Blog',
@@ -1900,7 +1940,7 @@ function xanh_register_settings_fields()
 				'key' => 'field_blog_inline_cta_btn_url',
 				'label' => 'Nút CTA — URL',
 				'name' => 'blog_inline_cta_btn_url',
-				'type' => 'url',
+				'type' => 'text',
 				'placeholder' => '/lien-he/',
 				'wrapper' => ['width' => '50'],
 				'conditional_logic' => [
@@ -1957,7 +1997,7 @@ function xanh_register_settings_fields()
 				'endpoint' => 1,
 			],
 
-			/* ══════ TAB 4: Liên Hệ ══════ */
+			/* ══════ TAB 5: Liên Hệ ══════ */
 			[
 				'key' => 'field_tab_contact',
 				'label' => 'Liên Hệ',
@@ -2006,6 +2046,7 @@ function xanh_register_settings_fields()
 				'type' => 'textarea',
 				'rows' => 2,
 				'new_lines' => '',
+				'placeholder' => '49 Nguyễn Tất Thành, Phường Phước Long, Tỉnh Khánh Hòa, Việt Nam',
 				'instructions' => 'Nếu để trống, sẽ dùng địa chỉ từ Header & Footer.',
 			],
 			[
@@ -2013,7 +2054,7 @@ function xanh_register_settings_fields()
 				'label' => 'Số điện thoại phụ',
 				'name' => 'contact_phone_2',
 				'type' => 'text',
-				'placeholder' => '028 1234 5678',
+				'placeholder' => '0978.303.025',
 				'instructions' => 'Số điện thoại bàn văn phòng (nếu có).',
 			],
 
@@ -2022,7 +2063,7 @@ function xanh_register_settings_fields()
 				'key' => 'field_ct_map_embed',
 				'label' => 'Google Maps Embed URL',
 				'name' => 'contact_map_embed',
-				'type' => 'url',
+				'type' => 'text',
 				'instructions' => 'URL iframe embed từ Google Maps. Ví dụ: https://www.google.com/maps/embed?pb=...',
 				'placeholder' => 'https://www.google.com/maps/embed?pb=...',
 			],
@@ -2030,7 +2071,7 @@ function xanh_register_settings_fields()
 				'key' => 'field_ct_map_link',
 				'label' => 'Google Maps Link',
 				'name' => 'contact_map_link',
-				'type' => 'url',
+				'type' => 'text',
 				'instructions' => 'Link mở Google Maps khi click "Xem bản đồ".',
 				'placeholder' => 'https://maps.google.com/?q=...',
 			],
@@ -2052,72 +2093,6 @@ function xanh_register_settings_fields()
 				],
 			],
 
-			/* ══════ TAB 5: SEO & Scripts ══════ */
-			[
-				'key' => 'field_tab_seo',
-				'label' => 'SEO & Scripts',
-				'type' => 'tab',
-				'placement' => 'left',
-			],
-
-			/* ── Section: Meta mặc định ── */
-			[
-				'key' => 'field_seo_default_title',
-				'label' => 'Title mặc định',
-				'name' => 'seo_default_title',
-				'type' => 'text',
-				'instructions' => 'Title SEO mặc định cho các trang chưa có title riêng.',
-				'placeholder' => 'XANH Design & Build — Kiến Tạo Tổ Ấm Bình Yên',
-			],
-			[
-				'key' => 'field_seo_default_desc',
-				'label' => 'Meta Description mặc định',
-				'name' => 'seo_default_desc',
-				'type' => 'textarea',
-				'rows' => 3,
-				'new_lines' => '',
-				'instructions' => 'Tối đa 160 ký tự. Áp dụng cho trang không có description riêng.',
-				'placeholder' => 'XANH Design & Build — thiết kế và xây dựng nhà ở bền vững, minh bạch từ viên gạch đầu tiên.',
-				'maxlength' => 160,
-			],
-			[
-				'key' => 'field_seo_og_image',
-				'label' => 'Ảnh OG mặc định',
-				'name' => 'seo_og_image',
-				'type' => 'image',
-				'return_format' => 'array',
-				'preview_size' => 'medium',
-				'instructions' => 'Ảnh Open Graph mặc định khi chia sẻ lên Facebook/Zalo (1200×630px).',
-				'mime_types' => 'jpg,jpeg,png,webp',
-			],
-
-			/* ── Tab: Scripts ── */
-			[
-				'key' => 'field_seo_head_scripts',
-				'label' => 'Scripts trong &lt;head&gt;',
-				'name' => 'seo_head_scripts',
-				'type' => 'textarea',
-				'rows' => 8,
-				'instructions' => 'Mã theo dõi chèn vào &lt;head&gt; (Google Tag Manager, Meta Pixel…). Bao gồm thẻ &lt;script&gt;.',
-				'placeholder' => '<!-- Google Tag Manager -->',
-			],
-			[
-				'key' => 'field_seo_body_scripts',
-				'label' => 'Scripts trước &lt;/body&gt;',
-				'name' => 'seo_body_scripts',
-				'type' => 'textarea',
-				'rows' => 8,
-				'instructions' => 'Mã chèn trước thẻ đóng &lt;/body&gt; (chat widgets, analytics…). Bao gồm thẻ &lt;script&gt;.',
-				'placeholder' => '<!-- Google Tag Manager (noscript) -->',
-			],
-			[
-				'key' => 'field_seo_ga_id',
-				'label' => 'Google Analytics ID',
-				'name' => 'seo_ga_id',
-				'type' => 'text',
-				'placeholder' => 'G-XXXXXXXXXX',
-				'instructions' => 'Google Analytics 4 Measurement ID. Để trống nếu dùng GTM.',
-			],
 		],
 		'location' => [
 			[
@@ -2846,7 +2821,7 @@ function xanh_register_project_detail_fields()
 				'key' => 'field_pd_cta_btn1_url',
 				'label' => 'Nút chính — URL',
 				'name' => 'pd_cta_btn1_url',
-				'type' => 'url',
+				'type' => 'text',
 				'placeholder' => 'https://',
 				'wrapper' => ['width' => '50'],
 				'conditional_logic' => [
@@ -2868,7 +2843,7 @@ function xanh_register_project_detail_fields()
 				'key' => 'field_pd_cta_btn2_url',
 				'label' => 'Nút phụ — URL',
 				'name' => 'pd_cta_btn2_url',
-				'type' => 'url',
+				'type' => 'text',
 				'placeholder' => 'https://zalo.me/',
 				'wrapper' => ['width' => '50'],
 				'conditional_logic' => [
@@ -3008,7 +2983,7 @@ function xanh_register_contact_page_fields()
 				'key' => 'field_ct_google_maps_url',
 				'label' => 'Google Maps Embed URL',
 				'name' => 'contact_google_maps_url',
-				'type' => 'url',
+				'type' => 'text',
 				'instructions' => 'Lấy từ Google Maps → Chia sẻ → Nhúng bản đồ → Copy URL trong src="...".',
 				'placeholder' => 'https://www.google.com/maps/embed?pb=...',
 			],
@@ -3690,7 +3665,7 @@ function xanh_register_service_detail_fields()
 				'key' => 'field_sv_cta_btn_link',
 				'label' => 'Nút chính — URL',
 				'name' => 'sv_cta_btn_link',
-				'type' => 'url',
+				'type' => 'text',
 				'wrapper' => ['width' => '50'],
 			],
 			[
@@ -3705,7 +3680,7 @@ function xanh_register_service_detail_fields()
 				'key' => 'field_sv_cta_ghost_link',
 				'label' => 'Nút phụ — URL',
 				'name' => 'sv_cta_ghost_link',
-				'type' => 'url',
+				'type' => 'text',
 				'wrapper' => ['width' => '50'],
 			],
 		],
@@ -3730,3 +3705,401 @@ function xanh_register_service_detail_fields()
 	]);
 }
 add_action('acf/init', 'xanh_register_service_detail_fields');
+
+/**
+ * ─────────────────────────────────────────────────────────
+ * ACF Field Groups — Popup Modal (xanh_popup CPT).
+ *
+ * 5 Tabs: Content & Templates | Display | Trigger | Targeting | Frequency
+ * ─────────────────────────────────────────────────────────
+ */
+function xanh_register_popup_fields()
+{
+	if (!function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group([
+		'key'    => 'group_popup',
+		'title'  => 'Popup Modal — Cài Đặt',
+		'fields' => [
+
+			/* ══════════════════════════════════════════
+			   Tab 1: Nội Dung & Templates
+			   ══════════════════════════════════════════ */
+			[
+				'key'       => 'field_popup_tab_content',
+				'label'     => 'Nội Dung',
+				'type'      => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key'           => 'field_popup_active',
+				'label'         => 'Bật/Tắt Popup',
+				'name'          => 'popup_active',
+				'type'          => 'true_false',
+				'default_value' => 1,
+				'ui'            => 1,
+				'ui_on_text'    => 'Active',
+				'ui_off_text'   => 'Inactive',
+				'instructions'  => 'Tắt nếu muốn ẩn popup tạm thời mà không cần xóa.',
+			],
+			[
+				'key'           => 'field_popup_content_type',
+				'label'         => 'Loại Nội Dung',
+				'name'          => 'popup_content_type',
+				'type'          => 'select',
+				'instructions'  => 'Chọn loại nội dung hoặc template có sẵn.',
+				'choices'       => [
+					'Tùy Chỉnh'  => [
+						'wysiwyg' => 'WYSIWYG Editor (Text/Ảnh tự do)',
+						'image'   => 'Chỉ Hình Ảnh (Banner)',
+						'html'    => 'Code HTML thuần',
+					],
+					'Templates Có Sẵn' => [
+						'quote'   => 'Template: Báo Giá (FluentForm)',
+						'ebook'   => 'Template: Ebook (Ảnh + FluentForm)',
+						'video'   => 'Template: Video YouTube',
+					],
+				],
+				'default_value' => 'wysiwyg',
+				'return_format' => 'value',
+				'wrapper'       => ['width' => '60'],
+			],
+
+			/* ── WYSIWYG Content ── */
+			[
+				'key'               => 'field_popup_wysiwyg',
+				'label'             => 'Nội dung (WYSIWYG)',
+				'name'              => 'popup_wysiwyg',
+				'type'              => 'wysiwyg',
+				'instructions'      => 'Nhập nội dung tự do: text, headings, ảnh, shortcode, v.v.',
+				'tabs'              => 'all',
+				'toolbar'           => 'full',
+				'media_upload'      => 1,
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'wysiwyg']],
+				],
+			],
+
+			/* ── Image Only ── */
+			[
+				'key'               => 'field_popup_image',
+				'label'             => 'Hình ảnh',
+				'name'              => 'popup_image',
+				'type'              => 'image',
+				'return_format'     => 'array',
+				'preview_size'      => 'medium',
+				'mime_types'        => 'jpg,jpeg,png,webp,gif',
+				'instructions'      => 'Upload ảnh banner/poster. Template Ebook: Bìa sách (tỉ lệ 3:4).',
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'image']],
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'ebook']],
+				],
+			],
+			[
+				'key'               => 'field_popup_image_link',
+				'label'             => 'Link khi click ảnh',
+				'name'              => 'popup_image_link',
+				'type'              => 'text',
+				'instructions'      => 'Tùy chọn: URL khi click vào ảnh (ví dụ: trang landing page).',
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'image']],
+				],
+			],
+
+			/* ── Raw HTML ── */
+			[
+				'key'               => 'field_popup_html',
+				'label'             => 'Code HTML',
+				'name'              => 'popup_html',
+				'type'              => 'textarea',
+				'rows'              => 12,
+				'new_lines'         => '',
+				'instructions'      => 'Nhập HTML/CSS/JS thuần. Shortcodes cũng hỗ trợ.',
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'html']],
+				],
+			],
+
+			/* ── Template fields: Quote & Ebook ── */
+			[
+				'key'               => 'field_popup_title',
+				'label'             => 'Tiêu đề Popup',
+				'name'              => 'popup_title',
+				'type'              => 'text',
+				'instructions'      => 'Tiêu đề hiển thị trong popup.',
+				'placeholder'       => 'Nhận Báo Giá Cụ Thể',
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'quote']],
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'ebook']],
+				],
+			],
+			[
+				'key'               => 'field_popup_desc',
+				'label'             => 'Mô tả ngắn',
+				'name'              => 'popup_desc',
+				'type'              => 'textarea',
+				'rows'              => 3,
+				'instructions'      => 'Mô tả ngắn xuất hiện dưới tiêu đề.',
+				'placeholder'       => 'Nhập thông tin để nhận báo giá chi tiết từ đội ngũ XANH.',
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'quote']],
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'ebook']],
+				],
+			],
+			[
+				'key'               => 'field_popup_form_id',
+				'label'             => 'Fluent Form ID',
+				'name'              => 'popup_form_id',
+				'type'              => 'number',
+				'instructions'      => 'Nhập ID của Fluent Form. Xem tại Fluent Forms → All Forms → cột ID.',
+				'placeholder'       => '1',
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'quote']],
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'ebook']],
+				],
+			],
+
+			/* ── Template fields: Video ── */
+			[
+				'key'               => 'field_popup_video_url',
+				'label'             => 'YouTube Video URL',
+				'name'              => 'popup_video_url',
+				'type'              => 'url',
+				'instructions'      => 'Dán link YouTube. Ví dụ: https://www.youtube.com/watch?v=abc123',
+				'placeholder'       => 'https://www.youtube.com/watch?v=...',
+				'conditional_logic' => [
+					[['field' => 'field_popup_content_type', 'operator' => '==', 'value' => 'video']],
+				],
+			],
+
+			/* ══════════════════════════════════════════
+			   Tab 2: Hiển Thị (Display)
+			   ══════════════════════════════════════════ */
+			[
+				'key'       => 'field_popup_tab_display',
+				'label'     => 'Hiển Thị',
+				'type'      => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key'           => 'field_popup_size',
+				'label'         => 'Kích Thước Popup',
+				'name'          => 'popup_size',
+				'type'          => 'select',
+				'instructions'  => 'small = 480px · medium = 720px (Báo Giá) · large = 960px (Ebook 2 cột) · fullscreen = 90%/1200px (Video)',
+				'choices'       => [
+					'small'      => 'Small (480px)',
+					'medium'     => 'Medium (720px)',
+					'large'      => 'Large (960px)',
+					'fullscreen' => 'Fullscreen (max 1200px)',
+				],
+				'default_value' => 'medium',
+				'wrapper'       => ['width' => '33'],
+			],
+			[
+				'key'           => 'field_popup_overlay',
+				'label'         => 'Overlay Style',
+				'name'          => 'popup_overlay',
+				'type'          => 'select',
+				'instructions'  => 'Phông nền mờ phía sau popup.',
+				'choices'       => [
+					'dark'  => 'Đen trong suốt (88%)',
+					'light' => 'Trắng trong suốt (85%)',
+					'blur'  => 'Blur (mờ nền)',
+				],
+				'default_value' => 'dark',
+				'wrapper'       => ['width' => '33'],
+			],
+			[
+				'key'           => 'field_popup_animation',
+				'label'         => 'Hiệu Ứng Mở',
+				'name'          => 'popup_animation',
+				'type'          => 'select',
+				'choices'       => [
+					'fade-scale'  => 'Fade + Scale (mặc định)',
+					'slide-up'    => 'Slide Up',
+					'slide-right' => 'Slide Right',
+				],
+				'default_value' => 'fade-scale',
+				'wrapper'       => ['width' => '34'],
+			],
+			[
+				'key'           => 'field_popup_bg_color',
+				'label'         => 'Màu Nền Popup',
+				'name'          => 'popup_bg_color',
+				'type'          => 'select',
+				'instructions'  => 'Chọn màu nền cho nội dung popup.',
+				'choices'       => [
+					'light'   => 'Sáng (Trắng)',
+					'primary' => 'Primary (Xanh đậm)',
+				],
+				'default_value' => 'light',
+				'wrapper'       => ['width' => '33'],
+			],
+
+			/* ══════════════════════════════════════════
+			   Tab 3: Kích Hoạt (Trigger)
+			   ══════════════════════════════════════════ */
+			[
+				'key'       => 'field_popup_tab_trigger',
+				'label'     => 'Kích Hoạt',
+				'type'      => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key'           => 'field_popup_trigger',
+				'label'         => 'Kiểu Kích Hoạt',
+				'name'          => 'popup_trigger',
+				'type'          => 'select',
+				'instructions'  => 'Chọn sự kiện sẽ kích hoạt popup.',
+				'choices'       => [
+					'click'       => 'Click vào nút / link',
+					'delay'       => 'Tự động sau X giây',
+					'scroll'      => 'Cuộn trang đến X%',
+					'exit_intent' => 'Exit Intent (ý định thoát)',
+				],
+				'default_value' => 'click',
+			],
+			[
+				'key'               => 'field_popup_click_guide',
+				'label'             => 'Hướng dẫn gắn nút',
+				'type'              => 'message',
+				'message'           => '<div style="background:#f0f7f4;border-left:4px solid #14513D;padding:12px 16px;border-radius:4px;margin:4px 0;">
+					<strong>Cách gắn popup vào một nút bất kỳ:</strong><br>
+					Chỉnh URL/Link của nút đó thành: <code style="background:#e8e8e8;padding:2px 8px;border-radius:3px;font-size:14px;">#xanh-popup-<strong>[POST_ID của popup này]</strong></code><br>
+					<small>Ví dụ: <code>#xanh-popup-123</code> — Xem Popup ID ở thanh trình duyệt hoặc cột "Popup ID" trong danh sách.</small>
+				</div>',
+				'conditional_logic' => [
+					[['field' => 'field_popup_trigger', 'operator' => '==', 'value' => 'click']],
+				],
+			],
+			[
+				'key'               => 'field_popup_click_selector',
+				'label'             => 'CSS Selector bổ sung',
+				'name'              => 'popup_click_selector',
+				'type'              => 'text',
+				'instructions'      => 'Tùy chọn thêm: Nhập CSS class hoặc ID để kích hoạt. Ví dụ: .btn-quote hoặc #open-form',
+				'placeholder'       => '.btn-quote',
+				'conditional_logic' => [
+					[['field' => 'field_popup_trigger', 'operator' => '==', 'value' => 'click']],
+				],
+			],
+			[
+				'key'               => 'field_popup_delay_seconds',
+				'label'             => 'Thời gian delay (giây)',
+				'name'              => 'popup_delay_seconds',
+				'type'              => 'number',
+				'instructions'      => 'Popup tự hiện sau bao nhiêu giây khi trang load xong.',
+				'default_value'     => 5,
+				'min'               => 1,
+				'max'               => 120,
+				'conditional_logic' => [
+					[['field' => 'field_popup_trigger', 'operator' => '==', 'value' => 'delay']],
+				],
+			],
+			[
+				'key'               => 'field_popup_scroll_percent',
+				'label'             => 'Scroll Depth (%)',
+				'name'              => 'popup_scroll_percent',
+				'type'              => 'number',
+				'instructions'      => 'Popup tự hiện khi người dùng cuộn đến bao nhiêu % trang.',
+				'default_value'     => 50,
+				'min'               => 1,
+				'max'               => 100,
+				'append'            => '%',
+				'conditional_logic' => [
+					[['field' => 'field_popup_trigger', 'operator' => '==', 'value' => 'scroll']],
+				],
+			],
+
+			/* ══════════════════════════════════════════
+			   Tab 4: Điều Kiện Hiển Thị (Targeting)
+			   ══════════════════════════════════════════ */
+			[
+				'key'       => 'field_popup_tab_targeting',
+				'label'     => 'Hiển Thị',
+				'type'      => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key'           => 'field_popup_pages',
+				'label'         => 'Hiện trên trang',
+				'name'          => 'popup_pages',
+				'type'          => 'select',
+				'instructions'  => 'Popup sẽ hiển thị ở những trang nào.',
+				'choices'       => [
+					'all'      => 'Toàn bộ website',
+					'home'     => 'Chỉ Trang chủ',
+					'blog'     => 'Trang Blog & Bài viết',
+					'services' => 'Trang Dịch vụ (archive + single)',
+					'custom'   => 'Chọn trang cụ thể...',
+				],
+				'default_value' => 'all',
+			],
+			[
+				'key'               => 'field_popup_custom_pages',
+				'label'             => 'Trang cụ thể',
+				'name'              => 'popup_custom_pages',
+				'type'              => 'post_object',
+				'instructions'      => 'Chọn các trang/bài viết cụ thể.',
+				'post_type'         => ['page', 'post', 'xanh_service', 'xanh_project'],
+				'multiple'          => 1,
+				'return_format'     => 'id',
+				'conditional_logic' => [
+					[['field' => 'field_popup_pages', 'operator' => '==', 'value' => 'custom']],
+				],
+			],
+			[
+				'key'           => 'field_popup_hide_mobile',
+				'label'         => 'Ẩn trên Mobile',
+				'name'          => 'popup_hide_mobile',
+				'type'          => 'true_false',
+				'default_value' => 0,
+				'ui'            => 1,
+				'instructions'  => 'Bật ON để ẩn popup trên thiết bị di động (< 768px).',
+			],
+
+			/* ══════════════════════════════════════════
+			   Tab 5: Tần Suất (Frequency)
+			   ══════════════════════════════════════════ */
+			[
+				'key'       => 'field_popup_tab_frequency',
+				'label'     => 'Tần Suất',
+				'type'      => 'tab',
+				'placement' => 'left',
+			],
+			[
+				'key'           => 'field_popup_frequency',
+				'label'         => 'Tần suất hiển thị',
+				'name'          => 'popup_frequency',
+				'type'          => 'select',
+				'instructions'  => 'Sau khi đóng, bao lâu thì popup hiện lại cho cùng người dùng.',
+				'choices'       => [
+					'always'       => 'Luôn hiển thị (mỗi lần load trang)',
+					'once_session' => 'Chỉ 1 lần/phiên truy cập',
+					'once_day'     => 'Chỉ 1 lần/ngày',
+					'once_week'    => 'Chỉ 1 lần/tuần',
+				],
+				'default_value' => 'once_session',
+			],
+		],
+		'location' => [
+			[
+				[
+					'param'    => 'post_type',
+					'operator' => '==',
+					'value'    => 'xanh_popup',
+				],
+			],
+		],
+		'style'           => 'default',
+		'position'        => 'normal',
+		'label_placement' => 'top',
+		'menu_order'      => 0,
+		'hide_on_screen'  => ['the_content', 'excerpt', 'featured_image', 'categories', 'tags'],
+		'active'          => true,
+	]);
+}
+add_action('acf/init', 'xanh_register_popup_fields');

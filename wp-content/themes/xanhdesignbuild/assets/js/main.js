@@ -374,6 +374,54 @@ const XanhMobileMenu = {
     this.navLinks.forEach((link) => {
       link.addEventListener('click', () => this.close());
     });
+
+    /* ── Sub-menu accordion toggles ── */
+    this._initSubMenuToggles();
+  },
+
+  /** @private — init accordion toggles for mobile sub-menus. */
+  _initSubMenuToggles() {
+    const toggleBtns = this.drawer
+      ? this.drawer.querySelectorAll('.submenu-toggle')
+      : [];
+
+    toggleBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Find the next sibling <ul class="mobile-sub-menu">.
+        const parentLi = btn.closest('.mobile-has-children');
+        if (!parentLi) return;
+
+        const subMenu = parentLi.querySelector(':scope > .mobile-sub-menu');
+        if (!subMenu) return;
+
+        const isOpen = subMenu.classList.contains('is-open');
+
+        // Toggle this sub-menu.
+        subMenu.classList.toggle('is-open');
+        btn.classList.toggle('is-rotated');
+        btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+
+        // Re-init Lucide for any icons inside the sub-menu.
+        if (!isOpen && typeof lucide !== 'undefined') {
+          try { lucide.createIcons(); } catch (err) { /* noop */ }
+        }
+      });
+    });
+  },
+
+  /** @private — close all open sub-menus. */
+  _closeAllSubMenus() {
+    if (!this.drawer) return;
+    this.drawer.querySelectorAll('.mobile-sub-menu.is-open').forEach((sm) => {
+      sm.classList.remove('is-open');
+    });
+    this.drawer.querySelectorAll('.submenu-toggle.is-rotated').forEach((btn) => {
+      btn.classList.remove('is-rotated');
+      btn.setAttribute('aria-expanded', 'false');
+    });
   },
 
   toggle() {
@@ -417,6 +465,9 @@ const XanhMobileMenu = {
     this.overlay.classList.add('opacity-0', 'pointer-events-none');
     document.body.classList.remove('is-scroll-locked');
 
+    // Close all sub-menus when drawer closes.
+    this._closeAllSubMenus();
+
     const scrollY = window.scrollY || window.pageYOffset;
     this.menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
       if (scrollY > 80) {
@@ -447,6 +498,9 @@ const XanhHeader = {
     this.header = document.getElementById('site-header');
     if (!this.header) return;
 
+    // Apply initial state
+    this._handleScroll();
+
     window.addEventListener('scroll', () => {
       if (!this._ticking) {
         requestAnimationFrame(() => {
@@ -462,8 +516,9 @@ const XanhHeader = {
   _handleScroll() {
     const scrollY = window.scrollY || window.pageYOffset;
     const menuBtn = document.getElementById('mobile-menu-btn');
+    const isNoHero = document.body.classList.contains('xanh-no-hero');
 
-    if (scrollY > 80) {
+    if (scrollY > 80 || isNoHero) {
       this.header.classList.add('is-scrolled');
       if (menuBtn) {
         menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {

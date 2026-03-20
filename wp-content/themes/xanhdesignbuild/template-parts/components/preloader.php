@@ -28,8 +28,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // 1. Check ACF setting — enabled?
 $preloader_enabled = get_field( 'xanh_preloader_enabled', 'option' );
-if ( $preloader_enabled === false || $preloader_enabled === null ) {
-	$preloader_enabled = true; // Default: enabled
+// Default to true only when field doesn't exist yet (null).
+// When ACF checkbox is unchecked, get_field() returns false — respect that.
+if ( $preloader_enabled === null ) {
+	$preloader_enabled = true;
 }
 if ( ! $preloader_enabled ) {
 	return;
@@ -128,3 +130,25 @@ $theme_class = ( $preloader_theme === 'dark' ) ? ' preloader--dark' : '';
 
 	<div class="preloader__progress"></div>
 </div>
+<script>
+/* Instant skip — runs synchronously before paint to prevent flash */
+(function(){
+	var el = document.getElementById('page-preloader');
+	if (!el) return;
+	var mode = el.getAttribute('data-mode') || 'session';
+	var KEY  = 'xanh_preloader_shown';
+	var skip = false;
+
+	if (mode === 'session') {
+		skip = !!sessionStorage.getItem(KEY);
+	} else if (mode === 'per-page') {
+		skip = !!sessionStorage.getItem(KEY + '_' + location.pathname);
+	}
+	/* mode === 'always' → never skip here */
+
+	if (skip) {
+		el.parentNode.removeChild(el);
+		document.body.classList.remove('preloader-active');
+	}
+})();
+</script>

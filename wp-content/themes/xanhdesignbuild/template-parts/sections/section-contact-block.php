@@ -27,9 +27,9 @@ $working_hours  = get_field( 'contact_working_hours' ) ?: 'Thứ 2 — Thứ 7: 
 $maps_url       = get_field( 'contact_google_maps_url' ) ?: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3898.7895!2d109.1896!3d12.2388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDE0JzE5LjciTiAxMDnCsDExJzIyLjYiRQ!5e0!3m2!1svi!2s!4v1710000000000';
 
 // Global Options.
-$address = xanh_get_address() ?: '123 Nguyễn Tất Thành, Phường Phước Hải, TP. Nha Trang, Khánh Hòa';
-$hotline = xanh_get_hotline() ?: '0258 388 8888';
-$email   = xanh_get_email() ?: 'info@xanhdesign.vn';
+$address = xanh_get_address() ?: '49 Nguyễn Tất Thành, Phường Phước Long, Tỉnh Khánh Hòa, Việt Nam';
+$hotline = xanh_get_hotline() ?: '0978.303.025';
+$email   = xanh_get_email() ?: 'contact@xanhdesignbuild.vn';
 ?>
 
 <section class="contact-block" id="contact-block">
@@ -111,7 +111,7 @@ $email   = xanh_get_email() ?: 'info@xanhdesign.vn';
 						src="<?php echo esc_url( $maps_url ); ?>"
 						loading="lazy"
 						referrerpolicy="no-referrer-when-downgrade"
-						title="<?php esc_attr_e( 'Bản đồ XANH Design & Build - Nha Trang', 'xanh' ); ?>"
+						title="<?php esc_attr_e( 'Bản đồ XANH Design & Build - Khánh Hòa', 'xanh' ); ?>"
 						allowfullscreen>
 					</iframe>
 				</div>

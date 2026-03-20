@@ -66,6 +66,34 @@ function xanh_register_post_types() {
 		'supports'      => [ 'title', 'thumbnail', 'excerpt' ],
 		'show_in_rest'  => true,
 	] );
+
+	// ═══ xanh_popup — Popup Modal ═══
+	register_post_type( 'xanh_popup', [
+		'labels'        => [
+			'name'               => __( 'Popup', 'xanh' ),
+			'singular_name'      => __( 'Popup', 'xanh' ),
+			'add_new'            => __( 'Thêm Popup', 'xanh' ),
+			'add_new_item'       => __( 'Thêm Popup Mới', 'xanh' ),
+			'edit_item'          => __( 'Sửa Popup', 'xanh' ),
+			'new_item'           => __( 'Popup Mới', 'xanh' ),
+			'view_item'          => __( 'Xem Popup', 'xanh' ),
+			'search_items'       => __( 'Tìm Popup', 'xanh' ),
+			'not_found'          => __( 'Không tìm thấy popup', 'xanh' ),
+			'not_found_in_trash' => __( 'Không có popup trong thùng rác', 'xanh' ),
+			'all_items'          => __( 'Tất cả Popup', 'xanh' ),
+		],
+		'public'             => false,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'show_in_rest'       => false,
+		'exclude_from_search' => true,
+		'publicly_queryable' => false,
+		'has_archive'        => false,
+		'rewrite'            => false,
+		'menu_icon'          => 'dashicons-slides',
+		'menu_position'      => 25,
+		'supports'           => [ 'title' ],
+	] );
 }
 add_action( 'init', 'xanh_register_post_types' );
 
@@ -249,7 +277,156 @@ function xanh_service_custom_column( $column, $post_id ) {
 add_action( 'manage_xanh_service_posts_custom_column', 'xanh_service_custom_column', 10, 2 );
 
 /**
- * Adjust column widths with inline CSS for both CPTs.
+ * ====================================================================
+ * Admin Columns Customization for 'xanh_popup'
+ * ====================================================================
+ */
+
+/**
+ * Define the columns for the popup list table.
+ */
+function xanh_popup_columns( $columns ) {
+	$new_columns = [];
+	$new_columns['cb']             = $columns['cb'];
+	$new_columns['title']          = $columns['title'];
+	$new_columns['popup_type']     = __( 'Loại Nội Dung', 'xanh' );
+	$new_columns['popup_trigger']  = __( 'Kích Hoạt', 'xanh' );
+	$new_columns['popup_status']   = __( 'Trạng Thái', 'xanh' );
+	$new_columns['popup_id']       = __( 'Popup ID', 'xanh' );
+	$new_columns['date']           = $columns['date'];
+
+	return $new_columns;
+}
+add_filter( 'manage_xanh_popup_posts_columns', 'xanh_popup_columns' );
+
+/**
+ * Output the content for the popup custom columns.
+ */
+function xanh_popup_custom_column( $column, $post_id ) {
+	if ( ! function_exists( 'get_field' ) ) {
+		echo '—';
+		return;
+	}
+
+	switch ( $column ) {
+		case 'popup_type':
+			$type_map = [
+				'wysiwyg' => 'WYSIWYG Editor',
+				'image'   => 'Hình Ảnh',
+				'html'    => 'HTML Code',
+				'quote'   => 'Báo Giá',
+				'ebook'   => 'Ebook',
+				'video'   => 'Video',
+			];
+			$type = get_field( 'popup_content_type', $post_id );
+			echo esc_html( $type_map[ $type ] ?? '—' );
+			break;
+
+		case 'popup_trigger':
+			$trigger_map = [
+				'click'       => 'Click',
+				'delay'       => 'Delay',
+				'scroll'      => 'Scroll',
+				'exit_intent' => 'Exit Intent',
+			];
+			$trigger = get_field( 'popup_trigger', $post_id );
+			$label   = $trigger_map[ $trigger ] ?? '—';
+			// Show extra info for each trigger type.
+			if ( 'click' === $trigger ) {
+				$label .= ' <code>#xanh-popup-' . $post_id . '</code>';
+			} elseif ( 'delay' === $trigger ) {
+				$secs = get_field( 'popup_delay_seconds', $post_id );
+				$label .= ' (' . intval( $secs ) . 's)';
+			} elseif ( 'scroll' === $trigger ) {
+				$pct = get_field( 'popup_scroll_percent', $post_id );
+				$label .= ' (' . intval( $pct ) . '%)';
+			}
+			echo wp_kses_post( $label );
+			break;
+
+		case 'popup_status':
+			$active = get_field( 'popup_active', $post_id );
+			if ( $active ) {
+				echo '<span style="color:#22C55E;font-weight:600;">Active</span>';
+			} else {
+				echo '<span style="color:#999;">Inactive</span>';
+			}
+			break;
+
+		case 'popup_id':
+			$popup_id_str = '#xanh-popup-' . intval( $post_id );
+			echo '<code style="cursor:pointer; padding:4px 8px; display:inline-block; border-radius:4px; transition:all 0.2s;" ';
+			echo 'title="Click để copy" ';
+			echo 'onclick="navigator.clipboard.writeText(\'' . esc_js( $popup_id_str ) . '\'); ';
+			echo 'var el=this; var orig=el.innerHTML; el.innerHTML=\'Đã copy!\'; el.style.background=\'#d1e7dd\'; el.style.color=\'#0f5132\'; ';
+			echo 'setTimeout(function(){el.innerHTML=orig; el.style.background=\'\'; el.style.color=\'\';}, 1500);">';
+			echo esc_html( $popup_id_str ) . '</code>';
+			break;
+	}
+}
+add_action( 'manage_xanh_popup_posts_custom_column', 'xanh_popup_custom_column', 10, 2 );
+
+/**
+ * Add "Xem Trước" (Preview) row action to popup list.
+ *
+ * Opens the frontend with ?preview_popup={ID} to force-render and auto-open.
+ */
+function xanh_popup_row_actions( $actions, $post ) {
+	if ( 'xanh_popup' !== $post->post_type ) {
+		return $actions;
+	}
+
+	$preview_url = add_query_arg( 'preview_popup', $post->ID, home_url( '/' ) );
+	$actions['preview_popup'] = sprintf(
+		'<a href="%s" target="_blank" style="color:#14513D;font-weight:600;">Xem Trước</a>',
+		esc_url( $preview_url )
+	);
+
+	return $actions;
+}
+add_filter( 'post_row_actions', 'xanh_popup_row_actions', 10, 2 );
+
+/**
+ * Add a meta box on the Popup Edit screen to display the click-to-copy ID.
+ */
+function xanh_popup_add_meta_box() {
+	add_meta_box(
+		'xanh_popup_id_meta_box', // ID
+		'🔗 Copy Link Mở Popup', // Title
+		'xanh_popup_meta_box_callback', // Callback
+		'xanh_popup', // Screen
+		'side', // Context
+		'high' // Priority
+	);
+}
+add_action( 'add_meta_boxes', 'xanh_popup_add_meta_box' );
+
+function xanh_popup_meta_box_callback( $post ) {
+	$popup_id_str = '#xanh-popup-' . intval( $post->ID );
+	echo '<p>Để popup tự động mở khi click vào một nút/link, hãy copy mã dưới đây và dán vào phần <strong>Link (URL)</strong> của nút đó thiết kế bằng Elementor/Gutenberg.</p>';
+	echo '<div style="background:#f0f0f1; border:1px solid #dcdcde; padding:12px; text-align:center; border-radius:4px;">';
+	echo '<code style="cursor:pointer; font-size:16px; padding:6px 12px; display:inline-block; border-radius:4px; font-weight:bold; background:#fff; color:#2271b1; border:1px solid #2271b1; transition:all 0.2s;" ';
+	echo 'title="Click để copy" ';
+	echo 'onclick="navigator.clipboard.writeText(\'' . esc_js( $popup_id_str ) . '\'); ';
+	echo 'var el=this; var orig=el.innerHTML; el.innerHTML=\'Đã copy!\'; el.style.background=\'#d1e7dd\'; el.style.color=\'#0f5132\'; el.style.borderColor=\'#0f5132\'; ';
+	echo 'setTimeout(function(){el.innerHTML=orig; el.style.background=\'#fff\'; el.style.color=\'#2271b1\'; el.style.borderColor=\'#2271b1\';}, 1500);">';
+	echo esc_html( $popup_id_str ) . '</code>';
+	echo '</div>';
+	echo '<p class="description" style="margin-top:10px; text-align:center;">Click vào mã lệnh để copy.</p>';
+
+	// Add Preview Button
+	$preview_url = add_query_arg( 'preview_popup', $post->ID, home_url( '/' ) );
+	echo '<hr style="margin: 15px 0; border: 0; border-top: 1px solid #dcdcde;">';
+	echo '<p style="text-align:center; margin-bottom:0;">';
+	echo '<a href="' . esc_url( $preview_url ) . '" target="_blank" class="button button-secondary" style="width:100%; text-align:center; box-sizing:border-box;">';
+	echo '<span class="dashicons dashicons-visibility" style="line-height:1.3; margin-top:2px; margin-right:4px;"></span>';
+	echo 'Xem Trước Popup';
+	echo '</a>';
+	echo '</p>';
+}
+
+/**
+ * Adjust column widths with inline CSS for all CPTs.
  */
 function xanh_cpt_admin_styles() {
 	echo '<style>
@@ -259,6 +436,10 @@ function xanh_cpt_admin_styles() {
 		.column-project_location { width: 20%; }
 		.column-sv_slug { width: 15%; }
 		.column-sv_hero { width: 25%; }
+		.column-popup_type { width: 14%; }
+		.column-popup_trigger { width: 18%; }
+		.column-popup_status { width: 10%; }
+		.column-popup_id { width: 14%; }
 	</style>';
 }
 add_action( 'admin_head-edit.php', 'xanh_cpt_admin_styles' );

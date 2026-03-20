@@ -380,3 +380,147 @@ const XanhBase = {
     allAnimEls.forEach(el => observer.observe(el));
   },
 };
+
+/* ─────────────────────────────────────────────── */
+/* Global Module — Mobile Drawer Menu               */
+/* ─────────────────────────────────────────────── */
+const XanhMobileMenu = {
+  isOpen: false,
+  menuBtn: null,
+  drawer: null,
+  overlay: null,
+  navLinks: null,
+
+  /** @private */
+  _refs: { keydownHandler: null },
+
+  init() {
+    this.menuBtn = document.getElementById('mobile-menu-btn');
+    this.drawer = document.getElementById('mobile-drawer');
+    this.overlay = document.getElementById('mobile-overlay');
+    this.navLinks = document.querySelectorAll('.mobile-nav-link');
+
+    if (!this.menuBtn || !this.drawer) return;
+
+    this.menuBtn.addEventListener('click', () => this.toggle());
+    if (this.overlay) this.overlay.addEventListener('click', () => this.close());
+
+    this._refs.keydownHandler = (e) => {
+      if (e.key === 'Escape' && !this.drawer.classList.contains('translate-x-full')) {
+        this.close();
+      }
+    };
+    document.addEventListener('keydown', this._refs.keydownHandler);
+
+    this.navLinks.forEach((link) => {
+      link.addEventListener('click', () => this.close());
+    });
+  },
+
+  toggle() {
+    this.isOpen ? this.close() : this.open();
+  },
+
+  open() {
+    this.isOpen = true;
+    this.menuBtn.classList.add('is-active');
+
+    this.drawer.classList.remove('translate-x-full');
+    this.drawer.classList.add('translate-x-0');
+    this.overlay.classList.remove('opacity-0', 'pointer-events-none');
+    this.overlay.classList.add('opacity-100', 'pointer-events-auto');
+    document.body.classList.add('is-scroll-locked');
+
+    // Force hamburger icon white when drawer is open (dark green bg)
+    this.menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
+      l.classList.remove('bg-dark');
+      l.classList.add('bg-white');
+    });
+
+    // Staggered link reveal via CSS classes
+    this.navLinks.forEach((link, i) => {
+      link.classList.remove('drawer-link--visible');
+      link.classList.add('drawer-link--hidden');
+      setTimeout(() => {
+        link.classList.remove('drawer-link--hidden');
+        link.classList.add('drawer-link--visible');
+      }, 80 + i * 60);
+    });
+  },
+
+  close() {
+    this.isOpen = false;
+    this.menuBtn.classList.remove('is-active');
+
+    this.drawer.classList.remove('translate-x-0');
+    this.drawer.classList.add('translate-x-full');
+    this.overlay.classList.remove('opacity-100', 'pointer-events-auto');
+    this.overlay.classList.add('opacity-0', 'pointer-events-none');
+    document.body.classList.remove('is-scroll-locked');
+
+    // Restore hamburger color based on current scroll position
+    const scrollY = window.scrollY || window.pageYOffset;
+    this.menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
+      if (scrollY > 80) {
+        l.classList.remove('bg-white');
+        l.classList.add('bg-dark');
+      } else {
+        l.classList.remove('bg-dark');
+        l.classList.add('bg-white');
+      }
+    });
+  },
+
+  destroy() {
+    if (this._refs.keydownHandler) {
+      document.removeEventListener('keydown', this._refs.keydownHandler);
+    }
+  },
+};
+
+/* ─────────────────────────────────────────────── */
+/* Global Module — Header Scroll Behavior           */
+/* ─────────────────────────────────────────────── */
+const XanhHeader = {
+  header: null,
+  _ticking: false,
+
+  init() {
+    this.header = document.getElementById('site-header');
+    if (!this.header) return;
+
+    window.addEventListener('scroll', () => {
+      if (!this._ticking) {
+        requestAnimationFrame(() => {
+          this._handleScroll();
+          this._ticking = false;
+        });
+        this._ticking = true;
+      }
+    }, { passive: true });
+  },
+
+  /** @private */
+  _handleScroll() {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const menuBtn = document.getElementById('mobile-menu-btn');
+
+    if (scrollY > 80) {
+      this.header.classList.add('is-scrolled');
+      if (menuBtn) {
+        menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
+          l.classList.remove('bg-white');
+          l.classList.add('bg-dark');
+        });
+      }
+    } else {
+      this.header.classList.remove('is-scrolled');
+      if (menuBtn) {
+        menuBtn.querySelectorAll('.hamburger-line').forEach((l) => {
+          l.classList.remove('bg-dark');
+          l.classList.add('bg-white');
+        });
+      }
+    }
+  },
+};

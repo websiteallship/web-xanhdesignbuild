@@ -66,14 +66,14 @@ if ( $image ) {
 						'class'   => 'w-full h-full object-cover',
 						'alt'     => esc_attr( $image['alt'] ?? 'Không gian sống — XANH Design & Build' ),
 						'loading' => 'lazy',
-						'width'   => 720,
-						'height'  => 540,
+						'width'   => 540,
+						'height'  => 720,
 					] );
 					?>
 				<?php else : ?>
 					<img src="<?php echo esc_url( $img_url ); ?>"
 						alt="Không gian sống biệt thự hiện đại — XANH Design & Build"
-						width="720" height="540" loading="lazy" />
+						width="540" height="720" loading="lazy" />
 				<?php endif; ?>
 				<!-- Subtle hover overlay -->
 				<div class="empathy-image-overlay"></div>

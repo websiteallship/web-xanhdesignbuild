@@ -74,3 +74,36 @@ add_action( 'admin_init', function () {
 		remove_post_type_support( 'page', 'editor' );
 	}
 } );
+
+/**
+ * Add body classes based on the presence of a hero banner.
+ *
+ * This helps style the transparent header properly on pages that don't have a hero image,
+ * by forcing it to have a solid background (xanh-no-hero).
+ */
+add_filter( 'body_class', function ( $classes ) {
+	$has_hero = false;
+
+	// Check typical templates that include a hero banner.
+	if (
+		is_front_page() ||
+		is_home() ||
+		is_page_template( 'page-about.php' ) ||
+		is_page_template( 'page-contact.php' ) ||
+		is_post_type_archive( 'xanh_project' ) ||
+		is_post_type_archive( 'xanh_service' ) ||
+		is_singular( 'xanh_project' ) ||
+		is_singular( 'xanh_service' ) ||
+		is_tax( 'project_type' )
+	) {
+		$has_hero = true;
+	}
+
+	if ( ! $has_hero ) {
+		$classes[] = 'xanh-no-hero';
+	} else {
+		$classes[] = 'xanh-has-hero';
+	}
+
+	return $classes;
+} );

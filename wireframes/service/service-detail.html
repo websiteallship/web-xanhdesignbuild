@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thiết Kế Kiến Trúc & Nội Thất — XANH Design & Build</title>
+  <meta name="description"
+    content="Dịch vụ thiết kế kiến trúc & nội thất cá nhân hoá tại Nha Trang — cam kết 98% sát bản vẽ 3D, phong thuỷ hài hoà, công năng tối ưu. XANH Design & Build." />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://xanhdesignbuild.com/dich-vu/thiet-ke-kien-truc/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Thiết Kế Kiến Trúc & Nội Thất — XANH Design & Build" />
+  <meta property="og:description"
+    content="Dịch vụ thiết kế kiến trúc & nội thất cá nhân hoá — cam kết 98% sát 3D, phong thuỷ hài hoà." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://xanhdesignbuild.com/dich-vu/thiet-ke-kien-truc/" />
+  <meta property="og:image" content="https://xanhdesignbuild.com/wp-content/uploads/service-architecture-og.jpg" />
+  <meta property="og:site_name" content="XANH Design & Build" />
+  <meta property="og:locale" content="vi_VN" />
+
+  <!-- BreadcrumbList + Service JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Trang Chủ",
+        "item": "https://xanhdesignbuild.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Dịch Vụ",
+        "item": "https://xanhdesignbuild.com/dich-vu/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Thiết Kế Kiến Trúc & Nội Thất"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#14513D',
+            accent: '#FF8A00',
+            light: '#F3F4F6',
+            beige: '#D8C7A3',
+            dark: '#1A1A1A',
+          },
+          fontFamily: {
+            heading: ['Inter', '-apple-system', 'sans-serif'],
+            body: ['Inter', '-apple-system', 'sans-serif'],
+          },
+          screens: {
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1440px',
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../_shared/base.css" />
+  <link rel="stylesheet" href="service-detail.css" />
+</head>
+
+<body class="font-body bg-white text-dark antialiased overflow-x-hidden">
+
+  <!-- ============================================= -->
+  <!-- SECTION 1: HERO BANNER — Aspiration            -->
+  <!-- Layout: kế thừa portfolio.html (centered)      -->
+  <!-- ============================================= -->
+  <section id="service-hero" class="service-hero relative w-full overflow-hidden">
+
+    <!-- Background image -->
+    <div class="service-hero__bg absolute inset-0 w-full h-full">
+      <img src="../homepage_02/img/service-architecture.png"
+        alt="Thiết kế kiến trúc biệt thự hiện đại — XANH Design & Build" class="w-full h-full object-cover" width="1920"
+        height="1080" />
+    </div>
+
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-primary/50 to-primary/80 z-[1]"></div>
+
+    <!-- Centered content -->
+    <div class="relative z-10 flex flex-col justify-center items-center text-center h-full site-container px-6">
+      <div class="max-w-3xl mx-auto">
+        <span class="service-hero-el section-eyebrow text-white/60 block mb-5">Dịch Vụ — Thiết Kế Kiến Trúc & Nội
+          Thất</span>
+        <h1 class="service-hero-el section-title text-white font-bold tracking-[-0.02em] leading-tight mb-6">
+          Không Gian Sống Bản Sắc.<br class="hidden sm:block" /> Hành Trình Kiến Tạo Di Sản.
+        </h1>
+        <p class="service-hero-el text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+          Thấu hiểu rằng tổ ấm là tài sản lớn nhất, dịch vụ <strong>thiết kế kiến trúc và nội thất</strong> tại XANH ra
+          đời để biến khát vọng của bạn thành hiện thực. Nghệ thuật không gian kết hợp tính chính xác tuyệt đối — cam
+          kết 98% sát bản vẽ 3D.
+        </p>
+      </div>
+    </div>
+
+    <!-- Counter strip — bottom bar -->
+    <div class="relative z-10 w-full border-t border-white/10">
+      <div class="site-container">
+        <div
+          class="counter-strip flex items-center justify-center gap-5 sm:gap-8 md:gap-16 lg:gap-24 py-3 sm:py-6 md:py-8">
+          <div class="counter-item text-center">
+            <span class="counter-number text-white font-bold text-2xl md:text-3xl lg:text-4xl"
+              data-target="98">0</span><span class="text-accent font-bold text-2xl md:text-3xl lg:text-4xl">%</span>
+            <p class="text-white/50 text-xs md:text-sm mt-1 uppercase tracking-wider">Sát 3D</p>
+          </div>
+          <div class="counter-divider w-px h-10 bg-white/15"></div>
+          <div class="counter-item text-center">
+            <span class="counter-number text-white font-bold text-2xl md:text-3xl lg:text-4xl"
+              data-target="200">0</span><span class="text-accent font-bold text-2xl md:text-3xl lg:text-4xl">+</span>
+            <p class="text-white/50 text-xs md:text-sm mt-1 uppercase tracking-wider">Hồ Sơ Thiết Kế</p>
+          </div>
+          <div class="counter-divider w-px h-10 bg-white/15"></div>
+          <div class="counter-item text-center">
+            <span class="counter-number text-white font-bold text-2xl md:text-3xl lg:text-4xl"
+              data-target="0">0</span><span class="text-accent font-bold text-2xl md:text-3xl lg:text-4xl">%</span>
+            <p class="text-white/50 text-xs md:text-sm mt-1 uppercase tracking-wider">Phát Sinh</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- SECTION 2: SỰ THẤU HIỂU — Empathy             -->
+  <!-- Layout: Asymmetric Editorial (White bg)        -->
+  <!-- ============================================= -->
+  <section id="service-empathy" class="empathy-section">
+    <div class="empathy-section__inner">
+
+      <!-- LEFT: Text block -->
+      <div class="empathy-section__text">
+
+        <!-- Eyebrow -->
+        <span class="section-eyebrow text-primary/50 relative inline-block mb-4 empathy-anim" data-anim="fade-right">
+          Sự Đồng Cảm Chuyên Sâu
+        </span>
+
+        <!-- H2 Headline -->
+        <h2 class="empathy-headline empathy-anim" data-anim="fade-up">
+          Hơn Cả Một Bản Vẽ <br />Đó Là Sự Thấu Hiểu Lối Sống.
+        </h2>
+
+        <!-- Body -->
+        <p class="empathy-body empathy-anim" data-anim="fade-up">
+          Lựa chọn đơn vị <strong>thiết kế kiến trúc và nội thất</strong> không chỉ là giao việc, mà là trao gửi niềm
+          tin. Chúng tôi hiểu những nỗi trăn trở: Liệu không gian có phản ánh cá tính gia đình? Bản vẽ có khả thi? Chi
+          phí có vượt dự toán?
+        </p>
+        <p class="empathy-body empathy-anim" data-anim="fade-up">
+          Tại XANH, mọi đường nét đều bắt nguồn từ chính câu chuyện của bạn. Chúng tôi mang đến sự bình yên với quy
+          trình làm việc chuẩn mực — <strong class="text-primary font-semibold"> đầu tư đều minh bạch, rõ
+            ràng, không ngoại lệ.</strong>
+        </p>
+
+      </div>
+
+      <!-- RIGHT: Editorial image (overflows left) -->
+      <div class="empathy-section__image empathy-anim" data-anim="fade-left">
+        <div class="empathy-image-wrap">
+          <img src="../homepage_02/img/project-after-1.png"
+            alt="Không gian sống biệt thự hiện đại — XANH Design & Build" width="720" height="540" loading="lazy" />
+          <!-- Subtle hover overlay -->
+          <div class="empathy-image-overlay"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- SECTION 3: GIẢI PHÁP & LỢI ÍCH (Features)   -->
+  <!-- ============================================= -->
+  <section id="service-features" class="features-section relative overflow-hidden">
+
+    <!-- Background image overlay (20% opacity) -->
+    <div class="absolute inset-0">
+      <img src="../homepage_02/img/project-after-1.png" alt="" class="w-full h-full object-cover opacity-20" />
+    </div>
+    <!-- Primary color overlay on top of image -->
+    <div class="absolute inset-0 bg-primary/80"></div>
+
+    <div class="site-container relative z-10">
+
+      <div class="section-header section-header--center anim-fade-up max-w-3xl mx-auto mb-12 md:mb-16">
+        <span class="section-eyebrow text-white/40 block mb-4">
+          Nền Tảng Giải Pháp
+        </span>
+        <h2 class="section-title text-white mb-6">
+          Kiến Tạo Không Gian Hoàn Mỹ<br class="hidden md:block" /> — Mọi Đường Nét Đều Có Lý Do
+        </h2>
+        <p class="section-subtitle text-white/60 mx-auto w-full max-w-none">
+          Dịch vụ <strong>thiết kế kiến trúc và nội thất</strong> của XANH không định hình bạn vào khuôn mẫu có sẵn.
+          Chúng tôi thiết kế dựa trên phong cách sống, đảm bảo sự tinh tế và tính ứng dụng trường tồn.
+        </p>
+      </div>
+
+      <!-- 3×2 Features Grid -->
+      <div class="features-grid">
+
+        <!-- Card 1 -->
+        <div class="feature-card anim-fade-up group" data-index="1">
+          <div class="feature-card__inner">
+            <span class="feature-card__number" aria-hidden="true">01</span>
+            <div class="feature-card__icon-wrap">
+              <i data-lucide="compass" class="feature-card__icon"></i>
+            </div>
+            <h3 class="feature-card__title">Tư Vấn Phong Thuỷ<br>Chuyên Sâu</h3>
+            <p class="feature-card__desc">
+              Đảm bảo sinh khí hài hòa và thu hút tài lộc, tôn trọng văn hóa Á Đông nhưng vẫn giữ được nét kiến trúc
+              đương đại tinh tế.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card anim-fade-up group" data-index="2" style="transition-delay: 80ms;">
+          <div class="feature-card__inner">
+            <span class="feature-card__number" aria-hidden="true">02</span>
+            <div class="feature-card__icon-wrap">
+              <i data-lucide="layers" class="feature-card__icon"></i>
+            </div>
+            <h3 class="feature-card__title">Bản Vẽ 3D<br>Chân Thực</h3>
+            <p class="feature-card__desc">
+              Cam kết 98% sát hiện trạng thi công. Trải nghiệm không gian sống tương lai sống động đến từng chi tiết vật
+              liệu cao cấp.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card anim-fade-up group" data-index="3" style="transition-delay: 160ms;">
+          <div class="feature-card__inner">
+            <span class="feature-card__number" aria-hidden="true">03</span>
+            <div class="feature-card__icon-wrap">
+              <i data-lucide="shield-check" class="feature-card__icon"></i>
+            </div>
+            <h3 class="feature-card__title">Hồ Sơ Kỹ Thuật<br>Chuẩn Xác</h3>
+            <p class="feature-card__desc">
+              Triển khai bản vẽ MEP, kết cấu chi tiết — nền tảng vững chắc để quá trình thi công minh bạch, triệt để
+              không phát sinh chi phí.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feature-card anim-fade-up group" data-index="4">
+          <div class="feature-card__inner">
+            <span class="feature-card__number" aria-hidden="true">04</span>
+            <div class="feature-card__icon-wrap">
+              <i data-lucide="pen-tool" class="feature-card__icon"></i>
+            </div>
+            <h3 class="feature-card__title">Cá Nhân Hóa<br>Dấu Ấn</h3>
+            <p class="feature-card__desc">
+              Mỗi thiết kế là một tổ ấm độc bản — tôn vinh phong cách sống và cá tính riêng biệt của từng thành viên
+              trong gia đình.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="feature-card anim-fade-up group" data-index="5" style="transition-delay: 80ms;">
+          <div class="feature-card__inner">
+            <span class="feature-card__number" aria-hidden="true">05</span>
+            <div class="feature-card__icon-wrap">
+              <i data-lucide="refresh-ccw" class="feature-card__icon"></i>
+            </div>
+            <h3 class="feature-card__title">Thiết Kế Đến<br>Khi Hài Lòng</h3>
+            <p class="feature-card__desc">
+              Lắng nghe tận tâm và điều chỉnh bản vẽ. Sự hài lòng và an tâm của bạn là thước đo duy nhất cho thành công
+              của chúng tôi.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="feature-card anim-fade-up group" data-index="6" style="transition-delay: 160ms;">
+          <div class="feature-card__inner">
+            <span class="feature-card__number" aria-hidden="true">06</span>
+            <div class="feature-card__icon-wrap">
+              <i data-lucide="award" class="feature-card__icon"></i>
+            </div>
+            <h3 class="feature-card__title">Đội Ngũ KTS<br>Tận Tâm</h3>
+            <p class="feature-card__desc">
+              Hơn 47 công trình đã bàn giao. Mỗi kiến trúc sư tại XANH đều làm việc với tinh thần trách nhiệm và khát
+              khao kiến tạo di sản.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ============================================= -->
+  <!-- SECTION 4: QUY TRÌNH THỰC HIỆN (Process)     -->
+  <!-- ============================================= -->
+  <section id="service-process" class="process-section">
+    <div class="site-container">
+      <div class="process-layout">
+
+        <!-- LEFT: Sticky Title Panel -->
+        <div class="process-sticky">
+          <div class="process-sticky__inner">
+            <span class="section-eyebrow text-primary/50 block mb-4 anim-fade-up">
+              Xây Dựng Niềm Tin
+            </span>
+            <h2 class="process-sticky__title anim-fade-up">
+              Quy Trình<br>Bài Bản —<br>Minh Bạch<br>Tuyệt Đối
+            </h2>
+            <p class="process-sticky__desc anim-fade-up">
+              Hành trình <strong>thiết kế kiến trúc và nội thất</strong> tại XANH luôn đề cao sự minh bạch. Bạn luôn nắm
+              quyền kiểm soát tại mọi giai đoạn kiến tạo di sản.
+            </p>
+            <div class="process-sticky__accent anim-fade-up">
+              <span class="process-sticky__stat">5</span>
+              <span class="process-sticky__stat-label">Cột Mốc<br>Rõ Ràng</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Vertical Timeline -->
+        <div class="process-timeline">
+
+          <!-- Step 1 -->
+          <div class="process-step" data-step="1">
+            <div class="process-step__dot-col">
+              <span class="process-step__number">01</span>
+              <div class="process-step__dot"></div>
+              <div class="process-step__line"></div>
+            </div>
+            <div class="process-step__content">
+              <div class="process-step__text">
+                <h3 class="process-step__title">Lắng Nghe & Thấu Hiểu</h3>
+                <p class="process-step__desc">
+                  Khảo sát hiện trạng, tìm hiểu sâu về nếp sinh hoạt và ngân sách. Ghi nhận mọi mong muốn để làm nền
+                  tảng vững chắc cho bản vẽ kiến trúc sau này.
+                </p>
+                <div class="process-step__icons">
+                  <i data-lucide="headphones" class="process-step__icon"></i>
+                  <i data-lucide="map-pin" class="process-step__icon"></i>
+                </div>
+              </div>
+              <div class="process-step__thumb">
+                <img src="../homepage_02/img/process-01.png" alt="Khảo sát hiện trạng khu đất" width="280" height="180"
+                  loading="lazy" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="process-step" data-step="2">
+            <div class="process-step__dot-col">
+              <span class="process-step__number">02</span>
+              <div class="process-step__dot"></div>
+              <div class="process-step__line"></div>
+            </div>
+            <div class="process-step__content">
+              <div class="process-step__text">
+                <h3 class="process-step__title">Quy Hoạch Không Gian</h3>
+                <p class="process-step__desc">
+                  Đề xuất phương án mặt bằng và phong cách thiết kế sơ bộ. Tối ưu hóa triệt để công năng sử dụng, luồng
+                  sinh khí và nguồn sáng tự nhiên.
+                </p>
+                <div class="process-step__icons">
+                  <i data-lucide="layout" class="process-step__icon"></i>
+                  <i data-lucide="compass" class="process-step__icon"></i>
+                </div>
+              </div>
+              <div class="process-step__thumb">
+                <img src="../homepage_02/img/process-02.png" alt="Phương án mặt bằng sơ bộ" width="280" height="180"
+                  loading="lazy" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 (Active) -->
+          <div class="process-step is-active" data-step="3">
+            <div class="process-step__dot-col">
+              <span class="process-step__number">03</span>
+              <div class="process-step__dot"></div>
+              <div class="process-step__line"></div>
+            </div>
+            <div class="process-step__content">
+              <div class="process-step__text">
+                <h3 class="process-step__title">Phát Triển Thiết Kế</h3>
+                <p class="process-step__desc">
+                  Thể hiện ý tưởng qua bản vẽ 3D sắc nét. Tinh chỉnh từng chi tiết vật liệu, góc sáng và màu sắc cho đến
+                  khi gia chủ thực sự ưng ý và đồng điệu.
+                </p>
+                <div class="process-step__icons">
+                  <i data-lucide="pen-tool" class="process-step__icon"></i>
+                  <i data-lucide="layers" class="process-step__icon"></i>
+                </div>
+              </div>
+              <div class="process-step__thumb">
+                <img src="../homepage_02/img/process-03.png" alt="Thiết kế 3D photo-realistic" width="280" height="180"
+                  loading="lazy" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="process-step" data-step="4">
+            <div class="process-step__dot-col">
+              <span class="process-step__number">04</span>
+              <div class="process-step__dot"></div>
+              <div class="process-step__line"></div>
+            </div>
+            <div class="process-step__content">
+              <div class="process-step__text">
+                <h3 class="process-step__title">Hoàn Thiện Hồ Sơ</h3>
+                <p class="process-step__desc">
+                  Ban hành hồ sơ kỹ thuật thi công chuẩn xác, bản vẽ MEP và shop drawing. Đi kèm bảng dự toán khối lượng
+                  chi tiết, cam kết an toàn tài chính.
+                </p>
+
+                <div class="process-step__icons">
+                  <i data-lucide="file-text" class="process-step__icon"></i>
+                  <i data-lucide="shield-check" class="process-step__icon"></i>
+                </div>
+              </div>
+              <div class="process-step__thumb">
+                <img src="../homepage_02/img/process-04.png" alt="Hồ sơ kỹ thuật chi tiết" width="280" height="180"
+                  loading="lazy" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 (Last — no line) -->
+          <div class="process-step" data-step="5">
+            <div class="process-step__dot-col">
+              <span class="process-step__number">05</span>
+              <div class="process-step__dot"></div>
+            </div>
+            <div class="process-step__content">
+              <div class="process-step__text">
+                <h3 class="process-step__title">Bàn Giao & Đồng Hành</h3>
+                <p class="process-step__desc">
+                  Bàn giao hồ sơ thiết kế hoàn chỉnh. XANH tiếp tục giám sát tác giả trong quá trình thi công, đảm bảo
+                  mọi không gian sống đều hoàn mỹ đúng như kỳ vọng.
+                </p>
+                <div class="process-step__icons">
+                  <i data-lucide="package-check" class="process-step__icon"></i>
+                  <i data-lucide="handshake" class="process-step__icon"></i>
+                </div>
+              </div>
+              <div class="process-step__thumb">
+                <img src="../homepage_02/img/process-05.png" alt="Bàn giao và hỗ trợ" width="280" height="180"
+                  loading="lazy" />
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.process-timeline -->
+
+      </div><!-- /.process-layout -->
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- SECTION 5: DỰ ÁN TIÊU BIỂU (Related Portfolio) -->
+  <!-- ============================================= -->
+  <section id="service-portfolio" class="s5-portfolio">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="s5-portfolio__header anim-fade-up">
+        <span class="section-eyebrow text-primary/50 block mb-4 anim-fade-up">Minh Chứng Chất Lượng</span>
+        <h2 class="section-title s5-portfolio__title">Bộ Sưu Tập Di Sản</h2>
+        <p class="s5-portfolio__subtitle">
+          Mỗi công trình <strong>thiết kế kiến trúc và nội thất</strong> là một câu chuyện độc bản — minh chứng sống
+          động cho lời cam kết về thẩm mỹ, chất lượng và sự tận tâm của đội ngũ XANH.
+        </p>
+      </div>
+
+      <!-- 3×2 Project Cards Grid -->
+      <div class="s5-portfolio__grid">
+
+        <!-- Card 1 -->
+        <a href="#" class="project-card anim-fade-up">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/service-interior.png" alt="Villa Thảo Điền" width="600" height="400"
+              loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--completed">Hoàn Thành</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Biệt Thự</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Quận 2, TP.HCM</span>
+            </div>
+            <h3 class="project-card__title">Villa Thảo Điền</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 320 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 8 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Modern Tropical</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="#" class="project-card anim-fade-up" style="transition-delay: 80ms;">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/service-architecture.png" alt="The Oakwood Tower" width="600" height="400"
+              loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--completed">Hoàn Thành</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Nhà Phố</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Đà Nẵng</span>
+            </div>
+            <h3 class="project-card__title">The Oakwood Tower</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 180 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 6 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Japandi</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="#" class="project-card anim-fade-up" style="transition-delay: 160ms;">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/service-renovation.png" alt="Skyline Apartments" width="600" height="400"
+              loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--completed">Hoàn Thành</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Căn Hộ</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Nha Trang</span>
+            </div>
+            <h3 class="project-card__title">Skyline Apartments</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 95 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 4 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Minimalism</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4 -->
+        <a href="#" class="project-card anim-fade-up">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/service-construction.png" alt="Pearl Tower Duplex" width="600" height="400"
+              loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--in-progress">Đang Thi Công</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Duplex</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Bình Thạnh</span>
+            </div>
+            <h3 class="project-card__title">Pearl Tower Duplex</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 145 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 5 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Mid-Century</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 5 -->
+        <a href="#" class="project-card anim-fade-up" style="transition-delay: 80ms;">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/process-03.png" alt="Garden Residence" width="600" height="400"
+              loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--completed">Hoàn Thành</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Nhà Vườn</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Long An</span>
+            </div>
+            <h3 class="project-card__title">Garden Residence</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 450 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 10 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Tropical</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 6 -->
+        <a href="#" class="project-card anim-fade-up" style="transition-delay: 160ms;">
+          <div class="project-card__image">
+            <img src="../homepage_02/img/process-05.png" alt="Harbor Innovation Hub" width="600" height="400"
+              loading="lazy" />
+            <div class="project-card__image-overlay"></div>
+            <div class="project-card__light-sweep"></div>
+            <span class="project-card__badge project-card__badge--concept">Concept</span>
+          </div>
+          <div class="project-card__info">
+            <div class="project-card__meta">
+              <span class="project-card__type">Thương Mại</span>
+              <span class="project-card__location"><i data-lucide="map-pin" class="w-3 h-3"></i> Quận 7, TP.HCM</span>
+            </div>
+            <h3 class="project-card__title">Harbor Innovation Hub</h3>
+            <p class="project-card__tagline">Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh</p>
+            <div class="project-card__specs">
+              <span class="spec-item"><i data-lucide="ruler" class="w-3.5 h-3.5"></i> 1.200 m²</span>
+              <span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> 14 tháng</span>
+              <span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Industrial Chic</span>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /.s5-portfolio__grid -->
+
+      <!-- View All CTA -->
+      <div class="s5-portfolio__cta anim-fade-up">
+        <a href="#" class="btn btn--outline group">
+          <span>Xem Tất Cả Dự Án</span>
+          <i data-lucide="arrow-right"
+            class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ============================================= -->
+  <!-- SECTION 6: KHÁCH HÀNG NÓI GÌ (Testimonial)  -->
+  <!-- ============================================= -->
+  <section id="service-testimonial" class="s6-testimonial">
+
+    <!-- Background image + 20% overlay -->
+    <div class="s6-testimonial__bg">
+      <img src="../homepage_02/img/service-architecture.png" alt="" class="s6-testimonial__bg-img" loading="lazy" />
+      <div class="s6-testimonial__overlay"></div>
+    </div>
+
+    <div class="site-container relative z-10">
+
+      <!-- Section Header -->
+      <div class="s6-testimonial__header anim-fade-up">
+        <span class="section-eyebrow s6-testimonial__eyebrow">Dấu Ấn Sự Hài Lòng</span>
+        <h2 class="section-title s6-testimonial__title">Tiếng Nói Khách Hàng</h2>
+        <p class="s6-testimonial__subtitle">
+          Niềm tự hào lớn nhất của dịch vụ <strong>thiết kế kiến trúc và nội thất</strong> XANH chính là sự hài lòng và
+          những lời chia sẻ chân thành từ chính các gia chủ.
+        </p>
+      </div>
+
+      <div class="s6-testimonial__wrapper anim-fade-up" style="transition-delay: 150ms;">
+
+        <!-- Carousel track (clips overflow for horizontal slide) -->
+        <div class="s6-testimonial__track" id="testimonial-carousel">
+
+          <!-- Slide 1 -->
+          <div class="s6-testimonial__slide is-active" data-slide="0">
+            <!-- Per-slide project image with gradient -->
+            <div class="s6-testimonial__img-wrap">
+              <img src="../homepage_02/img/service-interior.png" alt="Villa Thảo Điền" loading="lazy" />
+              <div class="s6-testimonial__img-gradient"></div>
+            </div>
+            <!-- Quote block -->
+            <div class="s6-testimonial__body">
+              <svg class="s6-testimonial__quote-open" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M21 28c0 5.5-4.5 10-10 10S1 33.5 1 28c0-10 8-18 20-20l1 4C14 14 11 18 11 22v1c1-1 3-1 4-1 3.3 0 6 2.7 6 6zm24 0c0 5.5-4.5 10-10 10s-10-4.5-10-10c0-10 8-18 20-20l1 4c-8 2-11 6-11 10v1c1-1 3-1 4-1 3.3 0 6 2.7 6 6z" />
+              </svg>
+              <blockquote class="s6-testimonial__quote">
+                "Từ bản phối cảnh 3D đến khi hoàn thiện — chúng tôi gần như không thấy sự khác biệt. XANH đã biến giấc
+                mơ của gia đình chúng tôi thành hiện thực, từng chi tiết đều tinh tế và chính xác."
+              </blockquote>
+              <svg class="s6-testimonial__quote-close" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M27 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6zM3 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6z" />
+              </svg>
+              <div class="s6-testimonial__author">
+                <img src="../homepage_02/img/process-01.png" alt="Chị Thuỳ Linh" class="s6-testimonial__avatar"
+                  width="72" height="72" />
+                <div class="s6-testimonial__author-info">
+                  <span class="s6-testimonial__name">Chị Thuỳ Linh</span>
+                  <span class="s6-testimonial__role">
+                    <svg class="s6-testimonial__star" viewBox="0 0 20 20" fill="currentColor">
+                      <path
+                        d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" />
+                    </svg>
+                    Khách Hàng Xác Minh ⎮ Villa Thảo Điền
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="s6-testimonial__slide" data-slide="1">
+            <div class="s6-testimonial__img-wrap">
+              <img src="../homepage_02/img/service-architecture.png" alt="The Oakwood Tower" loading="lazy" />
+              <div class="s6-testimonial__img-gradient"></div>
+            </div>
+            <div class="s6-testimonial__body">
+              <svg class="s6-testimonial__quote-open" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M21 28c0 5.5-4.5 10-10 10S1 33.5 1 28c0-10 8-18 20-20l1 4C14 14 11 18 11 22v1c1-1 3-1 4-1 3.3 0 6 2.7 6 6zm24 0c0 5.5-4.5 10-10 10s-10-4.5-10-10c0-10 8-18 20-20l1 4c-8 2-11 6-11 10v1c1-1 3-1 4-1 3.3 0 6 2.7 6 6z" />
+              </svg>
+              <blockquote class="s6-testimonial__quote">
+                "Minh bạch từng đồng, rõ ràng từng hạng mục. Không một khoản phát sinh nào ngoài dự toán. Đó là điều
+                khiến chúng tôi tin tưởng XANH tuyệt đối."
+              </blockquote>
+              <svg class="s6-testimonial__quote-close" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M27 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6zM3 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6z" />
+              </svg>
+              <div class="s6-testimonial__author">
+                <img src="../homepage_02/img/process-02.png" alt="Anh Minh Đức" class="s6-testimonial__avatar"
+                  width="72" height="72" />
+                <div class="s6-testimonial__author-info">
+                  <span class="s6-testimonial__name">Anh Minh Đức</span>
+                  <span class="s6-testimonial__role">
+                    <svg class="s6-testimonial__star" viewBox="0 0 20 20" fill="currentColor">
+                      <path
+                        d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" />
+                    </svg>
+                    Khách Hàng Xác Minh ⎮ The Oakwood Tower
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="s6-testimonial__slide" data-slide="2">
+            <div class="s6-testimonial__img-wrap">
+              <img src="../homepage_02/img/service-renovation.png" alt="Garden Residence" loading="lazy" />
+              <div class="s6-testimonial__img-gradient"></div>
+            </div>
+            <div class="s6-testimonial__body">
+              <svg class="s6-testimonial__quote-open" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M21 28c0 5.5-4.5 10-10 10S1 33.5 1 28c0-10 8-18 20-20l1 4C14 14 11 18 11 22v1c1-1 3-1 4-1 3.3 0 6 2.7 6 6zm24 0c0 5.5-4.5 10-10 10s-10-4.5-10-10c0-10 8-18 20-20l1 4c-8 2-11 6-11 10v1c1-1 3-1 4-1 3.3 0 6 2.7 6 6z" />
+              </svg>
+              <blockquote class="s6-testimonial__quote">
+                "Đội ngũ kiến trúc sư XANH không chỉ thiết kế — họ lắng nghe, thấu hiểu và kiến tạo. Ngôi nhà này mang
+                đúng tinh thần và cá tính của gia đình chúng tôi."
+              </blockquote>
+              <svg class="s6-testimonial__quote-close" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M27 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6zM3 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6z" />
+              </svg>
+              <div class="s6-testimonial__author">
+                <img src="../homepage_02/img/process-05.png" alt="Chị Hồng Nhung" class="s6-testimonial__avatar"
+                  width="72" height="72" />
+                <div class="s6-testimonial__author-info">
+                  <span class="s6-testimonial__name">Chị Hồng Nhung</span>
+                  <span class="s6-testimonial__role">
+                    <svg class="s6-testimonial__star" viewBox="0 0 20 20" fill="currentColor">
+                      <path
+                        d="M10 2L12.09 7.26L17.51 7.64L13.55 10.97L14.9 16.18L10 13.27L5.1 16.18L6.45 10.97L2.49 7.64L7.91 7.26L10 2Z" />
+                    </svg>
+                    Khách Hàng Xác Minh ⎮ Garden Residence
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.s6-testimonial__track -->
+
+        <!-- Navigation Dots -->
+        <div class="s6-testimonial__dots" role="tablist" aria-label="Testimonial navigation">
+          <button class="s6-testimonial__dot is-active" data-goto="0" aria-label="Slide 1" role="tab"
+            aria-selected="true"></button>
+          <button class="s6-testimonial__dot" data-goto="1" aria-label="Slide 2" role="tab"
+            aria-selected="false"></button>
+          <button class="s6-testimonial__dot" data-goto="2" aria-label="Slide 3" role="tab"
+            aria-selected="false"></button>
+        </div>
+
+      </div><!-- /.s6-testimonial__wrapper -->
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- SECTION 7: CÂU HỎI THƯỜNG GẶP (FAQ) -->
+  <!-- ============================================= -->
+  <section id="service-faq" class="s7-faq">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="s7-faq__header anim-fade-up section-header section-header--center">
+        <span class="section-eyebrow s7-faq__eyebrow anim-fade-up">Giải Đáp Thắc Mắc</span>
+        <h2 class="section-title s7-faq__title anim-fade-up">Những Câu Hỏi <em class="text-primary not-italic">Thường
+            Gặp</em></h2>
+      </div>
+
+      <div class="faq-list anim-fade-up" id="faq-list">
+
+        <!-- FAQ 1 (default open) -->
+        <div class="faq-item is-open">
+          <button class="faq-item__question" aria-expanded="true">
+            <span>Quy trình thiết kế kiến trúc và nội thất tại XANH thường mất bao lâu?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-item__answer" style="max-height:300px;">
+            <div class="faq-item__answer-inner">
+              Thời gian thiết kế phụ thuộc vào quy mô và độ phức tạp của từng dự án. Thông thường, một bộ hồ sơ thiết kế
+              hoàn chỉnh mất từ 4 đến 6 tuần. Chúng tôi dành thời gian này để nghiên cứu kỹ lưỡng vị trí địa lý, hướng
+              nắng gió và thấu hiểu thói quen sinh hoạt của gia đình, đảm bảo bản vẽ cuối cùng mang đậm dấu ấn cá nhân
+              của bạn.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            <span>Hồ sơ thiết kế tại XANH bao gồm những gì?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Hồ sơ thiết kế của chúng tôi mang tiêu chuẩn quốc tế, bao gồm: Bản vẽ phối cảnh 3D siêu thực (sát thực tế
+              98%), Bản vẽ kỹ thuật thi công kiến trúc, Bản vẽ kết cấu - ME (điện nước) và Bản vẽ chi tiết nội thất. Tất
+              cả đều được thể hiện chi tiết, minh bạch từng loại vật liệu để bạn dễ dàng theo dõi quá trình thi công.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            <span>Liệu không gian thực tế có giống như bản vẽ 3D?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Tại XANH, chúng tôi cam kết thi công thực tế sát với bản vẽ 3D lên đến 98%. Mỗi vật liệu, màu sắc và ánh
+              sáng trong bản vẽ đều được tính toán dựa trên các vật tư có sẵn tại Việt Nam và trải qua quá trình lựa
+              chọn khắt khe tại showroom cùng chủ đầu tư trước khi đưa vào thi công.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            <span>Phong cách thiết kế thế mạnh của XANH là gì?</span>
+            <span class="faq-item__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              XANH không định hình mình vào một khuôn mẫu cứng nhắc. Chúng tôi theo đuổi triết lý "Warm Luxury" – sự
+              sang trọng tinh tế, ấm áp và vượt thời gian. Dù là phong cách Hiện đại, Tropical hay Indochine, XANH đều
+              tập trung tối ưu công năng, ứng dụng vật liệu tự nhiên và đưa ánh sáng vào từng ngóc ngách không gian.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.faq-list -->
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 8: CALL TO ACTION -->
+  <!-- ============================================= -->
+  <section id="service-cta" class="s8-cta">
+    <div class="s8-cta__bg">
+      <img src="../homepage_02/img/project-after-1.png" alt="Bắt đầu hành trình kiến tạo tổ ấm cùng XANH"
+        loading="lazy" />
+      <div class="s8-cta__overlay"></div>
+    </div>
+
+    <div class="site-container s8-cta__content anim-fade-up">
+      <h2 class="section-title s8-cta__title">
+        Bạn Cũng Muốn Một Không Gian Sống<br /> Trọn Vẹn Và Minh Bạch?
+      </h2>
+      <p class="s8-cta__subtitle">
+        Hãy bắt đầu hành trình kiến tạo tổ ấm cùng đội ngũ XANH — minh bạch từ dự toán đến bàn giao.
+      </p>
+
+      <div class="s8-cta__actions">
+        <a href="../contact/contact.html" class="btn btn--primary s8-cta__btn">
+          <span class="btn__text">Khám Phá Dự Toán Của Bạn</span>
+          <i data-lucide="calculator" class="w-4 h-4" style="margin-left: 0.5rem;"></i>
+        </a>
+        <a href="../contact/contact.html" class="btn btn--ghost s8-cta__btn-ghost">
+          <span class="btn__text">Chat Với Kỹ Sư Trưởng</span>
+          <i data-lucide="message-circle" class="w-5 h-5" style="margin-left: 0.5rem;"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ============================================= -->
+  <!-- SCRIPTS                                        -->
+  <!-- ============================================= -->
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.3/dist/lenis.min.js" defer></script>
+
+  <!-- Main JS -->
+  <script src="../shared/base.js" defer></script>
+  <script src="service-detail.js" defer></script>
+
+</body>
+
+</html>

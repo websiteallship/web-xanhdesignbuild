@@ -54,16 +54,21 @@ function observeFadeIn(section) {
 /* ─────────────────────────────────────────────── */
 const XanhHero = {
   init() {
-    // Hero content reveal
-    setTimeout(() => {
-      document.querySelectorAll('.hero-headline, .hero-subheadline, .hero-cta').forEach((el) => {
-        el.classList.add('is-visible');
-      });
-    }, 400);
+    // Hero content reveal — use shared initHeroReveal if available.
+    if (typeof XanhBase !== 'undefined' && XanhBase.initHeroReveal) {
+      XanhBase.initHeroReveal('.hero-swiper', '.home-hero-el');
+    } else {
+      // Fallback: simple is-visible toggle.
+      setTimeout(() => {
+        document.querySelectorAll('.home-hero-el').forEach((el) => {
+          el.classList.add('is-visible');
+        });
+      }, 400);
+    }
 
     // Hero Swiper (background images)
     if (typeof Swiper !== 'undefined') {
-      new Swiper('.hero-swiper', {
+      const heroSwiper = new Swiper('.hero-swiper', {
         loop: true,
         speed: 1500,
         effect: 'fade',
@@ -73,12 +78,90 @@ const XanhHero = {
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         },
-        pagination: {
-          el: '.hero-pagination',
-          clickable: true,
-        },
       });
+
+      // Custom dots — sync with Swiper
+      const heroDotsContainer = document.querySelector('.hero-dots');
+      if (heroDotsContainer && heroDotsContainer.querySelectorAll('.hero-dot').length) {
+        // Click handler (delegated to container so cloned dots still work)
+        heroDotsContainer.addEventListener('click', (e) => {
+          const dot = e.target.closest('.hero-dot');
+          if (!dot) return;
+          const idx = parseInt(dot.dataset.goto, 10);
+          heroSwiper.slideToLoop(idx);
+        });
+
+        // Slide change → update active dot + restart progress animation
+        heroSwiper.on('slideChange', () => {
+          const realIndex = heroSwiper.realIndex;
+          // Re-query every time so references are always fresh
+          const dots = heroDotsContainer.querySelectorAll('.hero-dot');
+          dots.forEach((dot, i) => {
+            if (i === realIndex) {
+              // Restart animation by replacing the node
+              dot.classList.remove('is-active');
+              dot.setAttribute('aria-selected', 'false');
+              // Force reflow to restart ::after animation
+              const clone = dot.cloneNode(true);
+              if (dot.parentNode) {
+                dot.parentNode.replaceChild(clone, dot);
+              }
+              clone.classList.add('is-active');
+              clone.setAttribute('aria-selected', 'true');
+            } else {
+              dot.classList.remove('is-active');
+              dot.setAttribute('aria-selected', 'false');
+            }
+          });
+        });
+      }
     }
+
+    // Video Modal
+    this._initVideoModal();
+  },
+
+  /** @private — Video modal open/close */
+  _initVideoModal() {
+    const videoPlayBtn = document.getElementById('video-play-btn');
+    const videoModal = document.getElementById('video-modal');
+    const videoModalBackdrop = document.getElementById('video-modal-backdrop');
+    const videoModalClose = document.getElementById('video-modal-close');
+    const videoIframe = document.getElementById('video-iframe');
+
+    if (!videoPlayBtn || !videoModal) return;
+
+    const videoSrc = videoIframe ? videoIframe.dataset.src : '';
+
+    const openModal = () => {
+      if (videoIframe && videoSrc) videoIframe.src = videoSrc;
+      videoModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      if (typeof XanhBase !== 'undefined' && XanhBase.getLenis) {
+        const lenis = XanhBase.getLenis();
+        if (lenis) lenis.stop();
+      }
+    };
+
+    const closeModal = () => {
+      videoModal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      setTimeout(() => { if (videoIframe) videoIframe.src = ''; }, 400);
+      if (typeof XanhBase !== 'undefined' && XanhBase.getLenis) {
+        const lenis = XanhBase.getLenis();
+        if (lenis) lenis.start();
+      }
+    };
+
+    videoPlayBtn.addEventListener('click', openModal);
+    if (videoModalClose) videoModalClose.addEventListener('click', closeModal);
+    if (videoModalBackdrop) videoModalBackdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && videoModal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
   },
 };
 
@@ -198,12 +281,12 @@ const XanhScrollAnimations = {
       if (imgWrap && img) {
         servicesTl.fromTo(imgWrap,
           { clipPath: 'inset(100% 0 0 0)' },
-          { clipPath: 'inset(0% 0 0 0)', duration: 0.85, ease: 'power3.out' },
+          { clipPath: 'inset(0% 0 0 0)', duration: 0.85, ease: 'power3.out', clearProps: 'all' },
           i === 0 ? '-=0.3' : '-=0.6'
         );
         servicesTl.fromTo(img,
           { scale: 1.12 },
-          { scale: 1, duration: 0.85, ease: 'power2.out' },
+          { scale: 1, duration: 0.85, ease: 'power2.out', clearProps: 'all' },
           '<'
         );
       }

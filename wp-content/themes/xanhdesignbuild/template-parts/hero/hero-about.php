@@ -32,23 +32,18 @@ $img_id  = $image['ID'] ?? null;
 // Build video embed URL with autoplay params.
 $video_embed_url = '';
 if ( $video_url ) {
-	// Convert watch URL to embed URL if needed.
-	if ( strpos( $video_url, 'watch?v=' ) !== false ) {
-		$video_embed_url = preg_replace(
-			'/https?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/',
-			'https://www.youtube.com/embed/$2',
-			$video_url
-		);
-	} elseif ( strpos( $video_url, 'youtu.be/' ) !== false ) {
-		$video_embed_url = preg_replace(
-			'/https?:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/',
-			'https://www.youtube.com/embed/$1',
-			$video_url
-		);
-	} else {
-		$video_embed_url = $video_url;
+	$youtube_id = '';
+	if ( preg_match( '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/\s]{11})%i', $video_url, $match ) ) {
+		$youtube_id = $match[1];
 	}
-	$video_embed_url .= ( strpos( $video_embed_url, '?' ) !== false ? '&' : '?' ) . 'autoplay=1&rel=0&modestbranding=1';
+
+	if ( $youtube_id ) {
+		$video_embed_url = 'https://www.youtube.com/embed/' . $youtube_id . '?autoplay=1&rel=0&modestbranding=1';
+	} else {
+		// Fallback for Vimeo or direct links
+		$video_embed_url = $video_url;
+		$video_embed_url .= ( strpos( $video_embed_url, '?' ) !== false ? '&' : '?' ) . 'autoplay=1';
+	}
 }
 ?>
 

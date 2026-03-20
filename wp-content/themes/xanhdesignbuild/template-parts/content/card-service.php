@@ -61,7 +61,7 @@ if ( empty( $sv_icon ) ) {
 					'alt'     => esc_attr( get_the_title() ),
 				] ); ?>
 			<?php else : ?>
-				<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/service-architecture.png' ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="service-card__image" width="600" height="800" loading="lazy" />
+				<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/placeholder-project.png' ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="service-card__image" width="600" height="800" loading="lazy" />
 			<?php endif; ?>
 		<?php endif; ?>
 		

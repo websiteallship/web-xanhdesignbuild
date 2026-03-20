@@ -16,13 +16,14 @@ get_header();
 	<?php if ( have_posts() ) : ?>
 
 		<?php while ( have_posts() ) : the_post(); ?>
-			<article id="post-<?php the_ID(); ?>" <?php post_class( 'max-w-4xl mx-auto px-4 py-12 lg:py-20' ); ?>>
-				<h1 class="text-3xl lg:text-5xl font-bold text-dark mb-6" style="letter-spacing: -0.02em;">
-					<?php the_title(); ?>
-				</h1>
-
-				<div class="prose prose-lg max-w-none">
-					<?php the_content(); ?>
+			<article id="post-<?php the_ID(); ?>" <?php post_class( 'page-content' ); ?>>
+				<div class="site-container">
+					<div class="page-content__inner">
+						<h1 class="page-content__title"><?php the_title(); ?></h1>
+						<div class="prose-content">
+							<?php the_content(); ?>
+						</div>
+					</div>
 				</div>
 			</article>
 		<?php endwhile; ?>

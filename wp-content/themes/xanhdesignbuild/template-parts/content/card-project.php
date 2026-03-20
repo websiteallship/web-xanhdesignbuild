@@ -76,7 +76,7 @@ if ( function_exists( 'get_field' ) ) {
 				'alt'     => esc_attr( get_the_title() ),
 			] ); ?>
 		<?php else : ?>
-			<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/placeholder-project.jpg' ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover" width="600" height="400" loading="lazy" />
+			<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/placeholder-project.png' ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover" width="600" height="400" loading="lazy" />
 		<?php endif; ?>
 		<div class="xanh-card__overlay"></div>
 		<div class="xanh-card__sweep"></div>
