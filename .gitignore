@@ -18,7 +18,9 @@ wp-content/plugins/
 wp-content/uploads/
 wp-content/upgrade/
 wp-content/mu-plugins/
+wp-content/languages/
 wp-content/themes/index.php
+wp-content/themes/twentytwentyfive/
 
 # Config (keep wp-config tracked if needed)
 .htaccess
@@ -26,3 +28,4 @@ wp-content/themes/index.php
 # OS files
 .DS_Store
 Thumbs.db
+.htaccess
