@@ -13,13 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Logo từ ACF Options (field: xanh_logo_footer). Fallback → SVG trong theme.
-$xanh_logo_option  = xanh_get_option_image( 'xanh_logo_footer' );
+// ── Data from ACF Options ──
+$xanh_logo_option   = xanh_get_option_image( 'xanh_logo_footer' );
 $xanh_logo_fallback = XANH_THEME_URI . '/assets/images/logo-white.svg';
-$xanh_hotline    = xanh_get_hotline();
-$xanh_email      = xanh_get_email();
-$xanh_address    = xanh_get_address();
-$xanh_socials    = xanh_get_social_links();
+$xanh_footer_desc   = xanh_get_option( 'xanh_footer_desc', __( 'Kiến tạo tổ ấm bình yên — minh bạch từ viên gạch đầu tiên. Thiết kế & xây dựng nhà ở bền vững cho gia đình Việt.', 'xanh' ) );
+$xanh_badges        = xanh_get_option( 'xanh_footer_badges' );
+$xanh_hotline       = xanh_get_hotline();
+$xanh_email         = xanh_get_email();
+$xanh_address       = xanh_get_address();
+$xanh_socials       = xanh_get_social_links();
+
+// Bottom bar
+$xanh_copyright   = xanh_get_option( 'xanh_footer_copyright' );
+$xanh_privacy_url = xanh_get_option( 'xanh_legal_privacy_url', home_url( '/chinh-sach-bao-mat/' ) );
+$xanh_terms_url   = xanh_get_option( 'xanh_legal_terms_url', home_url( '/dieu-khoan-su-dung/' ) );
 ?>
 
 <!-- =========================================== -->
@@ -51,37 +58,77 @@ $xanh_socials    = xanh_get_social_links();
 					<?php endif; ?>
 				</a>
 				<p class="footer-brand-desc">
-					<?php echo esc_html( xanh_get_option( 'xanh_footer_desc', __( 'Kiến tạo tổ ấm bình yên — minh bạch từ viên gạch đầu tiên. Thiết kế & xây dựng nhà ở bền vững cho gia đình Việt.', 'xanh' ) ) ); ?>
+					<?php echo esc_html( $xanh_footer_desc ); ?>
 				</p>
 				<!-- Certifications / Badges -->
-				<div class="footer-badges">
-					<span class="footer-badge"><?php esc_html_e( 'ISO 9001:2015', 'xanh' ); ?></span>
-					<span class="footer-badge"><?php esc_html_e( '10+ Năm', 'xanh' ); ?></span>
-				</div>
+				<?php if ( $xanh_badges && is_array( $xanh_badges ) ) : ?>
+					<div class="footer-badges">
+						<?php foreach ( $xanh_badges as $badge ) : ?>
+							<?php if ( ! empty( $badge['text'] ) ) : ?>
+								<span class="footer-badge"><?php echo esc_html( $badge['text'] ); ?></span>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					</div>
+				<?php else : ?>
+					<div class="footer-badges">
+						<span class="footer-badge"><?php esc_html_e( 'ISO 9001:2015', 'xanh' ); ?></span>
+						<span class="footer-badge"><?php esc_html_e( '10+ Năm', 'xanh' ); ?></span>
+					</div>
+				<?php endif; ?>
 			</div>
 
-			<!-- Column 2: Navigation -->
+			<!-- Column 2: Navigation (WP Menu) -->
 			<div class="footer-col">
 				<h4 class="footer-col__title"><?php esc_html_e( 'Khám Phá', 'xanh' ); ?></h4>
-				<ul class="footer-links">
-					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Trang Chủ', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( home_url( '/gioi-thieu/' ) ); ?>"><?php esc_html_e( 'Giới Thiệu', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( get_post_type_archive_link( 'xanh_project' ) ); ?>"><?php esc_html_e( 'Dự Án Tiêu Biểu', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>"><?php esc_html_e( 'Blog & Cảm Hứng', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( home_url( '/tuyen-dung/' ) ); ?>"><?php esc_html_e( 'Tuyển Dụng', 'xanh' ); ?></a></li>
-				</ul>
+				<?php
+				if ( has_nav_menu( 'footer_col_2' ) ) {
+					wp_nav_menu( [
+						'theme_location' => 'footer_col_2',
+						'container'      => false,
+						'menu_class'     => 'footer-links',
+						'depth'          => 1,
+						'fallback_cb'    => false,
+					] );
+				} else {
+					// Fallback: hiển thị links mặc định
+					?>
+					<ul class="footer-links">
+						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Trang Chủ', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/gioi-thieu/' ) ); ?>"><?php esc_html_e( 'Giới Thiệu', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( get_post_type_archive_link( 'xanh_project' ) ); ?>"><?php esc_html_e( 'Dự Án Tiêu Biểu', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>"><?php esc_html_e( 'Blog & Cảm Hứng', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/lien-he/' ) ); ?>"><?php esc_html_e( 'Liên Hệ', 'xanh' ); ?></a></li>
+					</ul>
+					<?php
+				}
+				?>
 			</div>
 
-			<!-- Column 3: Services -->
+			<!-- Column 3: Services (WP Menu) -->
 			<div class="footer-col">
 				<h4 class="footer-col__title"><?php esc_html_e( 'Dịch Vụ', 'xanh' ); ?></h4>
-				<ul class="footer-links">
-					<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Thiết Kế Kiến Trúc', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Thiết Kế Nội Thất', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Thi Công Xây Dựng Trọn Gói', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Sản Xuất Nội Thất', 'xanh' ); ?></a></li>
-					<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Cải Tạo & Nâng Cấp', 'xanh' ); ?></a></li>
-				</ul>
+				<?php
+				if ( has_nav_menu( 'footer_col_3' ) ) {
+					wp_nav_menu( [
+						'theme_location' => 'footer_col_3',
+						'container'      => false,
+						'menu_class'     => 'footer-links',
+						'depth'          => 1,
+						'fallback_cb'    => false,
+					] );
+				} else {
+					// Fallback: hiển thị links mặc định
+					?>
+					<ul class="footer-links">
+						<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Thiết Kế Kiến Trúc', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Thiết Kế Nội Thất', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Thi Công Xây Dựng Trọn Gói', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Sản Xuất Nội Thất', 'xanh' ); ?></a></li>
+						<li><a href="<?php echo esc_url( home_url( '/dich-vu/' ) ); ?>"><?php esc_html_e( 'Cải Tạo & Nâng Cấp', 'xanh' ); ?></a></li>
+					</ul>
+					<?php
+				}
+				?>
 			</div>
 
 			<!-- Column 4: Contact + Newsletter -->
@@ -154,16 +201,23 @@ $xanh_socials    = xanh_get_social_links();
 			<div class="footer-bottom__inner">
 				<!-- Copyright -->
 				<p class="footer-copyright">
-					&copy; <?php echo esc_html( date_i18n( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?>. <?php esc_html_e( 'All rights reserved.', 'xanh' ); ?>
+					<?php
+					if ( $xanh_copyright ) {
+						echo esc_html( $xanh_copyright );
+					} else {
+						echo '&copy; ' . esc_html( date_i18n( 'Y' ) ) . ' ' . esc_html( get_bloginfo( 'name' ) ) . '. ';
+						esc_html_e( 'All rights reserved.', 'xanh' );
+					}
+					?>
 				</p>
 
 				<!-- Legal links -->
 				<div class="footer-legal">
-					<a href="<?php echo esc_url( home_url( '/chinh-sach-bao-mat/' ) ); ?>">
+					<a href="<?php echo esc_url( $xanh_privacy_url ); ?>">
 						<?php esc_html_e( 'Chính sách bảo mật', 'xanh' ); ?>
 					</a>
 					<span class="footer-legal__sep">&middot;</span>
-					<a href="<?php echo esc_url( home_url( '/dieu-khoan-su-dung/' ) ); ?>">
+					<a href="<?php echo esc_url( $xanh_terms_url ); ?>">
 						<?php esc_html_e( 'Điều khoản sử dụng', 'xanh' ); ?>
 					</a>
 				</div>
@@ -212,6 +266,15 @@ $xanh_socials    = xanh_get_social_links();
 	</div>
 
 </footer>
+
+<!-- Back to Top (global) -->
+<button id="back-to-top" aria-label="<?php esc_attr_e( 'Về đầu trang', 'xanh' ); ?>">
+	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+	     fill="none" stroke="currentColor" stroke-width="2"
+	     stroke-linecap="round" stroke-linejoin="round">
+		<path d="m18 15-6-6-6 6"/>
+	</svg>
+</button>
 
 <?php
 /**

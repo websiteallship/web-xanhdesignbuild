@@ -239,6 +239,7 @@ const XanhBase = {
 
       counters.forEach(counter => {
         const target = parseFloat(counter.dataset[dataAttr]);
+        const trigger = options.triggerEl || counter;
 
         gsap.to(counter, {
           textContent: target,
@@ -246,7 +247,7 @@ const XanhBase = {
           snap: { textContent: 1 },
           ease: ANIM_DEFAULTS.counter.ease,
           scrollTrigger: {
-            trigger: counter,
+            trigger: trigger,
             start: 'top 85%',
             once: true,
           },

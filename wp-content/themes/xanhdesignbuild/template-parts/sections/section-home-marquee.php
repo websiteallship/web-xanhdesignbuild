@@ -36,7 +36,7 @@ $items = $marquee_items ?: $default_items;
 					? esc_html( $item['text'] ?? '' )
 					: esc_html( $item['text'] );
 				?>
-				<span class="marquee__text"><?php echo $text; ?> <span>✦</span></span>
+				<span class="marquee__text"><?php echo $text; // phpcs:ignore -- pre-escaped via esc_html on L35-37. ?> <span>✦</span></span>
 			<?php endforeach;
 		endfor;
 		?>

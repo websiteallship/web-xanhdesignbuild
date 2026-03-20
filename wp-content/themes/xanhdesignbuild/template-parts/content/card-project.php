@@ -43,25 +43,32 @@ if ( $status_slug === 'dang-thi-cong' || $status_slug === 'in-progress' ) {
 }
 
 // ── ACF fields with fallbacks ──
-$location = '';
-$area     = '';
-$duration = '';
-$style    = '';
-$tagline  = '';
+$location     = '';
+$area         = '';
+$duration     = '';
+$tagline      = '';
+$service_name = '';
+$service_icon = '';
 
 if ( function_exists( 'get_field' ) ) {
 	$location = get_field( 'project_location' ) ?: '';
 	$area     = get_field( 'project_area' ) ?: '';
 	$duration = get_field( 'project_duration' ) ?: '';
-	$style    = get_field( 'project_style' ) ?: '';
 	$tagline  = get_field( 'project_tagline' ) ?: 'Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh';
+
+	// Service name + icon from linked service
+	$service_obj = get_field( 'project_service' );
+	if ( $service_obj && isset( $service_obj->ID ) ) {
+		$service_name = get_the_title( $service_obj->ID );
+		$service_icon = get_field( 'sv_card_icon', $service_obj->ID ) ?: 'building';
+	}
 } else {
 	$tagline = 'Hoàn thiện sát 3D 98% ⎮ 0% Phát sinh';
 }
 ?>
 
-<a href="<?php the_permalink(); ?>" class="project-card anim-fade-up" data-category="<?php echo esc_attr( $type_slug ); ?>">
-	<div class="project-card__image">
+<a href="<?php the_permalink(); ?>" class="project-card xanh-card anim-fade-up" data-category="<?php echo esc_attr( $type_slug ); ?>">
+	<div class="project-card__image xanh-card__img-wrap">
 		<?php if ( has_post_thumbnail() ) : ?>
 			<?php the_post_thumbnail( 'large', [
 				'class'   => 'w-full h-full object-cover',
@@ -71,8 +78,8 @@ if ( function_exists( 'get_field' ) ) {
 		<?php else : ?>
 			<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/placeholder-project.jpg' ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover" width="600" height="400" loading="lazy" />
 		<?php endif; ?>
-		<div class="project-card__image-overlay"></div>
-		<div class="project-card__light-sweep"></div>
+		<div class="xanh-card__overlay"></div>
+		<div class="xanh-card__sweep"></div>
 		<?php if ( $status_label ) : ?>
 			<span class="project-card__badge project-card__badge--<?php echo esc_attr( $badge_class ); ?>"><?php echo esc_html( $status_label ); ?></span>
 		<?php endif; ?>
@@ -95,8 +102,8 @@ if ( function_exists( 'get_field' ) ) {
 			<?php if ( $duration ) : ?>
 				<span class="spec-item"><i data-lucide="calendar-days" class="w-3.5 h-3.5"></i> <?php echo esc_html( $duration ); ?></span>
 			<?php endif; ?>
-			<?php if ( $style ) : ?>
-				<span class="spec-item"><i data-lucide="palette" class="w-3.5 h-3.5"></i> <?php echo esc_html( $style ); ?></span>
+			<?php if ( $service_name ) : ?>
+				<span class="spec-item"><i data-lucide="<?php echo esc_attr( $service_icon ); ?>" class="w-3.5 h-3.5"></i> <?php echo esc_html( $service_name ); ?></span>
 			<?php endif; ?>
 		</div>
 	</div>

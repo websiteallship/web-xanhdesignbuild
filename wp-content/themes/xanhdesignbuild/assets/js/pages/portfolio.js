@@ -42,33 +42,36 @@ const XanhPortfolio = {
     cards.forEach(card => this.revealObserver.observe(card));
   },
 
-  /* ── Filter Tabs (by category) ── */
+  /* ── Filter Tabs (event delegation, 1 listener) ── */
   initFilterTabs() {
-    const tabs = document.querySelectorAll('.filter-tab');
+    const tabsContainer = document.querySelector('.filter-bar__inner');
+    if (!tabsContainer) return;
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
-        tab.classList.add('is-active');
-        tab.setAttribute('aria-selected', 'true');
+    tabsContainer.addEventListener('click', (e) => {
+      const tab = e.target.closest('.filter-tab');
+      if (!tab) return;
 
-        const filter = tab.dataset.filter;
-        this.currentFilter = filter;
-        const allCards = document.querySelectorAll('#portfolio-grid .project-card');
+      const allTabs = tabsContainer.querySelectorAll('.filter-tab');
+      allTabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
 
-        allCards.forEach(card => {
-          const cat = card.dataset.category;
-          const matches = filter === 'all' || cat === filter;
+      const filter = tab.dataset.filter;
+      this.currentFilter = filter;
+      const allCards = document.querySelectorAll('#portfolio-grid .project-card');
 
-          if (matches) {
-            card.classList.remove('is-hidden');
-            card.classList.remove('is-revealed');
-            void card.offsetWidth;
-            card.classList.add('is-revealed');
-          } else {
-            card.classList.add('is-hidden');
-          }
-        });
+      allCards.forEach(card => {
+        const cat = card.dataset.category;
+        const matches = filter === 'all' || cat === filter;
+
+        if (matches) {
+          card.classList.remove('is-hidden');
+          card.classList.remove('is-revealed');
+          void card.offsetWidth;
+          card.classList.add('is-revealed');
+        } else {
+          card.classList.add('is-hidden');
+        }
       });
     });
   },
@@ -81,74 +84,78 @@ const XanhPortfolio = {
     if (!loadBtn || !grid) return;
 
     loadBtn.addEventListener('click', () => {
-      this.loadMorePage++;
+      this._loadMoreCards(loadBtn, grid, skeleton);
+    });
+  },
 
-      if (skeleton) skeleton.classList.remove('hidden');
-      loadBtn.disabled = true;
-      loadBtn.querySelector('span').textContent = 'Đang Tải...';
+  async _loadMoreCards(loadBtn, grid, skeleton) {
+    this.loadMorePage++;
 
-      /* Check if xanhAjax is available for AJAX loading */
-      if (typeof xanhAjax !== 'undefined') {
-        const formData = new FormData();
-        formData.append('action', 'xanh_filter_projects');
-        formData.append('nonce', xanhAjax.nonce);
-        formData.append('type', this.currentFilter);
-        formData.append('paged', this.loadMorePage);
+    if (skeleton) skeleton.classList.remove('hidden');
+    loadBtn.disabled = true;
+    loadBtn.querySelector('span').textContent = 'Đang Tải...';
 
-        fetch(xanhAjax.url, {
-          method: 'POST',
-          body: formData,
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (skeleton) skeleton.classList.add('hidden');
+    /* Check if xanhAjax is available for AJAX loading */
+    if (typeof xanhAjax === 'undefined') {
+      /* Fallback: no AJAX available */
+      setTimeout(() => {
+        if (skeleton) skeleton.classList.add('hidden');
+        loadBtn.disabled = true;
+        loadBtn.querySelector('span').textContent = 'Đã Hiển Thị Tất Cả';
+        const icon = loadBtn.querySelector('[data-lucide]');
+        if (icon) icon.style.display = 'none';
+      }, 600);
+      return;
+    }
 
-            if (data.success && data.data.html) {
-              const tmp = document.createElement('div');
-              tmp.innerHTML = data.data.html;
-              const newCards = tmp.querySelectorAll('.project-card');
+    const formData = new FormData();
+    formData.append('action', 'xanh_filter_projects');
+    formData.append('nonce', xanhAjax.nonce);
+    formData.append('type', this.currentFilter);
+    formData.append('paged', this.loadMorePage);
 
-              newCards.forEach(card => {
-                card.classList.add('anim-fade-up');
-                grid.appendChild(card);
-              });
+    try {
+      const res = await fetch(xanhAjax.url, { method: 'POST', body: formData });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-              if (typeof lucide !== 'undefined') lucide.createIcons();
-              this.observeNewCards(newCards);
+      const data = await res.json();
+      if (skeleton) skeleton.classList.add('hidden');
 
-              /* Disable if no more pages */
-              if (this.loadMorePage >= data.data.pages) {
-                loadBtn.disabled = true;
-                loadBtn.querySelector('span').textContent = 'Đã Hiển Thị Tất Cả';
-                const icon = loadBtn.querySelector('[data-lucide]');
-                if (icon) icon.style.display = 'none';
-              } else {
-                loadBtn.disabled = false;
-                loadBtn.querySelector('span').textContent = 'Xem Thêm Dự Án';
-              }
-            } else {
-              loadBtn.disabled = true;
-              loadBtn.querySelector('span').textContent = 'Đã Hiển Thị Tất Cả';
-              const icon = loadBtn.querySelector('[data-lucide]');
-              if (icon) icon.style.display = 'none';
-            }
-          })
-          .catch(() => {
-            if (skeleton) skeleton.classList.add('hidden');
-            loadBtn.disabled = false;
-            loadBtn.querySelector('span').textContent = 'Xem Thêm Dự Án';
-          });
-      } else {
-        /* Fallback: no AJAX available */
-        setTimeout(() => {
-          if (skeleton) skeleton.classList.add('hidden');
+      if (data.success && data.data.html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = data.data.html;
+        const newCards = tmp.querySelectorAll('.project-card');
+
+        newCards.forEach(card => {
+          card.classList.add('anim-fade-up');
+          grid.appendChild(card);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        this.observeNewCards(newCards);
+
+        /* Disable if no more pages */
+        if (this.loadMorePage >= data.data.pages) {
           loadBtn.disabled = true;
           loadBtn.querySelector('span').textContent = 'Đã Hiển Thị Tất Cả';
           const icon = loadBtn.querySelector('[data-lucide]');
           if (icon) icon.style.display = 'none';
-        }, 600);
+        } else {
+          loadBtn.disabled = false;
+          loadBtn.querySelector('span').textContent = 'Xem Thêm Dự Án';
+        }
+      } else {
+        loadBtn.disabled = true;
+        loadBtn.querySelector('span').textContent = 'Đã Hiển Thị Tất Cả';
+        const icon = loadBtn.querySelector('[data-lucide]');
+        if (icon) icon.style.display = 'none';
       }
-    });
+    } catch (error) {
+      console.warn('[XANH] Load more failed:', error.message);
+      if (skeleton) skeleton.classList.add('hidden');
+      loadBtn.disabled = false;
+      loadBtn.querySelector('span').textContent = 'Xem Thêm Dự Án';
+    }
   },
 };
 
