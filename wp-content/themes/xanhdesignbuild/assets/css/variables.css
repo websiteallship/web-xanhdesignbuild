@@ -28,6 +28,7 @@
   --color-dark-rgb: 26, 26, 26;
   --color-white-rgb: 255, 255, 255;
   --color-beige-rgb: 216, 199, 163;
+  --color-accent-rgb: 255, 138, 0;
 
   /* ── Spacing ── */
   --space-1: 0.25rem;

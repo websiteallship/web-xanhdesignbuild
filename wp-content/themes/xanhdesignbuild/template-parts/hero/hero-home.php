@@ -62,10 +62,11 @@ if ( $hero_video_url ) {
 				if ( $hero_slides && isset( $slide['image']['ID'] ) ) :
 					// ACF image field — use wp_get_attachment_image for responsive srcset.
 					echo '<div class="swiper-slide">';
-					echo wp_get_attachment_image( $slide['image']['ID'], 'full', false, [
-						'class'   => 'w-full h-full object-cover',
-						'loading' => 'eager',
-						'sizes'   => '100vw',
+					echo wp_get_attachment_image( $slide['image']['ID'], 'xanh-hero', false, [
+						'class'         => 'w-full h-full object-cover',
+						'loading'       => 'eager',
+						'fetchpriority' => 'high',
+						'sizes'         => '100vw',
 					] );
 					echo '</div>';
 				else :
@@ -77,7 +78,7 @@ if ( $hero_video_url ) {
 						<img src="<?php echo esc_url( $slide['image']['url'] ?? '' ); ?>"
 							alt="<?php echo esc_attr( $slide['image']['alt'] ?? '' ); ?>"
 							class="w-full h-full object-cover"
-							width="1920" height="1080" />
+							width="1920" height="1080" loading="eager" fetchpriority="high" />
 					</div>
 				<?php endif;
 			endforeach; ?>

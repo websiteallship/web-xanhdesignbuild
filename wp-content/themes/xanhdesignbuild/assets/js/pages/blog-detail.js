@@ -176,7 +176,12 @@ const XanhBlogDetail = {
       lb.container.style.cursor = lb.scale > 1 ? 'grab' : '';
     });
 
-    // Keyboard
+    this._bindLightboxKeyboard();
+  },
+
+  /* Keyboard shortcuts for lightbox (Esc, +/-, 0) */
+  _bindLightboxKeyboard() {
+    const lb = this._lb;
     document.addEventListener('keydown', (e) => {
       if (!lb.overlay.classList.contains('is-open')) return;
       if (e.key === 'Escape') this._closeLightbox();

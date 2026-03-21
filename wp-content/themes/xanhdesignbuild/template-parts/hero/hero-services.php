@@ -52,7 +52,7 @@ if ( $hero_image ) {
 			] );
 			?>
 		<?php else : ?>
-			<img src="<?php echo esc_url( $hero_img_url ); ?>" alt="Dịch vụ kiến trúc & nội thất — XANH" class="w-full h-full object-cover" width="1920" height="1080" fetchpriority="high" />
+			<img src="<?php echo esc_url( $hero_img_url ); ?>" alt="Dịch vụ kiến trúc & nội thất — XANH" class="w-full h-full object-cover" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async" />
 		<?php endif; ?>
 	</div>
 	<div class="absolute inset-0 bg-gradient-to-b from-black/60 via-primary/50 to-primary/80 z-[1]"></div>

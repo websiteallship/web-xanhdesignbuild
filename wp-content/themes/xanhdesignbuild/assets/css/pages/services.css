@@ -47,6 +47,10 @@
 /* ==============================================
    2. SERVICES GRID — 1→2→3 columns
    ============================================== */
+#services-grid-section {
+  contain: layout style;
+}
+
 .services-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -117,7 +121,9 @@
   -webkit-backdrop-filter: blur(8px);
   color: var(--color-white);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.6s var(--ease-luxury);
+  transition: background 0.6s var(--ease-luxury),
+              border-color 0.6s var(--ease-luxury),
+              transform 0.6s var(--ease-luxury);
 }
 .service-card:hover .service-card__icon-badge {
   background: var(--color-primary);

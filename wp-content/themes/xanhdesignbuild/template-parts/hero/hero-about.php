@@ -53,15 +53,18 @@ if ( $video_url ) {
 	<div class="about-hero__bg absolute inset-0 w-full h-full">
 		<?php if ( $img_id ) :
 			echo wp_get_attachment_image( $img_id, 'full', false, [
-				'class'   => 'w-full h-full object-cover',
-				'loading' => 'eager',
-				'sizes'   => '100vw',
+				'class'         => 'w-full h-full object-cover',
+				'loading'       => 'eager',
+				'fetchpriority' => 'high',
+				'decoding'      => 'async',
+				'sizes'         => '100vw',
 			] );
 		else : ?>
 			<img src="<?php echo esc_url( $img_url ); ?>"
 				alt="<?php echo esc_attr( $img_alt ); ?>"
 				class="w-full h-full object-cover"
-				width="1920" height="1080" />
+				width="1920" height="1080"
+				loading="eager" fetchpriority="high" decoding="async" />
 		<?php endif; ?>
 	</div>
 

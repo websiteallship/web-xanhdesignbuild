@@ -61,18 +61,18 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  /* Match portfolio.html hero: 70vh desktop */
-  height: 70vh;
-  min-height: 500px;
+  /* Mobile-first: mobile dimensions as default */
+  height: 85svh;
+  min-height: 480px;
   display: flex;
   flex-direction: column;
 }
 
-/* Mobile: Match portfolio.html hero */
-@media (max-width: 767px) {
+/* Desktop: taller hero */
+@media (min-width: 768px) {
   .detail-hero {
-    height: 85svh;
-    min-height: 480px;
+    height: 70vh;
+    min-height: 500px;
   }
 }
 
@@ -127,14 +127,15 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 70vh;
-  min-height: 500px;
+  /* Mobile-first: mobile dimensions as default */
+  height: 85svh;
+  min-height: 480px;
 }
 
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .detail-hero__inner {
-    height: 85svh;
-    min-height: 480px;
+    height: 70vh;
+    min-height: 500px;
   }
 }
 
@@ -610,110 +611,229 @@
 }
 
 /* ==============================================
-   11. RESPONSIVE — Mobile adjustments
+   11. RESPONSIVE — Mobile-first adjustments
+   Base = mobile defaults, desktop overrides in min-width
    ============================================== */
-@media (max-width: 639px) {
 
-  /* Tạo khoảng trống dưới cùng trên mobile để text không bị sát mép màn hình */
+/* ── Hero bottom — extra padding on mobile ── */
+.detail-hero__bottom {
+  padding-bottom: var(--space-20);
+}
+@media (min-width: 640px) {
   .detail-hero__bottom {
-    padding-bottom: var(--space-20);
+    padding-bottom: var(--space-10);
   }
+}
 
-  /* Font sizes nhỏ hơn trên mobile */
+/* ── Breadcrumb — smaller font on mobile ── */
+.breadcrumb--hero .breadcrumb__link,
+.breadcrumb--hero .breadcrumb__current {
+  font-size: 0.75rem;
+}
+@media (min-width: 640px) {
   .breadcrumb--hero .breadcrumb__link,
   .breadcrumb--hero .breadcrumb__current {
-    font-size: 0.75rem;
-  }
-
-  .detail-hero__eyebrow {
-    font-size: 0.688rem;
-  }
-
-  .detail-hero__tagline {
-    font-size: 0.75rem;
-  }
-
-  /* Title cũng giảm nhẹ trên mobile */
-  .detail-hero__title {
-    font-size: clamp(1.5rem, 7vw, 2rem);
-  }
-
-  /* Stats Bar mobile */
-  .stats-bar__grid {
-    gap: var(--space-4) var(--space-6);
-    justify-content: flex-start;
-  }
-
-  .stats-bar__divider {
-    display: none;
-  }
-
-  .stats-bar__value {
     font-size: 1rem;
   }
+}
 
+/* ── Hero eyebrow — smaller on mobile ── */
+.detail-hero__eyebrow {
+  font-size: 0.688rem;
+}
+@media (min-width: 640px) {
+  .detail-hero__eyebrow {
+    font-size: 1rem;
+  }
+}
+
+/* ── Hero tagline — smaller on mobile ── */
+.detail-hero__tagline {
+  font-size: 0.75rem;
+}
+@media (min-width: 640px) {
+  .detail-hero__tagline {
+    font-size: 1rem;
+  }
+}
+
+/* ── Hero title — smaller clamp on mobile ── */
+.detail-hero__title {
+  font-size: clamp(1.5rem, 7vw, 2rem);
+}
+@media (min-width: 640px) {
+  .detail-hero__title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+  }
+}
+
+/* ── Stats Bar — mobile defaults ── */
+.stats-bar__grid {
+  gap: var(--space-4) var(--space-6);
+  justify-content: flex-start;
+}
+@media (min-width: 640px) {
+  .stats-bar__grid {
+    gap: var(--space-6);
+    justify-content: center;
+  }
+}
+
+.stats-bar__divider {
+  display: none;
+}
+@media (min-width: 640px) {
+  .stats-bar__divider {
+    display: block;
+  }
+}
+
+.stats-bar__value {
+  font-size: 1rem;
+}
+@media (min-width: 640px) {
+  .stats-bar__value {
+    font-size: 1.125rem;
+  }
+}
+
+.stats-bar__icon {
+  width: 2rem;
+  height: 2rem;
+}
+@media (min-width: 640px) {
   .stats-bar__icon {
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
+}
 
+.stats-bar__icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+@media (min-width: 640px) {
   .stats-bar__icon svg {
-    width: 1rem;
-    height: 1rem;
+    width: auto;
+    height: auto;
   }
+}
 
+.stats-bar__highlight {
+  font-size: 0.75rem;
+}
+@media (min-width: 640px) {
   .stats-bar__highlight {
-    font-size: 0.75rem;
+    font-size: 0.813rem;
   }
+}
 
-  /* D4: Editorial mobile adjustments */
+/* ── D4: Editorial — mobile padding ── */
+.project-story__challenge {
+  padding: var(--space-8) var(--space-6);
+}
+@media (min-width: 640px) {
   .project-story__challenge {
-    padding: var(--space-8) var(--space-6);
+    padding: var(--space-12) clamp(var(--space-8), 5vw, var(--space-12));
   }
+}
 
+.project-story__solution {
+  padding: var(--space-8) var(--space-6);
+}
+@media (min-width: 640px) {
   .project-story__solution {
-    padding: var(--space-8) var(--space-6);
+    padding: var(--space-12) clamp(var(--space-8), 5vw, var(--space-12));
   }
+}
 
+.project-story__col-title {
+  font-size: clamp(1.25rem, 6vw, 1.5rem);
+}
+@media (min-width: 640px) {
   .project-story__col-title {
-    font-size: clamp(1.25rem, 6vw, 1.5rem);
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
   }
+}
 
-  /* D5: Mobile adjustments */
+/* ── D5: Before/After — mobile adjustments ── */
+.before-after {
+  padding-block: var(--space-12);
+}
+@media (min-width: 640px) {
   .before-after {
-    padding-block: var(--space-12);
+    padding-block: var(--space-16);
   }
+}
 
+.ba-label {
+  font-size: 0.625rem;
+  padding: 4px 10px;
+}
+@media (min-width: 640px) {
   .ba-label {
-    font-size: 0.625rem;
-    padding: 4px 10px;
+    font-size: inherit;
+    padding: initial;
   }
+}
 
+.ba-slide-title {
+  font-size: 0.688rem;
+  padding: 4px 10px;
+}
+@media (min-width: 640px) {
   .ba-slide-title {
-    font-size: 0.688rem;
-    padding: 4px 10px;
+    font-size: inherit;
+    padding: initial;
   }
+}
 
+.ba-custom-slider__handle-knob {
+  width: 36px;
+  height: 36px;
+}
+@media (min-width: 640px) {
   .ba-custom-slider__handle-knob {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
+}
 
+.ba-custom-slider__handle-knob svg {
+  width: 14px;
+  height: 14px;
+}
+@media (min-width: 640px) {
   .ba-custom-slider__handle-knob svg {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
   }
+}
 
+.ba-thumb__img {
+  height: 56px;
+}
+@media (min-width: 640px) {
   .ba-thumb__img {
-    height: 56px;
+    height: 72px;
   }
+}
 
+.ba-thumb__name {
+  font-size: 0.625rem;
+}
+@media (min-width: 640px) {
   .ba-thumb__name {
-    font-size: 0.625rem;
+    font-size: 0.688rem;
   }
+}
 
+.ba-nav-btn {
+  display: none;
+}
+@media (min-width: 640px) {
   .ba-nav-btn {
-    display: none;
+    display: flex;
   }
 }
 

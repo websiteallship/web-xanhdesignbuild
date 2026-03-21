@@ -31,15 +31,19 @@ $img_id  = $hero_image['ID'] ?? null;
 	<div class="contact-hero__bg" id="hero-bg">
 		<?php if ( $img_id ) :
 			echo wp_get_attachment_image( $img_id, 'full', false, [
-				'class'   => 'w-full h-full object-cover',
-				'loading' => 'eager',
-				'sizes'   => '100vw',
+				'class'         => 'w-full h-full object-cover',
+				'loading'       => 'eager',
+				'fetchpriority' => 'high',
+				'decoding'      => 'async',
+				'sizes'         => '100vw',
 			] );
 		else : ?>
 			<img src="<?php echo esc_url( $img_url ); ?>"
 				alt="<?php echo esc_attr( $img_alt ); ?>"
 				width="1920" height="960"
-				loading="eager">
+				loading="eager"
+				fetchpriority="high"
+				decoding="async">
 		<?php endif; ?>
 	</div>
 	<!-- Gradient overlay (portfolio style) -->

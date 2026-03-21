@@ -175,7 +175,6 @@ const XanhScrollAnimations = {
       return;
     }
 
-    gsap.registerPlugin(ScrollTrigger);
     this._initEmpathyParallax();
     this._initHeroParallax();
     this._initUnifiedFadeUp();
@@ -521,54 +520,66 @@ const XanhProjects = {
       },
     });
 
-    // Mobile bottom nav
+    this._initThumbsMobileNav();
+    this._initThumbsPaginationAnim();
+    this._initMobileProjectsSwiper();
+  },
+
+  /** @private — Mobile bottom nav for thumbs */
+  _initThumbsMobileNav() {
     const thumbsMobPrev = document.querySelector('.thumbs-mobile-prev');
     const thumbsMobNext = document.querySelector('.thumbs-mobile-next');
     if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => this.thumbsSwiper.slidePrev());
     if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => this.thumbsSwiper.slideNext());
+  },
 
-    // Pagination bullets entrance animation (desktop only)
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && window.innerWidth >= 640) {
-      const thumbsPagination = document.querySelector('.thumbs-pagination');
-      if (thumbsPagination) {
-        ScrollTrigger.create({
-          trigger: thumbsPagination,
-          start: 'top 90%',
-          once: true,
-          onEnter: () => {
-            const bullets = thumbsPagination.querySelectorAll('.swiper-pagination-bullet');
-            gsap.fromTo(bullets,
-              { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
-              { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 }
-            );
-          },
-        });
-      }
-    }
+  /** @private — Pagination bullets entrance animation (desktop only) */
+  _initThumbsPaginationAnim() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || window.innerWidth < 640) return;
 
-    // Mobile Projects Swiper (≤1023px only)
-    if (!mqDesktop.matches) {
-      const mobileSwiper = new Swiper('.projects-mobile-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 16,
-        loop: true,
-        allowTouchMove: true,
-        grabCursor: false,
-        noSwiping: true,
-        noSwipingSelector: '.ba-custom-slider',
-        pagination: {
-          el: '.thumbs-pagination',
-          clickable: true,
-        },
-      });
+    const thumbsPagination = document.querySelector('.thumbs-pagination');
+    if (!thumbsPagination) return;
 
-      if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
-      if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
+    ScrollTrigger.create({
+      trigger: thumbsPagination,
+      start: 'top 90%',
+      once: true,
+      onEnter: () => {
+        const bullets = thumbsPagination.querySelectorAll('.swiper-pagination-bullet');
+        gsap.fromTo(bullets,
+          { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+          { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 }
+        );
+      },
+    });
+  },
 
-      // Init drag sliders for mobile cards
-      this._initMobileDragSliders();
-      mobileSwiper.on('slideChangeTransitionEnd', () => this._initMobileDragSliders());
-    }
+  /** @private — Mobile Projects Swiper (≤1023px only) */
+  _initMobileProjectsSwiper() {
+    if (mqDesktop.matches) return;
+
+    const mobileSwiper = new Swiper('.projects-mobile-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      allowTouchMove: true,
+      grabCursor: false,
+      noSwiping: true,
+      noSwipingSelector: '.ba-custom-slider',
+      pagination: {
+        el: '.thumbs-pagination',
+        clickable: true,
+      },
+    });
+
+    const thumbsMobPrev = document.querySelector('.thumbs-mobile-prev');
+    const thumbsMobNext = document.querySelector('.thumbs-mobile-next');
+    if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
+    if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
+
+    // Init drag sliders for mobile cards
+    this._initMobileDragSliders();
+    mobileSwiper.on('slideChangeTransitionEnd', () => this._initMobileDragSliders());
   },
 
   /** @private — Init drag sliders for mobile BA cards */
@@ -707,79 +718,89 @@ const XanhProjects = {
   _initScrollAnimations() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-    const projectsSection = document.getElementById('projects');
-    if (!projectsSection) return;
+    const section = document.getElementById('projects');
+    if (!section) return;
 
-    const headerEls = projectsSection.querySelectorAll('.projects-el');
-    const sliderWrap = projectsSection.querySelector('.ba-slider-wrap');
-    const infoPanel = projectsSection.querySelector('.ba-info');
-    const infoChildren = infoPanel
-      ? infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
+    const refs = {
+      headerEls:  section.querySelectorAll('.projects-el'),
+      sliderWrap: section.querySelector('.ba-slider-wrap'),
+      infoPanel:  section.querySelector('.ba-info'),
+      thumbSlides: section.querySelectorAll('.projects-thumbs-swiper .swiper-slide'),
+      thumbsNav:  section.querySelector('.thumbs-nav'),
+      handleKnob: section.querySelector('.ba-slider__handle-knob'),
+      handle:     this._els.handle,
+    };
+    refs.infoChildren = refs.infoPanel
+      ? refs.infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
       : [];
-    const thumbSlides = projectsSection.querySelectorAll('.projects-thumbs-swiper .swiper-slide');
-    const thumbsNav = projectsSection.querySelector('.thumbs-nav');
-    const handleKnob = projectsSection.querySelector('.ba-slider__handle-knob');
-    const handle = this._els.handle;
 
-    // Set initial states
-    gsap.set(headerEls, { opacity: 0, y: 40 });
-    if (sliderWrap) gsap.set(sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
-    if (infoChildren.length) gsap.set(infoChildren, { opacity: 0, x: 30 });
-    if (thumbSlides.length) gsap.set(thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
-    if (thumbsNav) gsap.set(thumbsNav, { opacity: 0, y: 20 });
+    this._setProjectInitialStates(refs);
 
     ScrollTrigger.create({
-      trigger: projectsSection,
+      trigger: section,
       start: 'top 80%',
       once: true,
-      onEnter: () => {
-        const tl = gsap.timeline();
-
-        tl.to(headerEls, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12 });
-
-        if (sliderWrap) {
-          tl.to(sliderWrap, { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.3');
-        }
-
-        if (infoChildren.length) {
-          tl.to(infoChildren, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }, '-=0.5');
-        }
-
-        if (thumbSlides.length) {
-          tl.to(thumbSlides, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)', stagger: 0.1 }, '-=0.3');
-        }
-
-        if (thumbsNav) {
-          tl.to(thumbsNav, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
-          const bullets = thumbsNav.querySelectorAll('.swiper-pagination-bullet');
-          if (bullets.length) {
-            tl.fromTo(bullets,
-              { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
-              { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 },
-              '-=0.1'
-            );
-          }
-        }
-
-        // Slider handle wiggle hint
-        if (handleKnob && handle) {
-          const self = this;
-          tl.call(() => self._setPosition(35), null, '+=0.4')
-            .to(handle, {
-              left: '35%', duration: 0.5, ease: 'power2.inOut',
-              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
-            }, '<')
-            .to(handle, {
-              left: '65%', duration: 0.7, ease: 'power2.inOut',
-              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
-            })
-            .to(handle, {
-              left: '50%', duration: 0.5, ease: 'power2.inOut',
-              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
-            });
-        }
-      },
+      onEnter: () => this._playProjectEntrance(refs),
     });
+  },
+
+  /** @private — Set GSAP initial states for project section */
+  _setProjectInitialStates(refs) {
+    gsap.set(refs.headerEls, { opacity: 0, y: 40 });
+    if (refs.sliderWrap) gsap.set(refs.sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
+    if (refs.infoChildren.length) gsap.set(refs.infoChildren, { opacity: 0, x: 30 });
+    if (refs.thumbSlides.length) gsap.set(refs.thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
+    if (refs.thumbsNav) gsap.set(refs.thumbsNav, { opacity: 0, y: 20 });
+  },
+
+  /** @private — Play project section entrance timeline */
+  _playProjectEntrance(refs) {
+    const tl = gsap.timeline();
+
+    tl.to(refs.headerEls, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12 });
+
+    if (refs.sliderWrap) {
+      tl.to(refs.sliderWrap, { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.3');
+    }
+    if (refs.infoChildren.length) {
+      tl.to(refs.infoChildren, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }, '-=0.5');
+    }
+    if (refs.thumbSlides.length) {
+      tl.to(refs.thumbSlides, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)', stagger: 0.1 }, '-=0.3');
+    }
+    if (refs.thumbsNav) {
+      tl.to(refs.thumbsNav, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
+      const bullets = refs.thumbsNav.querySelectorAll('.swiper-pagination-bullet');
+      if (bullets.length) {
+        tl.fromTo(bullets,
+          { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+          { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 },
+          '-=0.1'
+        );
+      }
+    }
+
+    this._animateHandleWiggle(tl, refs.handleKnob, refs.handle);
+  },
+
+  /** @private — Slider handle wiggle hint animation */
+  _animateHandleWiggle(tl, handleKnob, handle) {
+    if (!handleKnob || !handle) return;
+
+    const self = this;
+    tl.call(() => self._setPosition(35), null, '+=0.4')
+      .to(handle, {
+        left: '35%', duration: 0.5, ease: 'power2.inOut',
+        onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+      }, '<')
+      .to(handle, {
+        left: '65%', duration: 0.7, ease: 'power2.inOut',
+        onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+      })
+      .to(handle, {
+        left: '50%', duration: 0.5, ease: 'power2.inOut',
+        onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+      });
   },
 };
 

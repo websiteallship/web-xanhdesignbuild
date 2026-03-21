@@ -131,12 +131,14 @@ $first = $projects[0];
 					<!-- After image (background) -->
 					<img src="<?php echo esc_url( $first['after_img'] ); ?>"
 						alt="Sau cải tạo — <?php echo esc_attr( $first['title'] ); ?>"
-						class="ba-slider__after" id="ba-after-img" draggable="false" />
+						class="ba-slider__after" id="ba-after-img" draggable="false"
+						width="800" height="1000" loading="lazy" />
 					<!-- Before image (clipped foreground) -->
 					<div class="ba-slider__before" id="ba-before-clip">
 						<img src="<?php echo esc_url( $first['before_img'] ); ?>"
 							alt="Trước cải tạo — <?php echo esc_attr( $first['title'] ); ?>"
-							id="ba-before-img" draggable="false" />
+							id="ba-before-img" draggable="false"
+							width="800" height="1000" loading="lazy" />
 					</div>
 					<!-- Drag handle -->
 					<div class="ba-slider__handle" id="ba-handle">
@@ -194,10 +196,12 @@ $first = $projects[0];
 									<div class="ba-custom-slider">
 										<img src="<?php echo esc_url( $proj['after_img'] ); ?>"
 											alt="Sau — <?php echo esc_attr( $proj['title'] ); ?>"
-											class="ba-custom-slider__after" draggable="false" />
+											class="ba-custom-slider__after" draggable="false"
+											width="800" height="1000" loading="lazy" />
 										<div class="ba-custom-slider__before">
 											<img src="<?php echo esc_url( $proj['before_img'] ); ?>"
-												alt="Trước — <?php echo esc_attr( $proj['title'] ); ?>" draggable="false" />
+												alt="Trước — <?php echo esc_attr( $proj['title'] ); ?>" draggable="false"
+												width="800" height="1000" loading="lazy" />
 										</div>
 										<div class="ba-custom-slider__handle">
 											<div class="ba-custom-slider__handle-line"></div>
@@ -262,7 +266,7 @@ $first = $projects[0];
 								data-author="<?php echo esc_attr( $proj['author'] ); ?>">
 								<div class="project-thumb__img-wrap">
 									<img src="<?php echo esc_url( $proj['thumb_img'] ); ?>"
-										alt="<?php echo esc_attr( $proj['title'] ); ?>" loading="lazy" />
+										alt="<?php echo esc_attr( $proj['title'] ); ?>" loading="lazy" width="400" height="300" />
 								</div>
 								<div class="project-thumb__info">
 									<span class="project-thumb__name"><?php echo esc_html( $proj['title'] ); ?></span>

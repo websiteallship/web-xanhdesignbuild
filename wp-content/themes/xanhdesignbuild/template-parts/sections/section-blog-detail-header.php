@@ -92,7 +92,7 @@ $read_time  = max( 1, ceil( $word_count / 200 ) );
 	<div class="article-featured-img site-container mb-12 md:mb-20">
 		<div class="w-full h-[300px] md:h-[450px] lg:h-[600px] overflow-hidden rounded-[2px] relative group">
 			<?php
-			the_post_thumbnail( 'full', [
+			the_post_thumbnail( 'large', [
 				'class'         => 'w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105',
 				'loading'       => 'eager',
 				'fetchpriority' => 'high',

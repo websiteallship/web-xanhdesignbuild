@@ -35,9 +35,9 @@ $email   = xanh_get_email() ?: 'contact@xanhdesignbuild.vn';
 <section class="contact-block" id="contact-block">
 	<div class="site-container">
 		<!-- Section header -->
-		<div class="section-header section-header--left" style="margin-bottom:var(--space-12);">
+		<div class="section-header section-header--left mb-12">
 			<span class="section-eyebrow anim-fade-up"><?php echo esc_html( $eyebrow ); ?></span>
-			<h2 class="section-title anim-fade-up" style="margin-top:0.5rem;"><?php echo wp_kses_post( $title ); ?></h2>
+			<h2 class="section-title anim-fade-up mt-2"><?php echo wp_kses_post( $title ); ?></h2>
 		</div>
 
 		<div class="contact-block__grid">

@@ -58,7 +58,7 @@ if ( $image ) {
 		<?php else : ?>
 			<img src="<?php echo esc_url( $hero_img_url ); ?>"
 				alt="Thiết kế kiến trúc biệt thự hiện đại — XANH Design & Build"
-				class="w-full h-full object-cover" width="1920" height="1080" fetchpriority="high" />
+				class="w-full h-full object-cover" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async" />
 		<?php endif; ?>
 	</div>
 

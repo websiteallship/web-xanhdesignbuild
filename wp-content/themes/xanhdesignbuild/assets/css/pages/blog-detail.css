@@ -317,7 +317,7 @@
 
 .social-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--color-dark-10, rgba(0, 0, 0, 0.1));
+  box-shadow: 0 4px 12px var(--color-dark-10, rgba(var(--color-dark-rgb), 0.1));
 }
 
 #copy-tooltip.show {
@@ -373,8 +373,8 @@
   font-family: var(--font-body) !important;
   font-size: 0.9375rem !important;
   color: var(--color-white) !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: rgba(var(--color-white-rgb), 0.08) !important;
+  border: 1px solid rgba(var(--color-white-rgb), 0.25) !important;
   border-radius: 0 !important;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -385,15 +385,15 @@
 
 .end-cta .ff-el-input--content input::placeholder,
 .end-cta .ff-el-form-control::placeholder {
-  color: rgba(255, 255, 255, 0.35) !important;
+  color: rgba(var(--color-white-rgb), 0.35) !important;
 }
 
 .end-cta .ff-el-input--content input:focus,
 .end-cta .ff-el-form-control:focus {
   outline: none !important;
-  border-color: rgba(255, 255, 255, 0.55) !important;
-  background: rgba(255, 255, 255, 0.14) !important;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(var(--color-white-rgb), 0.55) !important;
+  background: rgba(var(--color-white-rgb), 0.14) !important;
+  box-shadow: 0 0 0 3px rgba(var(--color-white-rgb), 0.08) !important;
 }
 
 /* ── Submit button — orange accent, uppercase + arrow ── */
@@ -421,7 +421,7 @@
 
 .end-cta .ff-btn-submit.ff-btn-submit:hover {
   background: var(--color-accent-hover, var(--color-accent)) !important;
-  box-shadow: 0 8px 24px rgba(255, 138, 0, 0.35);
+  box-shadow: 0 8px 24px rgba(var(--color-accent-rgb), 0.35);
 }
 
 /* Arrow icon appended to button */
@@ -452,9 +452,9 @@
 
 /* ── Success message ── */
 .end-cta .ff-message-success {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+  background: rgba(var(--color-white-rgb), 0.1);
+  border: 1px solid rgba(var(--color-white-rgb), 0.2);
 }
 
 /* ── Inline row layout (sm+) ── */
@@ -547,7 +547,7 @@
 .img-lightbox__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.88);
+  background: rgba(var(--color-dark-rgb), 0.88);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   cursor: pointer;
@@ -574,7 +574,7 @@
   border-radius: 0;
   transition: transform 0.2s ease;
   will-change: transform;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 60px rgba(var(--color-dark-rgb), 0.5);
 }
 
 /* ── Close Button (top-right, standalone) ── */
@@ -589,18 +589,18 @@
   width: 40px;
   height: 40px;
   border: none;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--color-white-rgb), 0.1);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 50%;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(var(--color-white-rgb), 0.8);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .img-lightbox__close:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: rgba(var(--color-white-rgb), 0.2);
+  color: var(--color-white);
 }
 
 .img-lightbox__close:active {
@@ -628,12 +628,12 @@
   align-items: center;
   gap: 2px;
   padding: 4px 6px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(var(--color-white-rgb), 0.12);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(var(--color-white-rgb), 0.12);
   border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 12px rgba(var(--color-dark-rgb), 0.25);
   pointer-events: auto;
 }
 
@@ -645,15 +645,15 @@
   height: 32px;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(var(--color-white-rgb), 0.75);
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .img-lightbox__btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background: rgba(var(--color-white-rgb), 0.15);
+  color: var(--color-white);
 }
 
 .img-lightbox__btn:active {
@@ -664,7 +664,7 @@
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.6875rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(var(--color-white-rgb), 0.5);
   min-width: 38px;
   text-align: center;
   letter-spacing: 0.02em;
@@ -681,7 +681,7 @@
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.8125rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(var(--color-white-rgb), 0.55);
   line-height: 1.5;
   text-align: center;
   letter-spacing: 0.01em;
@@ -740,7 +740,7 @@
 }
 
 .article-lightbox-trigger:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(var(--color-dark-rgb), 0.1);
 }
 
 /* Zoom icon overlay */
@@ -751,7 +751,7 @@
   right: 12px;
   width: 36px;
   height: 36px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(var(--color-white-rgb), 0.9);
   border-radius: 50%;
   opacity: 0;
   transform: scale(0.8);
@@ -762,7 +762,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(var(--color-dark-rgb), 0.15);
 }
 
 .article-lightbox-trigger:hover::after {

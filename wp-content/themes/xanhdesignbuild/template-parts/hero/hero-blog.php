@@ -49,7 +49,7 @@ if ( $hero_image ) {
 	<div class="blog-hero__bg absolute inset-0 w-full h-full">
 		<?php if ( $hero_image ) : ?>
 			<?php
-			echo wp_get_attachment_image( $hero_image['ID'], 'full', false, [
+			echo wp_get_attachment_image( $hero_image['ID'], 'xanh-hero', false, [
 				'class'         => 'w-full h-full object-cover',
 				'alt'           => esc_attr( $hero_image['alt'] ?? 'Không gian sống bền vững — XANH Design & Build' ),
 				'fetchpriority' => 'high',

@@ -481,7 +481,7 @@ const XanhPortfolioDetail = {
     const items = section.querySelectorAll('.gallery-grid__item');
     if (!items.length) return;
 
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    if (this.prefersReducedMotion || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
       items.forEach((el) => { el.style.opacity = '1'; });
       return;
     }
@@ -517,10 +517,12 @@ const XanhPortfolioDetail = {
     const loadMoreBtn = document.getElementById('gallery-load-more');
     if (!grid || !loadMoreBtn) return;
 
+    const reducedMotion = this.prefersReducedMotion;
+
     loadMoreBtn.addEventListener('click', () => {
       grid.classList.add('is-expanded');
 
-      if (typeof gsap !== 'undefined') {
+      if (!reducedMotion && typeof gsap !== 'undefined') {
         const hiddenItems = grid.querySelectorAll('.gallery-grid__item:nth-child(n+5)');
         gsap.fromTo(hiddenItems,
           { opacity: 0, y: 20 },

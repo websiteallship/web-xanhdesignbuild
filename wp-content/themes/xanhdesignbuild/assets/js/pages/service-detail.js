@@ -56,6 +56,11 @@ const XanhServiceDetail = {
 
     requestAnimationFrame(() => { bg.classList.add('is-loaded'); });
 
+    if (this.prefersReducedMotion) {
+      els.forEach((el) => { el.classList.add('is-visible'); });
+      return;
+    }
+
     els.forEach((el, i) => {
       setTimeout(() => { el.classList.add('is-visible'); }, 300 + i * 200);
     });

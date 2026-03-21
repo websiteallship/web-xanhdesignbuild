@@ -50,12 +50,24 @@ if ( $project_types && ! is_wp_error( $project_types ) ) {
 
   <!-- Background image -->
   <div class="detail-hero__bg">
-    <?php if ( $hero_url ) : ?>
+    <?php if ( $hero_img && ! empty( $hero_img['ID'] ) ) : ?>
+      <?php echo wp_get_attachment_image( $hero_img['ID'], 'full', false, [
+        'class'         => 'w-full h-full object-cover',
+        'alt'           => esc_attr( $hero_alt ),
+        'fetchpriority' => 'high',
+        'loading'       => 'eager',
+        'decoding'      => 'async',
+        'sizes'         => '100vw',
+      ] ); ?>
+    <?php elseif ( $hero_url ) : ?>
       <img
         src="<?php echo esc_url( $hero_url ); ?>"
         alt="<?php echo esc_attr( $hero_alt ); ?>"
         width="1920"
         height="1080"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
       />
     <?php endif; ?>
     <div class="detail-hero__overlay"></div>
