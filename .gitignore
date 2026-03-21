@@ -1,32 +1,49 @@
+# Ignore everything by default
+*
+
+# ===== UN-IGNORE: Directories & files to track =====
+
+# Theme
+!wp-content/
+wp-content/*
+!wp-content/themes/
+wp-content/themes/*
+!wp-content/themes/xanhdesignbuild/
+!wp-content/themes/xanhdesignbuild/**
+
+# Wireframes
+!wireframes/
+!wireframes/**
+
+# Docs
+!docs/
+!docs/**
+
+# Agent config
+!.agent/
+!.agent/**
+
+# Config files
+!.htaccess
+!wp-config.php
+
+# This gitignore itself
+!.gitignore
+
+# ===== ALWAYS IGNORE (even in un-ignored dirs) =====
+
 # Node
-node_modules/
-
-# Agent skills (auto-generated)
-.agent/skills/skills
-
-# WordPress core files
-wp-admin/
-wp-includes/
-wp-*.php
-index.php
-license.txt
-readme.html
-xmlrpc.php
-
-# WordPress content (exclude all except theme)
-wp-content/plugins/
-wp-content/uploads/
-wp-content/upgrade/
-wp-content/mu-plugins/
-wp-content/languages/
-wp-content/themes/index.php
-wp-content/themes/twentytwentyfive/
-
-# Config (keep wp-config tracked if needed)
-.htaccess
+**/node_modules/
 
 # OS files
-.DS_Store
-Thumbs.db
+**/.DS_Store
+**/Thumbs.db
 
-ai1wm-backups/
+# FTP deploy credentials
+**/ftp-deploy.js
+
+# Agent auto-generated skills cache
+.agent/skills/skills
+
+# WP backups
+**/ai1wm-backups/
