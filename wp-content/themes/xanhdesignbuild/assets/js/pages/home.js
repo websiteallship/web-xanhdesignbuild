@@ -13,37 +13,37 @@ const mqReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // XanhIcons removed, using XanhBase
 
-/* ─── Shared Utilities (Rule 10 §3.2, §9) ──── */
+/* ─── Shared Utilities (delegated to XanhBase) ──── */
 
-/** Debounce helper — delays fn by `wait` ms (default 150). */
+/** Debounce — delegates to XanhBase.debounce */
 function xanhDebounce(fn, wait = 150) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(null, args), wait);
-  };
+  return XanhBase.debounce(fn, wait);
 }
 
-/** Shared IntersectionObserver fallback for .anim-fade-up elements. */
+/** Shared fallback reveal — delegates to XanhBase */
 function observeFadeIn(section) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
-            setTimeout(() => {
-              el.style.opacity = '1';
-              el.style.transform = 'translateY(0)';
-              el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-            }, i * 150);
-          });
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
-  observer.observe(section);
+  if (typeof XanhBase !== 'undefined' && XanhBase.initFallbackAnimations) {
+    XanhBase.initFallbackAnimations();
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
+              setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+              }, i * 150);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+  }
 }
 
 /* XanhMobileMenu → moved to shared/base.js */
@@ -56,11 +56,11 @@ const XanhHero = {
   init() {
     // Hero content reveal — use shared initHeroReveal if available.
     if (typeof XanhBase !== 'undefined' && XanhBase.initHeroReveal) {
-      XanhBase.initHeroReveal('.hero-swiper', '.home-hero-el');
+      XanhBase.initHeroReveal('.hero-swiper', '.hero-el--slow');
     } else {
       // Fallback: simple is-visible toggle.
       setTimeout(() => {
-        document.querySelectorAll('.home-hero-el').forEach((el) => {
+        document.querySelectorAll('.hero-el--slow').forEach((el) => {
           el.classList.add('is-visible');
         });
       }, 400);
@@ -117,51 +117,10 @@ const XanhHero = {
       }
     }
 
-    // Video Modal
-    this._initVideoModal();
-  },
-
-  /** @private — Video modal open/close */
-  _initVideoModal() {
-    const videoPlayBtn = document.getElementById('video-play-btn');
-    const videoModal = document.getElementById('video-modal');
-    const videoModalBackdrop = document.getElementById('video-modal-backdrop');
-    const videoModalClose = document.getElementById('video-modal-close');
-    const videoIframe = document.getElementById('video-iframe');
-
-    if (!videoPlayBtn || !videoModal) return;
-
-    const videoSrc = videoIframe ? videoIframe.dataset.src : '';
-
-    const openModal = () => {
-      if (videoIframe && videoSrc) videoIframe.src = videoSrc;
-      videoModal.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-      if (typeof XanhBase !== 'undefined' && XanhBase.getLenis) {
-        const lenis = XanhBase.getLenis();
-        if (lenis) lenis.stop();
-      }
-    };
-
-    const closeModal = () => {
-      videoModal.classList.remove('is-open');
-      document.body.style.overflow = '';
-      setTimeout(() => { if (videoIframe) videoIframe.src = ''; }, 400);
-      if (typeof XanhBase !== 'undefined' && XanhBase.getLenis) {
-        const lenis = XanhBase.getLenis();
-        if (lenis) lenis.start();
-      }
-    };
-
-    videoPlayBtn.addEventListener('click', openModal);
-    if (videoModalClose) videoModalClose.addEventListener('click', closeModal);
-    if (videoModalBackdrop) videoModalBackdrop.addEventListener('click', closeModal);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && videoModal.classList.contains('is-open')) {
-        closeModal();
-      }
-    });
+    // Video Modal — delegate to shared XanhBase.initVideoModal()
+    if (typeof XanhBase !== 'undefined' && XanhBase.initVideoModal) {
+      XanhBase.initVideoModal();
+    }
   },
 };
 
@@ -577,48 +536,9 @@ const XanhProjects = {
     if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
     if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
 
-    // Init drag sliders for mobile cards
-    this._initMobileDragSliders();
-    mobileSwiper.on('slideChangeTransitionEnd', () => this._initMobileDragSliders());
-  },
-
-  /** @private — Init drag sliders for mobile BA cards */
-  _initMobileDragSliders() {
-    document.querySelectorAll('.ba-custom-slider').forEach(slider => {
-      if (slider._dragInit) return;
-      slider._dragInit = true;
-
-      const beforeClip = slider.querySelector('.ba-custom-slider__before');
-      const handle = slider.querySelector('.ba-custom-slider__handle');
-      if (!beforeClip || !handle) return;
-
-      let isDragging = false;
-
-      function setPos(pct) {
-        pct = Math.max(0, Math.min(100, pct));
-        beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-        handle.style.left = pct + '%';
-      }
-
-      function getPct(e) {
-        const r = slider.getBoundingClientRect();
-        return ((e.clientX - r.left) / r.width) * 100;
-      }
-
-      slider.addEventListener('pointerdown', (e) => {
-        e.stopPropagation();
-        isDragging = true;
-        slider.setPointerCapture(e.pointerId);
-        setPos(getPct(e));
-      });
-      slider.addEventListener('pointermove', (e) => {
-        if (!isDragging) return;
-        setPos(getPct(e));
-      });
-      slider.addEventListener('pointerup', () => { isDragging = false; });
-      slider.addEventListener('pointercancel', () => { isDragging = false; });
-      setPos(50);
-    });
+    // Init drag sliders for mobile cards — delegate to XanhBase
+    XanhBase.initBASliders();
+    mobileSwiper.on('slideChangeTransitionEnd', () => XanhBase.initBASliders());
   },
 
   /** @private — Before/After drag logic */
@@ -925,7 +845,7 @@ const XanhPartners = {
 /* ─────────────────────────────────────────────── */
 /* Module 12 — Blog Swiper + Scroll Animation      */
 /* ─────────────────────────────────────────────── */
-const XanhBlog = {
+const XanhHomeBlog = {
   init() {
     const section = document.getElementById('blog');
     if (!section) return;
@@ -1139,6 +1059,6 @@ document.addEventListener('DOMContentLoaded', () => {
   XanhProjects.init();
   XanhProcess.init();
   XanhPartners.init();
-  XanhBlog.init();
+  XanhHomeBlog.init();
   XanhSideArrows.init();
 });

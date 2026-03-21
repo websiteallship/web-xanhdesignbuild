@@ -78,24 +78,24 @@ if ( $video_url ) {
 
 			<!-- Eyebrow / Sub-label -->
 			<span
-				class="about-hero-el block text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 mb-5 md:mb-6">
+				class="hero-el--slow block text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 mb-5 md:mb-6">
 				<?php echo esc_html( $eyebrow ); ?>
 			</span>
 
 			<!-- Headline -->
 			<h1 id="about-hero-headline"
-				class="about-hero-el text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-bold !leading-[1.35] tracking-[-0.02em] mb-7 md:mb-9">
+				class="hero-el--slow text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-bold !leading-[1.35] tracking-[-0.02em] mb-7 md:mb-9">
 				<?php echo wp_kses_post( $headline ); ?>
 			</h1>
 
 			<!-- Sub-headline -->
 			<p id="about-hero-subheadline"
-				class="about-hero-el text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-10 md:mb-12">
+				class="hero-el--slow text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-10 md:mb-12">
 				<?php echo esc_html( $subtitle ); ?>
 			</p>
 
 			<!-- Action Row: CTA + Video Play Button -->
-			<div class="about-hero-el flex flex-wrap items-center gap-5 md:gap-8">
+			<div class="hero-el--slow flex flex-wrap items-center gap-5 md:gap-8">
 				<!-- CTA Button -->
 				<a href="#about-pain" class="btn btn--primary group">
 					<span><?php echo esc_html( $cta_text ); ?></span>

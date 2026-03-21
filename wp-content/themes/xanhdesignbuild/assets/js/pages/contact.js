@@ -8,53 +8,27 @@
 const XanhContact = {
   /* ── Entry point ── */
   init() {
-    XanhBase.initHeroReveal('#hero-bg', '.contact-hero-el');
+    /* Hero reveal — page-specific selectors */
+    XanhBase.initHeroReveal('#hero-bg', '.hero-el--fast');
+
+    /* Page-specific modules only — global init (Lenis, Lucide,
+       BackToTop, ScrollReveal, CookieConsent) already runs in main.js */
     this.initFAQ();
     this.initFormValidation();
     this.initFormSubmit();
     this.initSelectPlaceholder();
-    XanhBase.initBackToTop('back-to-top', 400);
-    XanhBase.initCookieConsent();
-    XanhBase.initLenis({ lerp: 0.07 });
 
+    /* Counter animation for hero stats (if present) */
     if (document.querySelector('[data-counter]')) {
       XanhBase.animateCounters('[data-counter]', { dataAttr: 'counter', useGSAP: true });
     }
-    if (document.querySelector('.anim-fade-up, .anim-fade-left, .anim-fade-right')) {
-      XanhBase.initScrollReveal('.anim-fade-up, .anim-fade-left, .anim-fade-right');
-    }
-    XanhBase.initLucide();
   },
 
   /* ══════════════════════════════════════════
-     FAQ ACCORDION
+     FAQ ACCORDION — delegate to shared XanhBase
      ══════════════════════════════════════════ */
   initFAQ() {
-    const faqList = document.getElementById('faq-list');
-    if (!faqList) return;
-
-    faqList.addEventListener('click', (e) => {
-      const btn = e.target.closest('.faq-item__question');
-      if (!btn) return;
-
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('is-open');
-
-      // Close all
-      faqList.querySelectorAll('.faq-item.is-open').forEach(openItem => {
-        openItem.classList.remove('is-open');
-        openItem.querySelector('.faq-item__question').setAttribute('aria-expanded', 'false');
-        openItem.querySelector('.faq-item__answer').style.maxHeight = '0';
-      });
-
-      // Open clicked (toggle)
-      if (!isOpen) {
-        item.classList.add('is-open');
-        btn.setAttribute('aria-expanded', 'true');
-        const answer = item.querySelector('.faq-item__answer');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-      }
-    });
+    XanhBase.initFAQ('faq-list');
   },
 
   /* ══════════════════════════════════════════

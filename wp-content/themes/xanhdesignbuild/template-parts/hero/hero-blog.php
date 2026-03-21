@@ -68,18 +68,18 @@ if ( $hero_image ) {
 	<!-- Content -->
 	<div class="relative z-10 flex flex-col justify-center items-center text-center h-full site-container px-6">
 		<div class="max-w-3xl mx-auto">
-			<span class="blog-hero-el section-eyebrow text-white/60 block mb-5">
+			<span class="hero-el--fast section-eyebrow text-white/60 block mb-5">
 				<?php echo esc_html( $hero_eyebrow ); ?>
 			</span>
-			<h1 class="blog-hero-el section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6">
+			<h1 class="hero-el--fast section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6">
 				<?php echo wp_kses_post( $hero_title ); ?>
 			</h1>
-			<p class="blog-hero-el text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10">
+			<p class="hero-el--fast text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10">
 				<?php echo esc_html( $hero_desc ); ?>
 			</p>
 
 			<!-- Search Bar -->
-			<div class="blog-hero-el blog-search-wrapper relative max-w-lg mx-auto">
+			<div class="hero-el--fast blog-search-wrapper relative max-w-lg mx-auto">
 				<form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="blog-search relative">
 					<i data-lucide="search" class="blog-search__icon absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 z-10"></i>
 					<input

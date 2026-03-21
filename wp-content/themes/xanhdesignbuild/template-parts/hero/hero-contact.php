@@ -53,15 +53,15 @@ $img_id  = $hero_image['ID'] ?? null;
 	<div class="contact-hero__center">
 		<div class="contact-hero__content-center">
 			<!-- Breadcrumb -->
-			<nav class="contact-hero__breadcrumb contact-hero-el" aria-label="Breadcrumb">
+			<nav class="contact-hero__breadcrumb hero-el--fast" aria-label="Breadcrumb">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Trang Chủ', 'xanh' ); ?></a>
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
 				<span><?php esc_html_e( 'Liên Hệ', 'xanh' ); ?></span>
 			</nav>
-			<h1 class="section-title contact-hero__title contact-hero-el">
+			<h1 class="section-title contact-hero__title hero-el--fast">
 				<?php echo wp_kses_post( $hero_title ); ?>
 			</h1>
-			<p class="contact-hero__subtitle contact-hero-el">
+			<p class="contact-hero__subtitle hero-el--fast">
 				<?php echo esc_html( wp_strip_all_tags( $hero_subtitle ) ); ?>
 			</p>
 		</div>

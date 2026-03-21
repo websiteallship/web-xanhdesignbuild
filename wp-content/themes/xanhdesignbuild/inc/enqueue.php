@@ -295,7 +295,8 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 	if ( is_singular( 'post' ) ) {
 		wp_enqueue_style( 'xanh-blog', "$uri/assets/css/pages/blog.css", $deps_css, $ver );
 		wp_enqueue_style( 'xanh-blog-detail', "$uri/assets/css/pages/blog-detail.css", [ 'xanh-blog' ], $ver );
-		wp_enqueue_script( 'xanh-blog-js', "$uri/assets/js/pages/blog.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
+		/* blog.js not needed on single posts — it handles search, load more,
+		   and lead magnet features for the blog listing page only. */
 		wp_enqueue_script( 'xanh-blog-detail-js', "$uri/assets/js/pages/blog-detail.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 	}
 

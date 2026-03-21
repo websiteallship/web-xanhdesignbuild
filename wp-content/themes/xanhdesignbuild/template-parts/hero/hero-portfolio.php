@@ -73,13 +73,13 @@ if ( $hero_image ) {
 	<div class="absolute inset-0 bg-gradient-to-b from-black/60 via-primary/50 to-primary/80 z-[1]"></div>
 	<div class="relative z-10 flex flex-col justify-center items-center text-center h-full site-container px-6">
 		<div class="max-w-3xl mx-auto">
-			<span class="portfolio-hero-el section-eyebrow text-white/60 block mb-5">
+			<span class="hero-el--fast section-eyebrow text-white/60 block mb-5">
 				<?php echo esc_html( $hero_eyebrow ); ?>
 			</span>
-			<h1 class="portfolio-hero-el section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6">
+			<h1 class="hero-el--fast section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6">
 				<?php echo wp_kses_post( $hero_title ); ?>
 			</h1>
-			<p class="portfolio-hero-el text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+			<p class="hero-el--fast text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
 				<?php echo esc_html( $hero_desc ); ?>
 			</p>
 		</div>

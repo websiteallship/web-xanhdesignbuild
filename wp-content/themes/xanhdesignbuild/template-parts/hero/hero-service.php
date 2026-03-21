@@ -68,13 +68,13 @@ if ( $image ) {
 	<!-- Centered content -->
 	<div class="relative z-10 flex flex-col justify-center items-center text-center h-full site-container px-6">
 		<div class="max-w-3xl mx-auto">
-			<h1 class="service-hero-el section-eyebrow text-white/60 block mb-5">
+			<h1 class="hero-el--fast section-eyebrow text-white/60 block mb-5">
 				<?php echo esc_html( $eyebrow ); ?>
 			</h1>
-			<span class="service-hero-el section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6 block">
+			<span class="hero-el--fast section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6 block">
 				<?php echo wp_kses_post( $title ); ?>
 			</span>
-			<p class="service-hero-el text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+			<p class="hero-el--fast text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
 				<?php echo wp_kses_post( $desc ); ?>
 			</p>
 		</div>

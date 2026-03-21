@@ -16,7 +16,53 @@ const XanhBlogDetail = {
     this.initTOC();
     this.initSocialShare();
     this.initLightbox();
+    this.initLeadMagnet();
     this.initCleanup();
+  },
+
+  /* ============================================= */
+  /* LEAD MAGNET — 3D Book Tilt                     */
+  /* ============================================= */
+  initLeadMagnet() {
+    const wrapper = document.getElementById('lead-magnet-book-wrapper');
+    const book    = document.getElementById('lead-magnet-book');
+    if (!wrapper || !book) return;
+
+    /* Respect reduced motion */
+    const prefersReducedMotion = typeof XanhBase !== 'undefined' ? XanhBase.prefersReducedMotion() : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const MAX_TILT = 8; /* degrees */
+    const BASE_TRANSFORM = 'rotateY(-18deg) rotateX(4deg)';
+    let rafId = null;
+    let targetX = 0;
+    let targetY = 0;
+
+    const onMove = (e) => {
+      const rect = wrapper.getBoundingClientRect();
+      /* Normalized -1 → +1 */
+      const nx = ((e.clientX - rect.left)  / rect.width  - 0.5) * 2;
+      const ny = ((e.clientY - rect.top)   / rect.height - 0.5) * 2;
+
+      targetY =  nx * MAX_TILT;   /* left/right → rotateY */
+      targetX = -ny * MAX_TILT;   /* up/down    → rotateX */
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          book.style.transform =
+            `rotateY(${(-18 + targetY).toFixed(2)}deg) rotateX(${(4 + targetX).toFixed(2)}deg)`;
+          rafId = null;
+        });
+      }
+    };
+
+    const onLeave = () => {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      book.style.transform = BASE_TRANSFORM;
+    };
+
+    wrapper.addEventListener('mousemove', onMove, { passive: true });
+    wrapper.addEventListener('mouseleave', onLeave);
   },
 
   // 0. Lightbox for article images (custom — no navigation, zoom in/out)

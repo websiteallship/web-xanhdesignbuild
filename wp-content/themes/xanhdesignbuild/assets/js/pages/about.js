@@ -30,7 +30,7 @@ const XanhAbout = {
 
     // Hero entrance — delegate to Base if available.
     if (typeof XanhBase !== 'undefined' && XanhBase.initHeroReveal) {
-      XanhBase.initHeroReveal('.about-hero__bg', '.about-hero-el');
+      XanhBase.initHeroReveal('.about-hero__bg', '.hero-el--slow');
     }
 
     this.initVideoModal();
@@ -61,42 +61,11 @@ const XanhAbout = {
     }
   },
 
-  /* ── Video Modal ── */
+  /* ── Video Modal — delegate to shared XanhBase ── */
   initVideoModal() {
-    const videoPlayBtn = document.getElementById('video-play-btn');
-    const videoModal = document.getElementById('video-modal');
-    const videoModalBackdrop = document.getElementById('video-modal-backdrop');
-    const videoModalClose = document.getElementById('video-modal-close');
-    const videoIframe = document.getElementById('video-iframe');
-
-    if (!videoPlayBtn || !videoModal) return;
-
-    const VIDEO_URL = videoPlayBtn.dataset.videoUrl ||
-      'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
-
-    const openModal = () => {
-      if (videoIframe) videoIframe.src = VIDEO_URL;
-      videoModal.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-      if (this.lenis) this.lenis.stop();
-    };
-
-    const closeModal = () => {
-      videoModal.classList.remove('is-open');
-      document.body.style.overflow = '';
-      setTimeout(() => { if (videoIframe) videoIframe.src = ''; }, 400);
-      if (this.lenis) this.lenis.start();
-    };
-
-    videoPlayBtn.addEventListener('click', openModal);
-    if (videoModalClose) videoModalClose.addEventListener('click', closeModal);
-    if (videoModalBackdrop) videoModalBackdrop.addEventListener('click', closeModal);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && videoModal.classList.contains('is-open')) {
-        closeModal();
-      }
-    });
+    if (typeof XanhBase !== 'undefined' && XanhBase.initVideoModal) {
+      XanhBase.initVideoModal();
+    }
   },
 
   /* ── Unified Entrance Animations (.anim-fade-up) ── */

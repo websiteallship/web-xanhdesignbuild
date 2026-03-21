@@ -111,7 +111,6 @@ const XanhBase = {
 
     const startScale = options.startScale || 1.06;
 
-    gsap.registerPlugin(ScrollTrigger);
     gsap.fromTo(img,
       { scale: startScale },
       {
@@ -235,7 +234,6 @@ const XanhBase = {
 
     /* ── GSAP path ── */
     if (useGSAP && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      gsap.registerPlugin(ScrollTrigger);
 
       counters.forEach(counter => {
         const target = parseFloat(counter.dataset[dataAttr]);
@@ -337,6 +335,156 @@ const XanhBase = {
     );
 
     allAnimEls.forEach(el => observer.observe(el));
+  },
+
+  /* ══════════════════════════════════════════
+     12. Debounce Utility
+     ══════════════════════════════════════════ */
+  /**
+   * Debounce helper — delays fn by `wait` ms (default 150).
+   * @param {Function} fn
+   * @param {number} wait
+   * @returns {Function}
+   */
+  debounce(fn, wait = 150) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(null, args), wait);
+    };
+  },
+
+  /* ══════════════════════════════════════════
+     13. Video Modal (shared by home / about)
+     ══════════════════════════════════════════ */
+  /**
+   * Bind video play button → open YouTube modal, with Lenis pause/resume + ESC.
+   * Expects DOM structure:
+   *   #video-play-btn[data-video-url], #video-modal, #video-modal-backdrop,
+   *   #video-modal-close, #video-iframe[data-src]
+   */
+  initVideoModal() {
+    const videoPlayBtn    = document.getElementById('video-play-btn');
+    const videoModal      = document.getElementById('video-modal');
+    const videoModalBackdrop = document.getElementById('video-modal-backdrop');
+    const videoModalClose = document.getElementById('video-modal-close');
+    const videoIframe     = document.getElementById('video-iframe');
+
+    if (!videoPlayBtn || !videoModal) return;
+
+    const videoSrc = (videoIframe && videoIframe.dataset.src)
+      ? videoIframe.dataset.src
+      : (videoPlayBtn.dataset.videoUrl || '');
+
+    const self = this;
+
+    const openModal = () => {
+      if (videoIframe && videoSrc) videoIframe.src = videoSrc;
+      videoModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      const lenis = self.getLenis();
+      if (lenis) lenis.stop();
+    };
+
+    const closeModal = () => {
+      videoModal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      setTimeout(() => { if (videoIframe) videoIframe.src = ''; }, 400);
+      const lenis = self.getLenis();
+      if (lenis) lenis.start();
+    };
+
+    videoPlayBtn.addEventListener('click', openModal);
+    if (videoModalClose) videoModalClose.addEventListener('click', closeModal);
+    if (videoModalBackdrop) videoModalBackdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && videoModal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  },
+
+  /* ══════════════════════════════════════════
+     14. FAQ Accordion (shared by contact / service-detail)
+     ══════════════════════════════════════════ */
+  /**
+   * Accordion FAQ: event delegation on #faq-list.
+   * Toggle .is-open + maxHeight on .faq-item__answer.
+   * @param {string} listId  Default 'faq-list'.
+   */
+  initFAQ(listId = 'faq-list') {
+    const faqList = document.getElementById(listId);
+    if (!faqList) return;
+
+    faqList.addEventListener('click', (e) => {
+      const btn = e.target.closest('.faq-item__question');
+      if (!btn) return;
+
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('is-open');
+
+      // Close all
+      faqList.querySelectorAll('.faq-item.is-open').forEach(openItem => {
+        openItem.classList.remove('is-open');
+        openItem.querySelector('.faq-item__question').setAttribute('aria-expanded', 'false');
+        openItem.querySelector('.faq-item__answer').style.maxHeight = '0';
+      });
+
+      // Open clicked (toggle)
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+        const answer = item.querySelector('.faq-item__answer');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  },
+
+  /* ══════════════════════════════════════════
+     15. Before/After Drag Slider (shared)
+     ══════════════════════════════════════════ */
+  /**
+   * Init pointer-based drag slider for all .ba-custom-slider elements.
+   * Supports Before/After clip-path reveal via handles.
+   * Skips elements that already have _dragInit flag.
+   */
+  initBASliders() {
+    document.querySelectorAll('.ba-custom-slider').forEach(slider => {
+      if (slider._dragInit) return;
+      slider._dragInit = true;
+
+      const beforeClip = slider.querySelector('.ba-custom-slider__before');
+      const handle     = slider.querySelector('.ba-custom-slider__handle');
+      if (!beforeClip || !handle) return;
+
+      let isDragging = false;
+
+      function setPos(pct) {
+        pct = Math.max(0, Math.min(100, pct));
+        beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+        handle.style.left = pct + '%';
+      }
+
+      function getPct(e) {
+        const r = slider.getBoundingClientRect();
+        return ((e.clientX - r.left) / r.width) * 100;
+      }
+
+      slider.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        isDragging = true;
+        slider.setPointerCapture(e.pointerId);
+        setPos(getPct(e));
+      });
+      slider.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        setPos(getPct(e));
+      });
+      slider.addEventListener('pointerup', () => { isDragging = false; });
+      slider.addEventListener('pointercancel', () => { isDragging = false; });
+      setPos(50);
+    });
   },
 };
 

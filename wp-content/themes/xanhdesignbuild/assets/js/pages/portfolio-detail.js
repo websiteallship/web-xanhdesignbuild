@@ -16,8 +16,11 @@ const XanhPortfolioDetail = {
   init() {
     this.prefersReducedMotion = XanhBase.prefersReducedMotion();
 
-    XanhBase.initLucide();
-    this.lenis = XanhBase.initLenis({ lerp: 0.07 });
+    /* Grab Lenis instance from main.js — do NOT re-init */
+    this.lenis = XanhBase.getLenis ? XanhBase.getLenis() : null;
+
+    /* Page-specific init only — global init (Lenis, Lucide,
+       GSAP register, ScrollReveal) already runs in main.js */
     this.initHeroReveal();
 
     if (!this.prefersReducedMotion) {
@@ -91,10 +94,17 @@ const XanhPortfolioDetail = {
     if (!mainEl || !thumbsEl) return;
 
     try {
+      /* Count real slides (exclude Swiper duplicates) to decide loop safety */
+      const realSlideCount = thumbsEl.querySelectorAll(
+        '.swiper-slide:not(.swiper-slide-duplicate)'
+      ).length;
+      const minForLoop = 5;              /* slidesPerView (4) + 1 */
+      const useLoop = realSlideCount >= minForLoop;
+
       const thumbsSwiper = new Swiper(thumbsEl, {
         spaceBetween: 12,
         slidesPerView: 4,
-        loop: true,
+        loop: useLoop,
         watchSlidesProgress: true,
         navigation: {
           prevEl: '.ba-nav-prev',
@@ -119,66 +129,23 @@ const XanhPortfolioDetail = {
       const mainSwiper = new Swiper(mainEl, {
         spaceBetween: 0,
         slidesPerView: 1,
-        loop: true,
+        loop: useLoop,
         allowTouchMove: false,
         thumbs: { swiper: thumbsSwiper },
       });
 
       // Init custom drag sliders after Swiper is ready
-      this._initCustomDragSliders();
+      XanhBase.initBASliders();
 
-      // Re-init drag sliders when slide changes (loop creates duplicates)
       mainSwiper.on('slideChangeTransitionEnd', () => {
-        this._initCustomDragSliders();
+        XanhBase.initBASliders();
       });
     } catch (error) {
       console.warn('[XANH] Before/After slider init failed:', error.message);
     }
   },
 
-  /* ── Custom Drag Slider Logic (pointer-based, matching homepage) ── */
-  _initCustomDragSliders() {
-    const sliders = document.querySelectorAll('.ba-custom-slider');
-    sliders.forEach(slider => {
-      // Skip if already initialized
-      if (slider._dragInit) return;
-      slider._dragInit = true;
-
-      const beforeClip = slider.querySelector('.ba-custom-slider__before');
-      const handle = slider.querySelector('.ba-custom-slider__handle');
-      if (!beforeClip || !handle) return;
-
-      let isDragging = false;
-
-      function setPosition(pct) {
-        pct = Math.max(0, Math.min(100, pct));
-        beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-        handle.style.left = pct + '%';
-      }
-
-      function getPercent(e) {
-        const rect = slider.getBoundingClientRect();
-        return ((e.clientX - rect.left) / rect.width) * 100;
-      }
-
-      slider.addEventListener('pointerdown', (e) => {
-        isDragging = true;
-        slider.setPointerCapture(e.pointerId);
-        setPosition(getPercent(e));
-      });
-
-      slider.addEventListener('pointermove', (e) => {
-        if (!isDragging) return;
-        setPosition(getPercent(e));
-      });
-
-      slider.addEventListener('pointerup', () => { isDragging = false; });
-      slider.addEventListener('pointercancel', () => { isDragging = false; });
-
-      // Set initial position at 50%
-      setPosition(50);
-    });
-  },
+  /* ── Custom Drag Slider Logic — delegated to XanhBase.initBASliders() ── */
 
   /* ══════════════════════════════════════════
      Lightbox for Before/After (D5)
@@ -277,7 +244,7 @@ const XanhPortfolioDetail = {
         </div>
       `;
       // Init drag on the new lightbox slider
-      this._initCustomDragSliders();
+      XanhBase.initBASliders();
       if (titleEl) titleEl.textContent = s.title;
       if (counterEl) counterEl.textContent = `${index + 1} / ${slides.length}`;
       this._updateLightboxThumbs(thumbsWrap, index);

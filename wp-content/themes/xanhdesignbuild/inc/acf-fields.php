@@ -3162,9 +3162,9 @@ function xanh_register_contact_page_fields()
 		'location' => [
 			[
 				[
-					'param' => 'page',
+					'param' => 'page_template',
 					'operator' => '==',
-					'value' => 'lien-he',
+					'value' => 'page-contact.php',
 				],
 			],
 		],
