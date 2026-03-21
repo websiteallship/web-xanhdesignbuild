@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.0"
+  },
+  "dependencies": {
+    "basic-ftp": "^5.2.0"
   }
 }

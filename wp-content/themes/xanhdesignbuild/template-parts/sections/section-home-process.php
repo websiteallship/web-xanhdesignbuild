@@ -14,7 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $uploads = content_url( '/uploads/2026/03/' );
 
-$steps = [
+// ACF data with fallbacks.
+$eyebrow  = get_field( 'process_eyebrow' ) ?: 'Quy Trình';
+$headline = get_field( 'process_headline' ) ?: 'Chúng Tôi Đồng Hành Cùng Bạn<br>Đến Từng Viên Gạch Cuối Cùng';
+$subtitle = get_field( 'process_subtitle' ) ?: 'Hành trình kiến tạo tổ ấm bắt đầu từ một cuộc trò chuyện — mỗi bước đi đều được đồng hành tận tâm.';
+
+$default_steps = [
 	[
 		'num'   => '01',
 		'title' => 'Tư Vấn',
@@ -52,6 +57,24 @@ $steps = [
 		'img'   => $uploads . 'process-06.png',
 	],
 ];
+
+// ACF repeater → map to our format, or use defaults.
+$acf_steps = get_field( 'process_steps' );
+if ( is_array( $acf_steps ) && ! empty( $acf_steps[0]['title'] ?? '' ) ) {
+	$steps = [];
+	foreach ( $acf_steps as $i => $item ) {
+		$fb    = $default_steps[ $i ] ?? $default_steps[0];
+		$image = $item['image'] ?? null;
+		$steps[] = [
+			'num'   => $item['num'] ?? $fb['num'],
+			'title' => $item['title'] ?? $fb['title'],
+			'desc'  => $item['desc'] ?? $fb['desc'],
+			'img'   => is_array( $image ) ? $image['url'] : ( $fb['img'] ?? '' ),
+		];
+	}
+} else {
+	$steps = $default_steps;
+}
 ?>
 
 <section id="process" class="process-section bg-white">
@@ -59,12 +82,14 @@ $steps = [
 
 		<!-- Section Header -->
 		<div class="section-header section-header--center">
-			<p class="anim-fade-up section-eyebrow">Quy Trình</p>
+			<p class="anim-fade-up section-eyebrow">
+				<?php echo esc_html( $eyebrow ); ?>
+			</p>
 			<h2 class="anim-fade-up section-title text-primary">
-				Chúng Tôi Đồng Hành Cùng Bạn<br>Đến Từng Viên Gạch Cuối Cùng
+				<?php echo wp_kses_post( $headline ); ?>
 			</h2>
 			<p class="anim-fade-up section-subtitle">
-				Hành trình kiến tạo tổ ấm bắt đầu từ một cuộc trò chuyện — mỗi bước đi đều được đồng hành tận tâm.
+				<?php echo esc_html( $subtitle ); ?>
 			</p>
 		</div>
 

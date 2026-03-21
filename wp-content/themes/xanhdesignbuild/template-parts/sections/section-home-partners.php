@@ -12,16 +12,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$partners = [
-	[ 'name' => 'Dulux',             'alt' => 'Dulux — Đối tác sơn cao cấp' ],
-	[ 'name' => 'An Cường',          'alt' => 'An Cường — Đối tác gỗ công nghiệp' ],
-	[ 'name' => 'Schneider Electric', 'alt' => 'Schneider Electric — Đối tác thiết bị điện' ],
-	[ 'name' => 'Häfele',            'alt' => 'Häfele — Đối tác phụ kiện nội thất' ],
-	[ 'name' => 'Panasonic',         'alt' => 'Panasonic — Đối tác thiết bị điện tử' ],
-	[ 'name' => 'Vicostone',         'alt' => 'Vicostone — Đối tác đá thạch anh' ],
-	[ 'name' => 'Eurowindow',        'alt' => 'Eurowindow — Đối tác cửa sổ' ],
-	[ 'name' => 'Inax',              'alt' => 'Inax — Đối tác thiết bị vệ sinh' ],
+// ACF data with fallbacks.
+$default_partners = [
+	[ 'name' => 'Dulux',             'logo' => null, 'url' => '' ],
+	[ 'name' => 'An Cường',          'logo' => null, 'url' => '' ],
+	[ 'name' => 'Schneider Electric', 'logo' => null, 'url' => '' ],
+	[ 'name' => 'Häfele',            'logo' => null, 'url' => '' ],
+	[ 'name' => 'Panasonic',         'logo' => null, 'url' => '' ],
+	[ 'name' => 'Vicostone',         'logo' => null, 'url' => '' ],
+	[ 'name' => 'Eurowindow',        'logo' => null, 'url' => '' ],
+	[ 'name' => 'Inax',              'logo' => null, 'url' => '' ],
 ];
+
+$acf_partners = get_field( 'partners_items' );
+$partners     = ( is_array( $acf_partners ) && ! empty( $acf_partners[0]['name'] ?? '' ) )
+	? $acf_partners
+	: $default_partners;
 ?>
 
 <section id="partners" class="partners-section" aria-label="Đối tác chiến lược">
@@ -30,10 +36,21 @@ $partners = [
 
 		<div class="swiper partners-swiper anim-fade-up" id="partners-swiper">
 			<div class="swiper-wrapper">
-				<?php foreach ( $partners as $partner ) : ?>
+				<?php foreach ( $partners as $partner ) :
+					$logo = $partner['logo'] ?? null;
+					$url  = $partner['url'] ?? '';
+				?>
 					<div class="swiper-slide">
 						<div class="partner-logo">
-							<span class="partner-logo__text"><?php echo esc_html( $partner['name'] ); ?></span>
+							<?php if ( is_array( $logo ) && ! empty( $logo['ID'] ) ) : ?>
+								<?php echo wp_get_attachment_image( $logo['ID'], 'medium', false, [
+									'class'   => 'partner-logo__img',
+									'alt'     => esc_attr( $partner['name'] ),
+									'loading' => 'lazy',
+								] ); ?>
+							<?php else : ?>
+								<span class="partner-logo__text"><?php echo esc_html( $partner['name'] ); ?></span>
+							<?php endif; ?>
 						</div>
 					</div>
 				<?php endforeach; ?>

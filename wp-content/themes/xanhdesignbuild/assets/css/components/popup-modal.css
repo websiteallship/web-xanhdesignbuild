@@ -24,6 +24,9 @@
     pointer-events: none;
     transition: opacity 0.4s var(--ease-smooth),
                 visibility 0.4s var(--ease-smooth);
+    /* Allow internal scroll even when body/html is locked */
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .x-modal.is-open {
@@ -57,6 +60,19 @@
 /* ── Scroll Lock ── */
 body.is-popup-open {
     overflow: hidden;
+    touch-action: none;
+}
+
+/* Override html overflow set by Lenis.stop() so modal can scroll */
+html.lenis-stopped {
+    overflow: hidden !important;
+}
+
+/* The modal itself must remain scrollable regardless */
+.x-modal.is-open {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 /* ── Hide on Mobile ── */
@@ -106,6 +122,7 @@ body.is-popup-open {
     background: var(--color-primary);
     position: relative;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 /* Decorative SVG circles */
@@ -655,9 +672,20 @@ body.is-popup-open {
         align-items: flex-end;
     }
 
+    .x-modal.is-open {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+    }
+
     .x-modal__box {
         max-height: 92vh;
+        max-height: 92dvh;
         border-radius: 16px 16px 0 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
     }
 
     /* Drag indicator for mobile sheet */

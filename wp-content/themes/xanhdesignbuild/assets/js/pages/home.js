@@ -458,7 +458,7 @@ const XanhProjects = {
         <span class="meta-sep"></span>
         <span class="meta-item"><i data-lucide="clock"></i> ${btn.dataset.duration}</span>
         <span class="meta-sep"></span>
-        <span class="meta-item"><i data-lucide="calendar"></i> ${btn.dataset.year}</span>
+        <span class="meta-item"><i data-lucide="home"></i> ${btn.dataset.type}</span>
       `,
       quote: btn.dataset.quote,
       author: btn.dataset.author,

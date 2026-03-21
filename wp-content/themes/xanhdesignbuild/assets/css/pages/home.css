@@ -1326,16 +1326,18 @@
   }
 
   .cta-actions {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
     margin-bottom: 2rem;
   }
 
-  .cta-actions .btn {
-    width: 100%;
-    justify-content: center;
-    max-width: 260px;
+  .cta-actions .btn,
+  .cta-actions .cta-btn--ghost {
+    white-space: nowrap;
+    font-size: 0.68rem;
+    padding: 0.75rem 1rem;
   }
 
   .cta-badges {

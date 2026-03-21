@@ -255,6 +255,13 @@
         if (lenis && lenis.stop) lenis.stop();
       }
 
+      // Prevent Lenis from intercepting touch events inside the modal.
+      // This ensures mobile users can scroll the popup's internal content.
+      this._touchHandler = (e) => e.stopPropagation();
+      modal.addEventListener('touchstart', this._touchHandler, { passive: true });
+      modal.addEventListener('touchmove',  this._touchHandler, { passive: true });
+      modal.addEventListener('wheel',      this._touchHandler, { passive: true });
+
       // Inject YouTube iframe lazily for video type.
       const videoWrap = modal.querySelector('.x-modal__video-wrap[data-embed-url]');
       if (videoWrap && !videoWrap.querySelector('iframe')) {
@@ -295,6 +302,14 @@
       modal.classList.remove('is-open');
       modal.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('is-popup-open');
+
+      // Remove touch/wheel handlers that prevented Lenis interference.
+      if (this._touchHandler) {
+        modal.removeEventListener('touchstart', this._touchHandler);
+        modal.removeEventListener('touchmove',  this._touchHandler);
+        modal.removeEventListener('wheel',      this._touchHandler);
+        this._touchHandler = null;
+      }
 
       // Resume Lenis smooth scroll if available.
       if (typeof XanhBase !== 'undefined' && XanhBase.getLenis) {

@@ -17,13 +17,15 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;          /* prevent horizontal drag on mobile */
 }
 
 body {
   font-family: var(--font-body);
   color: var(--color-dark);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: hidden;        /* fallback for older browsers */
+  overflow-x: clip;          /* modern: won't create scroll container */
 }
 
 /* ==============================================

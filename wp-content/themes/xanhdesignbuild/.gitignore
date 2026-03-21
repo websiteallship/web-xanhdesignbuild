@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# FTP deploy credentials
+ftp-deploy.js
+
+# OS files
+.DS_Store
+Thumbs.db

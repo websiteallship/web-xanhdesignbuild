@@ -1793,6 +1793,90 @@ function xanh_register_settings_fields()
 			],
 
 
+			/* ══════ TAB 3b: Dịch Vụ — CTA ══════ */
+			[
+				'key' => 'field_tab_services',
+				'label' => 'Dịch Vụ',
+				'type' => 'tab',
+				'placement' => 'left',
+			],
+
+			/* ── Accordion: Services CTA ── */
+			[
+				'key' => 'field_services_acc_cta',
+				'label' => 'CTA Trang Dịch Vụ',
+				'type' => 'accordion',
+				'open' => 1,
+				'multi_expand' => 1,
+			],
+			[
+				'key' => 'field_services_cta_title',
+				'label' => 'Tiêu đề CTA',
+				'name' => 'services_cta_title',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Bạn Đã Sẵn Sàng Kiến Tạo Không Gian Sống Mơ Ước?',
+				'instructions' => 'Cho phép HTML (br, em, strong).',
+			],
+			[
+				'key' => 'field_services_cta_subtitle',
+				'label' => 'Subtitle CTA',
+				'name' => 'services_cta_subtitle',
+				'type' => 'textarea',
+				'rows' => 2,
+				'new_lines' => '',
+				'placeholder' => 'Liên hệ ngay để được tư vấn miễn phí.',
+			],
+			[
+				'key' => 'field_services_cta_bg_image',
+				'label' => 'Ảnh nền CTA',
+				'name' => 'services_cta_bg_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+			],
+			[
+				'key' => 'field_services_cta_btn1_text',
+				'label' => 'Nút chính — Text',
+				'name' => 'services_cta_btn1_text',
+				'type' => 'text',
+				'placeholder' => 'Nhận Tư Vấn Miễn Phí',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_services_cta_btn1_url',
+				'label' => 'Nút chính — URL',
+				'name' => 'services_cta_btn1_url',
+				'type' => 'text',
+				'placeholder' => '/lien-he/',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_services_cta_btn2_text',
+				'label' => 'Nút phụ — Text',
+				'name' => 'services_cta_btn2_text',
+				'type' => 'text',
+				'placeholder' => 'Xem Dự Án Thực Tế',
+				'wrapper' => ['width' => '50'],
+			],
+			[
+				'key' => 'field_services_cta_btn2_url',
+				'label' => 'Nút phụ — URL',
+				'name' => 'services_cta_btn2_url',
+				'type' => 'text',
+				'placeholder' => '/du-an/',
+				'wrapper' => ['width' => '50'],
+			],
+
+			/* ── Accordion: End ── */
+			[
+				'key' => 'field_services_acc_end',
+				'label' => 'Accordion End',
+				'type' => 'accordion',
+				'endpoint' => 1,
+			],
+
 			/* ══════ TAB 4: Blog ══════ */
 			[
 				'key' => 'field_tab_blog',
@@ -1978,15 +2062,48 @@ function xanh_register_settings_fields()
 				'step' => 3,
 				'instructions' => 'Số bài viết hiển thị mỗi trang (mặc định 9).',
 			],
+
+
+			/* ── Accordion: CTA Cuối Bài Viết ── */
 			[
-				'key' => 'field_blog_show_sidebar',
-				'label' => 'Hiện Sidebar?',
-				'name' => 'blog_show_sidebar',
-				'type' => 'true_false',
-				'default_value' => 0,
-				'ui' => 1,
-				'ui_on_text' => 'Có',
-				'ui_off_text' => 'Không',
+				'key' => 'field_blog_acc_detail_cta',
+				'label' => 'CTA Cuối Bài Viết',
+				'type' => 'accordion',
+				'open' => 0,
+				'multi_expand' => 1,
+			],
+			[
+				'key' => 'field_blog_detail_cta_eyebrow',
+				'label' => 'Eyebrow',
+				'name' => 'blog_detail_cta_eyebrow',
+				'type' => 'text',
+				'placeholder' => 'Tư Vấn Miễn Phí',
+				'instructions' => 'Dòng chữ nhỏ phía trên tiêu đề CTA cuối bài viết.',
+			],
+			[
+				'key' => 'field_blog_detail_cta_headline',
+				'label' => 'Tiêu đề',
+				'name' => 'blog_detail_cta_headline',
+				'type' => 'text',
+				'placeholder' => 'Bạn Đang Lên Kế Hoạch Xây Nhà?',
+			],
+			[
+				'key' => 'field_blog_detail_cta_description',
+				'label' => 'Mô tả',
+				'name' => 'blog_detail_cta_description',
+				'type' => 'textarea',
+				'rows' => 3,
+				'new_lines' => '',
+				'placeholder' => 'Để lại thông tin, chuyên gia XANH sẽ liên hệ tư vấn và lập bảng khái toán chi tiết cho dự án của bạn — hoàn toàn miễn phí.',
+				'instructions' => 'Cho phép HTML đơn giản (strong, em).',
+			],
+			[
+				'key' => 'field_blog_detail_cta_trust',
+				'label' => 'Trust Text',
+				'name' => 'blog_detail_cta_trust',
+				'type' => 'text',
+				'placeholder' => 'Bảo mật thông tin. XANH cam kết không spam.',
+				'instructions' => 'Dòng nhỏ dưới form — tạo sự tin tưởng.',
 			],
 
 			/* ── Accordion: End ── */
@@ -3245,6 +3362,15 @@ function xanh_register_service_detail_fields()
 				'type' => 'textarea',
 				'rows' => 2,
 				'instructions' => 'Cho phép &lt;strong&gt;.',
+			],
+			[
+				'key' => 'field_sv_features_bg_image',
+				'label' => 'Ảnh nền Section',
+				'name' => 'sv_features_bg_image',
+				'type' => 'image',
+				'return_format' => 'array',
+				'preview_size' => 'medium',
+				'instructions' => 'Ảnh nền mờ phía sau section Features (opacity 20%).',
 			],
 			[
 				'key' => 'field_sv_features_items',
