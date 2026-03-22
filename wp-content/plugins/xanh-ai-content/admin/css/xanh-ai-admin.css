@@ -1,0 +1,514 @@
+/**
+ * XANH AI Content Generator — Admin Styles
+ *
+ * Brand: XANH Design & Build
+ * Colors: Emerald green, beige, orange accent
+ * Font: Inter
+ *
+ * @package Xanh_AI_Content
+ * @since   1.0.0
+ */
+
+/* === Layout & Input Utilities === */
+
+/* API Key field wrapper */
+.xanh-ai-api-key-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.xanh-ai-api-key-wrapper .description {
+	flex-basis: 100%;
+	margin-top: 4px;
+}
+
+/* API Key status badge */
+.xanh-ai-key-status {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 13px;
+	padding: 2px 8px;
+	border-radius: 4px;
+	background: #e5f5fa;
+	color: #007cba;
+	border: 1px solid #a7ddec;
+}
+
+.xanh-ai-key-status--active {
+	background: #edfaef;
+	color: #00a32a;
+	border-color: #ade2b5;
+}
+
+/* Range Slider */
+.xanh-ai-range-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.xanh-ai-range-value {
+	display: inline-block;
+	min-width: 32px;
+	padding: 2px 6px;
+	background: #fff;
+	border: 1px solid #8c8f94;
+	border-radius: 3px;
+	text-align: center;
+	font-weight: 600;
+	color: #3c434a;
+}
+
+/* Test Connection Display */
+#xanh-ai-test-result {
+	margin-left: 8px;
+	font-weight: 500;
+}
+
+.xanh-ai-test-success {
+	color: #00a32a;
+}
+
+.xanh-ai-test-error {
+	color: #d63638;
+}
+
+.xanh-ai-test-loading {
+	color: #646970;
+	font-style: italic;
+}
+
+/* ═══ GENERATOR PAGE ═══ */
+
+/* Angle Card Grid */
+.xanh-ai-angle-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 16px;
+	margin: 16px 0;
+}
+
+.xanh-ai-angle-card {
+	background: #fff;
+	border: 2px solid #dcdcde;
+	border-radius: 8px;
+	padding: 20px 16px;
+	cursor: pointer;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+	text-align: center;
+}
+
+.xanh-ai-angle-card:hover {
+	border-color: #2271b1;
+	box-shadow: 0 2px 8px rgba(34, 113, 177, 0.15);
+	transform: translateY(-2px);
+}
+
+.xanh-ai-angle-card.selected {
+	border-color: #2271b1;
+	background: #f0f7ff;
+	box-shadow: 0 0 0 2px #2271b1;
+}
+
+.xanh-ai-angle-icon {
+	font-size: 32px;
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	margin-bottom: 8px;
+	color: #646970;
+	transition: color 0.2s;
+}
+
+.xanh-ai-angle-card:hover .xanh-ai-angle-icon,
+.xanh-ai-angle-card.selected .xanh-ai-angle-icon {
+	color: #2271b1;
+}
+
+.xanh-ai-angle-card h3 {
+	margin: 4px 0;
+	font-size: 15px;
+	color: #1d2327;
+}
+
+.xanh-ai-angle-tone {
+	font-size: 12px;
+	color: #646970;
+	margin: 4px 0;
+}
+
+.xanh-ai-angle-words {
+	font-size: 11px;
+	color: #8c8f94;
+	margin: 0;
+}
+
+/* Selected angle info */
+.xanh-ai-selected-angle {
+	background: #f0f7ff;
+	border: 1px solid #c3d9ed;
+	border-radius: 4px;
+	padding: 12px 16px;
+	margin-bottom: 16px;
+	font-size: 14px;
+}
+
+/* Keyword Suggestions */
+.xanh-ai-keyword-suggestions {
+	margin-top: 8px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
+
+.xanh-ai-suggestion-label {
+	font-size: 12px;
+	color: #646970;
+}
+
+.xanh-ai-keyword-btn {
+	font-size: 12px !important;
+	padding: 2px 10px !important;
+	min-height: 26px !important;
+}
+
+/* Progress */
+.xanh-ai-progress {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 16px;
+	background: #f0f7ff;
+	border: 1px solid #c3d9ed;
+	border-radius: 4px;
+	margin-top: 12px;
+	font-size: 14px;
+}
+
+.xanh-ai-progress .spinner {
+	float: none;
+	margin: 0;
+}
+
+/* Score Badge */
+.xanh-ai-score-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	padding: 12px 20px;
+	margin-bottom: 20px;
+	font-size: 18px;
+}
+
+.xanh-ai-score-number {
+	font-size: 28px;
+	font-weight: 700;
+}
+
+.xanh-ai-score-green  { color: #00a32a; }
+.xanh-ai-score-blue   { color: #2271b1; }
+.xanh-ai-score-yellow { color: #dba617; }
+.xanh-ai-score-red    { color: #d63638; }
+
+.xanh-ai-score-label {
+	font-size: 16px;
+	color: #50575e;
+}
+
+/* Score Details Table */
+.xanh-ai-score-details {
+	margin-bottom: 20px;
+}
+
+.xanh-ai-score-details table {
+	max-width: 700px;
+}
+
+/* Preview Fields */
+.xanh-ai-preview-field {
+	margin-bottom: 20px;
+}
+
+.xanh-ai-preview-field > label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 6px;
+	color: #1d2327;
+}
+
+/* Char Counter */
+.xanh-ai-char-count {
+	display: inline-block;
+	font-size: 12px;
+	color: #646970;
+	margin-top: 4px;
+}
+
+.xanh-ai-char-count.over-limit {
+	color: #d63638;
+	font-weight: 600;
+}
+
+/* Content Preview */
+.xanh-ai-preview-content {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	padding: 20px;
+	max-height: 600px;
+	overflow-y: auto;
+	line-height: 1.7;
+}
+
+.xanh-ai-preview-content h2 {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 6px;
+	margin-top: 24px;
+}
+
+.xanh-ai-preview-content table {
+	border-collapse: collapse;
+	width: 100%;
+	margin: 12px 0;
+}
+
+.xanh-ai-preview-content table th,
+.xanh-ai-preview-content table td {
+	border: 1px solid #dcdcde;
+	padding: 8px 12px;
+	text-align: left;
+}
+
+.xanh-ai-preview-content table th {
+	background: #f6f7f7;
+}
+
+.xanh-ai-preview-content blockquote {
+	border-left: 4px solid #2271b1;
+	margin: 12px 0;
+	padding: 8px 16px;
+	background: #f0f7ff;
+	font-style: italic;
+}
+
+/* Section Rewrite Button */
+.xanh-ai-section-actions {
+	margin-bottom: 4px;
+}
+
+.xanh-ai-btn-rewrite {
+	font-size: 12px !important;
+	padding: 2px 10px !important;
+	min-height: 24px !important;
+	color: #2271b1 !important;
+}
+
+/* Preview Image */
+.xanh-ai-preview-image {
+	margin-bottom: 8px;
+}
+
+.xanh-ai-preview-image img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 4px;
+	border: 1px solid #dcdcde;
+}
+
+/* FAQ Preview */
+.xanh-ai-preview-faq {
+	margin-top: 20px;
+}
+
+.xanh-ai-faq-item {
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	margin-bottom: 8px;
+	padding: 0;
+}
+
+.xanh-ai-faq-item summary {
+	padding: 10px 16px;
+	cursor: pointer;
+	font-weight: 500;
+}
+
+.xanh-ai-faq-item p {
+	padding: 0 16px 12px;
+	margin: 0;
+	color: #3c434a;
+}
+
+/* Save Result */
+.xanh-ai-save-result {
+	margin-top: 16px;
+	padding: 12px 16px;
+	background: #edfaef;
+	border: 1px solid #ade2b5;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+/* Required asterisk */
+.required {
+	color: #d63638;
+}
+
+/* === Keyword Suggestions === */
+
+.xanh-ai-keyword-suggestions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin-top: 8px;
+}
+
+.xanh-ai-suggestion-label {
+	font-size: 12px;
+	color: #646970;
+	font-weight: 600;
+	flex-basis: 100%;
+	margin-bottom: 2px;
+}
+
+.xanh-ai-suggestion-label--ai {
+	color: #8b5cf6;
+}
+
+.xanh-ai-keyword-btn {
+	font-size: 12px !important;
+	padding: 2px 10px !important;
+	border-radius: 12px !important;
+	min-height: 26px !important;
+	line-height: 22px !important;
+	transition: all 0.15s ease;
+}
+
+.xanh-ai-keyword-btn:hover {
+	background: #2271b1 !important;
+	color: #fff !important;
+	border-color: #2271b1 !important;
+}
+
+.xanh-ai-keyword-btn--ai {
+	border-color: #c4b5fd !important;
+	color: #7c3aed;
+}
+
+.xanh-ai-keyword-btn--ai:hover {
+	background: #7c3aed !important;
+	border-color: #7c3aed !important;
+}
+
+.xanh-ai-keyword-btn.selected {
+	background: #7c3aed !important;
+	color: #fff !important;
+	border-color: #7c3aed !important;
+}
+
+.xanh-ai-ai-suggest-row {
+	flex-basis: 100%;
+	margin-top: 8px;
+}
+
+.xanh-ai-btn-ai-suggest {
+	font-size: 12px !important;
+	border-radius: 6px !important;
+}
+
+.xanh-ai-btn-ai-suggest .spinner {
+	margin-top: 0 !important;
+}
+
+.xanh-ai-ai-keywords {
+	flex-basis: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin-top: 8px;
+	padding: 10px;
+	background: #f9f5ff;
+	border: 1px solid #e9d5ff;
+	border-radius: 6px;
+}
+
+.xanh-ai-ai-keywords:empty {
+	display: none;
+}
+
+/* === Section Image Button === */
+
+.xanh-ai-btn-section-img {
+	background: #f0fdf4 !important;
+	border-color: #86efac !important;
+	color: #166534 !important;
+	margin-left: 4px !important;
+	transition: all 0.15s ease;
+}
+
+.xanh-ai-btn-section-img:hover {
+	background: #166534 !important;
+	color: #fff !important;
+	border-color: #166534 !important;
+}
+
+/* === Section Image Modal === */
+
+.xanh-ai-modal-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.xanh-ai-modal {
+	background: #fff;
+	border-radius: 8px;
+	padding: 24px;
+	width: 600px;
+	max-width: 90vw;
+	max-height: 80vh;
+	overflow-y: auto;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.xanh-ai-modal h3 {
+	margin: 0 0 8px;
+	font-size: 16px;
+}
+
+.xanh-ai-modal textarea {
+	margin-top: 8px;
+}
+
+.xanh-ai-modal-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 12px;
+}
+
+/* === Section Figure in Preview === */
+
+.xanh-ai-section-figure {
+	margin: 1em 0;
+	position: relative;
+}
+
+.xanh-ai-section-figure img {
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

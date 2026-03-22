@@ -3,13 +3,21 @@
 
 # ===== UN-IGNORE: Directories & files to track =====
 
-# Theme
+# WordPress Content
 !wp-content/
 wp-content/*
+
+# Themes
 !wp-content/themes/
 wp-content/themes/*
 !wp-content/themes/xanhdesignbuild/
 !wp-content/themes/xanhdesignbuild/**
+
+# Plugins
+!wp-content/plugins/
+wp-content/plugins/*
+!wp-content/plugins/xanh-ai-content/
+!wp-content/plugins/xanh-ai-content/**
 
 # Wireframes
 !wireframes/

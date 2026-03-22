@@ -1,8 +1,8 @@
-# PLUGIN_AI_ANGLES — 8 Content Angles & Brand Voice Engine
+# PLUGIN_AI_ANGLES — 9 Content Angles & Brand Voice Engine
 
 > **Plugin:** XANH AI Content Generator
 > **Tuân thủ:** `GOV_BRAND_VOICE.md` | `GOV_SEO_STRATEGY.md`
-> **Cập nhật:** 2026-03-20
+> **Cập nhật:** 2026-03-22
 
 ---
 
@@ -136,7 +136,7 @@ Mỗi Angle là 1 bộ cấu hình hoàn chỉnh cho AI, bao gồm prompt, tone,
 | **Tone** | Thought Leader + Visionary |
 | **CTA Primary** | "Khám Phá Các Tác Phẩm" |
 | **Internal Links** | Portfolio, Green Solution, Blog liên quan |
-| **Keyword Cluster** | Cluster 2 (Thông tin) |
+| **Keyword Cluster** | Cluster 4 (Xu Hướng & Phong Cách) |
 | **Min Words** | 1000 |
 | **Image Style** | Modern interior design, trend mood board, editorial |
 
@@ -159,7 +159,7 @@ Mỗi Angle là 1 bộ cấu hình hoàn chỉnh cho AI, bao gồm prompt, tone,
 | **Tone** | Storytelling + Warm |
 | **CTA Primary** | "Xem Hành Trình Dự Án" |
 | **Internal Links** | Portfolio detail (dự án liên quan) |
-| **Keyword Cluster** | Cluster 1 (Thương mại) |
+| **Keyword Cluster** | Cluster 5 (Dự Án & Thi Công) |
 | **Min Words** | 800 |
 | **Image Style** | Construction in progress, behind-the-scenes, workers |
 
@@ -182,7 +182,7 @@ Mỗi Angle là 1 bộ cấu hình hoàn chỉnh cho AI, bao gồm prompt, tone,
 | **Tone** | Proof + Warm Luxury |
 | **CTA Primary** | "Bắt Đầu Câu Chuyện Của Bạn" |
 | **Internal Links** | Portfolio detail, Estimator, Contact |
-| **Keyword Cluster** | Cluster 1 + 3 (Thương mại + Local) |
+| **Keyword Cluster** | Cluster 5 (Dự Án & Thi Công) |
 | **Min Words** | 1200 |
 | **Image Style** | Finished interior, before/after, warm editorial |
 
@@ -192,6 +192,30 @@ Mỗi Angle là 1 bộ cấu hình hoàn chỉnh cho AI, bao gồm prompt, tone,
 **Title Patterns:**
 - "{Type} {Diện tích}m² {Location}: Hành Trình Từ 3D Đến Thực Tế"
 - "Câu Chuyện {Dự án}: Khi Mong Ước Thành Hiện Thực"
+
+---
+
+### Angle 9: ❓ Giải Đáp Thắc Mắc
+
+| Thuộc tính | Giá trị |
+|---|---|
+| **ID** | `qa_problem_solving` |
+| **Mục tiêu** | Trả lời trực tiếp 1 câu hỏi/vấn đề cụ thể của gia chủ |
+| **Category** | `kinh-nghiem-xay-nha` |
+| **Tone** | Direct + Expert |
+| **CTA Primary** | "Đặt Lịch Tư Vấn Riêng" |
+| **CTA Secondary** | "" |
+| **Internal Links** | Contact, Portfolio, Estimator |
+| **Keyword Cluster** | Cluster 2 (Kiến thức & Hỏi Đáp) |
+| **Min Words** | 800 |
+| **Image Style** | Problem/solution visual, FAQ infographic, clean editorial |
+
+**Prompt Instruction:**
+> Viết bài giải đáp 1 câu hỏi hoặc 1 vấn đề cụ thể của gia chủ. Bắt đầu bằng DIRECT ANSWER (trả lời trực diện, ngắn gọn trong 2 câu đầu). Sau đó phân tích DEEP DIVE (nguyên nhân, các yếu tố ảnh hưởng). Cuối cùng là ACTIONABLE ADVICE (giải pháp cụ thể, checklist). Không viết lan man, tập trung 100% vào giải quyết vấn đề. Dùng format Q&A nếu phù hợp.
+
+**Title Patterns:**
+- "[Giải Đáp] {Câu hỏi/Vấn đề của gia chủ}?"
+- "Tại Sao {Vấn đề}? Nguyên Nhân & Cách Xử Lý Triệt Để"
 
 ---
 
@@ -261,10 +285,22 @@ Trả về JSON với cấu trúc:
 
 | Category WP | Slug | Angles áp dụng |
 |---|---|---|
-| 📘 Kinh Nghiệm Xây Nhà | `kinh-nghiem-xay-nha` | service_intro, knowledge, experience, case_study |
+| 📘 Kinh Nghiệm Xây Nhà | `kinh-nghiem-xay-nha` | service_intro, knowledge, experience, case_study, **qa_problem_solving** |
 | 🧱 Vật Liệu Xanh | `vat-lieu-xanh` | product_material |
 | 🌿 Xu Hướng | `xu-huong` | local_seo, trends |
 | 👷 Nhật Ký Xanh | `nhat-ky-xanh` | construction_diary |
+
+### Keyword Cluster Mapping (5 clusters)
+
+| Cluster | Tên | Angles |
+|---|---|---|
+| 1 | Thương mại (Mua intent) | `service_intro` |
+| 2 | Kiến thức & Hỏi Đáp | `product_material`, `knowledge`, `experience`, `qa_problem_solving` |
+| 3 | Local (Địa phương) | `local_seo` |
+| 4 | Xu Hướng & Phong Cách | `trends` |
+| 5 | Dự Án & Thi Công | `construction_diary`, `case_study` |
+
+> Keywords cho mỗi cluster được quản lý qua Settings page (CRUD + CSV/TXT upload). Xem `PLUGIN_AI_ADMIN.md` §1.
 
 ---
 

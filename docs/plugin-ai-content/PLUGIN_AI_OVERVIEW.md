@@ -2,7 +2,7 @@
 
 > **Plugin:** XANH AI Content Generator
 > **Slug:** `xanh-ai-content`
-> **Version:** 1.0.0 | **Ngày tạo:** 2026-03-20 | **Cập nhật:** 2026-03-20
+> **Version:** 1.2.0 | **Ngày tạo:** 2026-03-20 | **Cập nhật:** 2026-03-22
 > **Stack:** PHP 7.4+ | WordPress 6.0+ | Google Gemini API
 > **Text Domain:** `xanh-ai-content`
 
@@ -19,15 +19,15 @@ Plugin tự động tạo bài viết blog + hình ảnh cho website XANH - Desi
 
 ---
 
-## 2. Feature Map — 27 Tính Năng, 3 Phases
+## 2. Feature Map — 30 Tính Năng, 3 Phases
 
-### 🔴 Phase 1 — Core + High Priority (15 features)
+### 🔴 Phase 1 — Core + High Priority (17 features)
 
 | # | Feature | File tham chiếu |
 |---|---|---|
 | 1 | AI Text Generation (Gemini 2.5 Flash) | `PLUGIN_AI_API.md` §1 |
 | 2 | AI Image Generation (Gemini 3.1 Imagen) | `PLUGIN_AI_API.md` §2 |
-| 3 | 8 Content Angles | `PLUGIN_AI_ANGLES.md` |
+| 3 | 9 Content Angles | `PLUGIN_AI_ANGLES.md` |
 | 4 | SEO Auto-Optimizer | `PLUGIN_AI_SEO.md` |
 | 5 | Internal Linking Engine | `PLUGIN_AI_SEO.md` §3 |
 | 6 | Draft Workflow (Generate → Preview → Edit → Save) | `PLUGIN_AI_WORKFLOW.md` §1 |
@@ -38,13 +38,15 @@ Plugin tự động tạo bài viết blog + hình ảnh cho website XANH - Desi
 | 11 | Batch Generate (3-10 posts, queue) | `PLUGIN_AI_WORKFLOW.md` §2 |
 | 12 | Content Calendar Dashboard | `PLUGIN_AI_ADMIN.md` §3 |
 | 13 | AI Regenerate Sections | `PLUGIN_AI_WORKFLOW.md` §3 |
-| 14 | Keyword Suggestion | Auto-suggest từ GOV_SEO_STRATEGY clusters khi chọn Angle |
+| 14 | Keyword Suggestion + Management | Auto-suggest từ 5 keyword clusters khi chọn Angle. CRUD via Settings UI + CSV/TXT upload (merge-dedup) |
 | 15 | Content Score | Chấm điểm SEO + Brand compliance trước publish |
 | 16 | Reference Sources | Upload file (PDF/CSV/MD) hoặc URL bài báo làm căn cứ cho AI |
 | 17 | Source Library | Thư viện nguồn tham khảo global, quản lý expiry, auto-extract data |
 | 18 | Data Integrity Scanner | Tự động detect số liệu AI bịa, cảnh báo trước khi publish |
+| 19 | Reverse Internal Linking | Khi publish bài mới, tự động chèn link vào bài cũ cùng topic | `PLUGIN_AI_SEO.md` §9 |
+| 20 | Automated Advanced JSON-LD Schema | Auto-generate schema nâng cao theo Angle (Article, LocalBusiness, Project) | `PLUGIN_AI_SEO.md` §10 |
 
-### 🟡 Phase 2 — Nâng Cấp (6 features)
+### 🟡 Phase 2 — Nâng Cấp (7 features)
 
 | # | Feature | File |
 |---|---|---|
@@ -54,8 +56,11 @@ Plugin tự động tạo bài viết blog + hình ảnh cho website XANH - Desi
 | 22 | Content Rewriter | `PLUGIN_AI_WORKFLOW.md` §6 |
 | 23 | FAQ Auto-Generate + Schema | `PLUGIN_AI_SEO.md` §7 |
 | 24 | Generation History/Log | `PLUGIN_AI_ADMIN.md` §4 |
+| 25 | Smart Content Updater | Tự động quét bài cũ, cập nhật data/giá/năm, bump publish date | `PLUGIN_AI_WORKFLOW.md` §10 |
 
 ### 🟢 Phase 3 — Nice-to-have (6 features)
+
+> **Note:** Feature numbers adjusted after adding new features above.
 
 | # | Feature | File |
 |---|---|---|
@@ -89,7 +94,7 @@ Plugin tự động tạo bài viết blog + hình ảnh cho website XANH - Desi
 |---|---|
 | `PLUGIN_AI_OVERVIEW.md` | ★ Tổng quan (file này) |
 | `PLUGIN_AI_ARCHITECTURE.md` | Cấu trúc plugin, class diagram, data flow |
-| `PLUGIN_AI_ANGLES.md` | 8 content angles, prompt templates, brand voice |
+| `PLUGIN_AI_ANGLES.md` | 9 content angles, 5 keyword clusters, prompt templates, brand voice |
 | `PLUGIN_AI_API.md` | Gemini API integration (text + image) |
 | `PLUGIN_AI_SEO.md` | SEO engine, content score, keywords |
 | `PLUGIN_AI_WORKFLOW.md` | Quy trình: single, batch, schedule, rewrite |

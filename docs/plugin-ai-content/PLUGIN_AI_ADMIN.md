@@ -1,7 +1,7 @@
 # PLUGIN_AI_ADMIN — Admin UI & Dashboard
 
 > **Plugin:** XANH AI Content Generator
-> **Cập nhật:** 2026-03-20
+> **Cập nhật:** 2026-03-22
 
 ---
 
@@ -67,6 +67,15 @@ function xanh_ai_admin_menu(): void {
 |---|---|---|
 | Default Author | user select | Admin |
 | Default Status | select | `draft` |
+
+#### Keyword Cluster Management
+| Field | Type | Default |
+|---|---|---|
+| Cluster 1-5 Keywords | textarea (mỗi dòng = 1 keyword) | Hardcoded defaults |
+| Import CSV/TXT | file upload + preview | — |
+| Import Mode | — | Merge with de-duplication |
+
+> Keywords được lưu vào `wp_options` key `xanh_ai_keyword_clusters`. Fallback về hardcoded defaults nếu chưa có data.
 
 #### Schedule [P2]
 | Field | Type | Default |

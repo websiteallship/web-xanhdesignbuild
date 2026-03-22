@@ -37,38 +37,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php the_content(); ?>
 	</div>
 
-	<?php
-	/* ── Inline CTA Banner (ACF → Theme Settings → Blog → Inline CTA Banner) ── */
-	$show_inline = get_field( 'blog_show_inline_cta', 'option' );
-	if ( $show_inline ) :
-		$cta_title    = get_field( 'blog_inline_cta_title', 'option' );
-		$cta_subtitle = get_field( 'blog_inline_cta_subtitle', 'option' );
-		$cta_btn_text = get_field( 'blog_inline_cta_btn_text', 'option' );
-		$cta_btn_url  = get_field( 'blog_inline_cta_btn_url', 'option' );
-		$cta_icon     = get_field( 'blog_inline_cta_icon', 'option' );
-
-		// Fallbacks
-		$cta_title    = $cta_title    ?: 'Bạn đang gặp khó khăn trong việc tính toán dự toán dự án?';
-		$cta_subtitle = $cta_subtitle ?: 'Nhận báo giá thiết kế chi tiết với sai số dưới 5% từ đội ngũ KTS XANH ngay hôm nay.';
-		$cta_btn_text = $cta_btn_text ?: 'Tính Dự Toán';
-		$cta_btn_url  = $cta_btn_url  ?: '/lien-he/';
-		$cta_icon     = $cta_icon     ?: 'calculator';
-	?>
-	<div class="inline-banner my-10 bg-primary/5 border border-primary/20 p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 justify-between relative overflow-hidden">
-		<!-- Decorative bg icon -->
-		<div class="absolute -right-10 -bottom-10 opacity-5" aria-hidden="true">
-			<i data-lucide="<?php echo esc_attr( $cta_icon ); ?>" class="w-40 h-40"></i>
-		</div>
-		<div class="relative z-10 flex-1">
-			<h4 class="font-heading font-bold text-xl text-primary mb-2"><?php echo esc_html( $cta_title ); ?></h4>
-			<p class="text-sm text-dark/70 mb-0"><?php echo esc_html( $cta_subtitle ); ?></p>
-		</div>
-		<a href="<?php echo esc_url( $cta_btn_url ); ?>" class="btn btn--primary group relative z-10 whitespace-nowrap">
-			<span><?php echo esc_html( $cta_btn_text ); ?></span>
-			<i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
-		</a>
-	</div>
-	<?php endif; ?>
 
 	<!-- Social Share -->
 	<div class="social-share mt-12 pt-8 border-t border-dark/10 flex flex-wrap items-center justify-between gap-4">

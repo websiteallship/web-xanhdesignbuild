@@ -2,7 +2,7 @@
 
 > **Plugin:** XANH AI Content Generator
 > **APIs:** Gemini 2.5 Flash (text) + Gemini 3.1 Flash Image (image)
-> **Cập nhật:** 2026-03-20
+> **Cập nhật:** 2026-03-22
 
 ---
 
@@ -110,9 +110,22 @@ function xanh_ai_call_gemini_text( string $prompt, array $config = [] ): array|W
     $text = $data['candidates'][0]['content']['parts'][0]['text'] ?? '';
     $tokens = $data['usageMetadata']['totalTokenCount'] ?? 0;
 
+    // Remove markdown code block markers if Gemini wraps the JSON
+    $text = trim( $text );
+    if ( strpos( $text, '```json' ) === 0 ) {
+        $text = substr( $text, 7 );
+    }
+    if ( strpos( $text, '```' ) === 0 ) {
+        $text = substr( $text, 3 );
+    }
+    if ( substr( $text, -3 ) === '```' ) {
+        $text = substr( $text, 0, -3 );
+    }
+    $text = trim( $text );
+
     $parsed = json_decode( $text, true );
     if ( json_last_error() !== JSON_ERROR_NONE ) {
-        return new WP_Error( 'parse_error', 'Không thể parse response từ AI.' );
+        return new WP_Error( 'parse_error', 'Không thể parse response từ AI. Vui lòng thử lại.' );
     }
 
     $parsed['_tokens'] = $tokens;
@@ -207,17 +220,25 @@ function xanh_ai_generate_image( string $prompt ): int|WP_Error {
         ],
     ];
 
+    // Override PHP max execution time for long image generation
+    set_time_limit( 180 );
+
     $response = wp_remote_post( $url, [
         'headers' => [
             'Content-Type'   => 'application/json',
             'x-goog-api-key' => $api_key,
         ],
         'body'    => wp_json_encode( $body ),
-        'timeout' => 120,
+        'timeout' => 120, // Tăng timeout lên 120s cho Imagen 3.1
     ] );
 
+    // HTTP error handling cải tiến: parse error body + xử lý 429 riêng
     if ( is_wp_error( $response ) ) {
-        return $response;
+        return new WP_Error( 'api_error', 'Lỗi kết nối API hình ảnh: ' . $response->get_error_message() );
+    }
+    $code = wp_remote_retrieve_response_code( $response );
+    if ( 429 === $code ) {
+        return new WP_Error( 'api_error', 'API quá tải. Vui lòng đợi 1 phút rồi thử lại.' );
     }
 
     $data      = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -312,7 +333,8 @@ Gemini 3.1 Flash Image hỗ trợ tiếng Việt (`vi-VN`) cho cả text prompt.
 | HTTP error | `api_error` | "Lỗi kết nối API. Vui lòng thử lại." |
 | Parse error | `parse_error` | "AI trả về dữ liệu không hợp lệ. Vui lòng thử lại." |
 | No image | `no_image` | "Không thể tạo hình ảnh. Vui lòng thử prompt khác." |
-| Rate limited | `rate_limited` | "Vui lòng đợi 30 giây trước khi tạo tiếp." |
+| Rate limited (429) | `api_error` | "API quá tải. Vui lòng đợi 1 phút rồi thử lại." |
+| Image timeout | `api_error` | "Tạo ảnh quá thời gian (>120s). API có thể đang quá tải." |
 | Upload fail | `upload_error` | "Không thể lưu hình ảnh. Kiểm tra quyền thư mục uploads." |
 
 ---

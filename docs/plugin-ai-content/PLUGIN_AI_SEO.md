@@ -225,9 +225,11 @@ function xanh_ai_calculate_score( array $post_data ): array {
 }
 ```
 
+> **Client-side Logic:** Khi user sửa bài trong preview panel, score sẽ được tính toán lại realtime qua JavaScript trong `admin/js/xanh-ai-generator.js` (`recalculateScore`), không cần gọi AJAX. Do đó, logic chấm điểm được implement độc lập cả trên PHP và JS.
+
 ---
 
-## 7. FAQ Auto-Generate [P2]
+## 7. FAQ Auto-Generate [P1]
 
 ### Logic
 - AI generate 3-5 câu FAQ liên quan đến chủ đề
@@ -266,8 +268,320 @@ function xanh_ai_build_faq_schema( array $faqs ): array {
 
 ---
 
+## 9. Reverse Internal Linking [P1]
+
+### Concept
+
+Khi publish bài viết mới, plugin **tự động tìm 3-5 bài cũ** cùng category/keyword và **chèn 1 link trỏ ngược** về bài mới vào cuối mỗi bài cũ đó. Điều này giúp Google bot ngay lập tức phát hiện và index bài mới thông qua các bài đã có rank, tạo cấu trúc "Content Silo" khép kín.
+
+### Trigger
+
+```php
+// Hook vào transition_post_status — chỉ khi status chuyển sang 'publish'
+add_action( 'transition_post_status', function ( $new, $old, $post ) {
+    if ( $new !== 'publish' || $old === 'publish' ) {
+        return;
+    }
+    if ( get_post_meta( $post->ID, '_xanh_ai_generated', true ) !== '1' ) {
+        return;
+    }
+    Xanh_AI_Backlinks::inject_reverse_links( $post->ID );
+}, 20, 3 );
+```
+
+### Tìm Bài Liên Quan
+
+```php
+function xanh_ai_find_related_posts( int $post_id, int $limit = 5 ): array {
+    $categories = wp_get_post_categories( $post_id );
+    $keyword    = get_post_meta( $post_id, '_xanh_ai_primary_keyword', true );
+
+    $args = [
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => $limit,
+        'post__not_in'   => [ $post_id ],
+        'category__in'   => $categories,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'meta_query'     => [
+            [
+                'key'     => '_xanh_ai_generated',
+                'value'   => '1',
+                'compare' => '=',
+            ],
+        ],
+    ];
+
+    // Ưu tiên bài cùng keyword cluster
+    if ( ! empty( $keyword ) ) {
+        $args['s'] = $keyword;
+    }
+
+    $posts = apply_filters( 'xanh_ai_backlink_candidates', get_posts( $args ), $post_id );
+    return $posts;
+}
+```
+
+### Chèn Link Vào Bài Cũ
+
+```php
+function xanh_ai_inject_backlink( int $target_post_id, int $new_post_id ): bool {
+    $target_content = get_post_field( 'post_content', $target_post_id );
+    $new_title      = get_the_title( $new_post_id );
+    $new_url        = get_permalink( $new_post_id );
+
+    // Kiểm tra link chưa tồn tại
+    if ( stripos( $target_content, $new_url ) !== false ) {
+        return false;
+    }
+
+    // Tạo block "Bài viết liên quan" hoặc append vào cuối
+    $link_html = sprintf(
+        "\n\n<!-- xanh-ai-backlink -->\n<p><strong>📖 Đọc thêm:</strong> <a href=\"%s\">%s</a></p>",
+        esc_url( $new_url ),
+        esc_html( $new_title )
+    );
+
+    $updated_content = $target_content . $link_html;
+    wp_update_post( [
+        'ID'           => $target_post_id,
+        'post_content' => $updated_content,
+    ] );
+
+    // Track: lưu danh sách post đã chèn link
+    $injected = get_post_meta( $new_post_id, '_xanh_ai_backlinks_injected', true );
+    $injected = $injected ? json_decode( $injected, true ) : [];
+    $injected[] = $target_post_id;
+    update_post_meta( $new_post_id, '_xanh_ai_backlinks_injected', wp_json_encode( $injected ) );
+
+    do_action( 'xanh_ai_backlink_injected', $target_post_id, $new_post_id );
+    return true;
+}
+```
+
+### Rules & Giới Hạn
+
+| Rule | Chi tiết |
+|---|---|
+| Max backlinks/bài mới | 5 bài cũ (tránh spam) |
+| Vị trí chèn | Cuối bài, dưới CTA cuối cùng |
+| Duplicate check | Không chèn nếu URL đã tồn tại trong bài cũ |
+| Anchor text | Title bài mới (descriptive, có keyword tự nhiên) |
+| HTML marker | `<!-- xanh-ai-backlink -->` để dễ track/remove |
+| Undo | Admin có thể xoá tất cả backlinks từ panel History |
+| Category match | Chỉ chèn vào bài cùng category (tránh cross-topic) |
+
+### Admin UI — Backlink Report
+
+```
+┌─ Reverse Backlinks — Bài: "Chi Phí Xây Nhà 2026" ────────┐
+│                                                             │
+│  ✅ Link đã chèn vào 4 bài cũ:                             │
+│  1. "5 Sai Lầm Khi Xây Nhà" (15/03/2026)    [Xem] [Gỡ]   │
+│  2. "Kinh Nghiệm Chọn Nhà Thầu" (08/03/2026) [Xem] [Gỡ]  │
+│  3. "Bảng Giá Vật Liệu Q1" (01/03/2026)     [Xem] [Gỡ]   │
+│  4. "Quy Trình Thiết Kế A-Z" (22/02/2026)   [Xem] [Gỡ]   │
+│                                                             │
+│  ❌ Bỏ qua 1 bài (link đã tồn tại):                       │
+│  - "Gạch AAC vs Gạch Đỏ" (12/03/2026)                      │
+│                                                             │
+│  [ 🗑️ Gỡ Tất Cả Backlinks ]                                │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 10. Automated Advanced JSON-LD Schema [P1]
+
+### Concept
+
+Plugin tự động nhận diện Angle của bài viết và sinh schema JSON-LD phù hợp, nâng cao khả năng hiển thị Rich Snippets trên Google Search.
+
+### Schema Mapping Theo Angle
+
+| Angle | Schema Type | Thuộc tính đặc biệt |
+|---|---|---|
+| 🏢 Dịch vụ (`service_intro`) | `Service` + `Organization` | `provider`, `areaServed: Nha Trang`, `serviceType` |
+| 🛋️ Vật liệu (`product_material`) | `Article` + `Product` (review) | `aggregateRating`, `offers.priceRange` |
+| 📍 Local SEO (`local_seo`) | `LocalBusiness` + `Article` | `geo`, `address`, `openingHours`, `telephone` |
+| 📚 Kiến thức (`knowledge`) | `HowTo` hoặc `Article` | `step[]`, `tool[]`, `totalTime` |
+| 💡 Kinh nghiệm (`experience`) | `Article` (BlogPosting) | `author`, `datePublished`, `wordCount` |
+| 🌿 Xu hướng (`trends`) | `Article` (NewsArticle) | `datePublished`, `about: DesignTrend` |
+| 👷 Nhật ký (`construction_diary`) | `Article` + `Project` | `startDate`, `endDate`, `percentComplete` |
+| 🏆 Case study (`case_study`) | `Article` + `CreativeWork` | `about: RealEstateProject`, `locationCreated` |
+
+### Implementation
+
+```php
+function xanh_ai_build_schema( int $post_id ): array {
+    $angle  = get_post_meta( $post_id, '_xanh_ai_angle', true );
+    $title  = get_the_title( $post_id );
+    $url    = get_permalink( $post_id );
+    $date   = get_the_date( 'c', $post_id );
+    $modified = get_the_modified_date( 'c', $post_id );
+    $excerpt  = get_the_excerpt( $post_id );
+
+    // Base Article schema — mọi bài đều có
+    $schema = [
+        '@context'      => 'https://schema.org',
+        '@type'         => 'BlogPosting',
+        'headline'      => $title,
+        'url'           => $url,
+        'datePublished' => $date,
+        'dateModified'  => $modified,
+        'description'   => $excerpt,
+        'author'        => [
+            '@type' => 'Organization',
+            'name'  => 'XANH - Design & Build',
+            'url'   => home_url(),
+        ],
+        'publisher'     => [
+            '@type' => 'Organization',
+            'name'  => 'XANH - Design & Build',
+            'logo'  => [
+                '@type' => 'ImageObject',
+                'url'   => get_site_icon_url(),
+            ],
+        ],
+    ];
+
+    // Angle-specific enrichment
+    switch ( $angle ) {
+        case 'local_seo':
+            $schema = xanh_ai_enrich_local_business( $schema );
+            break;
+        case 'service_intro':
+            $schema = xanh_ai_enrich_service( $schema );
+            break;
+        case 'knowledge':
+            $schema = xanh_ai_enrich_howto( $schema, $post_id );
+            break;
+        case 'case_study':
+        case 'construction_diary':
+            $schema = xanh_ai_enrich_project( $schema, $post_id );
+            break;
+    }
+
+    // Merge FAQ Schema nếu có
+    $faqs = get_post_meta( $post_id, '_xanh_ai_faq', true );
+    if ( ! empty( $faqs ) ) {
+        $schema['mainEntity'] = xanh_ai_build_faq_entities( json_decode( $faqs, true ) );
+    }
+
+    // Filter cho extensibility
+    $schema = apply_filters( 'xanh_ai_schema_data', $schema, $post_id, $angle );
+
+    // Save schema type vào meta
+    update_post_meta( $post_id, '_xanh_ai_schema_type', $schema['@type'] );
+    do_action( 'xanh_ai_schema_injected', $post_id, $schema['@type'] );
+
+    return $schema;
+}
+```
+
+### LocalBusiness Enrichment (cho Angle `local_seo`)
+
+```php
+function xanh_ai_enrich_local_business( array $schema ): array {
+    $schema['@graph'] = [
+        $schema,
+        [
+            '@type'       => 'LocalBusiness',
+            'name'        => 'XANH - Design & Build',
+            'description' => 'Thiết kế & Thi công nội thất cao cấp tại Nha Trang',
+            'url'         => home_url(),
+            'telephone'   => get_option( 'xanh_company_phone', '' ),
+            'address'     => [
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => get_option( 'xanh_company_address', '' ),
+                'addressLocality' => 'Nha Trang',
+                'addressRegion'   => 'Khánh Hòa',
+                'addressCountry'  => 'VN',
+            ],
+            'geo' => [
+                '@type'     => 'GeoCoordinates',
+                'latitude'  => '12.2388',
+                'longitude' => '109.1967',
+            ],
+            'areaServed'  => [
+                '@type' => 'City',
+                'name'  => 'Nha Trang',
+            ],
+            'priceRange'  => '💰💰💰',
+        ],
+    ];
+
+    unset( $schema['@type'] ); // @type nằm trong @graph
+    return $schema;
+}
+```
+
+### Project Enrichment (cho Angle `case_study`, `construction_diary`)
+
+```php
+function xanh_ai_enrich_project( array $schema, int $post_id ): array {
+    $score = get_post_meta( $post_id, '_xanh_ai_score', true );
+
+    $schema['about'] = [
+        '@type'       => 'Project',
+        'name'        => get_the_title( $post_id ),
+        'description' => get_the_excerpt( $post_id ),
+        'location'    => [
+            '@type'           => 'Place',
+            'address'         => [
+                '@type'           => 'PostalAddress',
+                'addressLocality' => 'Nha Trang',
+                'addressRegion'   => 'Khánh Hòa',
+                'addressCountry'  => 'VN',
+            ],
+        ],
+    ];
+
+    return $schema;
+}
+```
+
+### Inject vào `<head>`
+
+```php
+add_action( 'wp_head', function () {
+    if ( ! is_singular( 'post' ) ) {
+        return;
+    }
+
+    $post_id = get_the_ID();
+    if ( get_post_meta( $post_id, '_xanh_ai_generated', true ) !== '1' ) {
+        return;
+    }
+
+    $schema = xanh_ai_build_schema( $post_id );
+
+    printf(
+        '<script type="application/ld+json">%s</script>' . "\n",
+        wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT )
+    );
+} );
+```
+
+### RankMath Compatibility
+
+```php
+// Tắt RankMath schema cho bài AI (tránh duplicate)
+add_filter( 'rank_math/json_ld', function ( $data, $jsonld ) {
+    if ( is_singular( 'post' ) && get_post_meta( get_the_ID(), '_xanh_ai_generated', true ) === '1' ) {
+        // Giữ BreadcrumbList, xoá Article
+        unset( $data['richSnippet'] );
+    }
+    return $data;
+}, 99, 2 );
+```
+
+---
+
 ## Tài Liệu Liên Quan
 
 - `GOV_SEO_STRATEGY.md` — Full SEO strategy
 - `.agent/workflows/seo-onpage-checklist.md` — 12-step audit
 - `PLUGIN_AI_ANGLES.md` — Angle-specific SEO requirements
+- `PLUGIN_AI_ARCHITECTURE.md` — Hook system, data flow for backlinks & schema

@@ -3,7 +3,7 @@
 > **Plugin:** XANH AI Content Generator
 > **Nguồn:** `GOV_BRAND_VOICE.md` v2.0 + Prompt Engineering Analysis
 > **Mục tiêu:** Nội dung AI đọc như chuyên gia thật viết, chuẩn E-E-A-T, không detect được AI
-> **Cập nhật:** 2026-03-20
+> **Cập nhật:** 2026-03-22
 
 ---
 
@@ -66,6 +66,35 @@ Lạnh ──── Xa cách ──── ★ XANH ★ ──── Suồng sã 
 | "Đội ngũ giỏi, nhiều năm kinh nghiệm" | "Đội ngũ chuyên gia giàu kinh nghiệm" | "Những con người tận tâm — biến mong ước thành hiện thực từ từng viên gạch" |
 | "Chất lượng tốt nhất" | "Cam kết chất lượng hàng đầu" | "Chất lượng không cần nói nhiều — hãy để công trình lên tiếng" |
 | "Liên hệ ngay để nhận báo giá" | "Gửi yêu cầu tư vấn kỹ thuật" | "Đặt lịch trao đổi riêng — để mỗi không gian được lắng nghe" |
+
+---
+
+## 2.5 Voice Rotation — Hệ Thống Luân Phiên Xưng Hô
+
+Vấn đề phổ biến: AI lặp lại "chúng tôi" hoặc "bạn" quá nhiều, giàm tính tự nhiên. Giải pháp: buộc AI luân phiên ít nhất 4 cách xưng hô khác nhau mỗi bài.
+
+### Xưng Hô Phía Công Ty (XANH)
+
+| # | Cách xưng hô | Ví dụ | Dùng khi |
+|---|---|---|---|
+| 1 | chúng tôi | "Chúng tôi luôn khuyến cáo gia chủ…" | Mặc định chung |
+| 2 | tại XANH – Design & Build | "Tại XANH – Design & Build, mỗi bản vẽ đều…" | Giới thiệu company |
+| 3 | đội ngũ XANH | "Đội ngũ XANH đã triển khai hơn 47+ dự án…" | Nói về team |
+| 4 | theo kinh nghiệm [n] năm | "Theo kinh nghiệm 15 năm thi công…" | Share kinh nghiệm |
+| 5 | KTS [tên] tại XANH chia sẻ | "Anh Minh – KTS trưởng tại XANH – chia sẻ: '…'" | Trích dẫn chuyên gia |
+| 6 | từ thực tế công trình | "Từ thực tế 47+ công trình, giải pháp hiệu quả…" | Cite data thực tế |
+| 7 | bộ phận [tên] của XANH | "Bộ phận thiết kế của XANH thường…" | Nói về bộ phận cụ thể |
+| 8 | câu bị động / ẩn chủ ngữ | "Giải pháp này đã được áp dụng thành công…" | Đa dạng hóa |
+
+**Quy tắc:**
+- Mỗi bài viết phải dùng **tối thiểu 4 cách khác nhau**
+- Không dùng 1 cách quá **3 lần** trong toàn bài
+- Không lặp "chúng tôi" quá **2 lần liên tiếp**
+
+### Ngôi Phía Khách Hàng
+
+Tương tự, tránh lặp "bạn" quá nhiều. Luân phiên dùng:
+- "bạn", "gia chủ", "chủ nhà", "anh/chị", "quý khách"
 
 ---
 

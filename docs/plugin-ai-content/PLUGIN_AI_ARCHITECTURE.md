@@ -2,7 +2,7 @@
 
 > **Plugin:** XANH AI Content Generator
 > **Pattern:** Singleton + Class-based OOP (theo `PLUGIN_CUSTOM_DEV.md` §4)
-> **Cập nhật:** 2026-03-20
+> **Cập nhật:** 2026-03-22
 
 ---
 
@@ -19,15 +19,18 @@ wp-content/plugins/xanh-ai-content/
 │   ├── class-xanh-ai-generator.php   # Text generation engine (Gemini 2.5)
 │   ├── class-xanh-ai-image.php       # Image generation engine (Gemini 3.1)
 │   ├── class-xanh-ai-seo.php         # SEO optimizer + Content Score
-│   ├── class-xanh-ai-angles.php      # 8 angle definitions + prompt templates
+│   ├── class-xanh-ai-angles.php      # 9 angle definitions + 5 keyword clusters
 │   ├── class-xanh-ai-batch.php       # Batch generation queue (WP Cron)      [P1]
 │   ├── class-xanh-ai-calendar.php    # Content calendar logic                [P1]
 │   ├── class-xanh-ai-keywords.php    # Keyword suggestion engine             [P1]
 │   ├── class-xanh-ai-sources.php     # Reference Sources + Source Library    [P1]
 │   ├── class-xanh-ai-scanner.php     # Data integrity scanner                [P1]
+│   ├── class-xanh-ai-backlinks.php   # Reverse internal linking              [P1]
+│   ├── class-xanh-ai-schema.php      # Advanced JSON-LD schema generator     [P1]
 │   ├── class-xanh-ai-scheduler.php   # Auto-schedule posts                   [P2]
 │   ├── class-xanh-ai-rewriter.php    # Content rewriter                      [P2]
 │   ├── class-xanh-ai-history.php     # Generation history + DB table         [P2]
+│   ├── class-xanh-ai-updater.php     # Smart content updater (evergreen)     [P2]
 │   ├── class-xanh-ai-topics.php      # Topic idea generator                  [P2]
 │   ├── class-xanh-ai-social.php      # Social media snippets                 [P3]
 │   └── class-xanh-ai-analytics.php   # Usage dashboard                       [P3]
@@ -61,10 +64,12 @@ Xanh_AI_Content (Singleton — main plugin class)
 ├── init_hooks()
 │   ├── admin_menu → Xanh_AI_Admin
 │   ├── admin_init → Xanh_AI_Settings
+│   ├── wp_ajax_xanh_ai_preview_prompt → ajax_preview_prompt() (0 API calls)
+│   ├── wp_ajax_xanh_ai_import_keywords → ajax_import_keywords() (CSV/TXT merge-dedup)
 │   └── wp_ajax_* → AJAX handlers
 │
 ├── Xanh_AI_Settings         → register_setting(), sanitize, encrypt API key
-├── Xanh_AI_Angles           → get_angles(), get_angle_prompt(), get_angle_config()
+├── Xanh_AI_Angles           → get_angles(), get_angle_prompt(), get_angle_config(), get_keyword_clusters()
 ├── Xanh_AI_Generator        → generate_content(), build_prompt(), call_gemini_text()
 ├── Xanh_AI_Image            → generate_image(), build_image_prompt(), upload_to_media()
 ├── Xanh_AI_SEO              → optimize_post(), calculate_score(), inject_links()
@@ -73,10 +78,13 @@ Xanh_AI_Content (Singleton — main plugin class)
 ├── Xanh_AI_Calendar         → get_calendar_data(), check_rotation_gaps()
 ├── Xanh_AI_Sources          → add_source(), process_file(), scrape_url(), get_sources()
 ├── Xanh_AI_Scanner          → scan_data_integrity(), check_expired_sources()
+├── Xanh_AI_Backlinks        → scan_related_posts(), inject_backlink(), get_link_map()
+├── Xanh_AI_Schema           → build_schema(), get_angle_schema_type(), inject_jsonld()
 │
 ├── [P2] Xanh_AI_Scheduler   → schedule_post(), get_optimal_time()
 ├── [P2] Xanh_AI_Rewriter    → rewrite_post(), diff_changes()
 ├── [P2] Xanh_AI_History     → log_generation(), get_history(), create_table()
+├── [P2] Xanh_AI_Updater     → scan_outdated(), refresh_post(), bump_date()
 ├── [P2] Xanh_AI_Topics      → generate_ideas(), rank_topics()
 │
 ├── [P3] Xanh_AI_Social      → generate_snippets(), format_facebook(), format_zalo()
@@ -91,21 +99,21 @@ Xanh_AI_Content (Singleton — main plugin class)
 ```
 User Input (angle, topic, keywords)
       ↓
-Xanh_AI_Angles::get_angle_prompt()     → Build system prompt (brand voice + angle)
+Xanh_AI_Prompts::build_system_prompt()  → Layer 1-7 (persona, voice DNA, anti-AI, E-E-A-T, angle, SEO, output)
+      ↓  ← ajax_preview_prompt() returns here (0 API call) — user can edit before proceeding
+Xanh_AI_Generator::generate()          → Call Gemini 2.5 Flash API (custom_prompt if user edited)
       ↓
-Xanh_AI_Keywords::suggest_keywords()   → Suggest from SEO Strategy clusters
+Xanh_AI_SEO::optimize_post()            → Title, meta, slug, TOC, internal links
       ↓
-Xanh_AI_Generator::generate_content()  → Call Gemini 2.5 Flash API
+Xanh_AI_SEO::calculate_score()          → Score 0-100 (client-side recalc on edit)
       ↓
-Xanh_AI_SEO::optimize_post()           → Title, meta, slug, TOC, internal links
+Preview → User edits → Save Draft       → wp_insert_post() + FAQPage JSON-LD to _xanh_ai_faq_schema
       ↓
-Xanh_AI_SEO::calculate_score()         → Score 0-100
+Image generation (manual / on-demand)   → Call Gemini Imagen API when user clicks button
       ↓
-Xanh_AI_Image::generate_image()        → Call Gemini 3.1 Imagen API
+Xanh_AI_Backlinks::scan_related_posts() → Tìm bài cũ cùng category/keyword
       ↓
-Xanh_AI_Image::upload_to_media()       → Save to wp-content/uploads/
-      ↓
-Preview → User edits → Save Draft      → wp_insert_post() + set_post_thumbnail()
+Xanh_AI_Backlinks::inject_backlink()    → Chèn link bài mới vào bài cũ (khi publish)
       ↓
 Xanh_AI_History::log_generation()       → Log to custom table [P2]
 ```
@@ -139,6 +147,7 @@ Admin UI: Progress bar (pending → generating → done/error)
 | `xanh_ai_auto_image` | bool | — |
 | `xanh_ai_default_author` | int | — |
 | `xanh_ai_temperature` | float | — |
+| `xanh_ai_keyword_clusters` | JSON (array) | — |
 | `xanh_ai_schedule_frequency` | string | — |
 | `xanh_ai_schedule_time` | string | — |
 
@@ -187,6 +196,10 @@ Admin UI: Progress bar (pending → generating → done/error)
 | `_xanh_ai_score` | Content score 0-100 |
 | `_xanh_ai_tokens` | Tokens consumed |
 | `_xanh_ai_sources` | JSON array of source IDs used |
+| `_xanh_ai_schema_type` | Schema type used (Article, LocalBusiness...) |
+| `_xanh_ai_image_prompt` | Prompt tiếng Anh để tạo AI thumbnail thủ công sau này |
+| `_xanh_ai_backlinks_injected` | JSON array of post IDs đã được chèn link |
+| `_xanh_ai_last_refreshed` | Datetime lần cuối Smart Updater cập nhật [P2] |
 
 ---
 
@@ -200,6 +213,9 @@ do_action('xanh_ai_before_image', $prompt);
 do_action('xanh_ai_after_image', $attachment_id);
 do_action('xanh_ai_batch_item_complete', $post_id, $index, $total);
 do_action('xanh_ai_batch_complete', $post_ids);
+do_action('xanh_ai_backlink_injected', $target_post_id, $new_post_id);
+do_action('xanh_ai_schema_injected', $post_id, $schema_type);
+do_action('xanh_ai_content_refreshed', $post_id, $changes);  // [P2]
 ```
 
 ### Filters
@@ -209,6 +225,9 @@ $content  = apply_filters('xanh_ai_generated_content', $content, $post_id);
 $score    = apply_filters('xanh_ai_content_score', $score, $post_id);
 $img_prompt = apply_filters('xanh_ai_image_prompt', $img_prompt, $title);
 $post_args  = apply_filters('xanh_ai_post_args', $args, $angle);
+$clusters   = apply_filters('xanh_ai_keyword_clusters', $clusters);
+$schema     = apply_filters('xanh_ai_schema_data', $schema, $post_id, $angle);
+$backlink_posts = apply_filters('xanh_ai_backlink_candidates', $posts, $new_post_id);
 ```
 
 ---
