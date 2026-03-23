@@ -36,11 +36,27 @@ $xanh_has_wp_menu = has_nav_menu( 'primary' );
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<?php wp_head(); ?>
+	<?php
+	wp_head();
+
+	// ACF: Custom scripts in <head> (GTM, Meta Pixel, etc.)
+	$xanh_head_scripts = xanh_get_option( 'seo_head_scripts' );
+	if ( $xanh_head_scripts ) {
+		echo $xanh_head_scripts . "\n";
+	}
+	?>
 </head>
 
 <body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
+<?php
+wp_body_open();
+
+// ACF: Custom scripts right after <body> (GTM noscript, etc.)
+$xanh_body_open_scripts = xanh_get_option( 'seo_body_open_scripts' );
+if ( $xanh_body_open_scripts ) {
+	echo $xanh_body_open_scripts . "\n";
+}
+?>
 
 <?php // Preloader — SVG path line drawing (ACF controlled) ?>
 <?php get_template_part( 'template-parts/components/preloader' ); ?>

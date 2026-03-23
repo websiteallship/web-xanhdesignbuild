@@ -276,6 +276,12 @@ do_action( 'xanh_before_body_close' );
 get_template_part( 'template-parts/components/popup-modal' );
 
 wp_footer();
+
+// ACF: Custom scripts before </body> (chat widgets, analytics, etc.)
+$xanh_body_scripts = xanh_get_option( 'seo_body_scripts' );
+if ( $xanh_body_scripts ) {
+	echo $xanh_body_scripts . "\n";
+}
 ?>
 </body>
 </html>

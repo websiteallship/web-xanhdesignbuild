@@ -22,7 +22,7 @@ $headline  = get_field( 'about_hero_title' ) ?: 'Xanh — Design & Build<br /><s
 $subtitle  = get_field( 'about_hero_subtitle' ) ?: 'Chúng tôi là thương hiệu cung cấp giải pháp nội thất và xây dựng hoàn thiện theo hướng bền vững. Không chỉ thiết kế một không gian, chúng tôi kiến tạo những công trình đáng để đầu tư.';
 $cta_text  = get_field( 'about_hero_cta_text' ) ?: 'Khám Phá Hành Trình Xanh';
 $image     = xanh_get_image( 'about_hero_image' );
-$video_url = get_field( 'about_hero_video_url' ) ?: 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+$video_url = get_field( 'about_hero_video_url' );
 
 // Fallback image.
 $img_url = $image['url'] ?? esc_url( content_url( '/uploads/2026/03/about-hero-bg.png' ) );

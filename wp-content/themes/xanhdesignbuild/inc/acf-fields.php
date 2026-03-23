@@ -1641,13 +1641,22 @@ function xanh_register_settings_fields()
 				'placeholder' => '<!-- Google Tag Manager -->',
 			],
 			[
+				'key' => 'field_seo_body_open_scripts',
+				'label' => 'Scripts ngay sau &lt;body&gt;',
+				'name' => 'seo_body_open_scripts',
+				'type' => 'textarea',
+				'rows' => 8,
+				'instructions' => 'Mã chèn ngay sau thẻ mở &lt;body&gt; (Google Tag Manager noscript, Facebook noscript…). Bao gồm thẻ &lt;noscript&gt;.',
+				'placeholder' => '<!-- Google Tag Manager (noscript) -->',
+			],
+			[
 				'key' => 'field_seo_body_scripts',
 				'label' => 'Scripts trước &lt;/body&gt;',
 				'name' => 'seo_body_scripts',
 				'type' => 'textarea',
 				'rows' => 8,
 				'instructions' => 'Mã chèn trước thẻ đóng &lt;/body&gt; (chat widgets, analytics…). Bao gồm thẻ &lt;script&gt;.',
-				'placeholder' => '<!-- Google Tag Manager (noscript) -->',
+				'placeholder' => '<!-- Chat widgets, analytics scripts... -->',
 			],
 			[
 				'key' => 'field_seo_ga_id',
