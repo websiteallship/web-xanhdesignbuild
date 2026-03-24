@@ -16,13 +16,7 @@
   --color-gray: rgb(107, 114, 128);
 }
 
-/* ── Portfolio btn overrides ── */
-.btn {
-  justify-content: center;
-  width: 100%;
-  min-height: 48px;
-}
-@media (min-width: 640px) { .btn { width: auto; } }
+/* Page-CTA btn → shared .btn--page-cta in components.css */
 
 /* ==============================================
    6. HERO — Mobile-first
@@ -48,113 +42,10 @@
 }
 .portfolio-hero__bg.is-loaded { transform: scale(1); }
 
-.portfolio-hero-el {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
-}
-.portfolio-hero-el.is-visible { opacity: 1; transform: translateY(0); }
-.portfolio-hero-el:nth-child(2) { transition-delay: 0.15s; }
-.portfolio-hero-el:nth-child(3) { transition-delay: 0.3s; }
+/* Hero entrance → shared .hero-el--fast in components.css */
+/* .counter-number → shared in components.css */
 
-.counter-number { font-variant-numeric: tabular-nums; }
-
-/* ==============================================
-   7. FILTER BAR — Glassmorphism sticky
-   ============================================== */
-.filter-bar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-.filter-bar__inner {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.25rem;
-  padding: 0.5rem 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.filter-bar__inner::-webkit-scrollbar { display: none; }
-
-/* ── UI/UX Mobile Scroll Hint (Fade out on right edge) ── */
-.filter-bar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 48px;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 100%);
-  z-index: 10;
-  pointer-events: none;
-}
-
-@media (min-width: 768px) {
-  .filter-bar::after { display: none; }
-  .filter-bar__inner { justify-content: center; padding: 0.75rem 0; }
-}
-
-.filter-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.875rem;
-  font-size: 0.688rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  color: color-mix(in srgb, var(--color-dark) 50%, transparent);
-  cursor: pointer;
-  transition: color var(--duration-base) ease,
-              font-weight var(--duration-base) ease;
-  position: relative;
-}
-@media (min-width: 768px) {
-  .filter-tab { padding: 0.5rem 1.25rem; font-size: 0.75rem; }
-}
-
-.filter-tab::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 70%; height: 2px;
-  background: var(--color-primary);
-  transition: transform var(--duration-base) ease;
-}
-.filter-tab:hover { color: var(--color-dark); }
-.filter-tab.is-active { color: var(--color-dark); font-weight: 600; }
-.filter-tab.is-active::after { transform: translateX(-50%) scaleX(1); }
-
-/* ── Count badge ── */
-.filter-tab__count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.375rem;
-  height: 1.375rem;
-  padding-inline: 0.25rem;
-  font-size: 0.625rem;
-  font-weight: 700;
-  background: rgba(0,0,0,0.08);
-  color: inherit;
-  transition: background var(--duration-base) ease;
-}
-.filter-tab.is-active .filter-tab__count {
-  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-  color: var(--color-primary);
-}
+/* Filter bar + tabs → shared in components.css */
 
 /* ==============================================
    8. PROJECT GRID — Mobile-first 1→2→3 columns
@@ -179,7 +70,7 @@
   cursor: pointer;
   background: var(--color-white);
   border-radius: 0;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 24px rgba(var(--color-dark-rgb), 0.08);
   border-top: 2px solid color-mix(in srgb, var(--color-primary) 12%, transparent);
 }
 @media (min-width: 640px) {
@@ -200,7 +91,7 @@
 /* ── Card Info ── */
 .project-card__info {
   padding: 0.875rem 1rem 1.125rem;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(var(--color-dark-rgb), 0.06);
   border-top: none;
 }
 @media (min-width: 640px) {
@@ -257,7 +148,7 @@
   align-items: center;
   gap: 0.5rem;
   padding-top: 0.625rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid rgba(var(--color-dark-rgb), 0.06);
 }
 @media (min-width: 640px) {
   .project-card__specs { gap: 0.75rem; }
@@ -374,25 +265,6 @@
   object-fit: cover;
 }
 
-/* ==============================================
-   12. SKELETON LOADING
-   ============================================== */
-.skeleton-card {
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-}
-.skeleton-shimmer {
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
+/* Skeleton loading → shared in components.css */
 /* Fix: .portfolio-grid `display:grid` overrides .hidden `display:none` */
 #skeleton-loader.hidden { display: none !important; }

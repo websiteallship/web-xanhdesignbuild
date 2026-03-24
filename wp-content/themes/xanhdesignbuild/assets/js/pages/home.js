@@ -13,37 +13,37 @@ const mqReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // XanhIcons removed, using XanhBase
 
-/* ─── Shared Utilities (Rule 10 §3.2, §9) ──── */
+/* ─── Shared Utilities (delegated to XanhBase) ──── */
 
-/** Debounce helper — delays fn by `wait` ms (default 150). */
+/** Debounce — delegates to XanhBase.debounce */
 function xanhDebounce(fn, wait = 150) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(null, args), wait);
-  };
+  return XanhBase.debounce(fn, wait);
 }
 
-/** Shared IntersectionObserver fallback for .anim-fade-up elements. */
+/** Shared fallback reveal — delegates to XanhBase */
 function observeFadeIn(section) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
-            setTimeout(() => {
-              el.style.opacity = '1';
-              el.style.transform = 'translateY(0)';
-              el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-            }, i * 150);
-          });
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
-  observer.observe(section);
+  if (typeof XanhBase !== 'undefined' && XanhBase.initFallbackAnimations) {
+    XanhBase.initFallbackAnimations();
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            section.querySelectorAll('.anim-fade-up').forEach((el, i) => {
+              setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+              }, i * 150);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+  }
 }
 
 /* XanhMobileMenu → moved to shared/base.js */
@@ -54,16 +54,21 @@ function observeFadeIn(section) {
 /* ─────────────────────────────────────────────── */
 const XanhHero = {
   init() {
-    // Hero content reveal
-    setTimeout(() => {
-      document.querySelectorAll('.hero-headline, .hero-subheadline, .hero-cta').forEach((el) => {
-        el.classList.add('is-visible');
-      });
-    }, 400);
+    // Hero content reveal — use shared initHeroReveal if available.
+    if (typeof XanhBase !== 'undefined' && XanhBase.initHeroReveal) {
+      XanhBase.initHeroReveal('.hero-swiper', '.hero-el--slow');
+    } else {
+      // Fallback: simple is-visible toggle.
+      setTimeout(() => {
+        document.querySelectorAll('.hero-el--slow').forEach((el) => {
+          el.classList.add('is-visible');
+        });
+      }, 400);
+    }
 
     // Hero Swiper (background images)
     if (typeof Swiper !== 'undefined') {
-      new Swiper('.hero-swiper', {
+      const heroSwiper = new Swiper('.hero-swiper', {
         loop: true,
         speed: 1500,
         effect: 'fade',
@@ -73,11 +78,48 @@ const XanhHero = {
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         },
-        pagination: {
-          el: '.hero-pagination',
-          clickable: true,
-        },
       });
+
+      // Custom dots — sync with Swiper
+      const heroDotsContainer = document.querySelector('.hero-dots');
+      if (heroDotsContainer && heroDotsContainer.querySelectorAll('.hero-dot').length) {
+        // Click handler (delegated to container so cloned dots still work)
+        heroDotsContainer.addEventListener('click', (e) => {
+          const dot = e.target.closest('.hero-dot');
+          if (!dot) return;
+          const idx = parseInt(dot.dataset.goto, 10);
+          heroSwiper.slideToLoop(idx);
+        });
+
+        // Slide change → update active dot + restart progress animation
+        heroSwiper.on('slideChange', () => {
+          const realIndex = heroSwiper.realIndex;
+          // Re-query every time so references are always fresh
+          const dots = heroDotsContainer.querySelectorAll('.hero-dot');
+          dots.forEach((dot, i) => {
+            if (i === realIndex) {
+              // Restart animation by replacing the node
+              dot.classList.remove('is-active');
+              dot.setAttribute('aria-selected', 'false');
+              // Force reflow to restart ::after animation
+              const clone = dot.cloneNode(true);
+              if (dot.parentNode) {
+                dot.parentNode.replaceChild(clone, dot);
+              }
+              clone.classList.add('is-active');
+              clone.setAttribute('aria-selected', 'true');
+            } else {
+              dot.classList.remove('is-active');
+              dot.setAttribute('aria-selected', 'false');
+            }
+          });
+        });
+      }
+    }
+
+    // Video Modal — delegate to shared XanhBase.initVideoModal()
+    if (typeof XanhBase !== 'undefined' && XanhBase.initVideoModal) {
+      XanhBase.initVideoModal();
     }
   },
 };
@@ -92,7 +134,6 @@ const XanhScrollAnimations = {
       return;
     }
 
-    gsap.registerPlugin(ScrollTrigger);
     this._initEmpathyParallax();
     this._initHeroParallax();
     this._initUnifiedFadeUp();
@@ -198,12 +239,12 @@ const XanhScrollAnimations = {
       if (imgWrap && img) {
         servicesTl.fromTo(imgWrap,
           { clipPath: 'inset(100% 0 0 0)' },
-          { clipPath: 'inset(0% 0 0 0)', duration: 0.85, ease: 'power3.out' },
+          { clipPath: 'inset(0% 0 0 0)', duration: 0.85, ease: 'power3.out', clearProps: 'all' },
           i === 0 ? '-=0.3' : '-=0.6'
         );
         servicesTl.fromTo(img,
           { scale: 1.12 },
-          { scale: 1, duration: 0.85, ease: 'power2.out' },
+          { scale: 1, duration: 0.85, ease: 'power2.out', clearProps: 'all' },
           '<'
         );
       }
@@ -375,7 +416,7 @@ const XanhProjects = {
         <span class="meta-sep"></span>
         <span class="meta-item"><i data-lucide="clock"></i> ${btn.dataset.duration}</span>
         <span class="meta-sep"></span>
-        <span class="meta-item"><i data-lucide="calendar"></i> ${btn.dataset.year}</span>
+        <span class="meta-item"><i data-lucide="home"></i> ${btn.dataset.type}</span>
       `,
       quote: btn.dataset.quote,
       author: btn.dataset.author,
@@ -438,93 +479,66 @@ const XanhProjects = {
       },
     });
 
-    // Mobile bottom nav
+    this._initThumbsMobileNav();
+    this._initThumbsPaginationAnim();
+    this._initMobileProjectsSwiper();
+  },
+
+  /** @private — Mobile bottom nav for thumbs */
+  _initThumbsMobileNav() {
     const thumbsMobPrev = document.querySelector('.thumbs-mobile-prev');
     const thumbsMobNext = document.querySelector('.thumbs-mobile-next');
     if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => this.thumbsSwiper.slidePrev());
     if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => this.thumbsSwiper.slideNext());
-
-    // Pagination bullets entrance animation (desktop only)
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && window.innerWidth >= 640) {
-      const thumbsPagination = document.querySelector('.thumbs-pagination');
-      if (thumbsPagination) {
-        ScrollTrigger.create({
-          trigger: thumbsPagination,
-          start: 'top 90%',
-          once: true,
-          onEnter: () => {
-            const bullets = thumbsPagination.querySelectorAll('.swiper-pagination-bullet');
-            gsap.fromTo(bullets,
-              { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
-              { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 }
-            );
-          },
-        });
-      }
-    }
-
-    // Mobile Projects Swiper (≤1023px only)
-    if (!mqDesktop.matches) {
-      const mobileSwiper = new Swiper('.projects-mobile-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 16,
-        loop: true,
-        allowTouchMove: true,
-        grabCursor: false,
-        noSwiping: true,
-        noSwipingSelector: '.ba-custom-slider',
-        pagination: {
-          el: '.thumbs-pagination',
-          clickable: true,
-        },
-      });
-
-      if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
-      if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
-
-      // Init drag sliders for mobile cards
-      this._initMobileDragSliders();
-      mobileSwiper.on('slideChangeTransitionEnd', () => this._initMobileDragSliders());
-    }
   },
 
-  /** @private — Init drag sliders for mobile BA cards */
-  _initMobileDragSliders() {
-    document.querySelectorAll('.ba-custom-slider').forEach(slider => {
-      if (slider._dragInit) return;
-      slider._dragInit = true;
+  /** @private — Pagination bullets entrance animation (desktop only) */
+  _initThumbsPaginationAnim() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || window.innerWidth < 640) return;
 
-      const beforeClip = slider.querySelector('.ba-custom-slider__before');
-      const handle = slider.querySelector('.ba-custom-slider__handle');
-      if (!beforeClip || !handle) return;
+    const thumbsPagination = document.querySelector('.thumbs-pagination');
+    if (!thumbsPagination) return;
 
-      let isDragging = false;
-
-      function setPos(pct) {
-        pct = Math.max(0, Math.min(100, pct));
-        beforeClip.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-        handle.style.left = pct + '%';
-      }
-
-      function getPct(e) {
-        const r = slider.getBoundingClientRect();
-        return ((e.clientX - r.left) / r.width) * 100;
-      }
-
-      slider.addEventListener('pointerdown', (e) => {
-        e.stopPropagation();
-        isDragging = true;
-        slider.setPointerCapture(e.pointerId);
-        setPos(getPct(e));
-      });
-      slider.addEventListener('pointermove', (e) => {
-        if (!isDragging) return;
-        setPos(getPct(e));
-      });
-      slider.addEventListener('pointerup', () => { isDragging = false; });
-      slider.addEventListener('pointercancel', () => { isDragging = false; });
-      setPos(50);
+    ScrollTrigger.create({
+      trigger: thumbsPagination,
+      start: 'top 90%',
+      once: true,
+      onEnter: () => {
+        const bullets = thumbsPagination.querySelectorAll('.swiper-pagination-bullet');
+        gsap.fromTo(bullets,
+          { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+          { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 }
+        );
+      },
     });
+  },
+
+  /** @private — Mobile Projects Swiper (≤1023px only) */
+  _initMobileProjectsSwiper() {
+    if (mqDesktop.matches) return;
+
+    const mobileSwiper = new Swiper('.projects-mobile-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      allowTouchMove: true,
+      grabCursor: false,
+      noSwiping: true,
+      noSwipingSelector: '.ba-custom-slider',
+      pagination: {
+        el: '.thumbs-pagination',
+        clickable: true,
+      },
+    });
+
+    const thumbsMobPrev = document.querySelector('.thumbs-mobile-prev');
+    const thumbsMobNext = document.querySelector('.thumbs-mobile-next');
+    if (thumbsMobPrev) thumbsMobPrev.addEventListener('click', () => mobileSwiper.slidePrev());
+    if (thumbsMobNext) thumbsMobNext.addEventListener('click', () => mobileSwiper.slideNext());
+
+    // Init drag sliders for mobile cards — delegate to XanhBase
+    XanhBase.initBASliders();
+    mobileSwiper.on('slideChangeTransitionEnd', () => XanhBase.initBASliders());
   },
 
   /** @private — Before/After drag logic */
@@ -624,79 +638,89 @@ const XanhProjects = {
   _initScrollAnimations() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-    const projectsSection = document.getElementById('projects');
-    if (!projectsSection) return;
+    const section = document.getElementById('projects');
+    if (!section) return;
 
-    const headerEls = projectsSection.querySelectorAll('.projects-el');
-    const sliderWrap = projectsSection.querySelector('.ba-slider-wrap');
-    const infoPanel = projectsSection.querySelector('.ba-info');
-    const infoChildren = infoPanel
-      ? infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
+    const refs = {
+      headerEls:  section.querySelectorAll('.projects-el'),
+      sliderWrap: section.querySelector('.ba-slider-wrap'),
+      infoPanel:  section.querySelector('.ba-info'),
+      thumbSlides: section.querySelectorAll('.projects-thumbs-swiper .swiper-slide'),
+      thumbsNav:  section.querySelector('.thumbs-nav'),
+      handleKnob: section.querySelector('.ba-slider__handle-knob'),
+      handle:     this._els.handle,
+    };
+    refs.infoChildren = refs.infoPanel
+      ? refs.infoPanel.querySelectorAll('.ba-info__tag, .ba-info__title, .ba-info__meta, .ba-info__quote, .ba-info__author, .ba-info__cta')
       : [];
-    const thumbSlides = projectsSection.querySelectorAll('.projects-thumbs-swiper .swiper-slide');
-    const thumbsNav = projectsSection.querySelector('.thumbs-nav');
-    const handleKnob = projectsSection.querySelector('.ba-slider__handle-knob');
-    const handle = this._els.handle;
 
-    // Set initial states
-    gsap.set(headerEls, { opacity: 0, y: 40 });
-    if (sliderWrap) gsap.set(sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
-    if (infoChildren.length) gsap.set(infoChildren, { opacity: 0, x: 30 });
-    if (thumbSlides.length) gsap.set(thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
-    if (thumbsNav) gsap.set(thumbsNav, { opacity: 0, y: 20 });
+    this._setProjectInitialStates(refs);
 
     ScrollTrigger.create({
-      trigger: projectsSection,
+      trigger: section,
       start: 'top 80%',
       once: true,
-      onEnter: () => {
-        const tl = gsap.timeline();
-
-        tl.to(headerEls, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12 });
-
-        if (sliderWrap) {
-          tl.to(sliderWrap, { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.3');
-        }
-
-        if (infoChildren.length) {
-          tl.to(infoChildren, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }, '-=0.5');
-        }
-
-        if (thumbSlides.length) {
-          tl.to(thumbSlides, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)', stagger: 0.1 }, '-=0.3');
-        }
-
-        if (thumbsNav) {
-          tl.to(thumbsNav, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
-          const bullets = thumbsNav.querySelectorAll('.swiper-pagination-bullet');
-          if (bullets.length) {
-            tl.fromTo(bullets,
-              { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
-              { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 },
-              '-=0.1'
-            );
-          }
-        }
-
-        // Slider handle wiggle hint
-        if (handleKnob && handle) {
-          const self = this;
-          tl.call(() => self._setPosition(35), null, '+=0.4')
-            .to(handle, {
-              left: '35%', duration: 0.5, ease: 'power2.inOut',
-              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
-            }, '<')
-            .to(handle, {
-              left: '65%', duration: 0.7, ease: 'power2.inOut',
-              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
-            })
-            .to(handle, {
-              left: '50%', duration: 0.5, ease: 'power2.inOut',
-              onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
-            });
-        }
-      },
+      onEnter: () => this._playProjectEntrance(refs),
     });
+  },
+
+  /** @private — Set GSAP initial states for project section */
+  _setProjectInitialStates(refs) {
+    gsap.set(refs.headerEls, { opacity: 0, y: 40 });
+    if (refs.sliderWrap) gsap.set(refs.sliderWrap, { opacity: 0, x: -60, scale: 0.96 });
+    if (refs.infoChildren.length) gsap.set(refs.infoChildren, { opacity: 0, x: 30 });
+    if (refs.thumbSlides.length) gsap.set(refs.thumbSlides, { opacity: 0, y: 30, scale: 0.95 });
+    if (refs.thumbsNav) gsap.set(refs.thumbsNav, { opacity: 0, y: 20 });
+  },
+
+  /** @private — Play project section entrance timeline */
+  _playProjectEntrance(refs) {
+    const tl = gsap.timeline();
+
+    tl.to(refs.headerEls, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12 });
+
+    if (refs.sliderWrap) {
+      tl.to(refs.sliderWrap, { opacity: 1, x: 0, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.3');
+    }
+    if (refs.infoChildren.length) {
+      tl.to(refs.infoChildren, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }, '-=0.5');
+    }
+    if (refs.thumbSlides.length) {
+      tl.to(refs.thumbSlides, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.4)', stagger: 0.1 }, '-=0.3');
+    }
+    if (refs.thumbsNav) {
+      tl.to(refs.thumbsNav, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2');
+      const bullets = refs.thumbsNav.querySelectorAll('.swiper-pagination-bullet');
+      if (bullets.length) {
+        tl.fromTo(bullets,
+          { opacity: 0, scaleX: 0, transformOrigin: 'left center' },
+          { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out', stagger: 0.06 },
+          '-=0.1'
+        );
+      }
+    }
+
+    this._animateHandleWiggle(tl, refs.handleKnob, refs.handle);
+  },
+
+  /** @private — Slider handle wiggle hint animation */
+  _animateHandleWiggle(tl, handleKnob, handle) {
+    if (!handleKnob || !handle) return;
+
+    const self = this;
+    tl.call(() => self._setPosition(35), null, '+=0.4')
+      .to(handle, {
+        left: '35%', duration: 0.5, ease: 'power2.inOut',
+        onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+      }, '<')
+      .to(handle, {
+        left: '65%', duration: 0.7, ease: 'power2.inOut',
+        onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+      })
+      .to(handle, {
+        left: '50%', duration: 0.5, ease: 'power2.inOut',
+        onUpdate: () => { self._setPosition(parseFloat(handle.style.left)); },
+      });
   },
 };
 
@@ -821,7 +845,7 @@ const XanhPartners = {
 /* ─────────────────────────────────────────────── */
 /* Module 12 — Blog Swiper + Scroll Animation      */
 /* ─────────────────────────────────────────────── */
-const XanhBlog = {
+const XanhHomeBlog = {
   init() {
     const section = document.getElementById('blog');
     if (!section) return;
@@ -1035,6 +1059,6 @@ document.addEventListener('DOMContentLoaded', () => {
   XanhProjects.init();
   XanhProcess.init();
   XanhPartners.init();
-  XanhBlog.init();
+  XanhHomeBlog.init();
   XanhSideArrows.init();
 });

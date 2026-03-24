@@ -70,9 +70,16 @@ if ( empty( $gallery_images ) ) {
            data-gallery-lb
            data-gallery-title="<?php echo esc_attr( $caption ); ?>"
            aria-label="<?php echo esc_attr( sprintf( __( 'Xem ảnh %s', 'xanh' ), $caption ) ); ?>">
-          <img src="<?php echo esc_url( $thumb_url ); ?>"
-               alt="<?php echo esc_attr( $alt ); ?>"
-               width="600" height="400" loading="lazy" />
+          <?php if ( ! empty( $image['ID'] ) ) :
+            echo wp_get_attachment_image( $image['ID'], 'medium_large', false, [
+              'alt'     => esc_attr( $alt ),
+              'loading' => 'lazy',
+            ] );
+          else : ?>
+            <img src="<?php echo esc_url( $thumb_url ); ?>"
+                 alt="<?php echo esc_attr( $alt ); ?>"
+                 width="600" height="400" loading="lazy" />
+          <?php endif; ?>
           <?php if ( $caption ) : ?>
             <span class="gallery-grid__caption"><?php echo esc_html( $caption ); ?></span>
           <?php endif; ?>

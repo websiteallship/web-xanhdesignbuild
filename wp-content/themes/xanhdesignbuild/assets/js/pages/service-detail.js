@@ -16,14 +16,18 @@ const XanhServiceDetail = {
   init() {
     this.prefersReducedMotion = XanhBase.prefersReducedMotion();
 
-    XanhBase.initLucide();
-    this.lenis = XanhBase.initLenis();
+    /* Grab Lenis instance from main.js — do NOT re-init */
+    this.lenis = XanhBase.getLenis ? XanhBase.getLenis() : null;
 
     /* Hero reveal — bg + text elements */
     this.initHeroReveal();
 
-    /* Counter animation in hero strip */
-    this.initCounterAnimation();
+    /* Counter animation in hero strip — delegate to shared XanhBase */
+    if (!this.prefersReducedMotion) {
+      XanhBase.animateCounters('.counter-number', { dataAttr: 'target', duration: 2000 });
+    } else {
+      document.querySelectorAll('.counter-number').forEach(el => { el.textContent = el.dataset.target; });
+    }
 
     /* Section 2: Empathy scroll reveal */
     this.initEmpathyReveal();
@@ -50,54 +54,23 @@ const XanhServiceDetail = {
   /* ── S1: Hero reveal: bg scale + text fade-up ── */
   initHeroReveal() {
     const bg  = document.querySelector('.service-hero__bg');
-    const els = document.querySelectorAll('.service-hero-el');
+    const els = document.querySelectorAll('.hero-el--fast');
 
     if (!bg) return;
 
     requestAnimationFrame(() => { bg.classList.add('is-loaded'); });
+
+    if (this.prefersReducedMotion) {
+      els.forEach((el) => { el.classList.add('is-visible'); });
+      return;
+    }
 
     els.forEach((el, i) => {
       setTimeout(() => { el.classList.add('is-visible'); }, 300 + i * 200);
     });
   },
 
-  /* ── S1: Counter number animation (IO) ── */
-  initCounterAnimation() {
-    const counters = document.querySelectorAll('.counter-number');
-    if (!counters.length) return;
-
-    const animateCounter = (el) => {
-      const target   = parseInt(el.dataset.target, 10);
-      const duration = 2000;
-      const start    = performance.now();
-
-      const step = (now) => {
-        const elapsed  = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const ease     = 1 - Math.pow(1 - progress, 3); /* ease-out cubic */
-        el.textContent = Math.round(target * ease);
-        if (progress < 1) requestAnimationFrame(step);
-      };
-
-      requestAnimationFrame(step);
-    };
-
-    if (this.prefersReducedMotion) {
-      counters.forEach(el => { el.textContent = el.dataset.target; });
-      return;
-    }
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target);
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach(el => io.observe(el));
-  },
+  /* ── S1: Counter — now handled by XanhBase.animateCounters in init() ── */
 
   /* ── S2: Empathy scroll reveal (IO, stagger via CSS delays) ── */
   initEmpathyReveal() {
@@ -190,6 +163,22 @@ const XanhServiceDetail = {
     }, { threshold: 0.5, rootMargin: '-20% 0px -40% 0px' });
 
     steps.forEach(el => activeIO.observe(el));
+
+    /* 4. GST Pinning for process-sticky (because Lenis + overflow breaks CSS sticky) */
+    const stickyPanel = section.querySelector('.process-sticky');
+    if (stickyPanel && window.gsap && window.ScrollTrigger) {
+      ScrollTrigger.matchMedia({
+        "(min-width: 768px)": () => {
+          ScrollTrigger.create({
+            trigger: ".process-layout",
+            start: "top top+=120",
+            end: "bottom bottom",
+            pin: stickyPanel,
+            pinSpacing: false
+          });
+        }
+      });
+    }
   },
 
   /* ── S5: Portfolio cards scroll reveal ── */
@@ -285,11 +274,10 @@ const XanhServiceDetail = {
     }
   },
 
-  /* ── S7: FAQ Accordion ── */
+  /* ── S7: FAQ Accordion — delegate to shared XanhBase ── */
   initFAQ() {
     const section = document.querySelector('.s7-faq');
-    const faqList = document.getElementById('faq-list');
-    if (!section || !faqList) return;
+    if (!section) return;
 
     /* Reveal fade-up elements in FAQ */
     const revealEls = section.querySelectorAll('.anim-fade-up');
@@ -305,28 +293,8 @@ const XanhServiceDetail = {
       revealEls.forEach(el => revealIO.observe(el));
     }
 
-    faqList.addEventListener('click', (e) => {
-      const btn = e.target.closest('.faq-item__question');
-      if (!btn) return;
-
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('is-open');
-
-      // Close all
-      faqList.querySelectorAll('.faq-item.is-open').forEach(openItem => {
-        openItem.classList.remove('is-open');
-        openItem.querySelector('.faq-item__question').setAttribute('aria-expanded', 'false');
-        openItem.querySelector('.faq-item__answer').style.maxHeight = '0';
-      });
-
-      // Open clicked (toggle)
-      if (!isOpen) {
-        item.classList.add('is-open');
-        btn.setAttribute('aria-expanded', 'true');
-        const answer = item.querySelector('.faq-item__answer');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-      }
-    });
+    /* FAQ accordion — delegate to XanhBase */
+    XanhBase.initFAQ('faq-list');
   },
 
   /* ── S8: CTA Reveal ── */

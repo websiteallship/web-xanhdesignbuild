@@ -36,7 +36,8 @@ $arrow_angles = [ 36, 108, 180, 252, 324 ];
 
 	<!-- Background image overlay -->
 	<div class="absolute inset-0">
-		<img src="<?php echo esc_url( $turn_bg_url ); ?>" alt="" class="w-full h-full object-cover opacity-20" />
+		<img src="<?php echo esc_url( $turn_bg_url ); ?>" alt="" class="w-full h-full object-cover opacity-20"
+			width="1920" height="1080" loading="lazy" aria-hidden="true" />
 	</div>
 	<div class="absolute inset-0 bg-primary/80"></div>
 

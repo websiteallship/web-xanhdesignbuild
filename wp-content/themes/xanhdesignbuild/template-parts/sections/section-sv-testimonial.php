@@ -113,7 +113,15 @@ if ( $bg_image ) {
 									<path d="M27 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6zM3 20c0-5.5 4.5-10 10-10s10 4.5 10 10c0 10-8 18-20 20l-1-4c8-2 11-6 11-10v-1c-1 1-3 1-4 1-3.3 0-6-2.7-6-6z" />
 								</svg>
 								<div class="s6-testimonial__author">
-									<?php if ( $avatar && isset( $avatar['url'] ) ) : ?>
+									<?php if ( $avatar && isset( $avatar['ID'] ) ) : ?>
+										<?php echo wp_get_attachment_image( $avatar['ID'], 'thumbnail', false, [
+											'class'   => 's6-testimonial__avatar',
+											'alt'     => esc_attr( $slide['name'] ?? '' ),
+											'width'   => 72,
+											'height'  => 72,
+											'loading' => 'lazy',
+										] ); ?>
+									<?php elseif ( $avatar && isset( $avatar['url'] ) ) : ?>
 										<img src="<?php echo esc_url( $avatar['url'] ); ?>"
 											alt="<?php echo esc_attr( $slide['name'] ?? '' ); ?>"
 											class="s6-testimonial__avatar" width="72" height="72" loading="lazy" />

@@ -1,0 +1,958 @@
+/* ==============================================
+   ABOUT PAGE — XANH Design & Build
+   Section 1: Hero Banner
+   ============================================== */
+
+/* Tokens, Reset, Container, Scroll-lock, Drawer anim → base.css */
+
+/* Section Headers, Buttons, Icon circle, Text blocks → base.css */
+
+/* ── About-specific button overrides ── */
+.btn {
+  gap: 0.75rem;
+  border-radius: 2px;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    font-size: 1rem;
+  }
+}
+
+/* ── .btn--outline sweep → base.css ── */
+
+
+/* ── About-specific icon-circle sizing ── */
+.icon-circle {
+  width: 3rem;
+  height: 3rem;
+}
+
+@media (min-width: 768px) {
+  .icon-circle {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
+
+/* ── About-specific text-body tablet override ── */
+@media (min-width: 768px) {
+  .text-body {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+}
+
+/* ── About-specific text-quote tablet override ── */
+@media (min-width: 768px) {
+  .text-quote {
+    font-size: 1.0625rem;
+  }
+}
+
+/* ============================================= */
+/* HERO BANNER — About Page                      */
+/* ============================================= */
+
+#about-hero {
+  position: relative;
+  min-height: 100svh;
+}
+
+/* .about-hero__bg will-change → set via JS when animating */
+
+.about-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  transition: transform 8s var(--ease-out);
+}
+
+.about-hero__bg.is-loaded img {
+  transform: scale(1.06);
+}
+
+/* Content area */
+.about-hero__content {
+  padding-top: 100px;
+  padding-bottom: 80px;
+  justify-content: flex-end;
+}
+
+@media (min-width: 768px) {
+  #about-hero {
+    min-height: 100vh;
+  }
+
+  .about-hero__content {
+    padding-top: 0;
+    padding-bottom: 0;
+    justify-content: center;
+  }
+}
+
+/* ── Hero Elements — Entrance Animation ── */
+.about-hero-el {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+.about-hero-el.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay via nth-of-type */
+.about-hero-el:nth-child(1) {
+  transition-delay: 0.2s;
+}
+
+/* eyebrow */
+.about-hero-el:nth-child(2) {
+  transition-delay: 0.4s;
+}
+
+/* headline */
+.about-hero-el:nth-child(3) {
+  transition-delay: 0.65s;
+}
+
+/* sub-headline */
+.about-hero-el:nth-child(4) {
+  transition-delay: 0.9s;
+}
+
+/* action row */
+
+
+/* ============================================= */
+/* VIDEO PLAY BUTTON                             */
+/* ============================================= */
+
+.video-play-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+}
+
+.video-play-btn__circle {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  backdrop-filter: blur(8px);
+  transition: background var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+}
+
+.video-play-btn__circle svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (min-width: 640px) {
+  .video-play-btn {
+    gap: 0.75rem;
+  }
+
+  .video-play-btn__circle {
+    width: 56px;
+    height: 56px;
+  }
+
+  .video-play-btn__circle svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .video-play-btn__circle {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+.video-play-btn:hover .video-play-btn__circle {
+  background: rgba(255, 138, 0, 0.9);
+  border-color: var(--color-accent);
+  transform: scale(1.08);
+}
+
+/* Pulse ring animation */
+.video-play-btn__circle::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  animation: videoPulse 2.5s ease-out infinite;
+}
+
+@keyframes videoPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  70% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+.video-play-btn__label {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .video-play-btn__label {
+    display: inline;
+  }
+}
+
+
+/* ============================================= */
+/* VIDEO MODAL                                   */
+/* ============================================= */
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.video-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Backdrop */
+.video-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(12px);
+}
+
+/* Container */
+.video-modal__container {
+  position: relative;
+  width: 90%;
+  max-width: 960px;
+  z-index: 1;
+  transform: scale(0.92) translateY(30px);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.video-modal.is-open .video-modal__container {
+  transform: scale(1) translateY(0);
+}
+
+/* Close button */
+.video-modal__close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  cursor: pointer;
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+.video-modal__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+}
+
+/* 16:9 video wrapper */
+.video-modal__video-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-modal__video-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ============================================= */
+/* SCROLL INDICATOR                             */
+/* ============================================= */
+
+.scroll-indicator {
+  width: 20px;
+  height: 32px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.scroll-indicator__dot {
+  width: 3px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translateY(10px);
+    opacity: 0.2;
+  }
+}
+
+/* Hide scroll indicator on mobile landscape */
+@media (max-height: 500px) {
+
+  .scroll-indicator,
+  .scroll-indicator+span {
+    display: none;
+  }
+}
+
+
+
+/* ============================================= */
+/* SECTION 3: TURNING POINT — Circular Infographic */
+/* ============================================= */
+
+/* Turn nodes — hover glow */
+.turn-node circle {
+  transition: fill 0.4s ease, stroke 0.4s ease;
+}
+
+.turn-node:hover circle {
+  fill: rgba(216, 199, 163, 0.2);
+  stroke: rgba(216, 199, 163, 0.7);
+}
+
+.turn-node text {
+  transition: fill 0.3s ease;
+}
+
+.turn-node:hover text {
+  fill: var(--color-beige);
+}
+
+/* Subtle floating animation for the SVG container */
+#turning-circle-svg {
+  filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.04));
+}
+
+/* Active node state (set by JS on scroll) */
+.turn-node.is-active circle {
+  fill: rgba(216, 199, 163, 0.25);
+  stroke: var(--color-beige);
+  stroke-width: 2;
+}
+
+.turn-node.is-active text {
+  fill: var(--color-beige);
+}
+
+/* ── Center Overlay (inside circle) ── */
+.turn-center-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  /* Mobile-first */
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@media (min-width: 640px) {
+  .turn-center-overlay {
+    width: auto;
+  }
+}
+
+/* Default state */
+.turn-center-default {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.turn-center-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 5vw, 1.6rem);
+  /* Mobile-first */
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+}
+
+.turn-center-brand {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
+  /* Mobile-first */
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-beige);
+  margin-top: 6px;
+  opacity: 0.9;
+}
+
+/* Hover detail state */
+.turn-center-detail {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.turn-center-detail__title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  /* Mobile-first */
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-beige);
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.turn-center-detail__desc {
+  display: block;
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  /* Mobile-first */
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+}
+
+/* ─── Card Container ─── */
+.philo-card {
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Background Image ─── */
+.philo-card__img {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.8s ease;
+}
+
+/* ─── Gradient Overlay ─── */
+.philo-card__overlay {
+  height: 70%;
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.5) 45%,
+      rgba(0, 0, 0, 0) 100%);
+  transition: height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ─── Text Content Container ─── */
+.philo-card__content {
+  z-index: 2;
+}
+
+/* ─── Icon ─── */
+.philo-card__icon-wrap {
+  margin-bottom: 0.75rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease 0.05s,
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s;
+}
+
+.philo-card__icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--color-accent, #D4A853);
+  filter: drop-shadow(0 0 6px rgba(212, 168, 83, 0.4));
+}
+
+/* ─── Title (always visible) ─── */
+.philo-card__title {
+  font-family: var(--font-heading, 'Cormorant Garamond', serif);
+  font-size: clamp(1.1rem, 5vw, 1.35rem);
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    margin-bottom 0.4s ease;
+}
+
+/* ─── Description ─── */
+.philo-card__desc {
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.6;
+  opacity: 1;
+  max-height: 150px;
+  transform: translateY(0);
+  transition: opacity 0.45s ease 0.1s,
+    max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.08s,
+    transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+}
+
+/* ============================================= */
+/* SECTION 4.5: TEAM MEMBERS                     */
+/* ============================================= */
+
+.team-card__img-wrap {
+  transform: translateZ(0);
+  /* force hardware acceleration */
+  backface-visibility: hidden;
+}
+
+/* ============================================= */
+/* DESKTOP: Hover-reveal behavior (hover devices only) */
+/* ============================================= */
+@media (hover: hover) and (min-width: 768px) {
+  .philo-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.2);
+  }
+
+  .philo-card__img {
+    filter: brightness(1);
+  }
+
+  .philo-card:hover .philo-card__img {
+    transform: scale(1.08);
+    filter: brightness(0.82);
+  }
+
+  .philo-card__overlay {
+    height: 50%;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.4) 40%,
+        rgba(0, 0, 0, 0) 100%);
+  }
+
+  .philo-card:hover .philo-card__overlay {
+    height: 85%;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.55) 50%,
+        rgba(0, 0, 0, 0) 100%);
+  }
+
+  /* Icon: hidden by default, shown on hover */
+  .philo-card__icon-wrap {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .philo-card:hover .philo-card__icon-wrap {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .philo-card__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  /* Title: shift up on hover */
+  .philo-card__title {
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    margin-bottom: 0;
+  }
+
+  .philo-card:hover .philo-card__title {
+    transform: translateY(-4px);
+    margin-bottom: 0.75rem;
+  }
+
+  /* Description: hidden by default, revealed on hover */
+  .philo-card__desc {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(12px);
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  }
+
+  .philo-card:hover .philo-card__desc {
+    opacity: 1;
+    max-height: 120px;
+    transform: translateY(0);
+  }
+}
+
+
+/* Active state: swap default ↔ detail */
+.turn-center-overlay.is-hovering .turn-center-default {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.turn-center-overlay.is-hovering .turn-center-detail {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ── Flow Arrows ── */
+
+/* The entire orbit group rotates clockwise continuously */
+.arrows-orbit {
+  transform-origin: 200px 210px;
+  animation: arrowsOrbitSpin 30s linear infinite;
+}
+
+@keyframes arrowsOrbitSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.flow-arrow-path {
+  stroke: rgba(255, 255, 255, 0.3);
+  /* Matches the circle border */
+  transition: stroke 0.3s ease, filter 0.3s ease;
+}
+
+.turn-arrow:hover .flow-arrow-path {
+  stroke: var(--color-beige);
+  filter: drop-shadow(0 0 6px rgba(216, 199, 163, 0.8));
+}
+
+/* ============================================= */
+/* SECTION 5: CORE VALUES — Bản Sắc Cốt Lõi     */
+/* ============================================= */
+
+.cv-section {
+  background-color: var(--color-primary);
+  background-image:
+    linear-gradient(rgba(20, 81, 61, 0.9), rgba(20, 81, 61, 0.9)),
+    url('../img/hero-house.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Subtle radial gradient for depth */
+.cv-bg-texture {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+}
+
+/* ── Bento Grid ── */
+.cv-grid {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+/* ── Card Base ── */
+.cv-card {
+  position: relative;
+  border-radius: 12px;
+  background: var(--color-primary);
+  /* Solid background */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transition:
+    transform 0.5s var(--ease-out),
+    background 0.5s var(--ease-out),
+    border-color 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+
+/* ── Accent overline (slides in on hover) ── */
+.cv-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), #FFAA40);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 5;
+  border-radius: 0 0 2px 2px;
+}
+
+/* ── Shimmer sweep (diagonal shine on hover) ── */
+.cv-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(105deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.06) 55%,
+      transparent 70%);
+  transform: skewX(-15deg);
+  transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cv-card__inner {
+  position: relative;
+  padding: 1.75rem 1.5rem;
+  /* Mobile-first */
+  min-height: auto;
+  /* Mobile-first */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+@media (min-width: 768px) {
+  .cv-card__inner {
+    padding: 2.5rem 2rem 2.25rem;
+    min-height: 260px;
+  }
+}
+
+/* ── Watermark Number ── */
+.cv-card__number {
+  position: absolute;
+  top: 0.75rem;
+  /* Mobile-first */
+  right: 1rem;
+  /* Mobile-first */
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  /* Mobile-first */
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.5s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .cv-card__number {
+    font-size: 5.5rem;
+    top: 1.25rem;
+    right: 1.5rem;
+  }
+}
+
+/* ── Icon ── */
+.cv-card__icon-wrap {
+  margin-bottom: 1.25rem;
+  width: 56px;
+  /* Mobile-first */
+  height: 56px;
+  /* Mobile-first */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  /* Mobile-first */
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition:
+    background 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .cv-card__icon-wrap {
+    width: 84px;
+    height: 84px;
+    border-radius: 16px;
+  }
+}
+
+.cv-card__icon {
+  width: 34px;
+  /* Mobile-first */
+  height: 34px;
+  /* Mobile-first */
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.4s var(--ease-out),
+    filter 0.4s var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .cv-card__icon {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+/* ── Title ── */
+.cv-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  margin-bottom: 0.75rem;
+  transition: color 0.4s var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .cv-card__title {
+    font-size: 1.25rem;
+  }
+}
+
+/* ── Description ── */
+.cv-card__desc {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  max-width: 32ch;
+  transition: color 0.4s var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .cv-card__desc {
+    font-size: 0.875rem;
+  }
+}
+
+/* ============================================= */
+/* CORE VALUES: Hover Effects (hover devices)    */
+/* ============================================= */
+@media (hover: hover) and (min-width: 768px) {
+  .cv-card:hover {
+    transform: translateY(-6px);
+    background: color-mix(in srgb, var(--color-primary) 85%, white);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow:
+      0 20px 50px -12px rgba(0, 0, 0, 0.35),
+      0 0 30px -8px rgba(255, 138, 0, 0.08);
+  }
+
+  /* Overline slides in */
+  .cv-card:hover::before {
+    width: 100%;
+  }
+
+  /* Shimmer sweep activates */
+  .cv-card:hover::after {
+    left: 120%;
+  }
+
+  .cv-card:hover .cv-card__number {
+    color: rgba(255, 255, 255, 0.08);
+    transform: scale(1.08) translateY(-4px);
+  }
+
+  .cv-card:hover .cv-card__icon-wrap {
+    background: rgba(255, 138, 0, 0.15);
+    border-color: rgba(255, 138, 0, 0.35);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px -4px rgba(255, 138, 0, 0.2);
+  }
+
+  .cv-card:hover .cv-card__icon {
+    color: var(--color-accent);
+    filter: drop-shadow(0 0 10px rgba(255, 138, 0, 0.5));
+    animation: cvIconPulse 1.5s ease-in-out infinite;
+  }
+
+  .cv-card:hover .cv-card__title {
+    color: #fff;
+  }
+
+  .cv-card:hover .cv-card__desc {
+    color: rgba(255, 255, 255, 0.72);
+  }
+}
+
+/* Icon pulse keyframe */
+@keyframes cvIconPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.12);
+  }
+}

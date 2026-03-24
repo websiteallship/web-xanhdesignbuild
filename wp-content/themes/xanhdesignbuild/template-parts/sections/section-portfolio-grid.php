@@ -60,7 +60,7 @@ $total_pages = $portfolio_query->max_num_pages;
 		<?php if ( $total_pages > 1 ) : ?>
 			<!-- Load More -->
 			<div class="flex justify-center mt-12 md:mt-16">
-				<button id="load-more-btn" class="btn btn--outline group">
+				<button id="load-more-btn" class="btn btn--outline group" data-page="1" data-max="<?php echo esc_attr( $total_pages ); ?>">
 					<span>Xem Thêm Dự Án</span>
 					<i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1"></i>
 				</button>

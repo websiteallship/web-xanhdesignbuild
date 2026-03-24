@@ -30,10 +30,10 @@ $default_projects = [
 		'title'      => 'Nhà Phố Quận 7',
 		'area'       => '120 m²',
 		'duration'   => '6 tháng',
-		'year'       => '2025',
+		'type'       => 'Cải tạo toàn diện',
 		'quote'      => '"Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành hiện thực — đúng tiến độ, đúng chi phí."',
 		'author'     => '— Anh Minh & Chị Hương, Q7, TP.HCM',
-		'link_url'   => '#',
+		'link'       => '#',
 	],
 	[
 		'before_img' => $uploads . 'project-3.png',
@@ -43,10 +43,10 @@ $default_projects = [
 		'title'      => 'Biệt Thự Thảo Điền',
 		'area'       => '280 m²',
 		'duration'   => '14 tháng',
-		'year'       => '2024',
+		'type'       => 'Biệt thự hiện đại',
 		'quote'      => '"Từ mảnh đất trống đến ngôi nhà mơ ước — XANH tận tâm từ bản vẽ đầu tiên đến ngày bàn giao chìa khoá."',
 		'author'     => '— Gia đình anh Tuấn, Thảo Điền, Q2',
-		'link_url'   => '#',
+		'link'       => '#',
 	],
 	[
 		'before_img' => $uploads . 'project-4.png',
@@ -56,10 +56,10 @@ $default_projects = [
 		'title'      => 'Penthouse Quận 2',
 		'area'       => '95 m²',
 		'duration'   => '3 tháng',
-		'year'       => '2024',
+		'type'       => 'Penthouse cao cấp',
 		'quote'      => '"Không gian sống thay đổi hoàn toàn — sang trọng, tinh tế nhưng vẫn ấm cúng cho gia đình nhỏ."',
 		'author'     => '— Chị Linh, Thủ Thiêm, Q2',
-		'link_url'   => '#',
+		'link'       => '#',
 	],
 	[
 		'before_img' => $uploads . 'project-1.png',
@@ -69,10 +69,10 @@ $default_projects = [
 		'title'      => 'Villa Bình Dương',
 		'area'       => '350 m²',
 		'duration'   => '18 tháng',
-		'year'       => '2023',
+		'type'       => 'Villa hiện đại',
 		'quote'      => '"XANH đã giúp chúng tôi xây dựng không chỉ một ngôi nhà, mà cả một phong cách sống mới — hòa mình với thiên nhiên."',
 		'author'     => '— Anh Phúc & Chị Ngọc, Bình Dương',
-		'link_url'   => '#',
+		'link'       => '#',
 	],
 ];
 
@@ -81,9 +81,9 @@ $acf_items = get_field( 'portfolio_projects' );
 if ( is_array( $acf_items ) && ! empty( $acf_items[0]['title'] ?? '' ) ) {
 	$projects = [];
 	foreach ( $acf_items as $i => $item ) {
-		$before = $item['before_image'] ?? null;
-		$after  = $item['after_image'] ?? null;
-		$thumb  = $item['thumb_image'] ?? $after;
+		$before = $item['before_img'] ?? null;
+		$after  = $item['after_img'] ?? null;
+		$thumb  = $item['thumb_img'] ?? $after;
 		$fb     = $default_projects[ $i ] ?? $default_projects[0];
 		$projects[] = [
 			'before_img' => is_array( $before ) ? $before['url'] : ( $fb['before_img'] ?? '' ),
@@ -93,10 +93,10 @@ if ( is_array( $acf_items ) && ! empty( $acf_items[0]['title'] ?? '' ) ) {
 			'title'      => $item['title'] ?? $fb['title'],
 			'area'       => $item['area'] ?? $fb['area'],
 			'duration'   => $item['duration'] ?? $fb['duration'],
-			'year'       => $item['year'] ?? $fb['year'],
+			'type'       => $item['type'] ?? $fb['type'],
 			'quote'      => $item['quote'] ?? $fb['quote'],
 			'author'     => $item['author'] ?? $fb['author'],
-			'link_url'   => $item['link_url'] ?? '#',
+			'link'       => $item['link'] ?? '#',
 		];
 	}
 } else {
@@ -131,12 +131,14 @@ $first = $projects[0];
 					<!-- After image (background) -->
 					<img src="<?php echo esc_url( $first['after_img'] ); ?>"
 						alt="Sau cải tạo — <?php echo esc_attr( $first['title'] ); ?>"
-						class="ba-slider__after" id="ba-after-img" draggable="false" />
+						class="ba-slider__after" id="ba-after-img" draggable="false"
+						width="800" height="1000" loading="lazy" />
 					<!-- Before image (clipped foreground) -->
 					<div class="ba-slider__before" id="ba-before-clip">
 						<img src="<?php echo esc_url( $first['before_img'] ); ?>"
 							alt="Trước cải tạo — <?php echo esc_attr( $first['title'] ); ?>"
-							id="ba-before-img" draggable="false" />
+							id="ba-before-img" draggable="false"
+							width="800" height="1000" loading="lazy" />
 					</div>
 					<!-- Drag handle -->
 					<div class="ba-slider__handle" id="ba-handle">
@@ -164,7 +166,7 @@ $first = $projects[0];
 					<span class="meta-sep"></span>
 					<span class="meta-item"><i data-lucide="clock"></i> <?php echo esc_html( $first['duration'] ); ?></span>
 					<span class="meta-sep"></span>
-					<span class="meta-item"><i data-lucide="calendar"></i> <?php echo esc_html( $first['year'] ); ?></span>
+					<span class="meta-item"><i data-lucide="home"></i> <?php echo esc_html( $first['type'] ); ?></span>
 				</div>
 				<blockquote class="ba-info__quote" id="ba-quote">
 					<?php echo esc_html( $first['quote'] ); ?>
@@ -172,7 +174,7 @@ $first = $projects[0];
 				<p class="ba-info__author" id="ba-author">
 					<?php echo esc_html( $first['author'] ); ?>
 				</p>
-				<a href="<?php echo esc_url( $first['link_url'] ); ?>" class="ba-info__cta group">
+				<a href="<?php echo esc_url( $first['link'] ); ?>" class="ba-info__cta group">
 					Xem Hành Trình Dự Án
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
 						stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1">
@@ -194,10 +196,12 @@ $first = $projects[0];
 									<div class="ba-custom-slider">
 										<img src="<?php echo esc_url( $proj['after_img'] ); ?>"
 											alt="Sau — <?php echo esc_attr( $proj['title'] ); ?>"
-											class="ba-custom-slider__after" draggable="false" />
+											class="ba-custom-slider__after" draggable="false"
+											width="800" height="1000" loading="lazy" />
 										<div class="ba-custom-slider__before">
 											<img src="<?php echo esc_url( $proj['before_img'] ); ?>"
-												alt="Trước — <?php echo esc_attr( $proj['title'] ); ?>" draggable="false" />
+												alt="Trước — <?php echo esc_attr( $proj['title'] ); ?>" draggable="false"
+												width="800" height="1000" loading="lazy" />
 										</div>
 										<div class="ba-custom-slider__handle">
 											<div class="ba-custom-slider__handle-line"></div>
@@ -221,13 +225,13 @@ $first = $projects[0];
 										<span class="meta-sep"></span>
 										<span class="meta-item"><i data-lucide="clock"></i> <?php echo esc_html( $proj['duration'] ); ?></span>
 										<span class="meta-sep"></span>
-										<span class="meta-item"><i data-lucide="calendar"></i> <?php echo esc_html( $proj['year'] ); ?></span>
+										<span class="meta-item"><i data-lucide="home"></i> <?php echo esc_html( $proj['type'] ); ?></span>
 									</div>
 									<blockquote class="mobile-project-card__quote">
 										<?php echo esc_html( $proj['quote'] ); ?>
 									</blockquote>
 									<p class="mobile-project-card__author"><?php echo esc_html( $proj['author'] ); ?></p>
-									<a href="<?php echo esc_url( $proj['link_url'] ); ?>" class="mobile-project-card__cta">
+									<a href="<?php echo esc_url( $proj['link'] ); ?>" class="mobile-project-card__cta">
 										Xem Hành Trình Dự Án
 										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
 											<path d="M5 12h14" />
@@ -257,12 +261,12 @@ $first = $projects[0];
 								data-title="<?php echo esc_attr( $proj['title'] ); ?>"
 								data-area="<?php echo esc_attr( $proj['area'] ); ?>"
 								data-duration="<?php echo esc_attr( $proj['duration'] ); ?>"
-								data-year="<?php echo esc_attr( $proj['year'] ); ?>"
+								data-type="<?php echo esc_attr( $proj['type'] ); ?>"
 								data-quote="<?php echo esc_attr( $proj['quote'] ); ?>"
 								data-author="<?php echo esc_attr( $proj['author'] ); ?>">
 								<div class="project-thumb__img-wrap">
 									<img src="<?php echo esc_url( $proj['thumb_img'] ); ?>"
-										alt="<?php echo esc_attr( $proj['title'] ); ?>" loading="lazy" />
+										alt="<?php echo esc_attr( $proj['title'] ); ?>" loading="lazy" width="400" height="300" />
 								</div>
 								<div class="project-thumb__info">
 									<span class="project-thumb__name"><?php echo esc_html( $proj['title'] ); ?></span>

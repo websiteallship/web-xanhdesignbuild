@@ -28,7 +28,7 @@ if ( empty( $cv_items ) ) {
 }
 ?>
 
-<section id="about-core-values" class="cv-section relative w-full overflow-hidden py-12 md:py-16 lg:py-20">
+<section id="about-core-values" class="cv-section relative w-full overflow-hidden py-12 md:py-16 lg:py-20" style="background: linear-gradient(rgba(20,81,61,0.9), rgba(20,81,61,0.9)), url('<?php echo esc_url( site_url( '/wp-content/uploads/2026/03/hero-house.png' ) ); ?>') center/cover no-repeat var(--color-primary);">
 
 	<!-- Subtle background texture -->
 	<div class="absolute inset-0 cv-bg-texture pointer-events-none"></div>

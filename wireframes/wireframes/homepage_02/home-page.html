@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XANH - Design & Build | Kiến Tạo Tổ Ấm Bình Yên</title>
+  <meta name="description"
+    content="XANH - Design & Build: Thiết kế và xây dựng nhà ở bền vững, minh bạch, kiến tạo tổ ấm bình yên cho gia đình Việt." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#14513D',
+            accent: '#FF8A00',
+            light: '#F3F4F6',
+            beige: '#D8C7A3',
+            dark: '#1A1A1A',
+          },
+          fontFamily: {
+            heading: ['Inter', '-apple-system', 'sans-serif'],
+            body: ['Inter', '-apple-system', 'sans-serif'],
+          },
+          screens: {
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1440px',
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../_shared/base.css" />
+  <link rel="stylesheet" href="home-page.css" />
+</head>
+
+<body class="font-body bg-[#1e1e1e] text-dark antialiased overflow-x-hidden">
+
+  <!-- ============================================= -->
+  <!-- HEADER / NAVIGATION                           -->
+  <!-- ============================================= -->
+  <header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <nav class="relative flex items-center justify-between px-5 md:px-8 lg:px-12 xl:px-16 py-4 lg:py-5">
+
+      <!-- Logo: Desktop left | Mobile centered -->
+      <a href="#"
+        class="relative flex items-center lg:static absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto group"
+        id="logo-link">
+        <!-- White Logo (Default/transparent header) -->
+        <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build"
+          class="h-8 lg:h-9 w-auto logo-white transition-opacity duration-300" />
+        <!-- Normal/Dark Logo (Scrolled header) -->
+        <img src="../SVG/LOGO FULL TAGLINE/LOGO-01.svg" alt="XANH Design & Build"
+          class="h-8 lg:h-9 w-auto absolute top-1/2 -translate-y-1/2 left-0 opacity-0 logo-dark transition-opacity duration-300" />
+      </a>
+
+      <!-- Desktop Menu -->
+      <ul class="hidden lg:flex items-center gap-10" id="desktop-menu">
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Trang
+            Chủ</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Giới
+            Thiệu</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Dự
+            Án</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Dịch
+            Vụ</a></li>
+        <li><a href="#"
+            class="nav-link text-white/90 text-sm font-medium uppercase tracking-[0.1em] hover:text-white transition-colors duration-300 relative">Blog</a>
+        </li>
+      </ul>
+
+      <!-- Desktop CTA -->
+      <a href="#" class="hidden lg:inline-flex btn btn--primary py-2.5 px-6 min-w-0 text-sm tracking-[0.1em]"
+        id="header-cta">
+        <i data-lucide="phone" class="btn__icon"></i>
+        Đặt Lịch Tư Vấn
+      </a>
+
+    </nav>
+  </header>
+
+  <!-- Mobile Menu Toggle — Fixed above drawer for close functionality -->
+  <button class="lg:hidden fixed top-4 right-5 z-[1010] w-10 h-10 flex flex-col justify-center items-center gap-[6px]"
+    id="mobile-menu-btn" aria-label="Toggle Menu">
+    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
+    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
+    <span class="hamburger-line block w-5 h-[1.5px] bg-white transition-all duration-300 ease-out origin-center"></span>
+  </button>
+
+  <!-- ============================================= -->
+  <!-- MOBILE DRAWER MENU                            -->
+  <!-- ============================================= -->
+  <!-- Overlay backdrop -->
+  <div id="mobile-overlay"
+    class="fixed inset-0 bg-black/60 z-[998] opacity-0 pointer-events-none transition-opacity duration-400"></div>
+
+  <!-- Drawer panel -->
+  <aside id="mobile-drawer"
+    class="fixed top-0 right-0 h-full w-[280px] sm:w-[320px] bg-primary z-[999] flex flex-col translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+    aria-label="Mobile navigation">
+
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-start px-6 py-5 border-b-[0.5px] border-white/30">
+      <!-- Logo -->
+      <a href="#" class="block">
+        <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build" class="h-7 w-auto" />
+      </a>
+    </div>
+
+    <!-- Nav Items -->
+    <nav class="flex-1 overflow-y-auto py-4">
+      <ul class="flex flex-col">
+        <li>
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+            Trang Chủ
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+            Giới Thiệu
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+            Dự Án
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+            Dịch Vụ
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            class="mobile-nav-link flex items-center justify-between px-6 py-4 text-white/90 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] border-b-[0.5px] border-white/20 hover:bg-white/10 hover:text-white transition-colors duration-300">
+            Blog
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-white/40"></i>
+          </a>
+        </li>
+      </ul>
+
+      <!-- CTA inside drawer -->
+      <div class="px-6 mt-6">
+        <a href="#" class="btn btn--primary w-full !min-w-0">
+          <i data-lucide="phone" class="btn__icon"></i>
+          Đặt Lịch Tư Vấn Riêng
+        </a>
+      </div>
+    </nav>
+
+    <!-- Social Icons footer -->
+    <div class="px-6 py-5 border-t-[0.5px] border-white/20">
+      <div class="flex items-center gap-5">
+        <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" aria-label="Facebook">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+          </svg>
+        </a>
+        <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" aria-label="Instagram">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+          </svg>
+        </a>
+        <a href="#" class="text-white/50 hover:text-white transition-colors duration-300" aria-label="YouTube">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        </a>
+      </div>
+      <p class="text-white/30 text-xs mt-3 tracking-wide">© 2026 XANH Design & Build</p>
+    </div>
+  </aside>
+
+  <!-- ============================================= -->
+  <!-- SECTION 1: HERO — The Hook (100vh)            -->
+  <!-- ============================================= -->
+  <section id="hero" class="relative w-full h-screen overflow-hidden">
+
+    <!-- Background Slider (visual showcase only) -->
+    <div class="swiper hero-swiper absolute inset-0 w-full h-full">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="../img/hero-house.png" alt="Biệt thự hiện đại giữa thiên nhiên — XANH"
+            class="w-full h-full object-cover" width="1920" height="1080" />
+        </div>
+        <div class="swiper-slide">
+          <img src="../img/hero-bg.png" alt="Gia đình hạnh phúc trong tổ ấm — XANH" class="w-full h-full object-cover"
+            width="1920" height="1080" />
+        </div>
+        <div class="swiper-slide">
+          <img src="../img/project-1.png" alt="Nhà phố nhiệt đới hiện đại — XANH" class="w-full h-full object-cover"
+            width="1920" height="1080" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-primary/50 to-primary/80 z-10"></div>
+
+    <!-- Fixed Content Overlay -->
+    <div class="hero-content relative z-20 flex flex-col justify-center h-full site-container site-container--hero">
+      <div class="max-w-2xl lg:max-w-3xl">
+        <!-- Headline -->
+        <h1 id="hero-headline"
+          class="hero-headline text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.2rem] font-bold !leading-[1.5] tracking-[-0.02em] mb-7 md:mb-9">
+          Đừng Chỉ Xây Một Ngôi Nhà.<br />
+          <span class="font-light">Hãy Xây Dựng Sự Bình Yên.</span>
+        </h1>
+        <!-- Sub-headline -->
+        <p id="hero-subheadline"
+          class="hero-subheadline text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-9 md:mb-11">
+          Tại Xanh, chúng tôi tin rằng hành trình kiến tạo tổ ấm không nên bắt đầu bằng sự lo âu...
+        </p>
+        <!-- CTA Button -->
+        <a href="#empathy" id="hero-cta"
+          class="hero-cta btn btn--primary shadow-lg shadow-accent/20 hover:shadow-accent/30 hover:shadow-xl group">
+          <span>Lắng Nghe Câu Chuyện Của Xanh</span>
+          <i data-lucide="arrow-down" class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Pagination Dots -->
+    <div class="swiper-pagination hero-pagination"></div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- MARQUEE DIVIDER                               -->
+  <!-- ============================================= -->
+  <div class="marquee relative z-30 shadow-2xl shadow-black/50">
+    <div class="marquee__track">
+      <span class="marquee__text">kiến tạo tổ ấm bình yên <span>✦</span></span>
+      <span class="marquee__text">minh bạch từ viên gạch đầu tiên <span>✦</span></span>
+      <span class="marquee__text">thiết kế xanh cho thế hệ mai sau <span>✦</span></span>
+      <span class="marquee__text">thi công trọn gói — cam kết không phát sinh <span>✦</span></span>
+      <!-- Duplicate for seamless loop -->
+      <span class="marquee__text">kiến tạo tổ ấm bình yên <span>✦</span></span>
+      <span class="marquee__text">minh bạch từ viên gạch đầu tiên <span>✦</span></span>
+      <span class="marquee__text">thiết kế xanh cho thế hệ mai sau <span>✦</span></span>
+      <span class="marquee__text">thi công trọn gói — cam kết không phát sinh <span>✦</span></span>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- SECTION 2: NỖI TRĂN TRỞ — Empathy            -->
+  <!-- ============================================= -->
+  <section id="empathy" class="empathy-section section bg-white">
+    <div class="site-container">
+      <div class="empathy-split">
+
+        <!-- LEFT: Text Block -->
+        <div class="empathy-text">
+          <!-- Sub-label -->
+          <span class="anim-fade-up section-eyebrow block mb-6">
+            Chúng Tôi Hiểu
+          </span>
+
+          <!-- Headline -->
+          <h2 class="anim-fade-up section-title text-primary mb-8 md:mb-10">
+            Chúng Tôi Hiểu — Xây Nhà Là Quyết Định Lớn Nhất Đời.
+          </h2>
+
+          <!-- Body Paragraphs -->
+          <div class="space-y-6 mb-10 md:mb-14">
+            <p class="anim-fade-up text-lead">
+              Những bảng dự toán "chào mồi" thấp bất thường, rồi phát sinh liên tục.
+              Vật liệu kém chất lượng được lén thay thế. Bảo hành "im lặng" sau bàn giao.
+            </p>
+            <p class="anim-fade-up text-lead">
+              Những gia chủ bắt đầu hành trình xây tổ ấm bằng sự háo hức,
+              rồi kết thúc bằng sự kiệt sức và thất vọng.
+            </p>
+          </div>
+
+          <!-- Highlighted Quote Box -->
+          <blockquote class="anim-fade-up text-quote empathy-quote">
+            <p>
+              "Đó không phải là cách một tổ ấm được sinh ra. Và đó là lúc,
+              <strong>Xanh</strong> chọn đi một con đường khác."
+            </p>
+          </blockquote>
+        </div>
+
+        <!-- RIGHT: Single Portrait Photo -->
+        <div class="empathy-photo anim-fade-up">
+          <img src="../img/empathy-moody.png" alt="Góc khuất ngành xây dựng — XANH Design & Build"
+            class="w-full h-full object-cover" width="800" height="1000" loading="lazy" />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 3: TRIẾT LÝ "4 XANH" — Core Values   -->
+  <!-- ============================================= -->
+  <section id="core-values" class="relative section bg-primary">
+    <div class="core-values-layout site-container">
+
+      <!-- Split: Left Headline + Right Grid -->
+      <div class="core-values-split">
+
+        <!-- LEFT: Big Editorial Headline -->
+        <div class="core-values-headline">
+          <p class="anim-fade-up section-eyebrow section-eyebrow--values mb-6">
+            Triết Lý Cốt Lõi
+          </p>
+          <h2 class="anim-fade-up section-title section-title--light mb-8">
+            CON<br class="hidden md:block"> ĐƯỜNG<br class="hidden md:block"> CỦA<br class="hidden md:block"> XANH
+          </h2>
+          <p
+            class="anim-fade-up text-base text-beige font-medium italic !leading-[1.6] tracking-wide border-l-2 border-accent pl-4 max-w-[280px]">
+            Xây Bằng Sự Tử Tế & Tầm Nhìn Thế Hệ.
+          </p>
+        </div>
+
+        <!-- RIGHT: 2×2 Editorial Grid -->
+        <div class="core-values-grid">
+
+          <!-- Item 1: Chi Phí Xanh -->
+          <div class="core-value-item anim-fade-up">
+            <div class="core-value-item__header">
+              <span class="core-value-item__number">01</span>
+              <!-- Lucide: circle-dollar-sign -->
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                <path d="M12 18V6" />
+              </svg>
+            </div>
+            <h3 class="core-value-item__title">Chi Phí<br>Xanh</h3>
+            <p class="core-value-item__desc">
+              Dự toán minh bạch từ viên gạch đầu tiên. Cam kết không phát sinh ngoài hợp đồng — để gia chủ luôn an tâm
+              về tài chính.
+            </p>
+          </div>
+
+          <!-- Item 2: Vật Liệu Xanh -->
+          <div class="core-value-item anim-fade-up">
+            <div class="core-value-item__header">
+              <span class="core-value-item__number">02</span>
+              <!-- Lucide: leaf -->
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+              </svg>
+            </div>
+            <h3 class="core-value-item__title">Vật Liệu<br>Xanh</h3>
+            <p class="core-value-item__desc">
+              Chọn lọc vật liệu chính hãng, thân thiện môi trường — tạo ra những giải pháp kiến trúc bền vững, tiên
+              phong.
+            </p>
+          </div>
+
+          <!-- Item 3: Vận Hành Xanh -->
+          <div class="core-value-item anim-fade-up">
+            <div class="core-value-item__header">
+              <span class="core-value-item__number">03</span>
+              <!-- Lucide: sun -->
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
+              </svg>
+            </div>
+            <h3 class="core-value-item__title">Vận Hành<br>Xanh</h3>
+            <p class="core-value-item__desc">
+              Quy trình chuẩn ISO. Giám sát chất lượng 3 lớp, cập nhật tiến độ hàng tuần qua ứng dụng — minh bạch tuyệt
+              đối.
+            </p>
+          </div>
+
+          <!-- Item 4: Giá Trị Xanh -->
+          <div class="core-value-item anim-fade-up">
+            <div class="core-value-item__header">
+              <span class="core-value-item__number">04</span>
+              <!-- Lucide: handshake -->
+              <svg class="core-value-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+                <path
+                  d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+                <path d="m21 3 1 11h-2" />
+                <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+                <path d="M3 4h8" />
+              </svg>
+            </div>
+            <h3 class="core-value-item__title">Giá Trị<br>Xanh</h3>
+            <p class="core-value-item__desc">
+              Đồng hành tận tâm từ tư vấn đến bảo hành trọn đời — mỗi ngôi nhà XANH gia tăng giá trị cho thế hệ tiếp
+              theo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 4: LĨNH VỰC THỰC HIỆN — Services     -->
+  <!-- ============================================= -->
+  <section id="services" class="relative section bg-white">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center">
+        <p class="anim-fade-up section-eyebrow">
+          Lĩnh Vực Hoạt Động
+        </p>
+        <h2 class="anim-fade-up section-title text-primary">
+          Giải Pháp Khép Kín.<br>Dấu Ấn Độc Bản.
+        </h2>
+        <p class="anim-fade-up section-subtitle">
+          Từ ý tưởng kiến trúc sơ khai đến khi trao tay chiếc chìa khóa tổ ấm — Xanh đồng hành cùng bạn trong mọi giai
+          đoạn.
+        </p>
+      </div>
+
+      <!-- 4-Card Grid -->
+      <div class="services-grid">
+
+        <!-- Card 1: Thiết kế Kiến trúc & Nội thất -->
+        <div class="service-card">
+          <div class="service-card__img-wrap">
+            <img src="img/service-architecture.png" alt="Thiết kế kiến trúc biệt thự hiện đại — XANH Design & Build"
+              class="service-card__img" width="400" height="520" loading="lazy" />
+          </div>
+          <div class="service-card__body">
+            <h3 class="service-card__title">Thiết Kế<br>Kiến Trúc & Nội Thất</h3>
+            <p class="service-card__desc">
+              Kiến tạo không gian sống cá nhân hoá, chú trọng thẩm mỹ, công năng và phong thuỷ — nơi mọi đường nét đều
+              kể câu chuyện của gia chủ.
+            </p>
+            <a href="#" class="service-card__link">
+              Khám Phá Dịch Vụ
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: Thi công Xây dựng Trọn gói -->
+        <div class="service-card">
+          <div class="service-card__img-wrap">
+            <img src="img/service-construction.png" alt="Thi công xây dựng nhà trọn gói — XANH Design & Build"
+              class="service-card__img" width="400" height="520" loading="lazy" />
+          </div>
+          <div class="service-card__body">
+            <h3 class="service-card__title">Thi Công<br>Xây Dựng Trọn Gói</h3>
+            <p class="service-card__desc">
+              Giám sát kỹ thuật 3 lớp, đúng tiến độ cam kết, 100% không phát sinh — mang đến sự an tâm tuyệt đối cho gia
+              chủ suốt hành trình.
+            </p>
+            <a href="#" class="service-card__link">
+              Tìm Hiểu Thêm
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 3: Sản xuất & Thi công Nội thất -->
+        <div class="service-card">
+          <div class="service-card__img-wrap">
+            <img src="img/service-interior.png" alt="Sản xuất thi công nội thất cao cấp — XANH Design & Build"
+              class="service-card__img" width="400" height="520" loading="lazy" />
+          </div>
+          <div class="service-card__body">
+            <h3 class="service-card__title">Sản Xuất &<br>Thi Công Nội Thất</h3>
+            <p class="service-card__desc">
+              Xưởng mộc trực tiếp, vật liệu chuẩn An Cường — hoàn thiện tinh xảo từng chi tiết, nâng tầm không gian sống
+              theo phong cách riêng.
+            </p>
+            <a href="#" class="service-card__link">
+              Tìm Hiểu Thêm
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 4: Cải tạo & Nâng cấp -->
+        <div class="service-card">
+          <div class="service-card__img-wrap">
+            <img src="img/service-renovation.png" alt="Cải tạo nâng cấp nhà ở — XANH Design & Build"
+              class="service-card__img" width="400" height="520" loading="lazy" />
+          </div>
+          <div class="service-card__body">
+            <h3 class="service-card__title">Cải Tạo &<br>Nâng Cấp</h3>
+            <p class="service-card__desc">
+              Thổi hồn mới vào không gian cũ — từ cải tạo cục bộ đến tái thiết toàn diện, bảo tồn ký ức và kiến tạo giá
+              trị mới cho ngôi nhà.
+            </p>
+            <a href="#" class="service-card__link">
+              Tìm Hiểu Thêm
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="w-4 h-4">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION CTA: Liên Hệ Tư Vấn                  -->
+  <!-- ============================================= -->
+  <section id="cta" class="cta-section section" aria-label="Liên hệ tư vấn">
+    <div class="site-container">
+      <div class="cta-card">
+        <!-- LEFT: Text panel -->
+        <div class="cta-panel cta-panel--text">
+          <div class="cta-content">
+            <p class="cta-el section-eyebrow cta-eyebrow">Bắt Đầu Hành Trình Của Bạn</p>
+            <h2 class="cta-el section-title cta-heading">
+              Không Gian Lý Tưởng<br />Bắt Đầu Từ<br />Một Cuộc Trò Chuyện.
+            </h2>
+            <p class="cta-el cta-body">
+              Đội ngũ XANH Design &amp; Build sẵn sàng lắng nghe — đồng hành cùng bạn từ bản vẽ đầu tiên đến ngày trao
+              chìa khóa.
+            </p>
+            <div class="cta-el cta-actions">
+              <a href="#contact" class="btn btn--primary group">
+                <span>Đặt Lịch Trao Đổi Riêng</span>
+                <i data-lucide="phone"
+                  class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
+              </a>
+              <a href="#projects" class="cta-btn cta-btn--ghost group">
+                <span>Khám Phá Các Tác Phẩm</span>
+                <i data-lucide="message-circle" class="cta-btn--ghost__icon"></i>
+              </a>
+            </div>
+            <!-- Trust badges row -->
+            <div class="cta-el cta-badges">
+              <div class="cta-badge">
+                <span class="cta-badge__num" data-count="10" data-suffix="+">0</span>
+                <span class="cta-badge__label">Năm kinh nghiệm</span>
+              </div>
+              <div class="cta-badge-sep"></div>
+              <div class="cta-badge">
+                <span class="cta-badge__num" data-count="200" data-suffix="+">0</span>
+                <span class="cta-badge__label">Dự án hoàn thành</span>
+              </div>
+              <div class="cta-badge-sep"></div>
+              <div class="cta-badge">
+                <span class="cta-badge__num" data-count="98" data-suffix="%">0</span>
+                <span class="cta-badge__label">Khách hàng hài lòng</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT: Image panel -->
+        <div class="cta-panel cta-panel--image" aria-hidden="true">
+          <img src="../img/interior-living.png" alt="Không gian nội thất XANH Design & Build" class="cta-img"
+            width="640" height="800" loading="lazy" />
+          <!-- Decorative overlay quote -->
+          <div class="cta-img-quote">
+            <svg class="cta-img-quote__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+              <path
+                d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+            </svg>
+            <p>"Thiết kế không chỉ là vẻ đẹp bên ngoài — đó là cách không gian khiến bạn cảm thấy."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 5: DỰ ÁN TIÊU BIỂU — Before / After  -->
+  <!-- ============================================= -->
+  <section id="projects" class="relative section bg-white">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center">
+        <p class="anim-fade-up section-eyebrow">
+          Dự Án Tiêu Biểu
+        </p>
+        <h2 class="anim-fade-up section-title text-primary">
+          Hành Trình<br>Chuyển Hoá Không Gian.
+        </h2>
+        <p class="anim-fade-up section-subtitle">
+          Mỗi dự án là một câu chuyện — từ những không gian cũ kỹ đến tổ ấm hoàn hảo mà gia chủ luôn mong ước.
+        </p>
+      </div>
+
+      <!-- ── Featured Slider Area ── -->
+      <div class="anim-fade-up projects-featured">
+
+        <!-- LEFT: Before/After Comparison Slider -->
+        <div class="ba-slider-wrap">
+          <div class="ba-slider" id="ba-slider">
+            <!-- After image (background layer) -->
+            <img src="img/project-after-1.png" alt="Sau cải tạo — Biệt thự hiện đại" class="ba-slider__after"
+              id="ba-after-img" draggable="false" />
+            <!-- Before image (clipped foreground layer) -->
+            <div class="ba-slider__before" id="ba-before-clip">
+              <img src="img/project-before-1.png" alt="Trước cải tạo — Không gian cũ" id="ba-before-img"
+                draggable="false" />
+            </div>
+            <!-- Drag handle -->
+            <div class="ba-slider__handle" id="ba-handle">
+              <div class="ba-slider__handle-line"></div>
+              <div class="ba-slider__handle-knob">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="m9 18-6-6 6-6" />
+                  <path d="m15 6 6 6-6 6" />
+                </svg>
+              </div>
+              <div class="ba-slider__handle-line"></div>
+            </div>
+            <!-- Labels -->
+            <span class="ba-slider__label ba-slider__label--before">Trước</span>
+            <span class="ba-slider__label ba-slider__label--after">Sau</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: Customer Quote / Project Info -->
+        <div class="ba-info" id="ba-info">
+          <span class="ba-info__tag tag" id="ba-tag">Cải tạo toàn diện</span>
+          <h3 class="ba-info__title" id="ba-title">Nhà Phố Quận 7</h3>
+          <div class="ba-info__meta" id="ba-meta">
+            <span class="meta-item"><i data-lucide="maximize"></i> 120 m²</span>
+            <span class="meta-sep"></span>
+            <span class="meta-item"><i data-lucide="clock"></i> 6 tháng</span>
+            <span class="meta-sep"></span>
+            <span class="meta-item"><i data-lucide="calendar"></i> 2025</span>
+          </div>
+          <blockquote class="ba-info__quote" id="ba-quote">
+            "Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành hiện thực
+            — đúng tiến độ, đúng chi phí."
+          </blockquote>
+          <p class="ba-info__author" id="ba-author">
+            — Anh Minh &amp; Chị Hương, Q7, TP.HCM
+          </p>
+          <a href="#" class="ba-info__cta group">
+            Xem Hành Trình Dự Án
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Mobile: Full Project Slider (visible only on mobile) ── -->
+      <div class="projects-mobile-slider">
+        <div class="swiper projects-mobile-swiper" id="projects-mobile-swiper">
+          <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide">
+              <div class="mobile-project-card">
+                <div class="mobile-project-card__img">
+                  <div class="ba-custom-slider">
+                    <img src="img/project-after-1.png" alt="Sau — Nhà Phố Quận 7" class="ba-custom-slider__after"
+                      draggable="false" />
+                    <div class="ba-custom-slider__before">
+                      <img src="img/project-before-1.png" alt="Trước — Nhà Phố Quận 7" draggable="false" />
+                    </div>
+                    <div class="ba-custom-slider__handle">
+                      <div class="ba-custom-slider__handle-line"></div>
+                      <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18-6-6 6-6" />
+                          <path d="m15 6 6 6-6 6" />
+                        </svg></div>
+                      <div class="ba-custom-slider__handle-line"></div>
+                    </div>
+                    <span class="ba-slider__label ba-slider__label--before">Trước</span>
+                    <span class="ba-slider__label ba-slider__label--after">Sau</span>
+                  </div>
+                </div>
+                <div class="mobile-project-card__body">
+                  <span class="mobile-project-card__tag tag">Cải tạo toàn diện</span>
+                  <h3 class="mobile-project-card__title">Nhà Phố Quận 7</h3>
+                  <div class="mobile-project-card__meta">
+                    <span class="meta-item"><i data-lucide="maximize"></i> 120 m²</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="clock"></i> 6 tháng</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="calendar"></i> 2025</span>
+                  </div>
+                  <blockquote class="mobile-project-card__quote">
+                    "Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành
+                    hiện thực — đúng tiến độ, đúng chi phí."
+                  </blockquote>
+                  <p class="mobile-project-card__author">— Anh Minh &amp; Chị Hương, Q7</p>
+                  <a href="#" class="mobile-project-card__cta">
+                    Xem Hành Trình Dự Án
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="w-4 h-4">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="swiper-slide">
+              <div class="mobile-project-card">
+                <div class="mobile-project-card__img">
+                  <div class="ba-custom-slider">
+                    <img src="../img/project-2.png" alt="Sau — Biệt Thự Thảo Điền" class="ba-custom-slider__after"
+                      draggable="false" />
+                    <div class="ba-custom-slider__before">
+                      <img src="../img/project-3.png" alt="Trước — Biệt Thự Thảo Điền" draggable="false" />
+                    </div>
+                    <div class="ba-custom-slider__handle">
+                      <div class="ba-custom-slider__handle-line"></div>
+                      <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18-6-6 6-6" />
+                          <path d="m15 6 6 6-6 6" />
+                        </svg></div>
+                      <div class="ba-custom-slider__handle-line"></div>
+                    </div>
+                    <span class="ba-slider__label ba-slider__label--before">Trước</span>
+                    <span class="ba-slider__label ba-slider__label--after">Sau</span>
+                  </div>
+                </div>
+                <div class="mobile-project-card__body">
+                  <span class="mobile-project-card__tag tag">Xây mới trọn gói</span>
+                  <h3 class="mobile-project-card__title">Biệt Thự Thảo Điền</h3>
+                  <div class="mobile-project-card__meta">
+                    <span class="meta-item"><i data-lucide="maximize"></i> 280 m²</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="clock"></i> 14 tháng</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="calendar"></i> 2024</span>
+                  </div>
+                  <blockquote class="mobile-project-card__quote">
+                    "Từ mảnh đất trống đến ngôi nhà mơ ước — XANH tận tâm từ bản vẽ đầu tiên đến ngày bàn giao chìa
+                    khoá."
+                  </blockquote>
+                  <p class="mobile-project-card__author">— Gia đình anh Tuấn, Q2</p>
+                  <a href="#" class="mobile-project-card__cta">
+                    Xem Hành Trình Dự Án
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="w-4 h-4">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="swiper-slide">
+              <div class="mobile-project-card">
+                <div class="mobile-project-card__img">
+                  <div class="ba-custom-slider">
+                    <img src="../img/project-3.png" alt="Sau — Penthouse Quận 2" class="ba-custom-slider__after"
+                      draggable="false" />
+                    <div class="ba-custom-slider__before">
+                      <img src="../img/project-4.png" alt="Trước — Penthouse Quận 2" draggable="false" />
+                    </div>
+                    <div class="ba-custom-slider__handle">
+                      <div class="ba-custom-slider__handle-line"></div>
+                      <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18-6-6 6-6" />
+                          <path d="m15 6 6 6-6 6" />
+                        </svg></div>
+                      <div class="ba-custom-slider__handle-line"></div>
+                    </div>
+                    <span class="ba-slider__label ba-slider__label--before">Trước</span>
+                    <span class="ba-slider__label ba-slider__label--after">Sau</span>
+                  </div>
+                </div>
+                <div class="mobile-project-card__body">
+                  <span class="mobile-project-card__tag tag">Thiết kế nội thất</span>
+                  <h3 class="mobile-project-card__title">Penthouse Quận 2</h3>
+                  <div class="mobile-project-card__meta">
+                    <span class="meta-item"><i data-lucide="maximize"></i> 95 m²</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="clock"></i> 3 tháng</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="calendar"></i> 2024</span>
+                  </div>
+                  <blockquote class="mobile-project-card__quote">
+                    "Không gian sống thay đổi hoàn toàn — sang trọng, tinh tế nhưng vẫn ấm cúng cho gia đình nhỏ."
+                  </blockquote>
+                  <p class="mobile-project-card__author">— Chị Linh, Q2</p>
+                  <a href="#" class="mobile-project-card__cta">
+                    Xem Hành Trình Dự Án
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="w-4 h-4">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="swiper-slide">
+              <div class="mobile-project-card">
+                <div class="mobile-project-card__img">
+                  <div class="ba-custom-slider">
+                    <img src="../img/project-4.png" alt="Sau — Villa Bình Dương" class="ba-custom-slider__after"
+                      draggable="false" />
+                    <div class="ba-custom-slider__before">
+                      <img src="../img/project-1.png" alt="Trước — Villa Bình Dương" draggable="false" />
+                    </div>
+                    <div class="ba-custom-slider__handle">
+                      <div class="ba-custom-slider__handle-line"></div>
+                      <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18-6-6 6-6" />
+                          <path d="m15 6 6 6-6 6" />
+                        </svg></div>
+                      <div class="ba-custom-slider__handle-line"></div>
+                    </div>
+                    <span class="ba-slider__label ba-slider__label--before">Trước</span>
+                    <span class="ba-slider__label ba-slider__label--after">Sau</span>
+                  </div>
+                </div>
+                <div class="mobile-project-card__body">
+                  <span class="mobile-project-card__tag tag">Xây mới &amp; nội thất</span>
+                  <h3 class="mobile-project-card__title">Villa Bình Dương</h3>
+                  <div class="mobile-project-card__meta">
+                    <span class="meta-item"><i data-lucide="maximize"></i> 350 m²</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="clock"></i> 18 tháng</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="calendar"></i> 2023</span>
+                  </div>
+                  <blockquote class="mobile-project-card__quote">
+                    "XANH đã giúp chúng tôi xây dựng không chỉ một ngôi nhà, mà cả một phong cách sống mới — hòa mình
+                    với thiên nhiên."
+                  </blockquote>
+                  <p class="mobile-project-card__author">— Anh Phúc &amp; Chị Ngọc, Bình Dương</p>
+                  <a href="#" class="mobile-project-card__cta">
+                    Xem Hành Trình Dự Án
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="w-4 h-4">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 5 -->
+            <div class="swiper-slide">
+              <div class="mobile-project-card">
+                <div class="mobile-project-card__img">
+                  <div class="ba-custom-slider">
+                    <img src="../img/project-1.png" alt="Sau — Nhà Vườn Gò Vấp" class="ba-custom-slider__after"
+                      draggable="false" />
+                    <div class="ba-custom-slider__before">
+                      <img src="../img/project-2.png" alt="Trước — Nhà Vườn Gò Vấp" draggable="false" />
+                    </div>
+                    <div class="ba-custom-slider__handle">
+                      <div class="ba-custom-slider__handle-line"></div>
+                      <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18-6-6 6-6" />
+                          <path d="m15 6 6 6-6 6" />
+                        </svg></div>
+                      <div class="ba-custom-slider__handle-line"></div>
+                    </div>
+                    <span class="ba-slider__label ba-slider__label--before">Trước</span>
+                    <span class="ba-slider__label ba-slider__label--after">Sau</span>
+                  </div>
+                </div>
+                <div class="mobile-project-card__body">
+                  <span class="mobile-project-card__tag tag">Cải tạo &amp; mở rộng</span>
+                  <h3 class="mobile-project-card__title">Nhà Vườn Gò Vấp</h3>
+                  <div class="mobile-project-card__meta">
+                    <span class="meta-item"><i data-lucide="maximize"></i> 180 m²</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="clock"></i> 9 tháng</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="calendar"></i> 2024</span>
+                  </div>
+                  <blockquote class="mobile-project-card__quote">
+                    "Ngôi nhà cũ kỹ nay trở thành không gian sống hiện đại, thoáng đãng. XANH đã lắng nghe và hiểu chúng
+                    tôi từng chi tiết nhỏ."
+                  </blockquote>
+                  <p class="mobile-project-card__author">— Chị Mai &amp; Anh Bảo, Gò Vấp</p>
+                  <a href="#" class="mobile-project-card__cta">
+                    Xem Hành Trình Dự Án
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="w-4 h-4">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 6 -->
+            <div class="swiper-slide">
+              <div class="mobile-project-card">
+                <div class="mobile-project-card__img">
+                  <div class="ba-custom-slider">
+                    <img src="../img/project-2.png" alt="Sau — Shophouse Phú Mỹ Hưng" class="ba-custom-slider__after"
+                      draggable="false" />
+                    <div class="ba-custom-slider__before">
+                      <img src="../img/project-4.png" alt="Trước — Shophouse Phú Mỹ Hưng" draggable="false" />
+                    </div>
+                    <div class="ba-custom-slider__handle">
+                      <div class="ba-custom-slider__handle-line"></div>
+                      <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18-6-6 6-6" />
+                          <path d="m15 6 6 6-6 6" />
+                        </svg></div>
+                      <div class="ba-custom-slider__handle-line"></div>
+                    </div>
+                    <span class="ba-slider__label ba-slider__label--before">Trước</span>
+                    <span class="ba-slider__label ba-slider__label--after">Sau</span>
+                  </div>
+                </div>
+                <div class="mobile-project-card__body">
+                  <span class="mobile-project-card__tag tag">Thiết kế &amp; thi công</span>
+                  <h3 class="mobile-project-card__title">Shophouse Phú Mỹ Hưng</h3>
+                  <div class="mobile-project-card__meta">
+                    <span class="meta-item"><i data-lucide="maximize"></i> 240 m²</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="clock"></i> 11 tháng</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="calendar"></i> 2023</span>
+                  </div>
+                  <blockquote class="mobile-project-card__quote">
+                    "Từ không gian thương mại đến nhà ở — XANH tích hợp khéo léo, vừa chuyên nghiệp vừa ấm áp như một
+                    ngôi nhà thật thụ."
+                  </blockquote>
+                  <p class="mobile-project-card__author">— Anh Khoa, Phú Mỹ Hưng, Q7</p>
+                  <a href="#" class="mobile-project-card__cta">
+                    Xem Hành Trình Dự Án
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="w-4 h-4">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Slide 7 -->
+            <div class="swiper-slide">
+              <div class="mobile-project-card">
+                <div class="mobile-project-card__img">
+                  <div class="ba-custom-slider">
+                    <img src="../img/project-3.png" alt="Sau — Biệt Thự Nhà Bè" class="ba-custom-slider__after"
+                      draggable="false" />
+                    <div class="ba-custom-slider__before">
+                      <img src="../img/project-3.png" alt="Trước — Biệt Thự Nhà Bè" draggable="false" />
+                    </div>
+                    <div class="ba-custom-slider__handle">
+                      <div class="ba-custom-slider__handle-line"></div>
+                      <div class="ba-custom-slider__handle-knob"><svg viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18-6-6 6-6" />
+                          <path d="m15 6 6 6-6 6" />
+                        </svg></div>
+                      <div class="ba-custom-slider__handle-line"></div>
+                    </div>
+                    <span class="ba-slider__label ba-slider__label--before">Trước</span>
+                    <span class="ba-slider__label ba-slider__label--after">Sau</span>
+                  </div>
+                </div>
+                <div class="mobile-project-card__body">
+                  <span class="mobile-project-card__tag tag">Xây mới trọn gói</span>
+                  <h3 class="mobile-project-card__title">Biệt Thự Nhà Bè</h3>
+                  <div class="mobile-project-card__meta">
+                    <span class="meta-item"><i data-lucide="maximize"></i> 420 m²</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="clock"></i> 22 tháng</span>
+                    <span class="meta-sep"></span>
+                    <span class="meta-item"><i data-lucide="calendar"></i> 2022</span>
+                  </div>
+                  <blockquote class="mobile-project-card__quote">
+                    "Chúng tôi tin tưởng giao toàn bộ dự án cho XANH — và kết quả vượt xa mong đợi. Một ngôi nhà đẹp,
+                    bền, đúng tiến độ."
+                  </blockquote>
+                  <p class="mobile-project-card__author">— Gia đình anh Hùng, Nhà Bè</p>
+                  <a href="#" class="mobile-project-card__cta">
+                    Xem Hành Trình Dự Án
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="w-4 h-4">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="projects-mobile-pagination"></div>
+      </div>
+
+      <!-- ── Thumbnail Selector Row (Swiper Slider) ── -->
+      <div class="projects-thumbs-wrapper">
+        <div class="swiper projects-thumbs-swiper" id="projects-thumbs">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <button class="project-thumb is-active" data-index="0" data-before-img="img/project-before-1.png"
+                data-after-img="img/project-after-1.png" data-tag="Cải tạo toàn diện" data-title="Nhà Phố Quận 7"
+                data-area="120 m²" data-duration="6 tháng" data-year="2025"
+                data-quote="&quot;Chúng tôi không nghĩ ngôi nhà 20 năm tuổi có thể trở nên đẹp đến vậy. XANH đã biến giấc mơ thành hiện thực — đúng tiến độ, đúng chi phí.&quot;"
+                data-author="— Anh Minh &amp; Chị Hương, Q7, TP.HCM">
+                <div class="project-thumb__img-wrap">
+                  <img src="../img/project-1.png" alt="Nhà Phố Quận 7" loading="lazy" />
+                </div>
+                <div class="project-thumb__info">
+                  <span class="project-thumb__name">Nhà Phố Quận 7</span>
+                  <span class="project-thumb__type">Cải tạo toàn diện</span>
+                </div>
+                <div class="project-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="project-thumb" data-index="1" data-before-img="../img/project-3.png"
+                data-after-img="../img/project-2.png" data-tag="Xây mới trọn gói" data-title="Biệt Thự Thảo Điền"
+                data-area="280 m²" data-duration="14 tháng" data-year="2024"
+                data-quote="&quot;Từ mảnh đất trống đến ngôi nhà mơ ước — XANH tận tâm từ bản vẽ đầu tiên đến ngày bàn giao chìa khoá.&quot;"
+                data-author="— Gia đình anh Tuấn, Thảo Điền, Q2">
+                <div class="project-thumb__img-wrap">
+                  <img src="../img/project-2.png" alt="Biệt Thự Thảo Điền" loading="lazy" />
+                </div>
+                <div class="project-thumb__info">
+                  <span class="project-thumb__name">Biệt Thự Thảo Điền</span>
+                  <span class="project-thumb__type">Xây mới trọn gói</span>
+                </div>
+                <div class="project-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="project-thumb" data-index="2" data-before-img="../img/project-4.png"
+                data-after-img="../img/project-3.png" data-tag="Thiết kế nội thất" data-title="Penthouse Quận 2"
+                data-area="95 m²" data-duration="3 tháng" data-year="2024"
+                data-quote="&quot;Không gian sống thay đổi hoàn toàn — sang trọng, tinh tế nhưng vẫn ấm cúng cho gia đình nhỏ.&quot;"
+                data-author="— Chị Linh, Thủ Thiêm, Q2">
+                <div class="project-thumb__img-wrap">
+                  <img src="../img/project-3.png" alt="Penthouse Q2" loading="lazy" />
+                </div>
+                <div class="project-thumb__info">
+                  <span class="project-thumb__name">Penthouse Quận 2</span>
+                  <span class="project-thumb__type">Thiết kế nội thất</span>
+                </div>
+                <div class="project-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="project-thumb" data-index="3" data-before-img="../img/project-1.png"
+                data-after-img="../img/project-4.png" data-tag="Xây mới &amp; nội thất" data-title="Villa Bình Dương"
+                data-area="350 m²" data-duration="18 tháng" data-year="2023"
+                data-quote="&quot;XANH đã giúp chúng tôi xây dựng không chỉ một ngôi nhà, mà cả một phong cách sống mới — hòa mình với thiên nhiên.&quot;"
+                data-author="— Anh Phúc &amp; Chị Ngọc, Bình Dương">
+                <div class="project-thumb__img-wrap">
+                  <img src="../img/project-4.png" alt="Villa Bình Dương" loading="lazy" />
+                </div>
+                <div class="project-thumb__info">
+                  <span class="project-thumb__name">Villa Bình Dương</span>
+                  <span class="project-thumb__type">Xây mới &amp; nội thất</span>
+                </div>
+                <div class="project-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="project-thumb" data-index="4" data-before-img="../img/project-2.png"
+                data-after-img="../img/project-1.png" data-tag="Cải tạo &amp; mở rộng" data-title="Nhà Vườn Gò Vấp"
+                data-area="180 m²" data-duration="9 tháng" data-year="2024"
+                data-quote="&quot;Ngôi nhà cũ kỹ nay trở thành không gian sống hiện đại, thoáng đãng. XANH đã lắng nghe và hiểu chúng tôi từng chi tiết nhỏ.&quot;"
+                data-author="— Chị Mai &amp; Anh Bảo, Gò Vấp, TP.HCM">
+                <div class="project-thumb__img-wrap">
+                  <img src="../img/project-2.png" alt="Nhà Vườn Gò Vấp" loading="lazy" />
+                </div>
+                <div class="project-thumb__info">
+                  <span class="project-thumb__name">Nhà Vườn Gò Vấp</span>
+                  <span class="project-thumb__type">Cải tạo &amp; mở rộng</span>
+                </div>
+                <div class="project-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="project-thumb" data-index="5" data-before-img="../img/project-4.png"
+                data-after-img="../img/project-2.png" data-tag="Thiết kế &amp; thi công"
+                data-title="Shophouse Phú Mỹ Hưng" data-area="240 m²" data-duration="11 tháng" data-year="2023"
+                data-quote="&quot;Từ không gian thương mại đến nhà ở — XANH tích hợp khéo léo, vừa chuyên nghiệp vừa ấm áp như một ngôi nhà thật thụ.&quot;"
+                data-author="— Anh Khoa, Phú Mỹ Hưng, Q7">
+                <div class="project-thumb__img-wrap">
+                  <img src="../img/project-1.png" alt="Shophouse Phú Mỹ Hưng" loading="lazy" />
+                </div>
+                <div class="project-thumb__info">
+                  <span class="project-thumb__name">Shophouse Phú Mỹ Hưng</span>
+                  <span class="project-thumb__type">Thiết kế &amp; thi công</span>
+                </div>
+                <div class="project-thumb__bar"></div>
+              </button>
+            </div>
+            <div class="swiper-slide">
+              <button class="project-thumb" data-index="6" data-before-img="../img/project-3.png"
+                data-after-img="../img/project-3.png" data-tag="Xây mới trọn gói" data-title="Biệt Thự Nhà Bè"
+                data-area="420 m²" data-duration="22 tháng" data-year="2022"
+                data-quote="&quot;Chúng tôi tin tưởng giao toàn bộ dự án cho XANH — và kết quả vượt xa mong đợi. Một ngôi nhà đẹp, bền, đúng tiến độ.&quot;"
+                data-author="— Gia đình anh Hùng, Nhà Bè, TP.HCM">
+                <div class="project-thumb__img-wrap">
+                  <img src="../img/project-3.png" alt="Biệt Thự Nhà Bè" loading="lazy" />
+                </div>
+                <div class="project-thumb__info">
+                  <span class="project-thumb__name">Biệt Thự Nhà Bè</span>
+                  <span class="project-thumb__type">Xây mới trọn gói</span>
+                </div>
+                <div class="project-thumb__bar"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Side Arrow Buttons (PC: hover-reveal, positioned on sides) -->
+        <button class="thumbs-nav__btn thumbs-nav__prev projects-thumbs-prev" aria-label="Dự án trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+        <button class="thumbs-nav__btn thumbs-nav__next projects-thumbs-next" aria-label="Dự án tiếp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Bottom nav: pagination (always) + mobile prev/next buttons -->
+      <div class="thumbs-nav">
+        <button class="thumbs-nav__btn thumbs-nav__prev thumbs-nav__mobile-btn thumbs-mobile-prev"
+          aria-label="Dự án trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+        <div class="thumbs-pagination"></div>
+        <button class="thumbs-nav__btn thumbs-nav__next thumbs-nav__mobile-btn thumbs-mobile-next"
+          aria-label="Dự án tiếp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 7 — Quy Trình 6 Bước (Process Steps) -->
+  <!-- ============================================= -->
+  <section id="process" class="process-section bg-white">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center">
+        <p class="anim-fade-up section-eyebrow">
+          Quy Trình
+        </p>
+        <h2 class="anim-fade-up section-title text-primary">
+          Chúng Tôi Đồng Hành Cùng Bạn<br>Đến Từng Viên Gạch Cuối Cùng
+        </h2>
+        <p class="anim-fade-up section-subtitle">
+          Hành trình kiến tạo tổ ấm bắt đầu từ một cuộc trò chuyện — mỗi bước đi đều được đồng hành tận tâm.
+        </p>
+      </div>
+
+      <!-- Horizontal Accordion -->
+      <div class="process-accordion anim-fade-up">
+
+        <!-- Panel 1: Tư Vấn -->
+        <div class="process-panel is-active" data-step="0">
+          <div class="process-panel__expanded">
+            <img src="img/process-01.png" alt="Bước 1 — Tư vấn thiết kế" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">01</span>
+              <h3 class="process-panel__title">Tư Vấn</h3>
+              <p class="process-panel__desc">
+                Gặp gỡ và lắng nghe — để hiểu mong ước, phong cách sống và ngân sách của bạn. Mỗi tổ ấm bắt đầu từ một
+                cuộc trò chuyện.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Khám Phá Quy Trình
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">01</span>
+            <span class="process-panel__collapsed-title">Tư Vấn</span>
+          </div>
+        </div>
+
+        <!-- Panel 2: Thiết Kế -->
+        <div class="process-panel" data-step="1">
+          <div class="process-panel__expanded">
+            <img src="img/process-02.png" alt="Bước 2 — Thiết kế kiến trúc" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">02</span>
+              <h3 class="process-panel__title">Thiết Kế</h3>
+              <p class="process-panel__desc">
+                Biến ý tưởng thành bản vẽ — kiến trúc sư tận tâm phác hoạ không gian sống phù hợp với bản sắc riêng của
+                gia đình bạn.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Khám Phá Quy Trình
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">02</span>
+            <span class="process-panel__collapsed-title">Thiết Kế</span>
+          </div>
+        </div>
+
+        <!-- Panel 3: Ký Kết -->
+        <div class="process-panel" data-step="2">
+          <div class="process-panel__expanded">
+            <img src="img/process-03.png" alt="Bước 3 — Ký kết hợp đồng" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">03</span>
+              <h3 class="process-panel__title">Ký Kết</h3>
+              <p class="process-panel__desc">
+                Minh bạch từng hạng mục — hợp đồng rõ ràng, chi phí cố định, không phát sinh ngoài cam kết.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Khám Phá Quy Trình
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">03</span>
+            <span class="process-panel__collapsed-title">Ký Kết</span>
+          </div>
+        </div>
+
+        <!-- Panel 4: Thi Công -->
+        <div class="process-panel" data-step="3">
+          <div class="process-panel__expanded">
+            <img src="img/process-04.png" alt="Bước 4 — Thi công xây dựng" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">04</span>
+              <h3 class="process-panel__title">Thi Công</h3>
+              <p class="process-panel__desc">
+                Giám sát kỹ thuật 3 lớp, đúng tiến độ cam kết — để bạn an tâm tận hưởng hành trình kiến tạo tổ ấm.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Khám Phá Quy Trình
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">04</span>
+            <span class="process-panel__collapsed-title">Thi Công</span>
+          </div>
+        </div>
+
+        <!-- Panel 5: Bàn Giao -->
+        <div class="process-panel" data-step="4">
+          <div class="process-panel__expanded">
+            <img src="img/process-05.png" alt="Bước 5 — Bàn giao công trình" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">05</span>
+              <h3 class="process-panel__title">Bàn Giao</h3>
+              <p class="process-panel__desc">
+                Nghiệm thu tỉ mỉ từng chi tiết — chìa khoá trao tay khi mọi thứ hoàn hảo đúng như bản vẽ 3D.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Khám Phá Quy Trình
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">05</span>
+            <span class="process-panel__collapsed-title">Bàn Giao</span>
+          </div>
+        </div>
+
+        <!-- Panel 6: Bảo Trì -->
+        <div class="process-panel" data-step="5">
+          <div class="process-panel__expanded">
+            <img src="img/process-06.png" alt="Bước 6 — Bảo trì định kỳ" class="process-panel__bg" />
+            <div class="process-panel__overlay"></div>
+            <div class="process-panel__content">
+              <span class="process-panel__num">06</span>
+              <h3 class="process-panel__title">Bảo Trì</h3>
+              <p class="process-panel__desc">
+                Đồng hành sau bàn giao — bảo trì định kỳ, hỗ trợ trọn đời, để ngôi nhà luôn vẹn nguyên giá trị.
+              </p>
+              <a href="#" class="process-panel__cta">
+                Khám Phá Quy Trình
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="process-panel__collapsed">
+            <svg class="process-panel__collapsed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            <span class="process-panel__collapsed-num">06</span>
+            <span class="process-panel__collapsed-title">Bảo Trì</span>
+          </div>
+        </div>
+
+      </div><!-- .process-accordion -->
+
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 8: CTA CONTACT — Đặt Lịch Tư Vấn     -->
+  <!-- ============================================= -->
+  <section id="cta-contact" class="cta-contact-section" aria-label="Đặt lịch tư vấn">
+    <!-- Background Image -->
+    <img src="../img/interior-living.png" alt="" class="cta-contact__bg" aria-hidden="true" loading="lazy" />
+    <!-- Dark Overlay -->
+    <div class="cta-contact__overlay"></div>
+
+    <!-- Content -->
+    <div class="site-container cta-contact__container">
+
+      <!-- Eyebrow -->
+      <p class="anim-fade-up cta-contact__eyebrow">Bắt Đầu Hành Trình</p>
+
+      <!-- Headline -->
+      <h2 class="anim-fade-up cta-contact__heading">
+        Mọi Tổ Ấm Bình Yên<br />Đều Bắt Đầu Từ<br />Một Cuộc Trò Chuyện.
+      </h2>
+
+      <!-- Body -->
+      <p class="anim-fade-up cta-contact__body">
+        Hãy để XANH lắng nghe câu chuyện của bạn — đồng hành từ những ý tưởng sơ khai nhất đến ngày trao tay chiếc chìa
+        khóa.
+      </p>
+
+      <!-- CTA Button -->
+      <a href="#contact" class="anim-fade-up btn btn--primary cta-contact__btn group">
+        <span>Đặt Lịch Tư Vấn Riêng</span>
+        <i data-lucide="phone" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 8.5: PARTNER LOGOS BAR (#13)           -->
+  <!-- ============================================= -->
+  <section id="partners" class="partners-section" aria-label="Đối tác chiến lược">
+    <div class="site-container">
+      <!-- Overline heading -->
+      <p class="partners-overline anim-fade-up">Đối Tác Chiến Lược</p>
+
+      <!-- Swiper: Continuous Ribbon -->
+      <div class="swiper partners-swiper anim-fade-up" id="partners-swiper">
+        <div class="swiper-wrapper">
+
+          <!-- Logo 1: Dulux -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/dulux.png" alt="Dulux — Đối tác sơn cao cấp" loading="lazy" width="160"
+                height="60" />
+            </div>
+          </div>
+
+          <!-- Logo 2: An Cường -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/ancuong.png" alt="An Cường — Đối tác gỗ công nghiệp" loading="lazy" width="160"
+                height="60" />
+            </div>
+          </div>
+
+          <!-- Logo 3: Schneider Electric -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/schneider.png" alt="Schneider Electric — Đối tác thiết bị điện" loading="lazy"
+                width="160" height="60" />
+            </div>
+          </div>
+
+          <!-- Logo 4: Häfele -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/hafele.png" alt="Häfele — Đối tác phụ kiện nội thất" loading="lazy" width="160"
+                height="60" />
+            </div>
+          </div>
+
+          <!-- Logo 5: Panasonic -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/panasonic.png" alt="Panasonic — Đối tác thiết bị điện tử" loading="lazy"
+                width="160" height="60" />
+            </div>
+          </div>
+
+          <!-- Logo 6: Vicostone -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/vicostone.png" alt="Vicostone — Đối tác đá thạch anh" loading="lazy" width="160"
+                height="60" />
+            </div>
+          </div>
+
+          <!-- Logo 7: Eurowindow -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/eurowindow.png" alt="Eurowindow — Đối tác cửa sổ" loading="lazy" width="160"
+                height="60" />
+            </div>
+          </div>
+
+          <!-- Logo 8: Inax -->
+          <div class="swiper-slide">
+            <div class="partner-logo">
+              <img src="../img/partners/inax.png" alt="Inax — Đối tác thiết bị vệ sinh" loading="lazy" width="160"
+                height="60" />
+            </div>
+          </div>
+
+        </div><!-- .swiper-wrapper -->
+      </div><!-- .partners-swiper -->
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 9: BLOG & CẢM HỨNG                    -->
+  <!-- ============================================= -->
+  <section id="blog" class="blog-section" aria-label="Blog & Cảm Hứng">
+    <div class="site-container">
+
+      <!-- Header -->
+      <p class="anim-fade-up section-eyebrow blog-eyebrow">Cẩm Nang & Cảm Hứng</p>
+      <h2 class="anim-fade-up section-title text-primary blog-heading">Không Gian Sống Xanh<br />Dưới Góc Nhìn Chuyên
+        Gia</h2>
+
+      <!-- Slider + Side Arrows Wrapper -->
+      <div class="blog-slider-wrap anim-fade-up">
+        <!-- Swiper Slider -->
+        <div class="swiper blog-swiper" id="blog-swiper">
+          <div class="swiper-wrapper">
+
+            <!-- Post 1 -->
+            <div class="swiper-slide">
+              <article class="blog-card">
+                <a href="#" class="blog-card__img-link">
+                  <img src="../img/project-1.png" alt="Xu hướng thiết kế nhà phố xanh 2025" class="blog-card__img"
+                    loading="lazy" width="480" height="360" />
+                </a>
+                <div class="blog-card__body">
+                  <time class="blog-card__date" datetime="2025-12-15">15 Th12, 2025</time>
+                  <h3 class="blog-card__title">
+                    <a href="#">Xu Hướng Thiết Kế Nhà Phố Xanh 2025 — Bền Vững & Tinh Tế</a>
+                  </h3>
+                  <a href="#" class="blog-card__link">
+                    Khám Phá
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="swiper-slide">
+              <article class="blog-card">
+                <a href="#" class="blog-card__img-link">
+                  <img src="../img/project-2.png" alt="Nghệ thuật chọn vật liệu cho không gian sang trọng"
+                    class="blog-card__img" loading="lazy" width="480" height="360" />
+                </a>
+                <div class="blog-card__body">
+                  <time class="blog-card__date" datetime="2025-11-28">28 Th11, 2025</time>
+                  <h3 class="blog-card__title">
+                    <a href="#">Nghệ Thuật Chọn Vật Liệu — Chìa Khóa Cho Không Gian Sang Trọng</a>
+                  </h3>
+                  <a href="#" class="blog-card__link">
+                    Khám Phá
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <!-- Post 3 -->
+            <div class="swiper-slide">
+              <article class="blog-card">
+                <a href="#" class="blog-card__img-link">
+                  <img src="../img/project-3.png" alt="Hành trình kiến tạo biệt thự hiện đại" class="blog-card__img"
+                    loading="lazy" width="480" height="360" />
+                </a>
+                <div class="blog-card__body">
+                  <time class="blog-card__date" datetime="2025-11-10">10 Th11, 2025</time>
+                  <h3 class="blog-card__title">
+                    <a href="#">Hành Trình Kiến Tạo Biệt Thự Hiện Đại — Từ Bản Vẽ Đến Tổ Ấm</a>
+                  </h3>
+                  <a href="#" class="blog-card__link">
+                    Khám Phá
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <!-- Post 4 (duplicate of 1) -->
+            <div class="swiper-slide">
+              <article class="blog-card">
+                <a href="#" class="blog-card__img-link">
+                  <img src="../img/project-1.png" alt="Xu hướng thiết kế nhà phố xanh 2025" class="blog-card__img"
+                    loading="lazy" width="480" height="360" />
+                </a>
+                <div class="blog-card__body">
+                  <time class="blog-card__date" datetime="2025-12-15">15 Th12, 2025</time>
+                  <h3 class="blog-card__title">
+                    <a href="#">Xu Hướng Thiết Kế Nhà Phố Xanh 2025 — Bền Vững & Tinh Tế</a>
+                  </h3>
+                  <a href="#" class="blog-card__link">
+                    Khám Phá
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <!-- Post 5 (duplicate of 2) -->
+            <div class="swiper-slide">
+              <article class="blog-card">
+                <a href="#" class="blog-card__img-link">
+                  <img src="../img/project-2.png" alt="Nghệ thuật chọn vật liệu cho không gian sang trọng"
+                    class="blog-card__img" loading="lazy" width="480" height="360" />
+                </a>
+                <div class="blog-card__body">
+                  <time class="blog-card__date" datetime="2025-11-28">28 Th11, 2025</time>
+                  <h3 class="blog-card__title">
+                    <a href="#">Nghệ Thuật Chọn Vật Liệu — Chìa Khóa Cho Không Gian Sang Trọng</a>
+                  </h3>
+                  <a href="#" class="blog-card__link">
+                    Khám Phá
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <!-- Post 6 (duplicate of 3) -->
+            <div class="swiper-slide">
+              <article class="blog-card">
+                <a href="#" class="blog-card__img-link">
+                  <img src="../img/project-3.png" alt="Hành trình kiến tạo biệt thự hiện đại" class="blog-card__img"
+                    loading="lazy" width="480" height="360" />
+                </a>
+                <div class="blog-card__body">
+                  <time class="blog-card__date" datetime="2025-11-10">10 Th11, 2025</time>
+                  <h3 class="blog-card__title">
+                    <a href="#">Hành Trình Kiến Tạo Biệt Thự Hiện Đại — Từ Bản Vẽ Đến Tổ Ấm</a>
+                  </h3>
+                  <a href="#" class="blog-card__link">
+                    Khám Phá
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </div>
+
+          </div><!-- .swiper-wrapper -->
+        </div><!-- .blog-swiper -->
+
+        <!-- Side arrow buttons (positioned absolutely on image edges) -->
+        <button class="blog-nav__btn blog-nav__prev" aria-label="Bài trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+        <button class="blog-nav__btn blog-nav__next" aria-label="Bài sau">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      </div><!-- .blog-slider-wrap -->
+
+      <!-- Dash pagination + mobile nav buttons (bottom row) -->
+      <div class="blog-nav anim-fade-up">
+        <button class="blog-nav__btn blog-nav__prev blog-nav__mobile-btn" aria-label="Bài trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+        <div class="blog-pagination"></div>
+        <button class="blog-nav__btn blog-nav__next blog-nav__mobile-btn" aria-label="Bài sau">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+
+    </div><!-- .site-container -->
+  </section>
+
+  <!-- =========================================== -->
+  <!-- FOOTER — Comprehensive Mega-Footer             -->
+  <!-- ============================================= -->
+  <footer id="site-footer" class="site-footer">
+
+    <!-- ── Main Footer Grid ── -->
+    <div class="site-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Brand -->
+        <div class="footer-col footer-col--brand">
+          <a href="#" class="footer-logo" aria-label="XANH Design & Build">
+            <img src="../SVG/LOGO FULL TAGLINE/LOGO-02.svg" alt="XANH Design & Build" class="footer-logo__img" />
+          </a>
+          <p class="footer-brand-desc">
+            Kiến tạo tổ ấm bình yên — minh bạch từ viên gạch đầu tiên. Thiết kế & xây dựng nhà ở bền vững cho gia đình
+            Việt.
+          </p>
+          <!-- Certifications / Badges -->
+          <div class="footer-badges">
+            <span class="footer-badge">ISO 9001:2015</span>
+            <span class="footer-badge">10+ Năm</span>
+          </div>
+        </div>
+
+        <!-- Column 2: Navigation -->
+        <div class="footer-col">
+          <h4 class="footer-col__title">Khám Phá</h4>
+          <ul class="footer-links">
+            <li><a href="#">Trang Chủ</a></li>
+            <li><a href="#">Giới Thiệu</a></li>
+            <li><a href="#">Dự Án Tiêu Biểu</a></li>
+            <li><a href="#">Blog & Cảm Hứng</a></li>
+            <li><a href="#">Tuyển Dụng</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Services -->
+        <div class="footer-col">
+          <h4 class="footer-col__title">Dịch Vụ</h4>
+          <ul class="footer-links">
+            <li><a href="#">Thiết Kế Kiến Trúc</a></li>
+            <li><a href="#">Thiết Kế Nội Thất</a></li>
+            <li><a href="#">Thi Công Xây Dựng Trọn Gói</a></li>
+            <li><a href="#">Sản Xuất Nội Thất</a></li>
+            <li><a href="#">Cải Tạo & Nâng Cấp</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Contact + Newsletter -->
+        <div class="footer-col footer-col--contact">
+          <h4 class="footer-col__title">Liên Hệ</h4>
+          <ul class="footer-contact">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span>123 Đường ABC, Quận 7, TP.HCM</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.52-.93a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z" />
+              </svg>
+              <a href="tel:+84901234567">0901 234 567</a>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <a href="mailto:hello@xanhdesign.vn">hello@xanhdesign.vn</a>
+            </li>
+          </ul>
+
+          <!-- Newsletter -->
+          <div class="footer-newsletter">
+            <p class="footer-newsletter__label">Nhận Cẩm Nang & Cảm Hứng Kiến Tạo</p>
+            <form class="footer-newsletter__form" onsubmit="return false;">
+              <input type="email" placeholder="Email của bạn" class="footer-newsletter__input"
+                aria-label="Nhập email để đăng ký nhận bản tin" />
+              <button type="submit" class="footer-newsletter__btn" aria-label="Đăng ký nhận bản tin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div><!-- .footer-grid -->
+    </div>
+
+    <!-- ── Bottom Bar ── -->
+    <div class="footer-bottom">
+      <div class="site-container">
+        <div class="footer-bottom__inner">
+          <!-- Copyright -->
+          <p class="footer-copyright">
+            © 2026 XANH Design & Build. All rights reserved.
+          </p>
+
+          <!-- Legal links -->
+          <div class="footer-legal">
+            <a href="#">Chính sách bảo mật</a>
+            <span class="footer-legal__sep">·</span>
+            <a href="#">Điều khoản sử dụng</a>
+          </div>
+
+          <!-- Social Icons -->
+          <div class="footer-social">
+            <a href="#" class="footer-social__link" aria-label="Facebook">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </a>
+            <a href="#" class="footer-social__link" aria-label="Instagram">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+              </svg>
+            </a>
+            <a href="#" class="footer-social__link" aria-label="YouTube">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+            </a>
+            <a href="#" class="footer-social__link" aria-label="Zalo">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 8.16c-.18-.186-.375-.375-.6-.563a7.03 7.03 0 00-.938-.656c-.656-.375-1.312-.563-1.968-.656-.375-.094-.75-.094-1.125-.094H8.25c-.281 0-.563.094-.75.281-.188.188-.281.469-.281.75v7.5c0 .281.094.563.281.75.188.188.469.281.75.281h1.5V12.75l3.375 3.375c.188.188.375.281.656.281h1.781c.188 0 .375-.094.469-.281a.596.596 0 000-.563L12.75 12.75l2.625-2.625c.188-.188.188-.469 0-.656-.094-.094-.188-.094-.281-.094h-1.781c-.188 0-.375.094-.563.281L10.5 11.906V8.438h2.438c.281 0 .563 0 .844.094.375.094.75.188 1.125.375.375.188.656.375.938.656.188.188.375.375.563.563.094.094.188.094.281.094.188 0 .375-.094.469-.281a.596.596 0 00.094-.469c-.094-.375-.281-.844-.656-1.312z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- ============================================= -->
+  <!-- SCRIPTS                                        -->
+  <!-- ============================================= -->
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.3/dist/lenis.min.js" defer></script>
+
+  <!-- Swiper -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+  <!-- Main JS -->
+  <script src="../shared/base.js" defer></script>
+  <script src="home-page.js" defer></script>
+
+</body>
+
+</html>

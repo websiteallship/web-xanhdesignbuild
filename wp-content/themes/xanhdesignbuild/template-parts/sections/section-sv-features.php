@@ -95,7 +95,7 @@ if ( $bg_image ) {
 							</div>
 							<h3 class="feature-card__title"><?php echo wp_kses_post( $ftitle ); ?></h3>
 							<p class="feature-card__desc">
-								<?php echo esc_html( $desc ); ?>
+								<?php echo wp_kses_post( $desc ); ?>
 							</p>
 						</div>
 					</div>

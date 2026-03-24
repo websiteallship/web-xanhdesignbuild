@@ -51,9 +51,7 @@ $read_time  = max( 1, ceil( $word_count / 200 ) );
 					'height'  => '500',
 				] ); ?>
 			<?php else : ?>
-				<div class="w-full h-full bg-gray-200 flex items-center justify-center" style="min-height:300px">
-					<span class="text-gray-400">Chưa có ảnh</span>
-				</div>
+				<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/placeholder-project.png' ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover" width="800" height="500" loading="lazy" />
 			<?php endif; ?>
 			<div class="xanh-card__overlay"></div>
 			<div class="xanh-card__sweep"></div>
@@ -75,9 +73,7 @@ $read_time  = max( 1, ceil( $word_count / 200 ) );
 					'height'  => '250',
 				] ); ?>
 			<?php else : ?>
-				<div class="w-full h-full bg-gray-200 flex items-center justify-center" style="min-height:200px">
-					<span class="text-gray-400 text-sm">Chưa có ảnh</span>
-				</div>
+				<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/placeholder-project.png' ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover" width="400" height="250" loading="lazy" />
 			<?php endif; ?>
 			<div class="xanh-card__overlay"></div>
 			<div class="xanh-card__sweep"></div>

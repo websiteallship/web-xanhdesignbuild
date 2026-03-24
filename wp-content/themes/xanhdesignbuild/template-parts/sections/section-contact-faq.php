@@ -48,7 +48,7 @@ if ( ! $faq_items ) {
 	<div class="site-container">
 		<div class="contact-faq__header section-header section-header--center">
 			<span class="section-eyebrow anim-fade-up"><?php echo esc_html( $eyebrow ); ?></span>
-			<h2 class="section-title anim-fade-up" style="margin-top:0.5rem;"><?php echo wp_kses_post( $title ); ?></h2>
+			<h2 class="section-title anim-fade-up mt-2"><?php echo wp_kses_post( $title ); ?></h2>
 		</div>
 
 		<?php if ( $faq_items ) : ?>

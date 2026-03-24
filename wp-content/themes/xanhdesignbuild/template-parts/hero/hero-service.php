@@ -58,7 +58,7 @@ if ( $image ) {
 		<?php else : ?>
 			<img src="<?php echo esc_url( $hero_img_url ); ?>"
 				alt="Thiết kế kiến trúc biệt thự hiện đại — XANH Design & Build"
-				class="w-full h-full object-cover" width="1920" height="1080" fetchpriority="high" />
+				class="w-full h-full object-cover" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async" />
 		<?php endif; ?>
 	</div>
 
@@ -68,13 +68,35 @@ if ( $image ) {
 	<!-- Centered content -->
 	<div class="relative z-10 flex flex-col justify-center items-center text-center h-full site-container px-6">
 		<div class="max-w-3xl mx-auto">
-			<span class="service-hero-el section-eyebrow text-white/60 block mb-5">
+
+			<!-- Breadcrumb navigation -->
+			<nav class="breadcrumb breadcrumb--hero hero-el--fast" aria-label="Breadcrumb">
+				<ol class="breadcrumb__list">
+					<li class="breadcrumb__item">
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="breadcrumb__link"><?php esc_html_e( 'Trang Chủ', 'xanh' ); ?></a>
+						<span class="breadcrumb__separator" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+						</span>
+					</li>
+					<li class="breadcrumb__item">
+						<a href="<?php echo esc_url( get_post_type_archive_link( 'xanh_service' ) ); ?>" class="breadcrumb__link"><?php esc_html_e( 'Dịch Vụ', 'xanh' ); ?></a>
+						<span class="breadcrumb__separator" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+						</span>
+					</li>
+					<li class="breadcrumb__item">
+						<span class="breadcrumb__current" aria-current="page"><?php the_title(); ?></span>
+					</li>
+				</ol>
+			</nav>
+
+			<h1 class="hero-el--fast section-eyebrow text-white/60 block mb-5">
 				<?php echo esc_html( $eyebrow ); ?>
-			</span>
-			<h1 class="service-hero-el section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6">
-				<?php echo wp_kses_post( $title ); ?>
 			</h1>
-			<p class="service-hero-el text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+			<span class="hero-el--fast section-title section-title--light text-white font-bold tracking-[-0.02em] leading-tight mb-6 block">
+				<?php echo wp_kses_post( $title ); ?>
+			</span>
+			<p class="hero-el--fast text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
 				<?php echo wp_kses_post( $desc ); ?>
 			</p>
 		</div>

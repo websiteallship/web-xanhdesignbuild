@@ -6,10 +6,10 @@
  * right = contact info + Google Maps embed.
  *
  * ACF fields: contact_block_eyebrow, contact_block_title,
- *             contact_form_shortcode, contact_working_hours,
- *             contact_google_maps_url.
+ *             contact_form_shortcode, contact_working_hours.
  *
- * ACF Options: xanh_hotline, xanh_email, xanh_address.
+ * ACF Options: xanh_hotline, xanh_email, xanh_address,
+ *              contact_map_embed, contact_map_link.
  *
  * @package XanhDesignBuild
  * @since   1.0.0
@@ -24,20 +24,20 @@ $eyebrow       = get_field( 'contact_block_eyebrow' ) ?: 'Liên Hệ Với Chún
 $title          = get_field( 'contact_block_title' ) ?: 'Kể Cho Chúng Tôi Nghe<br>Về <em style="font-style:normal;color:var(--color-primary);">Bài Toán Của Bạn</em>';
 $form_shortcode = get_field( 'contact_form_shortcode' ) ?: '';
 $working_hours  = get_field( 'contact_working_hours' ) ?: 'Thứ 2 — Thứ 7: 08:00 – 17:30';
-$maps_url       = get_field( 'contact_google_maps_url' ) ?: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3898.7895!2d109.1896!3d12.2388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDE0JzE5LjciTiAxMDnCsDExJzIyLjYiRQ!5e0!3m2!1svi!2s!4v1710000000000';
+$maps_url       = xanh_get_option( 'contact_map_embed' ) ?: 'https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3899.1641417578953!2d109.1666044!3d12.237162999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDE0JzEzLjgiTiAxMDnCsDA5JzU5LjgiRQ!5e0!3m2!1svi!2s!4v1774324988578!5m2!1svi!2s';
 
 // Global Options.
-$address = xanh_get_address() ?: '123 Nguyễn Tất Thành, Phường Phước Hải, TP. Nha Trang, Khánh Hòa';
-$hotline = xanh_get_hotline() ?: '0258 388 8888';
-$email   = xanh_get_email() ?: 'info@xanhdesign.vn';
+$address = xanh_get_address() ?: '49 Nguyễn Tất Thành, Phường Phước Long, Tỉnh Khánh Hòa, Việt Nam';
+$hotline = xanh_get_hotline() ?: '0978.303.025';
+$email   = xanh_get_email() ?: 'contact@xanhdesignbuild.vn';
 ?>
 
 <section class="contact-block" id="contact-block">
 	<div class="site-container">
 		<!-- Section header -->
-		<div class="section-header section-header--left" style="margin-bottom:var(--space-12);">
+		<div class="section-header section-header--left mb-12">
 			<span class="section-eyebrow anim-fade-up"><?php echo esc_html( $eyebrow ); ?></span>
-			<h2 class="section-title anim-fade-up" style="margin-top:0.5rem;"><?php echo wp_kses_post( $title ); ?></h2>
+			<h2 class="section-title anim-fade-up mt-2"><?php echo wp_kses_post( $title ); ?></h2>
 		</div>
 
 		<div class="contact-block__grid">
@@ -64,7 +64,12 @@ $email   = xanh_get_email() ?: 'info@xanhdesign.vn';
 					</div>
 					<div>
 						<span class="contact-info__label"><?php esc_html_e( 'Trụ sở', 'xanh' ); ?></span>
-						<p class="contact-info__value"><?php echo wp_kses_post( nl2br( $address ) ); ?></p>
+						<p class="contact-info__value">
+							<?php echo wp_kses_post( nl2br( $address ) ); ?>
+							<?php $map_link = xanh_get_option( 'contact_map_link' ); if ( $map_link ) : ?>
+								<br><a href="<?php echo esc_url( $map_link ); ?>" target="_blank" rel="noopener noreferrer" class="text-primary mt-1 inline-block hover:underline font-medium text-sm"><?php esc_html_e( 'Xem bản đồ / Chỉ đường', 'xanh' ); ?> &rarr;</a>
+							<?php endif; ?>
+						</p>
 					</div>
 				</div>
 
@@ -111,7 +116,7 @@ $email   = xanh_get_email() ?: 'info@xanhdesign.vn';
 						src="<?php echo esc_url( $maps_url ); ?>"
 						loading="lazy"
 						referrerpolicy="no-referrer-when-downgrade"
-						title="<?php esc_attr_e( 'Bản đồ XANH Design & Build - Nha Trang', 'xanh' ); ?>"
+						title="<?php esc_attr_e( 'Bản đồ XANH Design & Build - Khánh Hòa', 'xanh' ); ?>"
 						allowfullscreen>
 					</iframe>
 				</div>

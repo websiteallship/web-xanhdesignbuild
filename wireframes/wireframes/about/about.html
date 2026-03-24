@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giới Thiệu — XANH Design & Build | Câu Chuyện Của Sự Liền Mạch & Bền Vững</title>
+  <meta name="description"
+    content="Khám phá câu chuyện XANH - Design & Build: Thương hiệu cung cấp giải pháp nội thất và xây dựng hoàn thiện, kiến tạo công trình đáng để đầu tư." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#14513D',
+            accent: '#FF8A00',
+            light: '#F3F4F6',
+            beige: '#D8C7A3',
+            dark: '#1A1A1A',
+          },
+          fontFamily: {
+            heading: ['Inter', '-apple-system', 'sans-serif'],
+            body: ['Inter', '-apple-system', 'sans-serif'],
+          },
+          screens: {
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1440px',
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1/dist/lenis.min.js" defer></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../_shared/base.css" />
+  <link rel="stylesheet" href="about.css" />
+</head>
+
+<body class="font-body bg-[#1e1e1e] text-dark antialiased overflow-x-hidden">
+
+  <!-- ============================================= -->
+  <!-- SECTION 1: HERO BANNER — About Page           -->
+  <!-- ============================================= -->
+  <section id="about-hero" class="relative w-full h-screen overflow-hidden">
+
+    <!-- Background Image (static, no slider — for performance per spec) -->
+    <div class="about-hero__bg absolute inset-0 w-full h-full">
+      <img src="image/about-hero-bg.png" alt="Không gian nội thất sang trọng — XANH Design & Build"
+        class="w-full h-full object-cover" width="1920" height="1080" />
+    </div>
+
+    <!-- Dark overlay gradient -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-primary/50 to-primary/80 z-10"></div>
+
+    <!-- Content Overlay -->
+    <div
+      class="about-hero__content relative z-20 flex flex-col justify-center h-full site-container site-container--hero">
+      <div class="max-w-2xl lg:max-w-3xl">
+
+        <!-- Eyebrow / Sub-label -->
+        <span
+          class="about-hero-el block text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 mb-5 md:mb-6">
+          Câu Chuyện Của Chúng Tôi
+        </span>
+
+        <!-- Headline -->
+        <h1 id="about-hero-headline"
+          class="about-hero-el text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-bold !leading-[1.35] tracking-[-0.02em] mb-7 md:mb-9">
+          Xanh — Design & Build<br />
+          <span class="font-light">Câu Chuyện Của Sự Liền Mạch & Bền Vững.</span>
+        </h1>
+
+        <!-- Sub-headline -->
+        <p id="about-hero-subheadline"
+          class="about-hero-el text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-10 md:mb-12">
+          Chúng tôi là thương hiệu cung cấp giải pháp nội thất và xây dựng hoàn thiện theo hướng bền vững.
+          Không chỉ thiết kế một không gian, chúng tôi kiến tạo những công trình đáng để đầu tư.
+        </p>
+
+        <!-- Action Row: CTA + Video Play Button -->
+        <div class="about-hero-el flex flex-wrap items-center gap-5 md:gap-8">
+          <!-- CTA Button -->
+          <a href="#about-pain" class="btn btn--primary group">
+            <span>Khám Phá Hành Trình Xanh</span>
+            <i data-lucide="arrow-down"
+              class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"></i>
+          </a>
+
+          <!-- Video Play Button -->
+          <button id="video-play-btn" class="video-play-btn group" aria-label="Xem video giới thiệu công ty">
+            <span class="video-play-btn__circle">
+              <svg class="w-5 h-5 md:w-6 md:h-6 text-white ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+            <span
+              class="video-play-btn__label text-white/80 text-sm font-medium tracking-wide group-hover:text-white transition-colors duration-300">
+              Xem Video Giới Thiệu
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
+      <span class="text-white/40 text-[10px] uppercase tracking-[0.2em] font-medium">Khám phá</span>
+      <div class="scroll-indicator">
+        <div class="scroll-indicator__dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- VIDEO MODAL                                   -->
+  <!-- ============================================= -->
+  <div id="video-modal" class="video-modal" role="dialog" aria-modal="true" aria-label="Video giới thiệu công ty">
+    <!-- Backdrop -->
+    <div class="video-modal__backdrop" id="video-modal-backdrop"></div>
+
+    <!-- Modal Content -->
+    <div class="video-modal__container">
+      <!-- Close button -->
+      <button class="video-modal__close" id="video-modal-close" aria-label="Đóng video">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <!-- Video wrapper (16:9) -->
+      <div class="video-modal__video-wrap">
+        <iframe id="video-iframe" src="" title="Video Giới Thiệu XANH Design & Build" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- SECTION 2: THE PAIN                           -->
+  <!-- ============================================= -->
+  <section id="about-pain" class="bg-white relative w-full border-t border-dark/5">
+    <div class="site-container">
+      <div class="flex flex-col lg:flex-row relative items-start">
+
+        <!-- Left Column: Sticky Headline -->
+        <div
+          class="w-full lg:w-5/12 lg:sticky top-[100px] pt-20 lg:pt-32 pb-12 lg:pb-32 pr-0 lg:pr-12 lg:min-h-screen flex flex-col justify-start">
+          <div class="about-pain-header section-header section-header--left anim-fade-up">
+            <span class="section-eyebrow text-primary/50 relative inline-block mb-4">
+              Khởi nguồn từ những trăn trở
+            </span>
+            <h2 class="section-title text-primary mb-6 lg:mb-8">
+              Mọi Điểm Chạm Bắt Đầu<br class="hidden lg:block" /> Từ Một Sự Thật...
+            </h2>
+            <p class="section-subtitle text-dark/80">
+              Xuất phát là những chuyên gia trong lĩnh vực giải pháp nội thất hoàn thiện và vật tư, trải qua nhiều dự án
+              lớn nhỏ, chúng tôi đã chứng kiến 5 "nỗi đau" lớn mà các chủ đầu tư thường xuyên phải đối mặt:
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Column: Scrollable List -->
+        <div class="w-full lg:w-7/12 pt-0 lg:pt-32 pb-24 lg:pb-32 lg:pl-16 relative">
+          <!-- Desktop vertical divider line -->
+          <div
+            class="pain-divider-line hidden lg:block absolute left-0 top-0 w-px h-[calc(100%-8rem)] bg-dark/10 mt-32">
+          </div>
+
+          <div class="flex flex-col gap-0 pain-list">
+
+            <!-- Pain Item 1 -->
+            <div
+              class="pain-el anim-fade-up group relative py-10 lg:py-12 border-t border-dark/10 first:border-0 lg:first:border-t lg:first:-mt-[1px]">
+              <div class="flex items-start gap-5 md:gap-7">
+                <div class="icon-circle shrink-0">
+                  <i data-lucide="image-off" class="w-5 h-5 md:w-6 md:h-6"></i>
+                </div>
+                <div>
+                  <h3
+                    class="font-heading text-xl md:text-2xl font-bold text-dark mb-3 lg:mb-4 tracking-[-0.02em] group-hover:text-primary transition-colors duration-300">
+                    Bản vẽ tính thực thi thấp</h3>
+                  <p class="text-quote">
+                    "Bản vẽ thiết kế đẹp nhưng thi công không giống, hoặc hoàn toàn không thể thực thi trong điều kiện
+                    thực tế."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pain Item 2 -->
+            <div class="pain-el anim-fade-up group relative py-10 lg:py-12 border-t border-dark/10">
+              <div class="flex items-start gap-5 md:gap-7">
+                <div class="icon-circle shrink-0">
+                  <i data-lucide="trending-up" class="w-5 h-5 md:w-6 md:h-6"></i>
+                </div>
+                <div>
+                  <h3
+                    class="font-heading text-xl md:text-2xl font-bold text-dark mb-3 lg:mb-4 tracking-[-0.02em] group-hover:text-primary transition-colors duration-300">
+                    Dự toán đội phí</h3>
+                  <p class="text-quote">
+                    "Bảng dự toán ban đầu rất thấp để chào mời, nhưng rồi lại đội chi phí rất cao và phát sinh liên tục
+                    trong quá trình làm."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pain Item 3 -->
+            <div class="pain-el anim-fade-up group relative py-10 lg:py-12 border-t border-dark/10">
+              <div class="flex items-start gap-5 md:gap-7">
+                <div class="icon-circle shrink-0">
+                  <i data-lucide="split" class="w-5 h-5 md:w-6 md:h-6"></i>
+                </div>
+                <div>
+                  <h3
+                    class="font-heading text-xl md:text-2xl font-bold text-dark mb-3 lg:mb-4 tracking-[-0.02em] group-hover:text-primary transition-colors duration-300">
+                    Đùn đẩy trách nhiệm</h3>
+                  <p class="text-quote">
+                    "Đơn vị thiết kế và đơn vị thi công không đồng nhất, dẫn đến đùn đẩy trách nhiệm khi có sự cố xảy
+                    ra."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pain Item 4 -->
+            <div class="pain-el anim-fade-up group relative py-10 lg:py-12 border-t border-dark/10">
+              <div class="flex items-start gap-5 md:gap-7">
+                <div class="icon-circle shrink-0">
+                  <i data-lucide="hammer" class="w-5 h-5 md:w-6 md:h-6"></i>
+                </div>
+                <div>
+                  <h3
+                    class="font-heading text-xl md:text-2xl font-bold text-dark mb-3 lg:mb-4 tracking-[-0.02em] group-hover:text-primary transition-colors duration-300">
+                    Xuống cấp nhanh chóng</h3>
+                  <p class="text-quote">
+                    "Công trình vừa thi công xong đã nhanh xuống cấp, thường xuyên phải gọi bảo hành và công năng không
+                    được tối ưu."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pain Item 5 -->
+            <div class="pain-el anim-fade-up group relative py-10 lg:py-12 border-t border-b border-dark/10">
+              <div class="flex items-start gap-5 md:gap-7">
+                <div class="icon-circle shrink-0">
+                  <i data-lucide="shield-alert" class="w-5 h-5 md:w-6 md:h-6"></i>
+                </div>
+                <div>
+                  <h3
+                    class="font-heading text-xl md:text-2xl font-bold text-dark mb-3 lg:mb-4 tracking-[-0.02em] group-hover:text-primary transition-colors duration-300">
+                    Thiếu cam kết tổng thể</h3>
+                  <p class="text-quote">
+                    "Không có một ai đứng ra chịu trách nhiệm tổng thể quy trình và cam kết thời gian hoàn thành cụ thể
+                    rõ ràng."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ============================================= -->
+  <!-- SECTION 3: THE TURNING POINT                  -->
+  <!-- ============================================= -->
+  <section id="about-turning" class="bg-primary relative w-full overflow-hidden py-12 md:py-16 lg:py-20">
+
+    <!-- Background image overlay (image at 20% opacity) -->
+    <div class="absolute inset-0">
+      <img src="image/section3-turning-bg.png" alt="" class="w-full h-full object-cover opacity-20" />
+    </div>
+    <!-- Primary color overlay on top of image -->
+    <div class="absolute inset-0 bg-primary/80"></div>
+
+    <div class="site-container relative z-10">
+
+      <!-- Section Header — Centered -->
+      <div class="section-header section-header--center anim-fade-up max-w-3xl mx-auto mb-16 md:mb-20 lg:mb-24">
+        <span class="turn-el section-eyebrow text-white/40 block mb-4">
+          Bước Ngoặt
+        </span>
+        <h2 class="turn-el section-title text-white mb-6 lg:mb-8">
+          Lời Giải Cho Sự "Đứt Gãy"<br class="hidden md:block" /> Của Thị Trường
+        </h2>
+        <p class="turn-el section-subtitle text-white/70 mx-auto w-full max-w-none">
+          Chúng tôi nhận ra rằng, rễ sâu của rủi ro không nằm ở từng khâu riêng lẻ — mà ở sự đứt gãy giữa các khâu đó.
+          Từ những trăn trở thực tế, <strong class="text-white font-semibold">Xanh — Design & Build</strong> đã chính
+          thức khởi sinh với sứ mệnh khép kín chuỗi giá trị.
+        </p>
+      </div>
+
+      <!-- Circular Infographic -->
+      <div class="flex justify-center w-full">
+        <div class="turn-el w-full flex justify-center">
+          <div
+            class="relative w-[92vw] h-[92vw] sm:w-[400px] sm:h-[400px] md:w-[480px] md:h-[480px] lg:w-[560px] lg:h-[560px] xl:w-[600px] xl:h-[600px]">
+
+            <!-- SVG Circle -->
+            <svg viewBox="0 0 400 420" class="w-full h-full" id="turning-circle-svg">
+              <!-- Background circle -->
+              <circle cx="200" cy="210" r="160" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2" />
+
+              <!-- Animated progress circle (drawn by GSAP) -->
+              <circle cx="200" cy="210" r="160" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"
+                stroke-dasharray="1005.3" stroke-dashoffset="1005.3" stroke-linecap="round"
+                transform="rotate(-90 200 210)" id="turning-progress-circle" />
+
+              <!-- Center text (hidden — replaced by HTML overlay) -->
+              <text x="200" y="185" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                font-size="16" letter-spacing="0.1em" opacity="0">CHUỖI GIÁ TRỊ</text>
+              <text x="200" y="210" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                font-size="16" letter-spacing="0.1em" opacity="0">KHÉP KÍN</text>
+              <text x="200" y="235" text-anchor="middle" fill="rgba(255,138,0,0.9)" font-family="Inter"
+                font-weight="600" font-size="11" letter-spacing="0.15em" opacity="0">XANH — D&B</text>
+              <!-- Clockwise Flow Arrows (orbit group rotates as a whole) -->
+              <g id="arrows-orbit" class="arrows-orbit">
+                <g class="turn-arrow" opacity="0">
+                  <g transform="rotate(36 200 210)">
+                    <rect x="180" y="35" width="30" height="30" fill="transparent" />
+                    <path class="flow-arrow-path" d="M 192 44 L 202 50 L 192 56" fill="none" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                </g>
+                <g class="turn-arrow" opacity="0">
+                  <g transform="rotate(108 200 210)">
+                    <rect x="180" y="35" width="30" height="30" fill="transparent" />
+                    <path class="flow-arrow-path" d="M 192 44 L 202 50 L 192 56" fill="none" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                </g>
+                <g class="turn-arrow" opacity="0">
+                  <g transform="rotate(180 200 210)">
+                    <rect x="180" y="35" width="30" height="30" fill="transparent" />
+                    <path class="flow-arrow-path" d="M 192 44 L 202 50 L 192 56" fill="none" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                </g>
+                <g class="turn-arrow" opacity="0">
+                  <g transform="rotate(252 200 210)">
+                    <rect x="180" y="35" width="30" height="30" fill="transparent" />
+                    <path class="flow-arrow-path" d="M 192 44 L 202 50 L 192 56" fill="none" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                </g>
+                <g class="turn-arrow" opacity="0">
+                  <g transform="rotate(324 200 210)">
+                    <rect x="180" y="35" width="30" height="30" fill="transparent" />
+                    <path class="flow-arrow-path" d="M 192 44 L 202 50 L 192 56" fill="none" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                </g>
+              </g>
+
+              <!-- 5 Nodes positioned around the circle -->
+              <!-- Node 1: Thiết Kế (Top) -->
+              <g class="turn-node" data-index="0" data-desc="Tỉ mỉ từng bản vẽ — đảm bảo 98% sát với thực tế thi công"
+                style="cursor:pointer">
+                <circle cx="200" cy="50" r="44" fill="transparent" stroke="none" /> <!-- hit area -->
+                <circle cx="200" cy="50" r="38" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)"
+                  stroke-width="1.5" class="node-visible" />
+                <text x="200" y="44" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">THIẾT</text>
+                <text x="200" y="62" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">KẾ</text>
+              </g>
+
+              <!-- Node 2: Dự Toán (Top-Right) -->
+              <g class="turn-node" data-index="1" data-desc="Minh bạch từng hạng mục — không phát sinh, không ngoại lệ"
+                style="cursor:pointer">
+                <circle cx="352" cy="148" r="44" fill="transparent" stroke="none" />
+                <circle cx="352" cy="148" r="38" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)"
+                  stroke-width="1.5" class="node-visible" />
+                <text x="352" y="142" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">DỰ</text>
+                <text x="352" y="160" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">TOÁN</text>
+              </g>
+
+              <!-- Node 3: Vật Liệu (Bottom-Right) -->
+              <g class="turn-node" data-index="2"
+                data-desc="Chuẩn mực bền vững — nguồn gốc rõ ràng, chất lượng kiểm chứng" style="cursor:pointer">
+                <circle cx="294" cy="340" r="44" fill="transparent" stroke="none" />
+                <circle cx="294" cy="340" r="38" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)"
+                  stroke-width="1.5" class="node-visible" />
+                <text x="294" y="334" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">VẬT</text>
+                <text x="294" y="352" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">LIỆU</text>
+              </g>
+
+              <!-- Node 4: Thi Công (Bottom-Left) -->
+              <g class="turn-node" data-index="3"
+                data-desc="Trọn vẹn cam kết — giám sát chặt chẽ, bàn giao đúng tiến độ" style="cursor:pointer">
+                <circle cx="106" cy="340" r="44" fill="transparent" stroke="none" />
+                <circle cx="106" cy="340" r="38" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)"
+                  stroke-width="1.5" class="node-visible" />
+                <text x="106" y="334" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">THI</text>
+                <text x="106" y="352" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">CÔNG</text>
+              </g>
+
+              <!-- Node 5: Bảo Hành (Top-Left) -->
+              <g class="turn-node" data-index="4" data-desc="Đồng hành trường tồn — hỗ trợ tận tâm sau bàn giao"
+                style="cursor:pointer">
+                <circle cx="48" cy="148" r="44" fill="transparent" stroke="none" />
+                <circle cx="48" cy="148" r="38" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)"
+                  stroke-width="1.5" class="node-visible" />
+                <text x="48" y="142" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">BẢO</text>
+                <text x="48" y="160" text-anchor="middle" fill="white" font-family="Inter" font-weight="700"
+                  font-size="14" letter-spacing="0.06em">HÀNH</text>
+              </g>
+            </svg>
+
+            <!-- Center overlay: default text + hover description (positioned absolutely at center) -->
+            <div class="turn-center-overlay" id="turn-center-overlay">
+              <!-- Default state -->
+              <div class="turn-center-default" id="turn-center-default">
+                <span class="turn-center-label">CHUỖI GIÁ TRỊ</span>
+                <span class="turn-center-label">KHÉP KÍN</span>
+                <span class="turn-center-brand">XANH — D&B</span>
+              </div>
+              <!-- Hover state (shown on node hover) -->
+              <div class="turn-center-detail" id="turn-center-detail">
+                <span class="turn-center-detail__title" id="turn-detail-title"></span>
+                <span class="turn-center-detail__desc" id="turn-detail-desc"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 4: THE PROMISE                        -->
+  <!-- ============================================= -->
+  <section id="about-promise" class="bg-white relative w-full overflow-hidden py-12 md:py-16 lg:py-20">
+    <div class="site-container">
+      <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+
+        <!-- Left: Large Typography -->
+        <div class="w-full lg:w-5/12 section-header section-header--left text-center lg:text-left anim-fade-up">
+          <span class="promise-el section-eyebrow text-primary/70 block mb-4">
+            Sứ Mệnh Xuyên Suốt
+          </span>
+          <h2 class="promise-el section-title text-primary mb-6">
+            Đầu Mối Duy Nhất.<br>Trách Nhiệm Trọn Vẹn.
+          </h2>
+        </div>
+
+        <!-- Right: Content -->
+        <div class="w-full lg:w-7/12 anim-fade-up">
+          <div class="promise-el max-w-xl mx-auto lg:mx-0 mb-10 text-center lg:text-left">
+            <p class="text-lead text-dark/80 mb-6">
+              Xanh ra đời với sứ mệnh trở thành <strong class="text-primary font-bold">đầu mối duy nhất</strong> chịu
+              trách nhiệm xuyên suốt — từ bản vẽ đầu tiên đến ngày bàn giao chìa khóa.
+            </p>
+            <p class="text-body text-dark/60">
+              Sự liền mạch này chính là chìa khóa để giảm thiểu rủi ro, tối ưu giá trị cho gia chủ, và kiến tạo nên
+              những không gian sống "Xanh" — nơi mỗi chi tiết đều có ý nghĩa.
+            </p>
+          </div>
+
+          <!-- 5 compact highlights -->
+          <div class="promise-el grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 max-w-xl mx-auto lg:mx-0">
+            <div class="flex items-start gap-3 justify-center lg:justify-start">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0 mt-0.5"></i>
+              <span class="text-dark/80 text-base font-body tracking-wide"><strong class="font-semibold text-dark">Thiết
+                  kế</strong> — Tỉ mỉ từng chi tiết</span>
+            </div>
+            <div class="flex items-start gap-3 justify-center lg:justify-start">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0 mt-0.5"></i>
+              <span class="text-dark/80 text-base font-body tracking-wide"><strong class="font-semibold text-dark">Dự
+                  toán</strong> — Minh bạch, rõ ràng</span>
+            </div>
+            <div class="flex items-start gap-3 justify-center lg:justify-start">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0 mt-0.5"></i>
+              <span class="text-dark/80 text-base font-body tracking-wide"><strong class="font-semibold text-dark">Vật
+                  liệu</strong> — Chuẩn mực bền vững</span>
+            </div>
+            <div class="flex items-start gap-3 justify-center lg:justify-start">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0 mt-0.5"></i>
+              <span class="text-dark/80 text-base font-body tracking-wide"><strong class="font-semibold text-dark">Thi
+                  công</strong> — Trọn vẹn cam kết</span>
+            </div>
+            <div class="flex items-start gap-3 sm:col-span-2 justify-center lg:justify-start">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0 mt-0.5"></i>
+              <span class="text-dark/80 text-base font-body tracking-wide"><strong class="font-semibold text-dark">Bảo
+                  hành</strong> — Đồng hành trường tồn</span>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="promise-el mt-14 text-center lg:text-left">
+            <a href="#" class="btn btn--primary group rounded-sm">
+              <span>Khám Phá Hành Trình Của Bạn</span>
+              <i data-lucide="arrow-right"
+                class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 5: PHILOSOPHY "4 XANH"                -->
+  <!-- ============================================= -->
+  <section id="about-philosophy" class="bg-light relative w-full overflow-hidden py-12 md:py-16 lg:py-20">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center anim-fade-up max-w-3xl mx-auto mb-12 md:mb-16">
+        <span class="section-eyebrow text-primary/50 block mb-4">
+          Triết lý cốt lõi
+        </span>
+        <h2 class="section-title text-primary mb-6">
+          Không Gian Kiến Tạo Cho Sự Bình Yên
+        </h2>
+        <p class="section-subtitle text-dark/80 mx-auto w-full max-w-none">
+          Không mang ý nghĩa phô trương, "Xanh" trong ngôn ngữ thiết kế của chúng tôi là sự vừa vặn hoàn hảo giữa con
+          người, không gian và môi trường. Kiến tạo một chốn trở về thực sự thuộc về bạn.
+        </p>
+      </div>
+
+      <!-- 2x2 Grid Layout -->
+      <div class="philo-grid grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+
+        <!-- Card 1: Không Gian Sống Trong Lành -->
+        <div
+          class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer">
+          <img src="img/philo-1.png" alt="Không gian sống trong lành XANH"
+            class="philo-card__img absolute inset-0 w-full h-full object-cover" loading="lazy">
+          <div class="philo-card__overlay absolute inset-x-0 bottom-0 pointer-events-none"></div>
+          <div class="philo-card__content absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end">
+            <div class="philo-card__icon-wrap">
+              <i data-lucide="leaf" class="philo-card__icon"></i>
+            </div>
+            <h3 class="philo-card__title">Không Gian Sống<br>Trong Lành</h3>
+            <p class="philo-card__desc">
+              Nơi ánh sáng tự nhiên và luồng khí tươi ôm trọn mỗi khoảnh khắc, kiến tạo một tổ ấm thực sự tốt cho sức
+              khỏe và tinh thần.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: Vật Liệu Chuẩn Mực Bền Vững -->
+        <div
+          class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer"
+          style="transition-delay: 80ms;">
+          <img src="img/philo-2.png" alt="Vật liệu bền vững XANH"
+            class="philo-card__img absolute inset-0 w-full h-full object-cover" loading="lazy">
+          <div class="philo-card__overlay absolute inset-x-0 bottom-0 pointer-events-none"></div>
+          <div class="philo-card__content absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end">
+            <div class="philo-card__icon-wrap">
+              <i data-lucide="box" class="philo-card__icon"></i>
+            </div>
+            <h3 class="philo-card__title">Vật Liệu Chuẩn Mực<br>Bền Vững</h3>
+            <p class="philo-card__desc">
+              Khắt khe trong từng lựa chọn. Chúng tôi ưu tiên những giải pháp vật liệu mang tính di sản, an toàn tuyệt
+              đối và tôn trọng tự nhiên.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: Giải Pháp Năng Lượng Tối Ưu -->
+        <div
+          class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer">
+          <img src="img/philo-3.png" alt="Giải pháp năng lượng tối ưu XANH"
+            class="philo-card__img absolute inset-0 w-full h-full object-cover" loading="lazy">
+          <div class="philo-card__overlay absolute inset-x-0 bottom-0 pointer-events-none"></div>
+          <div class="philo-card__content absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end">
+            <div class="philo-card__icon-wrap">
+              <i data-lucide="zap" class="philo-card__icon"></i>
+            </div>
+            <h3 class="philo-card__title">Giải Pháp Năng<br>Lượng Tối Ưu</h3>
+            <p class="philo-card__desc">
+              Tối giản chi phí vận hành thông qua các ứng dụng thiết kế thông minh, trả lại cho bạn đặc quyền tận hưởng
+              cuộc sống không âu lo.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4: Cảnh Quan Hòa Hợp Thiên Nhiên -->
+        <div
+          class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer"
+          style="transition-delay: 80ms;">
+          <img src="img/philo-4.png" alt="Cảnh quan hòa hợp thiên nhiên"
+            class="philo-card__img absolute inset-0 w-full h-full object-cover" loading="lazy">
+          <div class="philo-card__overlay absolute inset-x-0 bottom-0 pointer-events-none"></div>
+          <div class="philo-card__content absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end">
+            <div class="philo-card__icon-wrap">
+              <i data-lucide="sun" class="philo-card__icon"></i>
+            </div>
+            <h3 class="philo-card__title">Cảnh Quan Hòa Hợp<br>Thiên Nhiên</h3>
+            <p class="philo-card__desc">
+              Ranh giới giữa trong và ngoài được xóa nhòa. Mỗi góc nhìn đều là một bức tranh sống động, kết nối con
+              người với thiên nhiên nguyên bản.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 5: CORE VALUES — Bản Sắc Cốt Lõi     -->
+  <!-- ============================================= -->
+  <section id="about-core-values" class="cv-section relative w-full overflow-hidden py-12 md:py-16 lg:py-20">
+
+    <!-- Subtle background texture overlay -->
+    <div class="absolute inset-0 cv-bg-texture pointer-events-none"></div>
+
+    <div class="site-container relative z-10">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center anim-fade-up max-w-3xl mx-auto mb-12 md:mb-16">
+        <span class="section-eyebrow text-white/40 block mb-4">
+          Cam Kết Của Chúng Tôi
+        </span>
+        <h2 class="section-title text-white mb-6">
+          Bản Sắc Cốt Lõi — Lời Cam Kết Bền Vững
+        </h2>
+        <p class="section-subtitle text-white/60 mx-auto w-full max-w-none">
+          Đây không chỉ là giá trị — đây là lời tuyên thệ. Mỗi công trình Xanh bàn giao đều mang trong mình bốn nền tảng
+          không thể thương lượng.
+        </p>
+      </div>
+
+      <!-- 2×2 Bento Grid -->
+      <div class="cv-grid grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
+
+        <!-- Card 1: Hiệu Quả Thực Tế -->
+        <div class="cv-card group" data-index="1">
+          <div class="cv-card__inner">
+            <!-- Watermark Number -->
+            <span class="cv-card__number" aria-hidden="true">01</span>
+            <!-- Icon -->
+            <div class="cv-card__icon-wrap">
+              <i data-lucide="target" class="cv-card__icon"></i>
+            </div>
+            <!-- Content -->
+            <h3 class="cv-card__title">Hiệu Quả<br>Thực Tế</h3>
+            <p class="cv-card__desc">
+              Chúng tôi không làm cho đẹp chỉ trên giấy. Mỗi bản vẽ đều được kiểm chứng — chỉ thực hiện những gì hoàn
+              toàn có thể thi công được.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: Minh Bạch -->
+        <div class="cv-card group" data-index="2">
+          <div class="cv-card__inner">
+            <span class="cv-card__number" aria-hidden="true">02</span>
+            <div class="cv-card__icon-wrap">
+              <i data-lucide="eye" class="cv-card__icon"></i>
+            </div>
+            <h3 class="cv-card__title">Minh Bạch<br>Tuyệt Đối</h3>
+            <p class="cv-card__desc">
+              Mọi thứ đều rõ ràng — từ chi phí, vật liệu đến toàn bộ quy trình làm việc. Mỗi đồng bạn đầu tư đều được
+              tôn trọng, không ngoại lệ.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: Bền Vững -->
+        <div class="cv-card group" data-index="3">
+          <div class="cv-card__inner">
+            <span class="cv-card__number" aria-hidden="true">03</span>
+            <div class="cv-card__icon-wrap">
+              <i data-lucide="trees" class="cv-card__icon"></i>
+            </div>
+            <h3 class="cv-card__title">Bền Vững<br>Trường Tồn</h3>
+            <p class="cv-card__desc">
+              Công trình phải đạt chuẩn bền vững — về chất lượng thi công, công năng sử dụng và đảm bảo sự an toàn, bền
+              vững về tài chính cho bạn.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4: Đồng Hành -->
+        <div class="cv-card group" data-index="4">
+          <div class="cv-card__inner">
+            <span class="cv-card__number" aria-hidden="true">04</span>
+            <div class="cv-card__icon-wrap">
+              <i data-lucide="handshake" class="cv-card__icon"></i>
+            </div>
+            <h3 class="cv-card__title">Đồng Hành<br>Trọn Vẹn</h3>
+            <p class="cv-card__desc">
+              Không có khái niệm "bán xong là hết". Chúng tôi cam kết đồng hành cùng bạn trong suốt vòng đời của công
+              trình.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 4.5: TEAM MEMBERS                     -->
+  <!-- ============================================= -->
+  <section id="about-team"
+    class="bg-white relative w-full overflow-hidden py-12 md:py-16 lg:py-20 border-t border-dark/5">
+    <div class="site-container">
+
+      <!-- Section Header -->
+      <div class="section-header section-header--center anim-fade-up max-w-3xl mx-auto mb-12 md:mb-16">
+        <span class="section-eyebrow text-primary/50 block mb-4">
+          Con Người Kiến Tạo
+        </span>
+        <h2 class="section-title text-primary mb-6">
+          Đội Ngũ Chuyên Gia
+        </h2>
+        <p class="section-subtitle text-dark/80 mx-auto w-full max-w-none">
+          Những kiến trúc sư và kỹ sư đam mê sự hoàn mỹ. Chúng tôi không chỉ xây dựng không gian, chúng tôi kiến tạo
+          những giá trị bền vững vượt thời gian.
+        </p>
+      </div>
+
+      <!-- 4-Column Team Grid -->
+      <div class="team-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+
+        <!-- Team Member 1 -->
+        <div class="team-card group">
+          <div class="team-card__img-wrap aspect-[4/5] overflow-hidden relative mb-5 bg-light">
+            <img src="./image/tuan-ceo.png" alt="Ông Nguyễn Văn A" id="team-img-1"
+              class="team-card__img w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              width="400" height="500" loading="lazy">
+
+            <!-- Hover Overlay -->
+            <div
+              class="team-card__overlay absolute inset-x-0 bottom-0 pt-32 pb-6 px-6 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 transition-opacity duration-300 ease-out flex flex-col justify-end group-hover:opacity-100 z-10">
+              <p
+                class="text-white/90 text-sm leading-relaxed mb-4 italic font-light opacity-0 translate-y-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 delay-100">
+                "Kiến tạo không gian, gieo mầm bình yên cho mỗi gia chủ."
+              </p>
+            </div>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-dark mb-1">Minh Tuấn</h3>
+          <p class="text-accent text-sm font-medium">Giám đốc điều hành (CEO)</p>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card group">
+          <div class="team-card__img-wrap aspect-[4/5] overflow-hidden relative mb-5 bg-light">
+            <img src="./image/yen-architect.png" alt="Bà Trần Thị B" id="team-img-2"
+              class="team-card__img w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              width="400" height="500" loading="lazy">
+            <div
+              class="team-card__overlay absolute inset-x-0 bottom-0 pt-32 pb-6 px-6 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 transition-opacity duration-300 ease-out flex flex-col justify-end group-hover:opacity-100 z-10">
+              <p
+                class="text-white/90 text-sm leading-relaxed mb-4 italic font-light opacity-0 translate-y-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 delay-100">
+                "Bản vẽ hoàn hảo nhất là bản vẽ truyền tải được nhịp sống thực tế."
+              </p>
+            </div>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-dark mb-1">Hoàng Yến</h3>
+          <p class="text-dark/60 text-sm font-medium">Kiến trúc sư trưởng</p>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-card group">
+          <div class="team-card__img-wrap aspect-[4/5] overflow-hidden relative mb-5 bg-light">
+            <img src="./image/bao-pm.png" alt="Ông Lê Văn C" id="team-img-3"
+              class="team-card__img w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              width="400" height="500" loading="lazy">
+            <div
+              class="team-card__overlay absolute inset-x-0 bottom-0 pt-32 pb-6 px-6 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 transition-opacity duration-300 ease-out flex flex-col justify-end group-hover:opacity-100 z-10">
+              <p
+                class="text-white/90 text-sm leading-relaxed mb-4 italic font-light opacity-0 translate-y-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 delay-100">
+                "Khởi nguồn từ khao khát mang đến sự trọn vẹn trong thiết kế tối giản."
+              </p>
+            </div>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-dark mb-1">Gia Bảo</h3>
+          <p class="text-dark/60 text-sm font-medium">Quản lý dự án</p>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="team-card group">
+          <div class="team-card__img-wrap aspect-[4/5] overflow-hidden relative mb-5 bg-light">
+            <img src="./image/huy-engineer.png" alt="Ông Phạm Văn D" id="team-img-4"
+              class="team-card__img w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              width="400" height="500" loading="lazy">
+            <div
+              class="team-card__overlay absolute inset-x-0 bottom-0 pt-32 pb-6 px-6 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 transition-opacity duration-300 ease-out flex flex-col justify-end group-hover:opacity-100 z-10">
+              <p
+                class="text-white/90 text-sm leading-relaxed mb-4 italic font-light opacity-0 translate-y-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0 delay-100">
+                "Cam kết thi công chuẩn xác, an toàn và bền vững tuyệt đối."
+              </p>
+            </div>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-dark mb-1">Quốc Huy</h3>
+          <p class="text-dark/60 text-sm font-medium">Kỹ sư trưởng</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- SECTION 6: FINAL CTA — Khởi Đầu Hành Trình    -->
+  <!-- ============================================= -->
+  <section id="about-final-cta" class="bg-light relative w-full overflow-hidden py-12 md:py-16 lg:py-20">
+    <div class="site-container">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+        <!-- Left: Typography & CTA Buttons -->
+        <div class="w-full lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div class="section-header section-header--left w-full">
+            <span id="cta-eyebrow" class="section-eyebrow text-primary/50 block mb-4">
+              Khởi Đầu Hành Trình
+            </span>
+            <h2 id="cta-title" class="section-title text-primary mb-6 tracking-[-0.02em] font-bold">
+              Hành trình kiến tạo không gian bắt đầu bằng một cuộc trò chuyện.
+            </h2>
+            <p id="cta-subtitle" class="section-subtitle text-dark/80 max-w-xl mx-auto lg:mx-0">
+              Chúng tôi hiểu — xây nhà là quyết định lớn nhất đời. Đặt lịch trao đổi riêng để mỗi mong ước của bạn được
+              lắng nghe, và để XANH đồng hành cùng bạn từ bản vẽ đầu tiên.
+            </p>
+          </div>
+
+          <div
+            id="cta-buttons"
+            class="mt-8 lg:mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6 w-full sm:w-auto">
+            <a href="lien-he.html" class="btn btn--primary w-full sm:w-auto justify-center group">
+              <span>Đặt Lịch Tư Vấn Riêng</span>
+              <i data-lucide="arrow-right"
+                class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5"></i>
+            </a>
+            <a href="du-an.html" class="btn btn--outline w-full sm:w-auto justify-center group">
+              <span>Khám Phá Các Tác Phẩm</span>
+              <i data-lucide="chevron-down" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Portrait Editorial Image -->
+        <div id="cta-image-col" class="w-full lg:col-span-5">
+          <div class="relative w-full aspect-[4/5] overflow-hidden rounded-sm shadow-2xl">
+            <!-- Decorative outline frame for luxury vibe -->
+            <div class="absolute inset-4 border border-white/30 z-10 pointer-events-none"></div>
+            <!-- Editorial image -->
+            <img src="image/cta-portrait.jpg" alt="Chi tiết kiến trúc không gian ấm cúng"
+              class="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-105"
+              width="480" height="600" loading="lazy">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="../shared/base.js"></script>
+  <script src="about.js"></script>
+</body>
+
+</html>

@@ -199,18 +199,21 @@ function xanh_disable_frontend_heartbeat() {
 add_action( 'init', 'xanh_disable_frontend_heartbeat', 1 );
 
 /**
- * Dequeue jQuery on frontend (theme uses vanilla ES6+).
+ * Move jQuery to footer on frontend (non-render-blocking).
  *
- * Saves ~87 KB. jQuery remains available in wp-admin for ACF + plugins.
+ * Theme uses vanilla ES6+ but Fluent Forms still needs jQuery.
+ * Moving to footer keeps it out of <head> so it won't block
+ * first paint — same perf benefit, zero console errors.
  *
  * @return void
  */
-function xanh_dequeue_frontend_jquery() {
+function xanh_move_jquery_to_footer() {
 	if ( ! is_admin() && ! is_customize_preview() ) {
-		wp_deregister_script( 'jquery' );
+		wp_scripts()->add_data( 'jquery',      'group', 1 );
+		wp_scripts()->add_data( 'jquery-core', 'group', 1 );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'xanh_dequeue_frontend_jquery', 1 );
+add_action( 'wp_enqueue_scripts', 'xanh_move_jquery_to_footer', 1 );
 
 /**
  * Lazy-load third-party widgets (Zalo) — 3 s after window.load.
@@ -269,11 +272,16 @@ function xanh_output_schema_jsonld() {
 			'@context'    => 'https://schema.org',
 			'@type'       => 'Organization',
 			'name'        => esc_html( $site_name ),
+			'legalName'   => 'CÔNG TY CỔ PHẦN ĐẦU TƯ THIẾT BỊ VÀ GIẢI PHÁP XANH',
 			'url'         => esc_url( $site_url ),
 			'description' => get_bloginfo( 'description' ),
+			'telephone'   => '0978.303.025',
+			'email'       => 'contact@xanhdesignbuild.vn',
+			'taxID'       => '4202048146',
 			'address'     => [
 				'@type'           => 'PostalAddress',
-				'addressLocality' => 'Nha Trang',
+				'streetAddress'   => '49 Nguyễn Tất Thành',
+				'addressLocality' => 'Phường Phước Long',
 				'addressRegion'   => 'Khánh Hòa',
 				'addressCountry'  => 'VN',
 			],
@@ -355,12 +363,32 @@ function xanh_output_schema_jsonld() {
 				'name'     => get_the_title(),
 				'item'     => esc_url( get_permalink() ),
 			];
+		} elseif ( is_singular( 'xanh_service' ) ) {
+			$breadcrumb_items[] = [
+				'@type'    => 'ListItem',
+				'position' => $position++,
+				'name'     => 'Dịch Vụ',
+				'item'     => esc_url( get_post_type_archive_link( 'xanh_service' ) ),
+			];
+			$breadcrumb_items[] = [
+				'@type'    => 'ListItem',
+				'position' => $position++,
+				'name'     => get_the_title(),
+				'item'     => esc_url( get_permalink() ),
+			];
 		} elseif ( is_post_type_archive( 'xanh_project' ) ) {
 			$breadcrumb_items[] = [
 				'@type'    => 'ListItem',
 				'position' => $position++,
 				'name'     => 'Dự Án',
 				'item'     => esc_url( get_post_type_archive_link( 'xanh_project' ) ),
+			];
+		} elseif ( is_post_type_archive( 'xanh_service' ) ) {
+			$breadcrumb_items[] = [
+				'@type'    => 'ListItem',
+				'position' => $position++,
+				'name'     => 'Dịch Vụ',
+				'item'     => esc_url( get_post_type_archive_link( 'xanh_service' ) ),
 			];
 		} elseif ( is_home() ) {
 			$breadcrumb_items[] = [
@@ -380,9 +408,198 @@ function xanh_output_schema_jsonld() {
 		}
 	}
 
+	// ── Service pages: LocalBusiness + Service schema ──
+	if ( is_singular( 'xanh_service' ) ) {
+		$post_id = get_the_ID();
+
+		// NAP from ACF Options (fallback to hardcoded if not set).
+		$phone   = get_field( 'contact_phone', 'option' ) ?: '0979 943 531';
+		$email   = get_field( 'contact_email', 'option' ) ?: 'contact@xanhdesignbuild.vn';
+		$address = get_field( 'contact_address', 'option' ) ?: 'LK19, lô 16, đường số 20, Khu đô thị Mỹ Gia, phường Nam Nha Trang, tỉnh Khánh Hòa';
+
+		// Service-specific descriptions.
+		$service_descriptions = [
+			119 => 'Dịch vụ thiết kế kiến trúc và nội thất tại Nha Trang — cam kết phối cảnh 3D sát thực tế 98%, hồ sơ kỹ thuật triệt để.',
+			120 => 'Dịch vụ thi công xây dựng trọn gói tại Khánh Hoà — cam kết 100% đúng tiến độ, 0% phát sinh chi phí.',
+			121 => 'Dịch vụ sản xuất và thi công nội thất — xưởng mộc trực tiếp 2000m2, thi công sắc nét 98% bản vẽ.',
+			122 => 'Dịch vụ cải tạo và nâng cấp công trình — xử lý triệt để thấm dột, kiến tạo không gian Warm Luxury.',
+		];
+
+		$service_types = [
+			119 => 'Thiết kế kiến trúc và nội thất',
+			120 => 'Thi công xây dựng trọn gói',
+			121 => 'Sản xuất và thi công nội thất',
+			122 => 'Cải tạo và nâng cấp công trình',
+		];
+
+		$service_desc = $service_descriptions[ $post_id ] ?? wp_trim_words( wp_strip_all_tags( get_the_excerpt() ), 25 );
+		$service_type = $service_types[ $post_id ] ?? get_the_title();
+
+		// LocalBusiness schema.
+		$local_business = [
+			'@context'    => 'https://schema.org',
+			'@type'       => [ 'LocalBusiness', 'ProfessionalService' ],
+			'name'        => esc_html( $site_name ),
+			'description' => $service_desc,
+			'url'         => esc_url( get_permalink() ),
+			'telephone'   => $phone,
+			'email'       => $email,
+			'address'     => [
+				'@type'           => 'PostalAddress',
+				'streetAddress'   => 'LK19, lô 16, đường số 20, Khu đô thị Mỹ Gia',
+				'addressLocality' => 'Nha Trang',
+				'addressRegion'   => 'Khánh Hòa',
+				'postalCode'      => '650000',
+				'addressCountry'  => 'VN',
+			],
+			'geo'         => [
+				'@type'     => 'GeoCoordinates',
+				'latitude'  => 12.2388,
+				'longitude' => 109.1967,
+			],
+			'areaServed'  => [
+				[
+					'@type' => 'City',
+					'name'  => 'Nha Trang',
+				],
+				[
+					'@type' => 'State',
+					'name'  => 'Khánh Hòa',
+				],
+			],
+			'priceRange'  => '$$',
+		];
+
+		if ( $logo_url ) {
+			$local_business['logo'] = esc_url( $logo_url );
+		}
+
+		$image_url = get_the_post_thumbnail_url( $post_id, 'full' );
+		if ( ! $image_url ) {
+			$hero_img = function_exists( 'get_field' ) ? get_field( 'sv_hero_image', $post_id ) : null;
+			if ( $hero_img && isset( $hero_img['url'] ) ) {
+				$image_url = $hero_img['url'];
+			}
+		}
+		if ( $image_url ) {
+			$local_business['image'] = esc_url( $image_url );
+		}
+
+		$schemas[] = $local_business;
+
+		// Service schema.
+		$schemas[] = [
+			'@context'    => 'https://schema.org',
+			'@type'       => 'Service',
+			'name'        => $service_type,
+			'description' => $service_desc,
+			'url'         => esc_url( get_permalink() ),
+			'provider'    => [
+				'@type' => 'LocalBusiness',
+				'name'  => esc_html( $site_name ),
+				'url'   => esc_url( $site_url ),
+			],
+			'areaServed'  => [
+				[
+					'@type' => 'City',
+					'name'  => 'Nha Trang',
+				],
+				[
+					'@type' => 'State',
+					'name'  => 'Khánh Hòa',
+				],
+			],
+			'serviceType' => $service_type,
+		];
+	}
+
 	// ── Output all schemas ──
 	foreach ( $schemas as $schema ) {
 		echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ) . '</script>' . "\n";
 	}
 }
 add_action( 'wp_head', 'xanh_output_schema_jsonld', 5 );
+
+/**
+ * Custom Document Title Separator
+ */
+function xanh_custom_title_separator( $sep ) {
+	return '|';
+}
+add_filter( 'document_title_separator', 'xanh_custom_title_separator' );
+
+/**
+ * Custom Document Title Parts
+ */
+function xanh_custom_title_parts( $title ) {
+	if ( isset( $title['site'] ) ) {
+		$title['site'] = 'XANH - Design & Build';
+	}
+	if ( is_singular( 'xanh_service' ) ) {
+		if ( get_the_ID() == 119 ) {
+			$title['title'] = 'Dịch Vụ Thiết Kế Kiến Trúc & Nội Thất';
+		} elseif ( get_the_ID() == 120 ) {
+			$title['title'] = 'Dịch Vụ Thi Công Xây Dựng Trọn Gói';
+		} elseif ( get_the_ID() == 121 ) {
+			$title['title'] = 'Sản Xuất & Thi Công Nội Thất';
+		} elseif ( get_the_ID() == 122 ) {
+			$title['title'] = 'Cải Tạo & Nâng Cấp Công Trình';
+		}
+	}
+	return $title;
+}
+add_filter( 'document_title_parts', 'xanh_custom_title_parts' );
+
+/**
+ * Output SEO Meta Tags (Description, Open Graph, Twitter)
+ */
+function xanh_seo_meta_tags() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	if ( is_singular( 'xanh_service' ) ) {
+		$post_id = get_the_ID();
+		
+		$seo_title = get_the_title();
+		$desc = wp_trim_words( wp_strip_all_tags( get_field('sv_hero_desc', $post_id) ?: get_the_excerpt() ), 25 );
+		
+		if ( $post_id == 119 ) {
+			$seo_title = 'Dịch Vụ Thiết Kế Kiến Trúc & Nội Thất';
+			$desc = 'Dịch vụ thiết kế kiến trúc và nội thất. Cam kết phối cảnh 3D sát thực tế 98%, hồ sơ kỹ thuật triệt để. Khám Phá Dự Toán Của Bạn ngay với XANH!';
+		} elseif ( $post_id == 120 ) {
+			$seo_title = 'Dịch Vụ Thi Công Xây Dựng Trọn Gói';
+			$desc = 'Dịch vụ thi công xây dựng trọn gói tại Khánh Hoà. Cam kết 100% đúng tiến độ, 0% phát sinh chi phí, bảo hành kết cấu 5 năm. Tìm hiểu ngay!';
+		} elseif ( $post_id == 121 ) {
+			$seo_title = 'Sản Xuất & Thi Công Nội Thất';
+			$desc = 'Dịch vụ sản xuất và thi công nội thất tinh xảo. Xưởng mộc trực tiếp 2000m2, thi công sắc nét 98% bản vẽ, bảo hành gỗ 3 năm. Xem xưởng ngay!';
+		} elseif ( $post_id == 122 ) {
+			$seo_title = 'Cải Tạo & Nâng Cấp Công Trình';
+			$desc = 'Dịch vụ cải tạo công trình chuyên sâu. Xử lý triệt để thấm dột, kiến tạo nét đẹp không gian Warm Luxury. Tối ưu kinh phí 40%. Xem dự án ngay!';
+		}
+
+		$title = $seo_title . ' | XANH - Design & Build';
+		$url   = get_permalink();
+		
+		$image     = function_exists('xanh_get_image') ? xanh_get_image( 'sv_hero_image', $post_id ) : false;
+		$image_url = $image ? $image['url'] : get_the_post_thumbnail_url( $post_id, 'full' );
+
+		echo '<!-- Custom SEO Meta Tags -->'."\n";
+		echo '<meta name="description" content="' . esc_attr( $desc ) . '" />'."\n";
+		echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />'."\n";
+		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '" />'."\n";
+		echo '<meta property="og:type" content="article" />'."\n";
+		echo '<meta property="og:url" content="' . esc_url( $url ) . '" />'."\n";
+		if ( $image_url ) {
+			echo '<meta property="og:image" content="' . esc_url( $image_url ) . '" />'."\n";
+			echo '<meta name="twitter:image" content="' . esc_url( $image_url ) . '" />'."\n";
+		}
+		echo '<meta property="og:site_name" content="XANH - Design & Build" />'."\n";
+		echo '<meta name="twitter:card" content="summary_image_large" />'."\n";
+		echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '" />'."\n";
+		echo '<meta name="twitter:description" content="' . esc_attr( $desc ) . '" />'."\n";
+		echo '<!-- End Custom SEO Meta Tags -->'."\n";
+	}
+}
+add_action( 'wp_head', 'xanh_seo_meta_tags', 1 );
+

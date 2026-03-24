@@ -17,12 +17,9 @@ const XanhPortfolio = {
   init() {
     this.prefersReducedMotion = XanhBase.prefersReducedMotion();
 
-    /* Register GSAP plugins ONCE */
-    XanhBase.registerGSAP();
-
-    XanhBase.initLucide();
-    XanhBase.initLenis();
-    XanhBase.initHeroReveal('.portfolio-hero__bg', '.portfolio-hero-el', 300);
+    /* Page-specific init only — global init (Lenis, Lucide,
+       GSAP register, ScrollReveal) already runs in main.js */
+    XanhBase.initHeroReveal('.portfolio-hero__bg', '.hero-el--fast', 300);
     this.initFilterTabs();
     this.initLoadMore();
 
@@ -133,6 +130,16 @@ const XanhPortfolio = {
 
         if (typeof lucide !== 'undefined') lucide.createIcons();
         this.observeNewCards(newCards);
+
+        /* Smooth scroll to first new card so IO triggers reveal */
+        if (newCards.length) {
+          requestAnimationFrame(() => {
+            const firstCard = newCards[0];
+            const headerOffset = 120; // account for sticky header + filter bar
+            const top = firstCard.getBoundingClientRect().top + window.scrollY - headerOffset;
+            window.scrollTo({ top, behavior: 'smooth' });
+          });
+        }
 
         /* Disable if no more pages */
         if (this.loadMorePage >= data.data.pages) {

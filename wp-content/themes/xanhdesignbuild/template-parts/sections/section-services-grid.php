@@ -34,7 +34,7 @@ $total_pages    = $services_query->max_num_pages;
 		<?php // Section heading ?>
 		<div class="text-center mb-10 md:mb-14">
 			<span class="section-eyebrow text-primary/50 block mb-4 anim-fade-up">Dịch Vụ Của Chúng Tôi</span>
-			<h2 class="section-title anim-fade-up" style="transition-delay:.1s">Giải Pháp Trọn Vẹn<br class="hidden sm:block" /> Cho Không Gian Sống</h2>
+			<h2 class="section-title anim-fade-up delay-100">Giải Pháp Trọn Vẹn<br class="hidden sm:block" /> Cho Không Gian Sống</h2>
 		</div>
 
 		<div id="services-grid" class="services-grid">

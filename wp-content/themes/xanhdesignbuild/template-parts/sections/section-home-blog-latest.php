@@ -109,7 +109,7 @@ $use_fallback = ! $blog_query->have_posts();
 												'loading' => 'lazy',
 											] ); ?>
 										<?php else : ?>
-											<img src="<?php echo esc_url( $uploads . 'project-1.png' ); ?>"
+											<img src="<?php echo esc_url( XANH_THEME_URI . '/assets/images/placeholder-project.png' ); ?>"
 												alt="<?php the_title_attribute(); ?>"
 												class="blog-card__img" loading="lazy" />
 										<?php endif; ?>

@@ -37,59 +37,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php the_content(); ?>
 	</div>
 
-	<?php
-	/* ── Inline CTA Banner (ACF → Theme Settings → Blog → Inline CTA Banner) ── */
-	$show_inline = get_field( 'blog_show_inline_cta', 'option' );
-	if ( $show_inline ) :
-		$cta_title    = get_field( 'blog_inline_cta_title', 'option' );
-		$cta_subtitle = get_field( 'blog_inline_cta_subtitle', 'option' );
-		$cta_btn_text = get_field( 'blog_inline_cta_btn_text', 'option' );
-		$cta_btn_url  = get_field( 'blog_inline_cta_btn_url', 'option' );
-		$cta_icon     = get_field( 'blog_inline_cta_icon', 'option' );
-
-		// Fallbacks
-		$cta_title    = $cta_title    ?: 'Bạn đang gặp khó khăn trong việc tính toán dự toán dự án?';
-		$cta_subtitle = $cta_subtitle ?: 'Nhận báo giá thiết kế chi tiết với sai số dưới 5% từ đội ngũ KTS XANH ngay hôm nay.';
-		$cta_btn_text = $cta_btn_text ?: 'Tính Dự Toán';
-		$cta_btn_url  = $cta_btn_url  ?: '/lien-he/';
-		$cta_icon     = $cta_icon     ?: 'calculator';
-	?>
-	<div class="inline-banner my-10 bg-primary/5 border border-primary/20 p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 justify-between relative overflow-hidden">
-		<!-- Decorative bg icon -->
-		<div class="absolute -right-10 -bottom-10 opacity-5" aria-hidden="true">
-			<i data-lucide="<?php echo esc_attr( $cta_icon ); ?>" class="w-40 h-40"></i>
-		</div>
-		<div class="relative z-10 flex-1">
-			<h4 class="font-heading font-bold text-xl text-primary mb-2"><?php echo esc_html( $cta_title ); ?></h4>
-			<p class="text-sm text-dark/70 mb-0"><?php echo esc_html( $cta_subtitle ); ?></p>
-		</div>
-		<a href="<?php echo esc_url( $cta_btn_url ); ?>" class="btn btn--primary group relative z-10 whitespace-nowrap">
-			<span><?php echo esc_html( $cta_btn_text ); ?></span>
-			<i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"></i>
-		</a>
-	</div>
-	<?php endif; ?>
 
 	<!-- Social Share -->
 	<div class="social-share mt-12 pt-8 border-t border-dark/10 flex flex-wrap items-center justify-between gap-4">
 		<div class="text-sm font-semibold uppercase tracking-widest text-dark/50">Chia sẻ bài viết</div>
 		<div class="flex items-center gap-3">
 			<!-- Facebook -->
-			<a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo esc_url( rawurlencode( get_permalink() ) ); ?>"
+			<a href="<?php echo esc_url( 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode( get_permalink() ) ); ?>"
 			   class="social-btn w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center text-dark hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors"
 			   target="_blank"
 			   rel="noopener noreferrer"
 			   aria-label="Share on Facebook">
 				<i data-lucide="facebook" class="w-4 h-4"></i>
 			</a>
-			<!-- Zalo -->
-			<a href="https://zalo.me/share?url=<?php echo esc_url( rawurlencode( get_permalink() ) ); ?>"
-			   class="social-btn w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center text-dark hover:bg-[#0068FF] hover:text-white hover:border-[#0068FF] transition-colors"
-			   target="_blank"
-			   rel="noopener noreferrer"
-			   aria-label="Share on Zalo">
-				<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M21.543,10.662C21.67,6.01,17.47.338,11.006.338,4.542.338.34,6.01.468,10.662c.079,2.83,1.6,4.72,3.32,5.772a1.769,1.769,0,0,1,.877,1.888l-.513,2.028a1.5,1.5,0,0,0,2.152,1.63l1.879-.8a1.691,1.691,0,0,1,1.385-.054,12.356,12.356,0,0,0,1.438.225C17.47,21.362,21.67,15.688,21.543,10.662Zm-13.68,1.86a.855.855,0,0,1-.854-.853V10.133a.855.855,0,0,1,1.708,0v1.536A.855.855,0,0,1,7.863,12.522Zm2.553-.853a.855.855,0,0,1-.854.853H8.71a.855.855,0,0,1,0-1.708H9.563V9.28h-.853a.855.855,0,0,1,0-1.707h1.706a.855.855,0,0,1,.854.854V11.669Zm4.269,0a2.56,2.56,0,1,1-2.56-2.56h.853v-.854a.855.855,0,0,1,1.707,0V9.962A2.565,2.565,0,0,1,14.685,11.669Z"/></svg>
-			</a>
+			<!-- Zalo (Official SDK Widget) -->
+			<div class="zalo-share-button inline-block"
+				 data-href="<?php echo esc_url( get_permalink() ); ?>"
+				 data-oaid="<?php echo esc_attr( xanh_get_option( 'xanh_zalo_oa' ) ); ?>"
+				 data-layout="1"
+				 data-color="blue"
+				 data-customize="true">
+				<button type="button"
+					class="social-btn w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center text-dark hover:bg-[#0068FF] hover:text-white hover:border-[#0068FF] transition-colors"
+					aria-label="Share on Zalo">
+					<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 614.501 613.667" fill="currentColor">
+						<path d="M464.721,301.399c-13.984-0.014-23.707,11.478-23.944,28.312c-0.251,17.771,9.168,29.208,24.037,29.202   c14.287-0.007,23.799-11.095,24.01-27.995C489.028,313.536,479.127,301.399,464.721,301.399z" />
+						<path d="M291.83,301.392c-14.473-0.316-24.578,11.603-24.604,29.024c-0.02,16.959,9.294,28.259,23.496,28.502   c15.072,0.251,24.592-10.87,24.539-28.707C315.214,313.318,305.769,301.696,291.83,301.392z" />
+						<path d="M310.518,3.158C143.102,3.158,7.375,138.884,7.375,306.3s135.727,303.142,303.143,303.142   c167.415,0,303.143-135.727,303.143-303.142S477.933,3.158,310.518,3.158z M217.858,391.083   c-33.364,0.818-66.828,1.353-100.133-0.343c-21.326-1.095-27.652-18.647-14.248-36.583c21.55-28.826,43.886-57.065,65.792-85.621   c2.546-3.305,6.214-5.996,7.15-12.705c-16.609,0-32.784,0.04-48.958-0.013c-19.195-0.066-28.278-5.805-28.14-17.652   c0.132-11.768,9.175-17.329,28.397-17.348c25.159-0.026,50.324-0.06,75.476,0.026c9.637,0.033,19.604,0.105,25.304,9.789   c6.22,10.561,0.284,19.512-5.646,27.454c-21.26,28.497-43.015,56.624-64.559,84.902c-2.599,3.41-5.119,6.88-9.453,12.725   c23.424,0,44.123-0.053,64.816,0.026c8.674,0.026,16.662,1.873,19.941,11.267C237.892,379.329,231.368,390.752,217.858,391.083z    M350.854,330.211c0,13.417-0.093,26.841,0.039,40.265c0.073,7.599-2.599,13.647-9.512,17.084   c-7.296,3.642-14.71,3.028-20.304-2.968c-3.997-4.281-6.214-3.213-10.488-0.422c-17.955,11.728-39.908,9.96-56.597-3.866   c-29.928-24.789-30.026-74.803-0.211-99.776c16.194-13.562,39.592-15.462,56.709-4.143c3.951,2.619,6.201,4.815,10.396-0.053   c5.39-6.267,13.055-6.761,20.271-3.357c7.454,3.509,9.935,10.165,9.776,18.265C350.67,304.222,350.86,317.217,350.854,330.211z    M395.617,369.579c-0.118,12.837-6.398,19.783-17.196,19.908c-10.779,0.132-17.593-6.966-17.646-19.512   c-0.179-43.352-0.185-86.696,0.007-130.041c0.059-12.256,7.302-19.921,17.896-19.222c11.425,0.752,16.992,7.448,16.992,18.833   c0,22.104,0,44.216,0,66.327C395.677,327.105,395.828,348.345,395.617,369.579z M463.981,391.868   c-34.399-0.336-59.037-26.444-58.786-62.289c0.251-35.66,25.304-60.713,60.383-60.396c34.631,0.304,59.374,26.306,58.998,61.986   C524.207,366.492,498.534,392.205,463.981,391.868z" />
+					</svg>
+				</button>
+			</div>
 			<!-- Copy Link -->
 			<button class="social-btn copy-link-btn w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center text-dark hover:bg-dark hover:text-white transition-colors relative" aria-label="Copy Link" id="copy-link-btn">
 				<i data-lucide="link" class="w-4 h-4"></i>

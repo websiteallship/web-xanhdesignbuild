@@ -66,12 +66,26 @@ if ( empty( $philo_items ) ) {
 					$img_url = content_url( 'uploads/2026/03/philo-' . ( $k + 1 ) . '.png' );
 				}
 				
-				$delay_style = ( $k % 2 === 1 ) ? ' style="transition-delay: 80ms;"' : '';
+				$delay_class = ( $k % 2 === 1 ) ? ' philo-card--delay' : '';
 			?>
 				<div
-					class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer"<?php echo $delay_style; ?>>
-					<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>"
-						class="philo-card__img absolute inset-0 w-full h-full object-cover" loading="lazy">
+					class="philo-card anim-fade-up group relative overflow-hidden aspect-[4/5] sm:aspect-[4/3] md:aspect-square xl:aspect-[4/3] cursor-pointer<?php echo $delay_class; ?>">
+					<?php if ( is_numeric( $img ) && $img ) :
+						echo wp_get_attachment_image( (int) $img, 'xanh-card', false, [
+							'class'   => 'philo-card__img absolute inset-0 w-full h-full object-cover',
+							'loading' => 'lazy',
+						] );
+					elseif ( is_array( $img ) && ! empty( $img['ID'] ) ) :
+						echo wp_get_attachment_image( $img['ID'], 'xanh-card', false, [
+							'class'   => 'philo-card__img absolute inset-0 w-full h-full object-cover',
+							'loading' => 'lazy',
+						] );
+					else : ?>
+						<img src="<?php echo esc_url( $img_url ); ?>"
+							alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>"
+							class="philo-card__img absolute inset-0 w-full h-full object-cover"
+							width="640" height="480" loading="lazy">
+					<?php endif; ?>
 					<div class="philo-card__overlay absolute inset-x-0 bottom-0 pointer-events-none"></div>
 					<div class="philo-card__content absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end">
 						<div class="philo-card__icon-wrap">

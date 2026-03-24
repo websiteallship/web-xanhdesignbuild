@@ -20,17 +20,127 @@ const XanhBlog = {
   /* ── Entry point ── */
   init() {
     /* Hero reveal (page-specific selector) */
-    XanhBase.initHeroReveal('.blog-hero__bg', '.blog-hero-el');
+    XanhBase.initHeroReveal('.blog-hero__bg', '.hero-el--fast');
 
     /* Page-specific modules only — global init (Lenis, Lucide,
        BackToTop, ScrollReveal) already runs in main.js */
+    this.initFilterTabs();
     this.initSearchPlaceholder();
     this.initSearchDropdown();
     this.initLoadMore();
     this.initLeadMagnet();
   },
 
+  /* ============================================= */
+  /* FILTER TABS — AJAX Loading                    */
+  /* ============================================= */
+  initFilterTabs() {
+    const tabsContainer = document.getElementById('category-tabs-bar');
+    if (!tabsContainer) return;
 
+    tabsContainer.addEventListener('click', (e) => {
+      const tab = e.target.closest('button.filter-tab');
+      if (!tab) return;
+
+      const allTabs = tabsContainer.querySelectorAll('.filter-tab');
+      allTabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+
+      const category = tab.dataset.category || '';
+      this._ajaxFilterBlog(category);
+    });
+  },
+
+  async _ajaxFilterBlog(category) {
+    const grid = document.getElementById('article-grid-container');
+    const loadBtn = document.getElementById('load-more-btn');
+    const featuredSection = document.getElementById('featured-articles');
+    if (!grid) return;
+
+    /* Toggle featured section visibility */
+    if (featuredSection) {
+      if (category) {
+        featuredSection.style.transition = 'opacity 0.4s ease, max-height 0.5s ease, margin 0.5s ease, padding 0.5s ease';
+        featuredSection.style.opacity = '0';
+        featuredSection.style.maxHeight = '0';
+        featuredSection.style.overflow = 'hidden';
+        featuredSection.style.marginTop = '0';
+        featuredSection.style.marginBottom = '0';
+        featuredSection.style.paddingTop = '0';
+        featuredSection.style.paddingBottom = '0';
+      } else {
+        featuredSection.style.transition = 'opacity 0.4s ease 0.2s, max-height 0.5s ease, margin 0.5s ease, padding 0.5s ease';
+        featuredSection.style.opacity = '1';
+        featuredSection.style.maxHeight = '2000px';
+        featuredSection.style.overflow = '';
+        featuredSection.style.marginTop = '';
+        featuredSection.style.marginBottom = '';
+        featuredSection.style.paddingTop = '';
+        featuredSection.style.paddingBottom = '';
+      }
+    }
+
+    /* Loading state */
+    grid.style.transition = 'opacity 0.3s ease';
+    grid.style.opacity = '0.5';
+    grid.style.pointerEvents = 'none';
+
+    if (loadBtn) {
+      loadBtn.dataset.category = category;
+      loadBtn.dataset.page = 1;
+      const btnSpan = loadBtn.querySelector('span');
+      if (btnSpan) btnSpan.textContent = 'Đang tải...';
+    }
+
+    const ajaxUrl = typeof xanhBlogAjax !== 'undefined' ? xanhBlogAjax.url : '/wp-admin/admin-ajax.php';
+    const formData = new FormData();
+    formData.append('action', 'xanh_blog_load_more');
+    formData.append('nonce', typeof xanhBlogAjax !== 'undefined' ? xanhBlogAjax.nonce : '');
+    formData.append('paged', 1);
+    if (category) formData.append('category', category);
+    if (loadBtn && loadBtn.dataset.exclude) formData.append('exclude', loadBtn.dataset.exclude);
+
+    try {
+      const res = await fetch(ajaxUrl, { method: 'POST', body: formData });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+      if (!data.success) throw new Error(data.data?.message || 'Server error');
+
+      grid.innerHTML = ''; /* Clear existing cards */
+
+      if (data.data.html) {
+        const temp = document.createElement('div');
+        temp.innerHTML = data.data.html;
+        const cardArr = [...temp.children];
+        const fragment = document.createDocumentFragment();
+        cardArr.forEach(card => fragment.appendChild(card));
+        grid.appendChild(fragment);
+
+        requestAnimationFrame(() => {
+          cardArr.forEach(card => card.classList.add('is-visible'));
+        });
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      grid.style.opacity = '1';
+      grid.style.pointerEvents = 'auto';
+
+      if (loadBtn) {
+        const btnSpan = loadBtn.querySelector('span');
+        this._updateLoadMoreButton(loadBtn, btnSpan, 'Xem Thêm Bài Viết', 1, data.data.pages);
+      }
+    } catch (error) {
+      console.warn('[XANH] Filter failed:', error.message);
+      grid.style.opacity = '1';
+      grid.style.pointerEvents = 'auto';
+      if (loadBtn) {
+        const btnSpan = loadBtn.querySelector('span');
+        if (btnSpan) btnSpan.textContent = 'Xem Thêm Bài Viết';
+      }
+    }
+  },
 
   /* ============================================= */
   /* SEARCH — Animated Placeholder (Typing Effect) */
@@ -40,18 +150,26 @@ const XanhBlog = {
     const placeholder = document.getElementById('blog-search-placeholder');
     if (!input || !placeholder) return;
 
-    const prefersReducedMotion = XanhBase.prefersReducedMotion();
-
-    if (prefersReducedMotion) {
-      placeholder.textContent = this.SEARCH_PLACEHOLDERS[0].replace('...', '');
-      placeholder.style.display = 'block';
-      input.addEventListener('focus', () => { placeholder.style.display = 'none'; });
-      input.addEventListener('blur', () => {
-        if (!input.value) placeholder.style.display = 'block';
-      });
+    if (XanhBase.prefersReducedMotion()) {
+      this._initReducedMotionPlaceholder(input, placeholder);
       return;
     }
 
+    this._startTypingAnimation(input, placeholder);
+  },
+
+  /* Reduced-motion fallback: static placeholder */
+  _initReducedMotionPlaceholder(input, placeholder) {
+    placeholder.textContent = this.SEARCH_PLACEHOLDERS[0].replace('...', '');
+    placeholder.style.display = 'block';
+    input.addEventListener('focus', () => { placeholder.style.display = 'none'; });
+    input.addEventListener('blur', () => {
+      if (!input.value) placeholder.style.display = 'block';
+    });
+  },
+
+  /* Full typing animation with focus/blur bindings */
+  _startTypingAnimation(input, placeholder) {
     let currentIndex = 0;
     let charIndex = 0;
     let isErasing = false;
@@ -63,7 +181,6 @@ const XanhBlog = {
       if (!isErasing) {
         charIndex++;
         placeholder.textContent = text.substring(0, charIndex);
-
         if (charIndex === text.length) {
           isErasing = true;
           timer = setTimeout(type, this.PAUSE_BETWEEN);
@@ -73,7 +190,6 @@ const XanhBlog = {
       } else {
         charIndex--;
         placeholder.textContent = text.substring(0, charIndex);
-
         if (charIndex === 0) {
           isErasing = false;
           currentIndex = (currentIndex + 1) % this.SEARCH_PLACEHOLDERS.length;
@@ -84,7 +200,6 @@ const XanhBlog = {
       }
     };
 
-    /* Hide placeholder when user types */
     input.addEventListener('focus', () => {
       placeholder.style.opacity = '0';
       clearTimeout(timer);
@@ -99,10 +214,7 @@ const XanhBlog = {
       }
     });
 
-    /* Start typing */
     timer = setTimeout(type, 800);
-
-    /* Store timer ref for cleanup */
     this._searchPlaceholderTimer = timer;
   },
 
@@ -122,10 +234,7 @@ const XanhBlog = {
     const dropdown = document.getElementById('blog-search-dropdown');
     if (!input || !dropdown) return;
 
-    const debounce = (fn, ms = 300) => {
-      let t;
-      return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
-    };
+    const debounce = XanhBase.debounce;
 
     const showDropdown = debounce((value) => {
       if (value.length >= 2) {
@@ -190,38 +299,55 @@ const XanhBlog = {
       if (!data.success) throw new Error(data.data?.message || 'Server error');
 
       if (data.data.html) {
-        const grid = document.getElementById('article-grid-container');
-        if (grid) {
-          /* Batch insert via DocumentFragment → 1 reflow */
-          const temp = document.createElement('div');
-          temp.innerHTML = data.data.html;
-          const cardArr = [...temp.children];
-          const fragment = document.createDocumentFragment();
-          cardArr.forEach(card => fragment.appendChild(card));
-          grid.appendChild(fragment);
-
-          /* Trigger reveal animation */
-          requestAnimationFrame(() => {
-            cardArr.forEach(card => card.classList.add('is-visible'));
-          });
-        }
-
-        /* Reinitialize Lucide icons for new cards */
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-
-        /* Update button state */
-        btn.dataset.page = nextPage;
-
-        if (nextPage >= maxPages) {
-          btn.disabled = true;
-          if (btnSpan) btnSpan.textContent = 'Đã hiển thị tất cả';
-        } else {
-          btn.disabled = false;
-          if (btnSpan) btnSpan.textContent = originalText;
-        }
+        this._renderLoadMoreItems(data.data.html);
+        this._updateLoadMoreButton(btn, btnSpan, originalText, nextPage, maxPages);
       }
     } catch (error) {
       console.warn('[XANH] Load more failed:', error.message);
+      btn.disabled = false;
+      if (btnSpan) btnSpan.textContent = originalText;
+    }
+  },
+
+  /* Insert new cards into grid via DocumentFragment (1 reflow) */
+  _renderLoadMoreItems(html) {
+    const grid = document.getElementById('article-grid-container');
+    if (!grid) return;
+
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    const cardArr = [...temp.children];
+    const fragment = document.createDocumentFragment();
+    cardArr.forEach(card => fragment.appendChild(card));
+    grid.appendChild(fragment);
+
+    /* Trigger reveal animation */
+    requestAnimationFrame(() => {
+      cardArr.forEach(card => card.classList.add('is-visible'));
+    });
+
+    /* Smooth scroll to first new card */
+    if (cardArr.length) {
+      requestAnimationFrame(() => {
+        const firstCard = cardArr[0];
+        const headerOffset = 100;
+        const top = firstCard.getBoundingClientRect().top + window.scrollY - headerOffset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    }
+
+    /* Reinitialize Lucide icons for new cards */
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  },
+
+  /* Update Load More button state after successful fetch */
+  _updateLoadMoreButton(btn, btnSpan, originalText, nextPage, maxPages) {
+    btn.dataset.page = nextPage;
+
+    if (nextPage >= maxPages) {
+      btn.disabled = true;
+      if (btnSpan) btnSpan.textContent = 'Đã hiển thị tất cả';
+    } else {
       btn.disabled = false;
       if (btnSpan) btnSpan.textContent = originalText;
     }

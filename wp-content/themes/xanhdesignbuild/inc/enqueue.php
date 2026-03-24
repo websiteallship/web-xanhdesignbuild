@@ -43,6 +43,26 @@ function xanh_enqueue_scripts() {
 	wp_enqueue_style( 'xanh-preloader', "$uri/assets/css/components/preloader.css", [ 'xanh-variables' ], $ver );
 
 	// ═══════════════════════════════════════════
+	// CSS + JS: Popup Modal (global, conditional)
+	// ═══════════════════════════════════════════
+	$popup_count = get_transient( 'xanh_popup_count' );
+	if ( false === $popup_count ) {
+		$popup_count = (int) wp_count_posts( 'xanh_popup' )->publish;
+		set_transient( 'xanh_popup_count', $popup_count, HOUR_IN_SECONDS );
+	}
+
+	if ( $popup_count > 0 ) {
+		wp_enqueue_style( 'xanh-popup-modal', "$uri/assets/css/components/popup-modal.css", [ 'xanh-variables' ], $ver );
+		wp_enqueue_script(
+			'xanh-popup-modal',
+			"$uri/assets/js/components/popup-modal.js",
+			[],
+			$ver,
+			[ 'strategy' => 'defer', 'in_footer' => true ]
+		);
+	}
+
+	// ═══════════════════════════════════════════
 	// JS: Preloader (load early, before vendor scripts)
 	// ═══════════════════════════════════════════
 	wp_enqueue_script(
@@ -267,7 +287,7 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 		wp_enqueue_style( 'xanh-blog', "$uri/assets/css/pages/blog.css", $deps_css, $ver );
 		wp_enqueue_script( 'xanh-blog-js', "$uri/assets/js/pages/blog.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 		wp_localize_script( 'xanh-blog-js', 'xanhBlogAjax', [
-			'url'   => admin_url( 'admin-ajax.php' ),
+			'url'   => set_url_scheme( admin_url( 'admin-ajax.php' ), wp_parse_url( home_url(), PHP_URL_SCHEME ) ),
 			'nonce' => wp_create_nonce( 'xanh_blog_nonce' ),
 		] );
 	}
@@ -275,6 +295,8 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 	if ( is_singular( 'post' ) ) {
 		wp_enqueue_style( 'xanh-blog', "$uri/assets/css/pages/blog.css", $deps_css, $ver );
 		wp_enqueue_style( 'xanh-blog-detail', "$uri/assets/css/pages/blog-detail.css", [ 'xanh-blog' ], $ver );
+		/* blog.js not needed on single posts — it handles search, load more,
+		   and lead magnet features for the blog listing page only. */
 		wp_enqueue_script( 'xanh-blog-detail-js', "$uri/assets/js/pages/blog-detail.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 	}
 
@@ -282,7 +304,7 @@ function xanh_enqueue_page_assets( $uri, $ver ) {
 		wp_enqueue_style( 'xanh-portfolio', "$uri/assets/css/pages/portfolio.css", $deps_css, $ver );
 		wp_enqueue_script( 'xanh-portfolio-js', "$uri/assets/js/pages/portfolio.js", $deps_js, $ver, [ 'strategy' => 'defer', 'in_footer' => true ] );
 		wp_localize_script( 'xanh-portfolio-js', 'xanhAjax', [
-			'url'   => admin_url( 'admin-ajax.php' ),
+			'url'   => set_url_scheme( admin_url( 'admin-ajax.php' ), wp_parse_url( home_url(), PHP_URL_SCHEME ) ),
 			'nonce' => wp_create_nonce( 'xanh_filter_nonce' ),
 		] );
 	}

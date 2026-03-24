@@ -22,7 +22,7 @@ $headline  = get_field( 'about_hero_title' ) ?: 'Xanh — Design & Build<br /><s
 $subtitle  = get_field( 'about_hero_subtitle' ) ?: 'Chúng tôi là thương hiệu cung cấp giải pháp nội thất và xây dựng hoàn thiện theo hướng bền vững. Không chỉ thiết kế một không gian, chúng tôi kiến tạo những công trình đáng để đầu tư.';
 $cta_text  = get_field( 'about_hero_cta_text' ) ?: 'Khám Phá Hành Trình Xanh';
 $image     = xanh_get_image( 'about_hero_image' );
-$video_url = get_field( 'about_hero_video_url' ) ?: 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+$video_url = get_field( 'about_hero_video_url' );
 
 // Fallback image.
 $img_url = $image['url'] ?? esc_url( content_url( '/uploads/2026/03/about-hero-bg.png' ) );
@@ -32,23 +32,18 @@ $img_id  = $image['ID'] ?? null;
 // Build video embed URL with autoplay params.
 $video_embed_url = '';
 if ( $video_url ) {
-	// Convert watch URL to embed URL if needed.
-	if ( strpos( $video_url, 'watch?v=' ) !== false ) {
-		$video_embed_url = preg_replace(
-			'/https?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/',
-			'https://www.youtube.com/embed/$2',
-			$video_url
-		);
-	} elseif ( strpos( $video_url, 'youtu.be/' ) !== false ) {
-		$video_embed_url = preg_replace(
-			'/https?:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/',
-			'https://www.youtube.com/embed/$1',
-			$video_url
-		);
-	} else {
-		$video_embed_url = $video_url;
+	$youtube_id = '';
+	if ( preg_match( '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/\s]{11})%i', $video_url, $match ) ) {
+		$youtube_id = $match[1];
 	}
-	$video_embed_url .= ( strpos( $video_embed_url, '?' ) !== false ? '&' : '?' ) . 'autoplay=1&rel=0&modestbranding=1';
+
+	if ( $youtube_id ) {
+		$video_embed_url = 'https://www.youtube.com/embed/' . $youtube_id . '?autoplay=1&rel=0&modestbranding=1';
+	} else {
+		// Fallback for Vimeo or direct links
+		$video_embed_url = $video_url;
+		$video_embed_url .= ( strpos( $video_embed_url, '?' ) !== false ? '&' : '?' ) . 'autoplay=1';
+	}
 }
 ?>
 
@@ -58,15 +53,18 @@ if ( $video_url ) {
 	<div class="about-hero__bg absolute inset-0 w-full h-full">
 		<?php if ( $img_id ) :
 			echo wp_get_attachment_image( $img_id, 'full', false, [
-				'class'   => 'w-full h-full object-cover',
-				'loading' => 'eager',
-				'sizes'   => '100vw',
+				'class'         => 'w-full h-full object-cover',
+				'loading'       => 'eager',
+				'fetchpriority' => 'high',
+				'decoding'      => 'async',
+				'sizes'         => '100vw',
 			] );
 		else : ?>
 			<img src="<?php echo esc_url( $img_url ); ?>"
 				alt="<?php echo esc_attr( $img_alt ); ?>"
 				class="w-full h-full object-cover"
-				width="1920" height="1080" />
+				width="1920" height="1080"
+				loading="eager" fetchpriority="high" decoding="async" />
 		<?php endif; ?>
 	</div>
 
@@ -80,24 +78,24 @@ if ( $video_url ) {
 
 			<!-- Eyebrow / Sub-label -->
 			<span
-				class="about-hero-el block text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 mb-5 md:mb-6">
+				class="hero-el--slow block text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 mb-5 md:mb-6">
 				<?php echo esc_html( $eyebrow ); ?>
 			</span>
 
 			<!-- Headline -->
 			<h1 id="about-hero-headline"
-				class="about-hero-el text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-bold !leading-[1.35] tracking-[-0.02em] mb-7 md:mb-9">
+				class="hero-el--slow text-white text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-bold !leading-[1.35] tracking-[-0.02em] mb-7 md:mb-9">
 				<?php echo wp_kses_post( $headline ); ?>
 			</h1>
 
 			<!-- Sub-headline -->
 			<p id="about-hero-subheadline"
-				class="about-hero-el text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-10 md:mb-12">
+				class="hero-el--slow text-white/70 text-base md:text-lg font-light !leading-[2] tracking-wide max-w-xl mb-10 md:mb-12">
 				<?php echo esc_html( $subtitle ); ?>
 			</p>
 
 			<!-- Action Row: CTA + Video Play Button -->
-			<div class="about-hero-el flex flex-wrap items-center gap-5 md:gap-8">
+			<div class="hero-el--slow flex flex-wrap items-center gap-5 md:gap-8">
 				<!-- CTA Button -->
 				<a href="#about-pain" class="btn btn--primary group">
 					<span><?php echo esc_html( $cta_text ); ?></span>

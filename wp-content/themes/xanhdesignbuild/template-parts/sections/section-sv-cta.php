@@ -62,11 +62,11 @@ if ( $bg_image ) {
 		<div class="s8-cta__actions">
 			<a href="<?php echo esc_url( $btn_link ); ?>" class="btn btn--primary s8-cta__btn">
 				<span class="btn__text"><?php echo esc_html( $btn_text ); ?></span>
-				<i data-lucide="calculator" class="w-4 h-4" style="margin-left: 0.5rem;"></i>
+				<i data-lucide="calculator" class="w-4 h-4 ml-2"></i>
 			</a>
 			<a href="<?php echo esc_url( $ghost_link ); ?>" class="btn btn--ghost s8-cta__btn-ghost">
 				<span class="btn__text"><?php echo esc_html( $ghost_text ); ?></span>
-				<i data-lucide="message-circle" class="w-5 h-5" style="margin-left: 0.5rem;"></i>
+				<i data-lucide="message-circle" class="w-5 h-5 ml-2"></i>
 			</a>
 		</div>
 	</div>

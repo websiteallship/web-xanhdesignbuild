@@ -33,20 +33,16 @@
 }
 .services-hero__bg.is-loaded { transform: scale(1); }
 
-.services-hero-el {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
-}
-.services-hero-el.is-visible { opacity: 1; transform: translateY(0); }
-.services-hero-el:nth-child(2) { transition-delay: 0.15s; }
-.services-hero-el:nth-child(3) { transition-delay: 0.3s; }
-
-.counter-number { font-variant-numeric: tabular-nums; }
+/* Hero entrance → shared .hero-el--fast in components.css */
+/* .counter-number → shared in components.css */
 
 /* ==============================================
    2. SERVICES GRID — 1→2→3 columns
    ============================================== */
+#services-grid-section {
+  contain: layout style;
+}
+
 .services-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -117,7 +113,9 @@
   -webkit-backdrop-filter: blur(8px);
   color: var(--color-white);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.6s var(--ease-luxury);
+  transition: background 0.6s var(--ease-luxury),
+              border-color 0.6s var(--ease-luxury),
+              transform 0.6s var(--ease-luxury);
 }
 .service-card:hover .service-card__icon-badge {
   background: var(--color-primary);
@@ -241,35 +239,8 @@
   object-fit: cover;
 }
 
-/* ==============================================
-   6. SKELETON LOADING
-   ============================================== */
-.skeleton-card {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-}
-.skeleton-shimmer {
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
+/* Skeleton loading → shared in components.css */
 /* Fix: .services-grid `display:grid` overrides .hidden `display:none` */
 #services-skeleton-loader.hidden { display: none !important; }
 
-/* ==============================================
-   7. BTN OVERRIDES
-   ============================================== */
-.btn {
-  justify-content: center;
-  width: 100%;
-  min-height: 48px;
-}
-@media (min-width: 640px) { .btn { width: auto; } }
+/* Page-CTA btn → shared .btn--page-cta in components.css */
