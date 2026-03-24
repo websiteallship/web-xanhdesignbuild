@@ -15,6 +15,8 @@ xmlrpc.php
 
 # WordPress content (exclude all except theme)
 wp-content/plugins/
+!wp-content/plugins/xanh-ai-content/
+!wp-content/plugins/xanh-float-contact/
 wp-content/uploads/
 wp-content/upgrade/
 wp-content/mu-plugins/
